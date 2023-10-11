@@ -1,4 +1,46 @@
+# R files
 .Rproj.user
 .Rhistory
 .RData
 .Ruserdata
+.Rprofile
+.httr-oauth
+*.ROut
+*.Rout
+*.out
+
+# Parquet files
+*.parquet
+
+# Stata files
+*.dta
+*.DTA
+
+# Other files
+*.pdf
+*.html
+*.nb.html
+*.ZIP
+*.zip
+.DS_Store
+*.sav
+*.SAV
+*.csv
+*.xlsx
+
+# Generated files the data, tables, and figures directories - it can always
+# be regenerated
+data/*.rds
+data/unzip_temp/*
+data/unzip_mics_temp/*
+tables/*.tex
+figures/*.tex
+
+# LaTeX
+*.nav
+*.snm
+*.toc
+*.log
+*.aux
+*.gz
+
