@@ -1,0 +1,95 @@
+---
+title: "The Source of Researcher Variation in Economics"
+author: Nick Huntington-Klein and Claus Pörtner
+affiliation: Seattle University
+format: 
+  revealjs:
+    theme: serif
+editor: visual
+execute:
+  warning: false
+  message: false
+  echo: false
+---
+
+## Researcher Degrees of Freedom
+
+the concept\
+the entire research pipeline\
+
+## Many-Analyst Studies
+
+background\
+small N\
+focus on finding variaiton, not explaining it
+
+## The Many-Economists Study
+
+Goal: asking why we differ?\
+Approach: do the same replication many times, changing the setting\
+Suspected sources: differences over concept of research question, differences in research design, data cleaning, peer interaction\
+And what we won't get at: modeling and estimation differences, errors, \
+Metrics for comparison: effect size, sign and rejection, sample size, treated and control group sizes, estimation approach\
+Not today: use of weights, selection of controls, sample selection choices, qualitative explanations of behavior, potential errors in treatment group definition, language used
+
+## Design
+
+The different stages
+
+## The Replication Task
+
+DACA
+
+## Recruitment and Attrition
+
+recruitment procedures
+
+sample size, attrition
+
+## Recruitment and Attrition
+
+Descriptives: who is most likely to leave
+
+All further analyses use only the balanced sample
+
+## Analysis
+
+Basic idea: descriptives of the differences between people, and how they differ (a) through stages, (b) across groups, and (c) based on peer review assignment
+
+Report spread as variance, IQR, and for effect sizes pos/neg/sig/not, and variance weighted by inverse SE, by standard meta-analytic practice
+
+## Effect Sizes
+
+Effect sizes across main stages
+
+Show full distribution, ordered CIs, and spread summary statistics
+
+Including peer-effect revisions (and number of revisions)
+
+## Peer Review
+
+Show change in overall variance from stage to stage, and also show whether peer review pairs become more similar after their review (abs. difference in effect)
+
+Also see whether stage-to-stage variance is different between those assigned to peer review *at all* vs those who weren't
+
+## Sample Sizes
+
+Repeat the effect size analyses, except the ones requiring a standard error
+
+## Analytic Choices
+
+Show distribution of e.g. logit/linear, standard error adjustments across stages
+
+## Researcher Characteristics
+
+Not really powered!
+
+Calculate absolute difference from mean of effect size and also sample size. Regress abs difference on different researcher characteristics one at a time
+
+## Conclusion
+
+Where did we seem to see increasing agreement?
+
+What changes in practice would make research results more consistent?
+
+Do we want consistency?
