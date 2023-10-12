@@ -47,8 +47,10 @@ library(tidyverse)
 library(here)
 library(rio)
 library(arrow)
+library(vtable)
+library(janitor)
 
-# Load data
+# Load  and clean data ----
 researcher_variable_key <- read_csv(here("raw_data", "researcher_variable_key.csv"))
 survey_variable_key <- read_csv(here("raw_data", "survey_variable_key.csv"))
 survey <- import(here("raw_data", "cleaned_survey.parquet")) 
@@ -58,4 +60,9 @@ survey <- import(here("raw_data", "cleaned_survey.parquet"))
 test <- survey %>% 
   filter(Q1 != 0) %>%
   filter(!is.na(Q2))
+
+# Analytical choices ----
+
+# Show distribution of e.g. logit/linear, standard error adjustments across stages
+
 
