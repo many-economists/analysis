@@ -1,0 +1,22 @@
+varname,desc
+Q6,Which of the following best describes your occupation? - Selected Choice
+Q6_6_TEXT,Which of the following best describes your occupation? - Other (describe) - Text
+Q10,Which of the following best describes your highest level of education?
+Q8,"Which of the following describes your academic research experience in applied microeconomics? By applied microeconomics I mean any research that uses statistical tools to work on topics in any subfield of microeconomics, and by academic research I mean research intended for publication in a peer-reviewed academic journal."
+Q9,"Which of the following describes your non-academic research experience in applied microeconomics? By non-academic research in applied microeconomics I mean research that is in applied microeconomics, or uses tools from applied microeconomics, but is not intended for publication in a peer-reviewed academic journal. This may include policy reports, expert witness reports, or internal company reports, for example."
+Q13,Which of the topics below describe some significant part of the research you do? Select any that apply.
+Q15,What is your gender?
+Q16,What is your race/ethnicity? Select any that apply - Selected Choice
+Q16_6_TEXT,What is your race/ethnicity? Select any that apply - Other - Text
+Q17,Do you identify as LGBTQ+?
+Q11,How did you hear about this study? - Selected Choice
+Q11_4_TEXT,How did you hear about this study? - Other - Text
+Q12_1,"If assigned a replication task, how confident are you that you could:
+
+(1) Finish the initial replication task within two months? Keep in mind that we estimate that the task will take about as much time as the results section in a short Letters-style publication.
+(2) Finish the entirety of the task, including revisions and peer review assignments expected to take several hours each every few months, concluding in early 2024? - Confidence in completing the initial task"
+Q12_2,"If assigned a replication task, how confident are you that you could:
+
+(1) Finish the initial replication task within two months? Keep in mind that we estimate that the task will take about as much time as the results section in a short Letters-style publication.
+(2) Finish the entirety of the task, including revisions and peer review assignments expected to take several hours each every few months, concluding in early 2024? - Confidence in finishing all of the tasks"
+NOT_QUALIFIED,""
