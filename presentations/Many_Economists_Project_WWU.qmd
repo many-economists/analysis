@@ -1,7 +1,11 @@
 ---
 title: "The Source of Researcher Variation in Economics"
-author: Nick Huntington-Klein and Claus Pörtner
-affiliation: Seattle University
+author: |-
+  Nick Huntington-Klein and Claus Pörtner
+  
+  Seattle University
+  
+  Please do not share slides until 2024.
 format: 
   revealjs:
     theme: serif
@@ -11,6 +15,25 @@ execute:
   message: false
   echo: false
 ---
+
+```{r}
+{
+  library(rio)
+  library(data.table)
+  library(ggplot2)
+  library(nicksshorts) # remotes::install_github('NickCH-K/nicksshorts')
+  library(stringr)
+  library(scales)
+  library(vtable)
+}
+
+dat = import('../Code/cleaned_survey.parquet', setclass = 'data.table')
+
+theme_slides <- theme_nick() + 
+  theme(#panel.background = element_rect(fill='transparent'),
+        legend.background = element_rect(fill = 'transparent'), #transparent panel bg
+    plot.background = element_rect(fill='transparent', color=NA)) #transparent plot bg)
+```
 
 ## Researcher Degrees of Freedom
 
@@ -28,7 +51,7 @@ focus on finding variaiton, not explaining it
 Goal: asking why we differ?\
 Approach: do the same replication many times, changing the setting\
 Suspected sources: differences over concept of research question, differences in research design, data cleaning, peer interaction\
-And what we won't get at: modeling and estimation differences, errors, \
+And what we won't get at: modeling and estimation differences, errors,\
 Metrics for comparison: effect size, sign and rejection, sample size, treated and control group sizes, estimation approach\
 Not today: use of weights, selection of controls, sample selection choices, qualitative explanations of behavior, potential errors in treatment group definition, language used
 
@@ -44,13 +67,72 @@ DACA
 
 recruitment procedures
 
-sample size, attrition
+```{r}
+orig_num = dat[is.na(Q2), .N] + uniqueN(dat$Q1)
+neverfin = dat[,uniqueN(Q1)]
+justcount = dat[!(str_detect(Q2, '\\('))]
+justcount = justcount[, .(Participants = uniqueN(Q1)), by = .(Round = Q2)]
+justcount = rbind(data.table(Round = c('Original Signup','Assigned Task 1'),
+                             Participants = c(orig_num, neverfin)),
+                  justcount)
+justcount[, Attrition := percent(1-Participants/shift(Participants), .01)]
+justcount |> knitr::kable() |>
+  kableExtra::kable_styling(font_size = 28)
+```
 
-## Recruitment and Attrition
+## Education Level Attrition
 
-Descriptives: who is most likely to leave
+```{r}
+dat[, Researcher_Q10 := as.character(Researcher_Q10)]
+dat[Researcher_Q10 == "Professional or graduate degree other than master's or PhD", Researcher_Q10 := 'Prof. Degree']
+dat[Researcher_Q10 == "Some graduate school, but no graduate degree", Researcher_Q10 := 'Some Grad School']
 
-All further analyses use only the balanced sample
+fullset = copy(dat)
+fullset[is.na(Q1), Q1 := (1:.N) + 100000]
+
+demogdat = dat[Q2 %in% c('The first replication task', 'The third replication task')]
+tokeep = c('Q1', names(dat)[names(dat) %like% 'Researcher_'])
+tokeep2 = c('Q1', 'Q2', names(dat)[names(dat) %like% 'Researcher_'])
+alldemog = rbindlist(list(
+  unique(subset(fullset, select = tokeep))[, Q2 := 'Original Signup'],
+  unique(subset(dat[!is.na(Q1)], select = tokeep))[, Q2 := 'Assigned Task 1'],
+  unique(subset(demogdat, select = tokeep2))
+), use.names = TRUE)
+qrecode(alldemog, 'Q2',c('Assigned Task 1','Original Signup',
+                         'The first replication task',
+                         'The third replication task'),
+        c('Assigned task 1',
+          'Original signup',
+          'The first task',
+          'The third task'))
+alldemog[, Round := factor(Q2, levels = c('Original signup',
+                                          'Assigned task 1',
+                                          'The first task',
+                                          'The third task'))]
+alldemog[, Researcher_Q10 := factor(Researcher_Q10,
+                                    levels = c('No graduate school',
+                                    'Some Grad School',
+                                    'Master\'s degree',
+                                    'Prof. Degree',
+                                    'PhD'))]
+qrecode(alldemog, 'Researcher_Q6',
+        c('Faculty','Graduate student',
+          'Non-faculty researcher at a university', 
+          'Other (describe)',
+          'Private-sector researcher',
+          'Public-sector researcher not at a university'),
+        c('Faculty','Grad. Student',
+          'Other Researcher','Other','Other Researcher','Other Researcher'))
+sumtable(alldemog, vars = 'Researcher_Q10', group = 'Round') |>
+  kableExtra::kable_styling(font_size = 28)
+```
+
+## Occupation Attrition
+
+```{r}
+sumtable(alldemog, vars = 'Researcher_Q6', group = 'Round') |>
+  kableExtra::kable_styling(font_size = 28)
+```
 
 ## Analysis
 
@@ -60,11 +142,93 @@ Report spread as variance, IQR, and for effect sizes pos/neg/sig/not, and varian
 
 ## Effect Sizes
 
-Effect sizes across main stages
+```{r, dev="png", dev.args=list(bg="transparent")}
+dat = dat[!is.na(Q2)]
+dat = merge(dat, dat[Q2 == 'The third replication task', .(Q1)], by = 'Q1')
+qrecode(dat, 'Q2', 
+        c('Revision following the first replication task (such as following peer review)',
+          'Revision following the second replication task (such as following peer review)',
+          'Revision following the third replication task (such as following peer review)',
+          'The first replication task',
+          'The second replication task',
+          'The third replication task'),
+        c('Task 1 Revision',
+          'Task 2 Revision',
+          'Task 3 Revision',
+          'Task 1',
+          'Task 2',
+          'Task 3'), 'Round', checkfrom = TRUE)
+dat[, Round := factor(Round, levels = c('Task 1',
+                                        'Task 1 Revision',
+                                        'Task 2',
+                                        'Task 2 Revision',
+                                        'Task 3',
+                                        'Task 3 Revision'))]
+dat[Revision_of_Q4 > 1 & Revision_of_Q6 > 1, Revision_of_Q6 := Revision_of_Q6/100]
+dat[Revision_of_Q4 > 1, Revision_of_Q4 := Revision_of_Q4/100]
+dat[Revision_of_Q6 < 0, Revision_of_Q6 := abs(Revision_of_Q6)]
+viol = dat[Round %in% c('Task 1','Task 2','Task 3') & Revision_of_Q4 != 0, .(Round, Revision_of_Q4, Revision_of_Q6, weight = 1, Type = 'Unweighted')]
+viol = rbind(viol,
+             dat[Round %in% c('Task 1','Task 2','Task 3'), .(Round, Revision_of_Q4, weight = 1/Revision_of_Q6, Revision_of_Q6, Type = 'Weighted')])
+ggplot(viol[!is.infinite(weight)], aes(x = Round, y = Revision_of_Q4, weight = weight)) + 
+  geom_violin(fill = 'lightblue', alpha = .5) +
+  geom_boxplot(width = .1) +
+  geom_hline(yintercept = 0, linetype = 'dashed') +
+  theme_slides + 
+  coord_cartesian(ylim = c(-.05, .1)) +
+  labs(y = 'Effect Size', caption = 'Range limited to [-.05, .1] for viewing.') +
+  facet_wrap(~Type, nrow = 2)
 
-Show full distribution, ordered CIs, and spread summary statistics
+```
 
-Including peer-effect revisions (and number of revisions)
+## Effect Sizes
+
+```{r}
+sumtable(viol[!is.infinite(weight) & Type == 'Weighted'], 'Revision_of_Q4', labels = 'Effect Size', group.weights = 'weight', group = 'Round', group.long = TRUE) |>
+  kableExtra::kable_styling(font_size = 28)
+```
+
+## Effect Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+viol[, ci_upper := Revision_of_Q4 + 1.96*Revision_of_Q6]
+viol[, ci_lower := Revision_of_Q4 - 1.96*Revision_of_Q6]
+viol[, sig := !xor((ci_upper > 0),(ci_lower > 0))]
+setorder(viol, Revision_of_Q4)
+viol[, Order := 1:.N, by = .(Round, Type)]
+ggplot(viol[Type == 'Unweighted'], aes(x = Order, y = Revision_of_Q4,
+                                       ymax = ci_upper, ymin = ci_lower)) + 
+  geom_hline(yintercept = 0, linetype = 'dashed') +
+  geom_errorbar(mapping = aes(color = sig)) + 
+  geom_point()+
+  coord_cartesian(ylim = c(-.05, .15)) + 
+  scale_color_manual(values = c('lightblue','#ffcccb')) +
+  facet_wrap(~Round, nrow = 3) + 
+  guides(color = 'none') +
+  labs(y = 'Effect Size\n(95% CI)',
+       x = NULL, caption = '95% CI reconstructed from effect size and SE,\neven if asymmetric CI was reported. Visible range limited to (-.05, .15).') + 
+  theme_slides + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+```
+
+## Between-Researcher Standard Deviation By Rounds
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+byr = dat[Revision_of_Q6 > 0, .(`Standard\nDeviation` = weighted.sd(Revision_of_Q4, 1/Revision_of_Q6, na.rm = TRUE), N = .N), by = Round]
+setorder(byr, Round)
+byr[, ID := 1:.N]
+dat[, demean := (Revision_of_Q4 - mean(Revision_of_Q4, na.rm = TRUE))^2, by = Round]
+m = lm(demean ~ as.numeric(Round), data = dat[Revision_of_Q6 >0 & as.numeric(Round) %in% c(1,3,5)], weights = 1/dat[Revision_of_Q6 > 0 & as.numeric(Round) %in% c(1,3,5), Revision_of_Q6])
+ggplot(byr, aes(x = ID, y = `Standard\nDeviation`, label = paste0(number(`Standard\nDeviation`, .001),'\n(N=',number(N),')'))) + 
+  geom_line() + 
+  geom_point(color = 'lightblue', size = 3) + 
+  geom_text(family = 'serif', size = 12/.pt, vjust = -1) +
+  scale_x_continuous(labels = byr$Round) + 
+  expand_limits(y = c(min(byr$`Standard\nDeviation`)*.8,max(byr$`Standard\nDeviation`)*1.2)) +
+  theme_slides + 
+  labs(x = NULL)
+```
 
 ## Peer Review
 
@@ -72,9 +236,198 @@ Show change in overall variance from stage to stage, and also show whether peer 
 
 Also see whether stage-to-stage variance is different between those assigned to peer review *at all* vs those who weren't
 
+```{r, dev="png", dev.args=list(bg="transparent")}
+compare_revis = function(r) {
+  thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
+  pairs = fread(paste0('../code/task_',r,'_peer_review_pairs.csv'))
+  pairs = pairs[!(dont_send)]
+  thisr = merge(thisr, pairs[, .(Q1 = id2, match = id1, pairID)], all.x = TRUE)
+  thisr[, got_reviewed := !is.na(pairID)]
+  thisr[, Stage := fifelse(Round == paste0('Task ', r), 0, 1)]
+  thisr[, ReviewRound := r]
+  return(thisr)
+}
+reviews = rbindlist(lapply(1:3, compare_revis))
+
+# Find differences in other rounds
+get_diff = function(i, r) {
+  if (!reviews[i, got_reviewed]) {
+    return(NA_real_)
+  }
+  thispair = reviews[Q1 %in% c(reviews[i, Q1], reviews[i, match]) & Round == r]
+  if (nrow(thispair) < 2) {
+    return(NA_real_)
+  }
+  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
+}
+
+roundnames = sort(unique(reviews$Round))
+for (rn in 1:length(roundnames)) {
+  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
+}
+
+# for now
+reviews$Diff_6 = NA_real_
+
+more_sim = unique(reviews[Stage == 0 & (got_reviewed), .(Round, pairID, Diff_1, Diff_2, Diff_3, Diff_4, Diff_5, Diff_6)])
+
+reviews[, Reviewed_1 := fifelse(sum(ReviewRound == 1) > 0, any(got_reviewed[ReviewRound == 1]), FALSE), by = Q1]
+reviews[, Reviewed_2 := fifelse(sum(ReviewRound == 2) > 0, any(got_reviewed[ReviewRound == 2]), FALSE), by = Q1]
+reviews[, Reviewed_3 := fifelse(sum(ReviewRound == 3) > 0, any(got_reviewed[ReviewRound == 3]), FALSE), by = Q1]
+
+dist_compare = rbindlist(list(
+  reviews[Round == 'Task 1' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
+  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
+  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
+  reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)]
+))
+dist_compare[, Observed := factor(Observed, levels = c('Pre-Review','Next Round'))]
+dist_compare[, Reviewed := fifelse(Reviewed == 1, 'Not Peer-Reviewed','Peer Reviewed')]
+ggplot(dist_compare, aes(x = Effect, weight = weight, color = Reviewed, fill = Reviewed)) + 
+  geom_density(alpha = .4) + 
+  coord_cartesian(xlim = c(-.05, .15)) + 
+  facet_grid(cols = vars(Observed), rows = vars(Round)) + 
+  theme_slides + 
+  labs(caption = 'Viewing range limited to .05 to .15.', y = 'Density')
+```
+
+## Do You Become More Like Your Reviewer?
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+reviews = rbindlist(lapply(1:3, compare_revis))
+
+# Find differences in other rounds
+get_diff_across = function(i, r) {
+  if (!reviews[i, got_reviewed]) {
+    return(NA_real_)
+  }
+  thispair = reviews[(Q1 == reviews[i, Q1] & Round == r) | (Q1 == reviews[i, match] & Round == paste0('Task ', as.numeric(str_sub(r,-1))-1))]
+  if (nrow(thispair) < 2) {
+    return(NA_real_)
+  }
+  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
+}
+
+roundnames = c('Task 1','Task 2','Task 3')
+for (rn in 1:length(roundnames)) {
+  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
+  reviews[[paste0('Diff_',rn,'_vs_',rn-1)]] = sapply(1:nrow(reviews), \(x) get_diff_across(x, roundnames[rn]))
+}
+
+# for now
+reviews$Diff_6 = NA_real_
+
+unreviewed = reviews[!(got_reviewed)]
+reviews = reviews[(got_reviewed)]
+
+unreviewed[, id := 1:.N]
+allreviews = CJ(id1 = 1:nrow(unreviewed), id2 = 1:nrow(unreviewed))
+allreviews = allreviews[id1 != id2]
+ar_round1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round1 = merge(ar_round1, unreviewed[Round == 'Task 1', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round1[, diff := abs(E1-E2)]
+ar_round2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round2 = merge(ar_round2, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round2[, diff := abs(E1-E2)]
+ar_round3 = merge(allreviews, unreviewed[Round == 'Task 3', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round3 = merge(ar_round3, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round3[, diff := abs(E1-E2)]
+ar_round2v1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round2v1 = merge(ar_round2v1, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round2v1[, diff := abs(E1-E2)]
+ar_round3v2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round3v2 = merge(ar_round3v2, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round3v2[, diff := abs(E1-E2)]
+
+changediff = rbindlist(list(
+  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Original',
+             diff = reviews[Round == 'Task 1', Diff_1]),
+  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next Round', 
+             diff = reviews[Round == 'Task 1', Diff_2]),
+  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next vs. This',
+            diff = reviews[Round == 'Task 1', Diff_2_vs_1]),
+  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Original',
+           diff = reviews[Round == 'Task 2', Diff_2]),
+  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next Round',
+           diff = reviews[Round == 'Task 2', Diff_3]),
+  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next vs. This',
+           diff = reviews[Round == 'Task 2', Diff_3_vs_2]),
+  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Original',
+             diff = ar_round1$diff),
+  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Original',
+             diff = ar_round2$diff),
+  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next Round',
+             diff = ar_round2$diff),
+  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next Round',
+             diff = ar_round3$diff),
+  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next vs. This',
+             diff = ar_round2v1$diff),
+    data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next vs. This',
+             diff = ar_round3v2$diff)
+))
+changediff[, Comparison := factor(Comparison, levels = c('Original','Next Round','Next vs. This'))]
+ggplot(changediff, aes(x = Comparison, y = diff, color = Type)) + 
+  geom_violin() + 
+  geom_boxplot(width = .2, position = position_dodge(.9))  + 
+  coord_cartesian(ylim = c(0, .1)) + 
+  theme_slides + 
+  facet_wrap(~Round, nrow = 2) + 
+  labs(caption = str_wrap('For Task 1, Original is Task 1 effect vs. Task 1 partner\'s Task 1, Next Round is Task 2 effect vs. Task 1 partner\'s Task 2, and Next Vs. This is Task 2 effect vs. Task 1 partner\'s Task 1', 100),
+       y = 'Absolute\neffect\ndifference')
+```
+
+## Changes in Peer Similarity
+
+```{r}
+feols(diff ~ Comparison*Type, data = changediff, split = 'Round') |> 
+  modelsummary::msummary(stars = c('*' = .1, '**' = .05, '***' = .01),
+                         gof_omit = c('IC|R2|RMSE|Err'))
+```
+
 ## Sample Sizes
 
 Repeat the effect size analyses, except the ones requiring a standard error
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+viol = dat[Round %in% c('Task 1','Task 2','Task 3'), .(Round, Revision_of_Q12, Revision_of_Q18, Revision_of_Q21)]
+ggplot(viol, aes(x = Round, y = Revision_of_Q12)) + 
+  geom_violin(fill = 'lightblue', alpha = .5, scale = 'width') +
+  geom_boxplot(width = .1) +
+  theme_slides + 
+  scale_y_log10(labels = label_rangescale()) +
+  labs(y = 'Sample\nSize')
+
+
+```
+
+## Treated Group Sample Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+ggplot(viol, aes(x = Round, y = Revision_of_Q18)) + 
+  geom_violin(fill = 'lightblue', alpha = .5, scale = 'width') +
+  geom_boxplot(width = .1) +
+  theme_slides + 
+  scale_y_log10(labels = label_rangescale()) +
+  labs(y = 'Treated\nGroup\nSample\nSize')
+```
+
+## Untreated Group Sample Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+ggplot(viol, aes(x = Round, y = Revision_of_Q21)) + 
+  geom_violin(fill = 'lightblue', alpha = .5, scale = 'width') +
+  geom_boxplot(width = .1) +
+  theme_slides + 
+  scale_y_log10(labels = label_rangescale()) +
+  labs(y = 'Untreated\nGroup\nSample\nSize')
+```
+
+## Sample Size Summaries
+
+```{r}
+sumtable(viol, c('Revision_of_Q12','Revision_of_Q18','Revision_of_Q21'), labels = c('Overall Sample','Treated','Untreated'), group = 'Round', group.long = TRUE, numformat = 'comma') |>
+  kableExtra::kable_styling(font_size = 24)
+```
 
 ## Analytic Choices
 
@@ -84,7 +437,7 @@ Show distribution of e.g. logit/linear, standard error adjustments across stages
 
 Not really powered!
 
-Calculate absolute difference from mean of effect size and also sample size. Regress abs difference on different researcher characteristics one at a time
+Calculate absolute difference from mean (median?) of effect size and also sample size. Regress abs difference on different researcher characteristics one at a time
 
 ## Conclusion
 
