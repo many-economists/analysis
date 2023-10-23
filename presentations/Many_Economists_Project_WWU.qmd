@@ -1,7 +1,7 @@
 ---
-title: "The Source of Researcher Variation in Economics"
+title: "The Sources of Researcher Variation in Economics"
 author: |-
-  Nick Huntington-Klein and Claus Pörtner
+  Nick Huntington-Klein, Claus Pörtner, and 145 others
   
   Seattle University
   
@@ -9,6 +9,7 @@ author: |-
 format: 
   revealjs:
     theme: serif
+    smaller: true
 editor: visual
 execute:
   warning: false
@@ -25,6 +26,8 @@ execute:
   library(stringr)
   library(scales)
   library(vtable)
+  library(fixest)
+  library(modelsummary)
 }
 
 dat = import('../Code/cleaned_survey.parquet', setclass = 'data.table')
@@ -37,39 +40,89 @@ theme_slides <- theme_nick() +
 
 ## Researcher Degrees of Freedom
 
-the concept\
-the entire research pipeline\
+-   As we all know, when you do empirical work there are a million decision to make.
+
+    -   Research design, data sourcing, sample selection, data cleaning, modeling, estimation, algorithm options, interpretation, writing, and so on.
+
+-   Of these decisions, all of them affect results. But only some are included in the paper.
+
+-   Results are at least somewhat determined by idiosyncratic decision-making related to *who is doing the research*. Even if these choices are not *wrong* they may be different.
+
+-   How bad is this problem, and why does it occur?
 
 ## Many-Analyst Studies
 
-background\
-small N\
-focus on finding variaiton, not explaining it
+-   Since Silberzahn et al. (2018), one way of studying these topics has been the *many-analyst study.*
+
+-   In these studies, many teams of researchers attempt to answer the same research question. Unlike replication studies, they all use the same data, and do not try to copy an original "baseline" study.
+
+-   So far, most of these studies focus on *finding* variation between results across researchers in different fields (and they *do*, a lot) rather than *explaining* it.
+
+-   Some studies additionally try to isolate the differences in choices made (e.g. Botvinik-Nezer et al., 2020) , the influence of those choices on effects (e.g. Huntington-Klein et al., 2021), or the cohesion-building effects of peer review (e.g. Menkveld et al., 2023).
 
 ## The Many-Economists Study
 
-Goal: asking why we differ?\
-Approach: do the same replication many times, changing the setting\
-Suspected sources: differences over concept of research question, differences in research design, data cleaning, peer interaction\
-And what we won't get at: modeling and estimation differences, errors,\
-Metrics for comparison: effect size, sign and rejection, sample size, treated and control group sizes, estimation approach\
-Not today: use of weights, selection of controls, sample selection choices, qualitative explanations of behavior, potential errors in treatment group definition, language used
+-   This paper covers a many-analysts study in applied microeconomics, in application to estimation of a causal effect.
+
+-   The sample size is large enough to have some amount of power to study correlates of agreement.
+
+-   Approach: We iterate the same research task three times, each time *removing some amount of researcher control*, attempting to see *when* agreement starts to emerge, hoping to figure out how different kinds of degrees of freedom contribute to differences, and quantify those contributions.
+
+## The Many-Economists Study
+
+-   Sources we suspect and will be allowing to vary: differences over the concept of the research question (Auspurg & Bruderl, 2023), differences in research design, differences in data cleaning and sample selection (Huntington-Klein et al., 2021), peer review and interaction (Menkveld et al., 2023).
+
+-   What we won't cover in the study: errors in analysis, and we'll consider differences in things like estimation method and selection of controls, but they're not manipulated.
+
+-   In the study but not today: use of weights, selection of controls, rules for sample selection, qualitative choice explanations, misunderstanding of assignment, programming language.
 
 ## Design
 
-The different stages
+-   Task 1: Using an assigned data set (ACS) and a policy that was implemented at a specific time, estimate the effect of that policy on an outcome for those eligible.
+
+-   2/3 of sample is assigned to peer review each other in pairs.
+
+-   Opportunity to revise work.
+
+-   Task 2: Estimate that same effect but using a fixed research design (definition of treated and control groups).
+
+-   (2/3) assigned to peer review in pairs, opportunity to revise.
+
+-   Task 3: Same effect, fixed research design, and data has been prepared for the replicators.
+
+-   (2/3) assigned to peer review in pairs, opportunity to revise.
 
 ## The Replication Task
 
-DACA
+-   DACA (Deferred Action for Childhood Arrivals) was implemented in the US on June 15, 2012, to relax work and education restrictions on undocumented immigrants who had arrived before their 16th birthday, turned 31 after June 15, 2012, lived in the US since June 15, 2007, and did not yet have lawful status.
 
-## Recruitment and Attrition
+-   Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what
+    was the causal impact of eligibility for the Deferred Action for Childhood
+    Arrivals (DACA) program (treatment) on the probability that the eligible person
+    is employed full-time (outcome), defined as usually working 35 hours per week
+    or more? Examine the effects in 2013-2016.
 
-recruitment procedures
+-   Instructions for accessing ACS data via IPUMS (Ruggles et al., 2023), and a file of related state-level policy information, was given.
+
+## The Replication Task
+
+-   Rounds 2+3: Proceed on this question by assuming that eligible people who were ages 26-30 at the time when the policy went into place comprise the treated group. Estimate the effect of the policy by comparing these individuals to an untreated group made up of people who were ages 31-35 at the time the policy went into place, but otherwise would have been eligible if not for their age. Estimate the effect of treatment by seeing how the 26-30 group changed from before treatment to after relative to how the 31-35 group changed.
+
+-   This task, and this research design for rounds 2+3, is inspired by Amuedo-Dorantes and Antman (2016, 2017) but is not designed to exactly match any published study.
+
+## Recruitment 
+
+-   Recruitment proceeded on social media (Twitter, LinkedIn), by emails to chairs or front desks of all 264 US econ departments listed on US News that we could find emails for (out of 286), and by emails to professional organizations (Institute for Replication, CSWEP, etc.).
+
+-   Open broadly to researchers in all career stages and countries. Requirement to either have a published or forthcoming paper in applied microeconomics, **or** to hold a PhD and be in a job writing non-academic reports using applied microeconomics tools.
+
+-   Offer: for those who complete all rounds of the task, a \$2,000 stipend as well as coauthorship on the paper.
+
+## Attrition
 
 ```{r}
-orig_num = dat[is.na(Q2), .N] + uniqueN(dat$Q1)
-neverfin = dat[,uniqueN(Q1)]
+orig_num = dat[is.na(Q2) & Q1 == 0, .N] + dat[is.na(Q2) & Q1 != 0, uniqueN(Q1)] + uniqueN(dat[!is.na(Q2),Q1])
+neverfin = dat[Q1 != 0,uniqueN(Q1)]
 justcount = dat[!(str_detect(Q2, '\\('))]
 justcount = justcount[, .(Participants = uniqueN(Q1)), by = .(Round = Q2)]
 justcount = rbind(data.table(Round = c('Original Signup','Assigned Task 1'),
@@ -88,14 +141,15 @@ dat[Researcher_Q10 == "Professional or graduate degree other than master's or Ph
 dat[Researcher_Q10 == "Some graduate school, but no graduate degree", Researcher_Q10 := 'Some Grad School']
 
 fullset = copy(dat)
-fullset[is.na(Q1), Q1 := (1:.N) + 100000]
+fullset[Q1 == 0, Q1 := (1:.N) + 100000]
+fullset = fullset[, lapply(.SD, last), by = Q1]
 
 demogdat = dat[Q2 %in% c('The first replication task', 'The third replication task')]
 tokeep = c('Q1', names(dat)[names(dat) %like% 'Researcher_'])
 tokeep2 = c('Q1', 'Q2', names(dat)[names(dat) %like% 'Researcher_'])
 alldemog = rbindlist(list(
   unique(subset(fullset, select = tokeep))[, Q2 := 'Original Signup'],
-  unique(subset(dat[!is.na(Q1)], select = tokeep))[, Q2 := 'Assigned Task 1'],
+  unique(subset(dat[Q1 != 0], select = tokeep))[, Q2 := 'Assigned Task 1'],
   unique(subset(demogdat, select = tokeep2))
 ), use.names = TRUE)
 qrecode(alldemog, 'Q2',c('Assigned Task 1','Original Signup',
@@ -103,12 +157,12 @@ qrecode(alldemog, 'Q2',c('Assigned Task 1','Original Signup',
                          'The third replication task'),
         c('Assigned task 1',
           'Original signup',
-          'The first task',
-          'The third task'))
+          'Finished task 1',
+          'Finished task 3'))
 alldemog[, Round := factor(Q2, levels = c('Original signup',
                                           'Assigned task 1',
-                                          'The first task',
-                                          'The third task'))]
+                                          'Finished task 1',
+                                          'Finished task 3'))]
 alldemog[, Researcher_Q10 := factor(Researcher_Q10,
                                     levels = c('No graduate school',
                                     'Some Grad School',
@@ -134,11 +188,15 @@ sumtable(alldemog, vars = 'Researcher_Q6', group = 'Round') |>
   kableExtra::kable_styling(font_size = 28)
 ```
 
-## Analysis
+## Analytic Approach
 
-Basic idea: descriptives of the differences between people, and how they differ (a) through stages, (b) across groups, and (c) based on peer review assignment
+-   All analysis from this point only uses the sample that completed all three rounds of the task.
 
-Report spread as variance, IQR, and for effect sizes pos/neg/sig/not, and variance weighted by inverse SE, by standard meta-analytic practice
+-   We describe the distribution of effect sizes, sample sizes, and analytic choices.
+
+-   The main variation we study is how these things change across rounds of the study, and also across randomly-assigned peer review pairings.
+
+-   General analysis plan is preregistered at OSF.
 
 ## Effect Sizes
 
@@ -230,11 +288,32 @@ ggplot(byr, aes(x = ID, y = `Standard\nDeviation`, label = paste0(number(`Standa
   labs(x = NULL)
 ```
 
+## Only Among Those Submitting Revisions
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+didrev = copy(dat)
+didrev[, did_rev1 := max((Round == 'Task 1 Revision')*1), by = Q1]
+didrev[, did_rev2 := max((Round == 'Task 2 Revision')*1), by = Q1]
+didrev[, did_rev3 := max((Round == 'Task 3 Revision')*1), by = Q1]
+didrev = didrev[Round %like% 'Revision' | (Round == 'Task 1' & did_rev1 == 1) |
+                  (Round == 'Task 2' & did_rev2 == 1) | 
+                  (Round == 'Task 3' & did_rev3 == 1)]
+byr = didrev[Revision_of_Q6 > 0, .(`Standard\nDeviation` = weighted.sd(Revision_of_Q4, 1/Revision_of_Q6, na.rm = TRUE), N = .N), by = Round]
+setorder(byr, Round)
+byr[, ID := 1:.N]
+dat[, demean := (Revision_of_Q4 - mean(Revision_of_Q4, na.rm = TRUE))^2, by = Round]
+m = lm(demean ~ as.numeric(Round), data = dat[Revision_of_Q6 >0 & as.numeric(Round) %in% c(1,3,5)], weights = 1/dat[Revision_of_Q6 > 0 & as.numeric(Round) %in% c(1,3,5), Revision_of_Q6])
+ggplot(byr, aes(x = ID, y = `Standard\nDeviation`, label = paste0(number(`Standard\nDeviation`, .001),'\n(N=',number(N),')'))) + 
+  geom_line() + 
+  geom_point(color = 'lightblue', size = 3) + 
+  geom_text(family = 'serif', size = 12/.pt, vjust = -1) +
+  scale_x_continuous(labels = byr$Round) + 
+  expand_limits(y = c(min(byr$`Standard\nDeviation`)*.8,max(byr$`Standard\nDeviation`)*1.2)) +
+  theme_slides + 
+  labs(x = NULL)
+```
+
 ## Peer Review
-
-Show change in overall variance from stage to stage, and also show whether peer review pairs become more similar after their review (abs. difference in effect)
-
-Also see whether stage-to-stage variance is different between those assigned to peer review *at all* vs those who weren't
 
 ```{r, dev="png", dev.args=list(bg="transparent")}
 compare_revis = function(r) {
@@ -380,13 +459,13 @@ ggplot(changediff, aes(x = Comparison, y = diff, color = Type)) +
 
 ```{r}
 feols(diff ~ Comparison*Type, data = changediff, split = 'Round') |> 
-  modelsummary::msummary(stars = c('*' = .1, '**' = .05, '***' = .01),
-                         gof_omit = c('IC|R2|RMSE|Err'))
+  msummary(stars = c('*' = .1, '**' = .05, '***' = .01),
+                         gof_omit = c('IC|R2|RMSE|Err'),
+           output = 'kableExtra') |>
+  kableExtra::kable_styling(font_size = 20)
 ```
 
 ## Sample Sizes
-
-Repeat the effect size analyses, except the ones requiring a standard error
 
 ```{r, dev="png", dev.args=list(bg="transparent")}
 viol = dat[Round %in% c('Task 1','Task 2','Task 3'), .(Round, Revision_of_Q12, Revision_of_Q18, Revision_of_Q21)]
@@ -408,7 +487,8 @@ ggplot(viol, aes(x = Round, y = Revision_of_Q18)) +
   geom_boxplot(width = .1) +
   theme_slides + 
   scale_y_log10(labels = label_rangescale()) +
-  labs(y = 'Treated\nGroup\nSample\nSize')
+  labs(y = 'Treated\nGroup\nSample\nSize',
+       caption = 'Task 3 variation partially reflects differences in whether pre-treatment individuals are "treated."')
 ```
 
 ## Untreated Group Sample Sizes
@@ -439,10 +519,22 @@ Not really powered!
 
 Calculate absolute difference from mean (median?) of effect size and also sample size. Regress abs difference on different researcher characteristics one at a time
 
+## Summary
+
+-   Replicators largely agreed on the direction of the effect, although not always on its statistical significance.
+
+-   Specifying the research design without also cleaning/preparing the data *reduced* agreement between replicators, while cleaning the data increased it.
+
+-   Peer review had surprisingly little effect, although keep in mind this is a somewhat unusual peer review situation. If revisions were required, we may have seen more movement.
+
+-   SUMMARY OF CLAUS FINDINGS HERE
+
 ## Conclusion
 
-Where did we seem to see increasing agreement?
+-   Counter to Auspurg & Bruderl, 2023, specifying the research question explicitly and even the design did not remove the differences between researchers; in fact it seemed to increase them!
 
-What changes in practice would make research results more consistent?
+-   Data cleaning procedures were highly variable and seemed to be a driver of disagreement, in line with Huntington-Klein et al. (2021).
 
-Do we want consistency?
+-   We don't talk too much about data cleaning! This seems like an area that clearly receives too little attention in studies, relative to modeling etc.
+
+-   We can disagree on how much we *want* all studies to be consistent - there are reasons to do things different ways. But making a norm where reporting on data cleaning procedures receives as much attention as reporting on modeling choices seems like a clear positive recommendation.
