@@ -49,6 +49,8 @@ library(rio)
 library(arrow)
 library(vtable)
 library(janitor)
+library(data.table)
+library(nicksshorts)
 
 # Load  and clean data ----
 researcher_variable_key <- read_csv(here("raw_data", "researcher_variable_key.csv"))
@@ -61,8 +63,36 @@ test <- survey %>%
   filter(Q1 != 0) %>%
   filter(!is.na(Q2))
 
+test <- as.data.table(test)
+
+dat = merge(test, test[Q2 == 'The third replication task', .(Q1)], by = 'Q1')
+qrecode(test, 'Q2', 
+        c('Revision following the first replication task (such as following peer review)',
+          'Revision following the second replication task (such as following peer review)',
+          'Revision following the third replication task (such as following peer review)',
+          'The first replication task',
+          'The second replication task',
+          'The third replication task'),
+        c('Task 1 Revision',
+          'Task 2 Revision',
+          'Task 3 Revision',
+          'Task 1',
+          'Task 2',
+          'Task 3'), 'Round', checkfrom = TRUE)
+test[, Round := factor(Round, levels = c('Task 1',
+                                        'Task 1 Revision',
+                                        'Task 2',
+                                        'Task 2 Revision',
+                                        'Task 3',
+                                        'Task 3 Revision'))]
+
+
 # Analytical choices ----
 
 # Show distribution of e.g. logit/linear, standard error adjustments across stages
+
+
+
+sumtable(alldemog, vars = 'Researcher_Q6', group = 'Round')
 
 
