@@ -315,7 +315,7 @@ ggplot(byr, aes(x = ID, y = `Standard\nDeviation`, label = paste0(number(`Standa
 ```{r, dev="png", dev.args=list(bg="transparent")}
 compare_revis = function(r) {
   thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
-  pairs = fread(paste0('../code/task_',r,'_peer_review_pairs.csv'))
+  pairs = fread(here("raw_data", paste0('task_', r, '_peer_review_pairs.csv')))
   pairs = pairs[!(dont_send)]
   thisr = merge(thisr, pairs[, .(Q1 = id2, match = id1, pairID)], all.x = TRUE)
   thisr[, got_reviewed := !is.na(pairID)]
