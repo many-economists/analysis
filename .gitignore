@@ -27,7 +27,25 @@
 *.SAV
 # *.csv
 *.xlsx
+
+# qmd/presentation generated files
 *.png
+*.js
+*.css
+*.html
+*.eot
+*.ttf
+*.woff
+*.woff2
+*.svg
+*.jpg
+*.jpeg
+*.gif
+*.map
+*.yml
+LICENSE
+
+
 
 # Generated files the data, tables, and figures directories - it can always
 # be regenerated
