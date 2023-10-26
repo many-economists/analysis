@@ -10,7 +10,7 @@
 *.out
 
 # Parquet files
-*.parquet
+# *.parquet
 
 # Stata files
 *.dta
@@ -25,8 +25,9 @@
 .DS_Store
 *.sav
 *.SAV
-*.csv
+# *.csv
 *.xlsx
+*.png
 
 # Generated files the data, tables, and figures directories - it can always
 # be regenerated

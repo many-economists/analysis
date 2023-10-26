@@ -28,9 +28,10 @@ execute:
   library(vtable)
   library(fixest)
   library(modelsummary)
+  library(here)
 }
 
-dat = import('../Code/cleaned_survey.parquet', setclass = 'data.table')
+dat = import(here("raw_data", "cleaned_survey.parquet"), setclass = 'data.table')
 
 theme_slides <- theme_nick() + 
   theme(#panel.background = element_rect(fill='transparent'),
@@ -96,11 +97,7 @@ theme_slides <- theme_nick() +
 
 -   DACA (Deferred Action for Childhood Arrivals) was implemented in the US on June 15, 2012, to relax work and education restrictions on undocumented immigrants who had arrived before their 16th birthday, turned 31 after June 15, 2012, lived in the US since June 15, 2007, and did not yet have lawful status.
 
--   Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what
-    was the causal impact of eligibility for the Deferred Action for Childhood
-    Arrivals (DACA) program (treatment) on the probability that the eligible person
-    is employed full-time (outcome), defined as usually working 35 hours per week
-    or more? Examine the effects in 2013-2016.
+-   Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what was the causal impact of eligibility for the Deferred Action for Childhood Arrivals (DACA) program (treatment) on the probability that the eligible person is employed full-time (outcome), defined as usually working 35 hours per week or more? Examine the effects in 2013-2016.
 
 -   Instructions for accessing ACS data via IPUMS (Ruggles et al., 2023), and a file of related state-level policy information, was given.
 
@@ -110,7 +107,7 @@ theme_slides <- theme_nick() +
 
 -   This task, and this research design for rounds 2+3, is inspired by Amuedo-Dorantes and Antman (2016, 2017) but is not designed to exactly match any published study.
 
-## Recruitment 
+## Recruitment
 
 -   Recruitment proceeded on social media (Twitter, LinkedIn), by emails to chairs or front desks of all 264 US econ departments listed on US News that we could find emails for (out of 286), and by emails to professional organizations (Institute for Replication, CSWEP, etc.).
 
