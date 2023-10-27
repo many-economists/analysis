@@ -48,20 +48,8 @@
     },
     "Matrix": {
       "Package": "Matrix",
-      "Version": "1.6-1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "grDevices",
-        "graphics",
-        "grid",
-        "lattice",
-        "methods",
-        "stats",
-        "utils"
-      ],
-      "Hash": "cb6855ac711958ca734b75e631b2035d"
+      "Version": "1.6-1.1",
+      "Source": "Repository"
     },
     "MatrixModels": {
       "Package": "MatrixModels",
@@ -2076,15 +2064,8 @@
     },
     "svglite": {
       "Package": "svglite",
-      "Version": "2.1.1",
-      "Source": "Repository",
-      "Repository": "CRAN",
-      "Requirements": [
-        "R",
-        "cpp11",
-        "systemfonts"
-      ],
-      "Hash": "29442899581643411facb66f4add846a"
+      "Version": "2.1.2",
+      "Source": "Repository"
     },
     "sys": {
       "Package": "sys",
