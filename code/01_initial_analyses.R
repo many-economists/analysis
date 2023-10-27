@@ -65,7 +65,7 @@ test <- survey %>%
 
 test <- as.data.table(test)
 
-dat = merge(test, test[Q2 == 'The third replication task', .(Q1)], by = 'Q1')
+test = merge(test, test[Q2 == 'The third replication task', .(Q1)], by = 'Q1')
 qrecode(test, 'Q2', 
         c('Revision following the first replication task (such as following peer review)',
           'Revision following the second replication task (such as following peer review)',
@@ -93,6 +93,6 @@ test[, Round := factor(Round, levels = c('Task 1',
 
 
 
-sumtable(alldemog, vars = 'Researcher_Q6', group = 'Round')
+sumtable(test, vars = 'Recoded_Q10', group = 'Round')
 
 
