@@ -510,6 +510,29 @@ sumtable(viol, c('Revision_of_Q12','Revision_of_Q18','Revision_of_Q21'), labels 
 
 Show distribution of e.g. logit/linear, standard error adjustments across stages
 
+## Method Distribution by Round
+
+```{r}
+sumtable(dat, 
+         vars = 'Recoded_Q10', 
+         labels = c("Method"), 
+         group = 'Round',
+         title = "") |>
+  kableExtra::kable_styling(font_size = 24)
+
+```
+
+## Standard Error Adjustments by Round
+
+```{r}
+sumtable(dat,
+         vars = 'Recoded_Q8',
+         group = 'Round',
+         title = "") |>
+  kableExtra::kable_styling(font_size = 20)
+
+```
+
 ## Researcher Characteristics
 
 Not really powered!
