@@ -525,11 +525,6 @@ sumtable(dat,
 ## Standard Error Adjustments by Round
 
 ```{r}
-sumtable(dat,
-         vars = 'Recoded_Q8',
-         group = 'Round',
-         title = "") |>
-  kableExtra::kable_styling(font_size = 20)
 
 ```
 
