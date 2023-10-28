@@ -506,33 +506,170 @@ sumtable(viol, c('Revision_of_Q12','Revision_of_Q18','Revision_of_Q21'), labels 
   kableExtra::kable_styling(font_size = 24)
 ```
 
-## Analytic Choices
 
-Show distribution of e.g. logit/linear, standard error adjustments across stages
+## Method Distribution
 
-## Method Distribution by Round
+
 
 ```{r}
-sumtable(dat, 
-         vars = 'Recoded_Q10', 
-         labels = c("Method"), 
-         group = 'Round',
+library(tidyverse)
+
+# Rename column name function ----
+rename_to_lower_snake <- function(df) {
+  df %>% 
+    rename_with( ~gsub("([a-z])([A-Z])", "\\1_\\2", .x) ) %>%  # Adds _ to camel case var names
+    rename_with( ~tolower(gsub("[ ]+", "_", .x)) )  # Converts to lower and substitutes _ for spaces
+}
+
+
+# Load  and clean data ----
+researcher_variable_key <- read_csv(here("raw_data", "researcher_variable_key.csv"))
+survey_variable_key <- read_csv(here("raw_data", "survey_variable_key.csv"))
+survey <- import(here("raw_data", "cleaned_survey.parquet")) 
+
+
+# Clean data
+base <- survey %>% 
+  rename_to_lower_snake() %>%
+  # Remove researchers who did not complete the first replication task
+  filter(q1 != 0) %>%
+  filter(!is.na(q2)) %>% 
+  # Better variable names
+  rename(
+    researcher_id = q1,
+    round = q2,
+    method = recoded_q10,
+    se_adjustment = recoded_q8,
+    effect_size = revision_of_q4,
+    sample_size = revision_of_q12
+  ) %>% 
+  # Keep only researchers who have completed the third replication task
+  group_by(researcher_id) %>%
+  filter(any(round == "The third replication task")) %>%
+  ungroup() %>%
+  # General clean-up/reorganize
+  select(researcher_id, round, method, se_adjustment, effect_size, everything()) 
+
+# Better labels for variables
+base <- base %>% 
+  mutate(
+    round = case_when(
+      round == 'Revision following the first replication task (such as following peer review)' ~ 'Task 1 Revision',
+      round == 'Revision following the second replication task (such as following peer review)' ~ 'Task 2 Revision',
+      round == 'Revision following the third replication task (such as following peer review)' ~ 'Task 3 Revision',
+      round == 'The first replication task' ~ 'Task 1',
+      round == 'The second replication task' ~ 'Task 2',
+      round == 'The third replication task' ~ 'Task 3'
+    ),
+    method = case_when(
+      is.na(method) ~ 'Other/NA',
+      method == "Other" ~ 'Other/NA',
+      TRUE ~ method 
+    ),
+    se_adjustment = case_when(
+      se_adjustment %in% c("Bootstrap", "None", "Other", "New DID Estimator") ~ 'Other/Bootstrap/NA',
+      se_adjustment %in% c("Cluster: ID", "Cluster: Other", "Cluster: Strata") ~ "Cluster (ID/Strata/Other)",
+      se_adjustment %in% c("Cluster: State") ~ "Cluster (State)",
+      se_adjustment %in% c("Cluster: State/Yr") ~ "Cluster (State & Year)",
+      TRUE ~ se_adjustment 
+    ),
+    # Absolute differences
+    effect_abs_diff = abs(effect_size - mean(effect_size, na.rm = TRUE)),
+    sample_size_abs_diff = abs(sample_size - mean(sample_size, na.rm = TRUE)),
+    # Researcher characteristics
+    highest_degree = factor(
+      case_when(
+        researcher_q10 == "PhD" ~ "Ph.D.",
+        TRUE ~ "Not Ph.D",
+      ), 
+      levels = c("Ph.D.", "Not Ph.D")
+    ),
+    position = factor(
+      case_when(
+        researcher_q6 == "Faculty" ~ "University faculty",
+        researcher_q6 == "Graduate student" ~ "Graduate student",
+        researcher_q6 == "Other (describe)" ~ "Other/NA",
+        is.na(researcher_q6) ~ "Other/NA",
+        TRUE ~ "Other researcher"
+      ),
+      levels = c("University faculty", "Graduate student", "Other researcher", "Other/NA")
+    )
+  )
+  
+  
+
+
+
+# Analytical choices ----
+
+# Show distribution of e.g. logit/linear, standard error adjustments across stages
+
+sumtable(base, 
+         vars = 'method', 
+         labels = c("Method"),
+         group = 'round',
          title = "") |>
   kableExtra::kable_styling(font_size = 24)
 
 ```
 
-## Standard Error Adjustments by Round
+## Standard Error Adjustments
 
 ```{r}
 
+sumtable(base, 
+         vars = 'se_adjustment', 
+         labels = c("Type"),
+         group = 'round',
+         title = "") |>
+  kableExtra::kable_styling(font_size = 24)
+
 ```
 
-## Researcher Characteristics
+## Researcher Degree and Models
 
-Not really powered!
+```{r}
+lm_effect_degree <- lm(effect_abs_diff ~ highest_degree, data = base)
+lm_sample_degree <- lm(sample_size_abs_diff ~ highest_degree, data = base)
+lm_effect_position <- lm(effect_abs_diff ~ position, data = base)
+lm_sample_position <- lm(sample_size_abs_diff ~ position, data = base)
 
-Calculate absolute difference from mean (median?) of effect size and also sample size. Regress abs difference on different researcher characteristics one at a time
+models_degree <- list("Effect Size" = lm_effect_degree, 
+                      "Sample Size" = lm_sample_degree)
+
+models_position <- list("Effect Size" = lm_effect_position, 
+                        "Sample Size" = lm_sample_position)
+
+f <- function(x) formatC(x, digits = 2, big.mark = ",", format = "f")
+
+modelsummary(models_degree, stars = TRUE, statistic = "std.error", 
+             title = "Effect of Highest Degree on Absolute Deviation from Mean Effect Size and Mean Sample Size
+             (Ph.D. as Reference Group)",
+             coef_rename = c("highest_degreeNot Ph.D" = "Not Ph.D"),
+             fmt = f, gof_map = NA)
+
+
+
+```
+
+<!-- Not really powered! -->
+
+<!-- Calculate absolute difference from mean (median?) of effect size and also sample size. Regress abs difference on different researcher characteristics one at a time -->
+
+## Researcher Position and Models
+
+```{r}  
+modelsummary(models_position, stars = TRUE, statistic = "std.error", 
+             title = "Effect of Researcher Position on Absolute Deviation from Mean Effect Size and Mean Sample Size
+             (University Faculty as Reference Group)",
+             coef_rename = c("positionUniversity faculty" = "University faculty",
+                             "positionGraduate student" = "Graduate student",
+                             "positionOther researcher" = "Other researcher",
+                             "positionOther/NA" = "Other/NA"),
+             fmt = f, gof_map = NA)
+
+```
+
 
 ## Summary
 
@@ -542,7 +679,10 @@ Calculate absolute difference from mean (median?) of effect size and also sample
 
 -   Peer review had surprisingly little effect, although keep in mind this is a somewhat unusual peer review situation. If revisions were required, we may have seen more movement.
 
--   SUMMARY OF CLAUS FINDINGS HERE
+-   Model method choices are relatively stable over rounds, but there was an increase in clustering at state level over rounds.
+
+-  Neither highest degree nor researcher position had statistically significant effects on the absolute difference in effect size or sample size, although 
+we are not really powered for this type of analysis.
 
 ## Conclusion
 
