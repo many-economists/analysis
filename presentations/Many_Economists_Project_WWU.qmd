@@ -1,0 +1,695 @@
+---
+title: "The Sources of Researcher Variation in Economics"
+author: |-
+  Nick Huntington-Klein, Claus Pörtner, and 145 others
+  
+  Seattle University
+  
+  Please do not share slides until 2024.
+format: 
+  revealjs:
+    theme: serif
+    smaller: true
+editor: visual
+execute:
+  warning: false
+  message: false
+  echo: false
+---
+
+```{r}
+{
+  library(rio)
+  library(data.table)
+  library(ggplot2)
+  library(nicksshorts) # remotes::install_github('NickCH-K/nicksshorts')
+  library(stringr)
+  library(scales)
+  library(vtable)
+  library(fixest)
+  library(modelsummary)
+  library(here)
+}
+
+dat = import(here("raw_data", "cleaned_survey.parquet"), setclass = 'data.table')
+
+theme_slides <- theme_nick() + 
+  theme(#panel.background = element_rect(fill='transparent'),
+        legend.background = element_rect(fill = 'transparent'), #transparent panel bg
+    plot.background = element_rect(fill='transparent', color=NA)) #transparent plot bg)
+```
+
+## Researcher Degrees of Freedom
+
+-   As we all know, when you do empirical work there are a million decision to make.
+
+    -   Research design, data sourcing, sample selection, data cleaning, modeling, estimation, algorithm options, interpretation, writing, and so on.
+
+-   Of these decisions, all of them affect results. But only some are included in the paper.
+
+-   Results are at least somewhat determined by idiosyncratic decision-making related to *who is doing the research*. Even if these choices are not *wrong* they may be different.
+
+-   How bad is this problem, and why does it occur?
+
+## Many-Analyst Studies
+
+-   Since Silberzahn et al. (2018), one way of studying these topics has been the *many-analyst study.*
+
+-   In these studies, many teams of researchers attempt to answer the same research question. Unlike replication studies, they all use the same data, and do not try to copy an original "baseline" study.
+
+-   So far, most of these studies focus on *finding* variation between results across researchers in different fields (and they *do*, a lot) rather than *explaining* it.
+
+-   Some studies additionally try to isolate the differences in choices made (e.g. Botvinik-Nezer et al., 2020) , the influence of those choices on effects (e.g. Huntington-Klein et al., 2021), or the cohesion-building effects of peer review (e.g. Menkveld et al., 2023).
+
+## The Many-Economists Study
+
+-   This paper covers a many-analysts study in applied microeconomics, in application to estimation of a causal effect.
+
+-   The sample size is large enough to have some amount of power to study correlates of agreement.
+
+-   Approach: We iterate the same research task three times, each time *removing some amount of researcher control*, attempting to see *when* agreement starts to emerge, hoping to figure out how different kinds of degrees of freedom contribute to differences, and quantify those contributions.
+
+## The Many-Economists Study
+
+-   Sources we suspect and will be allowing to vary: differences over the concept of the research question (Auspurg & Bruderl, 2023), differences in research design, differences in data cleaning and sample selection (Huntington-Klein et al., 2021), peer review and interaction (Menkveld et al., 2023).
+
+-   What we won't cover in the study: errors in analysis, and we'll consider differences in things like estimation method and selection of controls, but they're not manipulated.
+
+-   In the study but not today: use of weights, selection of controls, rules for sample selection, qualitative choice explanations, misunderstanding of assignment, programming language.
+
+## Design
+
+-   Task 1: Using an assigned data set (ACS) and a policy that was implemented at a specific time, estimate the effect of that policy on an outcome for those eligible.
+
+-   2/3 of sample is assigned to peer review each other in pairs.
+
+-   Opportunity to revise work.
+
+-   Task 2: Estimate that same effect but using a fixed research design (definition of treated and control groups).
+
+-   (2/3) assigned to peer review in pairs, opportunity to revise.
+
+-   Task 3: Same effect, fixed research design, and data has been prepared for the replicators.
+
+-   (2/3) assigned to peer review in pairs, opportunity to revise.
+
+## The Replication Task
+
+-   DACA (Deferred Action for Childhood Arrivals) was implemented in the US on June 15, 2012, to relax work and education restrictions on undocumented immigrants who had arrived before their 16th birthday, turned 31 after June 15, 2012, lived in the US since June 15, 2007, and did not yet have lawful status.
+
+-   Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what was the causal impact of eligibility for the Deferred Action for Childhood Arrivals (DACA) program (treatment) on the probability that the eligible person is employed full-time (outcome), defined as usually working 35 hours per week or more? Examine the effects in 2013-2016.
+
+-   Instructions for accessing ACS data via IPUMS (Ruggles et al., 2023), and a file of related state-level policy information, was given.
+
+## The Replication Task
+
+-   Rounds 2+3: Proceed on this question by assuming that eligible people who were ages 26-30 at the time when the policy went into place comprise the treated group. Estimate the effect of the policy by comparing these individuals to an untreated group made up of people who were ages 31-35 at the time the policy went into place, but otherwise would have been eligible if not for their age. Estimate the effect of treatment by seeing how the 26-30 group changed from before treatment to after relative to how the 31-35 group changed.
+
+-   This task, and this research design for rounds 2+3, is inspired by Amuedo-Dorantes and Antman (2016, 2017) but is not designed to exactly match any published study.
+
+## Recruitment
+
+-   Recruitment proceeded on social media (Twitter, LinkedIn), by emails to chairs or front desks of all 264 US econ departments listed on US News that we could find emails for (out of 286), and by emails to professional organizations (Institute for Replication, CSWEP, etc.).
+
+-   Open broadly to researchers in all career stages and countries. Requirement to either have a published or forthcoming paper in applied microeconomics, **or** to hold a PhD and be in a job writing non-academic reports using applied microeconomics tools.
+
+-   Offer: for those who complete all rounds of the task, a \$2,000 stipend as well as coauthorship on the paper.
+
+## Attrition
+
+```{r}
+orig_num = dat[is.na(Q2) & Q1 == 0, .N] + dat[is.na(Q2) & Q1 != 0, uniqueN(Q1)] + uniqueN(dat[!is.na(Q2),Q1])
+neverfin = dat[Q1 != 0,uniqueN(Q1)]
+justcount = dat[!(str_detect(Q2, '\\('))]
+justcount = justcount[, .(Participants = uniqueN(Q1)), by = .(Round = Q2)]
+justcount = rbind(data.table(Round = c('Original Signup','Assigned Task 1'),
+                             Participants = c(orig_num, neverfin)),
+                  justcount)
+justcount[, Attrition := percent(1-Participants/shift(Participants), .01)]
+justcount |> knitr::kable() |>
+  kableExtra::kable_styling(font_size = 28)
+```
+
+## Education Level Attrition
+
+```{r}
+dat[, Researcher_Q10 := as.character(Researcher_Q10)]
+dat[Researcher_Q10 == "Professional or graduate degree other than master's or PhD", Researcher_Q10 := 'Prof. Degree']
+dat[Researcher_Q10 == "Some graduate school, but no graduate degree", Researcher_Q10 := 'Some Grad School']
+
+fullset = copy(dat)
+fullset[Q1 == 0, Q1 := (1:.N) + 100000]
+fullset = fullset[, lapply(.SD, last), by = Q1]
+
+demogdat = dat[Q2 %in% c('The first replication task', 'The third replication task')]
+tokeep = c('Q1', names(dat)[names(dat) %like% 'Researcher_'])
+tokeep2 = c('Q1', 'Q2', names(dat)[names(dat) %like% 'Researcher_'])
+alldemog = rbindlist(list(
+  unique(subset(fullset, select = tokeep))[, Q2 := 'Original Signup'],
+  unique(subset(dat[Q1 != 0], select = tokeep))[, Q2 := 'Assigned Task 1'],
+  unique(subset(demogdat, select = tokeep2))
+), use.names = TRUE)
+qrecode(alldemog, 'Q2',c('Assigned Task 1','Original Signup',
+                         'The first replication task',
+                         'The third replication task'),
+        c('Assigned task 1',
+          'Original signup',
+          'Finished task 1',
+          'Finished task 3'))
+alldemog[, Round := factor(Q2, levels = c('Original signup',
+                                          'Assigned task 1',
+                                          'Finished task 1',
+                                          'Finished task 3'))]
+alldemog[, Researcher_Q10 := factor(Researcher_Q10,
+                                    levels = c('No graduate school',
+                                    'Some Grad School',
+                                    'Master\'s degree',
+                                    'Prof. Degree',
+                                    'PhD'))]
+qrecode(alldemog, 'Researcher_Q6',
+        c('Faculty','Graduate student',
+          'Non-faculty researcher at a university', 
+          'Other (describe)',
+          'Private-sector researcher',
+          'Public-sector researcher not at a university'),
+        c('Faculty','Grad. Student',
+          'Other Researcher','Other','Other Researcher','Other Researcher'))
+sumtable(alldemog, vars = 'Researcher_Q10', group = 'Round') |>
+  kableExtra::kable_styling(font_size = 28)
+```
+
+## Occupation Attrition
+
+```{r}
+sumtable(alldemog, vars = 'Researcher_Q6', group = 'Round') |>
+  kableExtra::kable_styling(font_size = 28)
+```
+
+## Analytic Approach
+
+-   All analysis from this point only uses the sample that completed all three rounds of the task.
+
+-   We describe the distribution of effect sizes, sample sizes, and analytic choices.
+
+-   The main variation we study is how these things change across rounds of the study, and also across randomly-assigned peer review pairings.
+
+-   General analysis plan is preregistered at OSF.
+
+## Effect Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+dat = dat[!is.na(Q2)]
+dat = merge(dat, dat[Q2 == 'The third replication task', .(Q1)], by = 'Q1')
+qrecode(dat, 'Q2', 
+        c('Revision following the first replication task (such as following peer review)',
+          'Revision following the second replication task (such as following peer review)',
+          'Revision following the third replication task (such as following peer review)',
+          'The first replication task',
+          'The second replication task',
+          'The third replication task'),
+        c('Task 1 Revision',
+          'Task 2 Revision',
+          'Task 3 Revision',
+          'Task 1',
+          'Task 2',
+          'Task 3'), 'Round', checkfrom = TRUE)
+dat[, Round := factor(Round, levels = c('Task 1',
+                                        'Task 1 Revision',
+                                        'Task 2',
+                                        'Task 2 Revision',
+                                        'Task 3',
+                                        'Task 3 Revision'))]
+dat[Revision_of_Q4 > 1 & Revision_of_Q6 > 1, Revision_of_Q6 := Revision_of_Q6/100]
+dat[Revision_of_Q4 > 1, Revision_of_Q4 := Revision_of_Q4/100]
+dat[Revision_of_Q6 < 0, Revision_of_Q6 := abs(Revision_of_Q6)]
+viol = dat[Round %in% c('Task 1','Task 2','Task 3') & Revision_of_Q4 != 0, .(Round, Revision_of_Q4, Revision_of_Q6, weight = 1, Type = 'Unweighted')]
+viol = rbind(viol,
+             dat[Round %in% c('Task 1','Task 2','Task 3'), .(Round, Revision_of_Q4, weight = 1/Revision_of_Q6, Revision_of_Q6, Type = 'Weighted')])
+ggplot(viol[!is.infinite(weight)], aes(x = Round, y = Revision_of_Q4, weight = weight)) + 
+  geom_violin(fill = 'lightblue', alpha = .5) +
+  geom_boxplot(width = .1) +
+  geom_hline(yintercept = 0, linetype = 'dashed') +
+  theme_slides + 
+  coord_cartesian(ylim = c(-.05, .1)) +
+  labs(y = 'Effect Size', caption = 'Range limited to [-.05, .1] for viewing.') +
+  facet_wrap(~Type, nrow = 2)
+
+```
+
+## Effect Sizes
+
+```{r}
+sumtable(viol[!is.infinite(weight) & Type == 'Weighted'], 'Revision_of_Q4', labels = 'Effect Size', group.weights = 'weight', group = 'Round', group.long = TRUE) |>
+  kableExtra::kable_styling(font_size = 28)
+```
+
+## Effect Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+viol[, ci_upper := Revision_of_Q4 + 1.96*Revision_of_Q6]
+viol[, ci_lower := Revision_of_Q4 - 1.96*Revision_of_Q6]
+viol[, sig := !xor((ci_upper > 0),(ci_lower > 0))]
+setorder(viol, Revision_of_Q4)
+viol[, Order := 1:.N, by = .(Round, Type)]
+ggplot(viol[Type == 'Unweighted'], aes(x = Order, y = Revision_of_Q4,
+                                       ymax = ci_upper, ymin = ci_lower)) + 
+  geom_hline(yintercept = 0, linetype = 'dashed') +
+  geom_errorbar(mapping = aes(color = sig)) + 
+  geom_point()+
+  coord_cartesian(ylim = c(-.05, .15)) + 
+  scale_color_manual(values = c('lightblue','#ffcccb')) +
+  facet_wrap(~Round, nrow = 3) + 
+  guides(color = 'none') +
+  labs(y = 'Effect Size\n(95% CI)',
+       x = NULL, caption = '95% CI reconstructed from effect size and SE,\neven if asymmetric CI was reported. Visible range limited to (-.05, .15).') + 
+  theme_slides + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+```
+
+## Between-Researcher Standard Deviation By Rounds
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+byr = dat[Revision_of_Q6 > 0, .(`Standard\nDeviation` = weighted.sd(Revision_of_Q4, 1/Revision_of_Q6, na.rm = TRUE), N = .N), by = Round]
+setorder(byr, Round)
+byr[, ID := 1:.N]
+dat[, demean := (Revision_of_Q4 - mean(Revision_of_Q4, na.rm = TRUE))^2, by = Round]
+m = lm(demean ~ as.numeric(Round), data = dat[Revision_of_Q6 >0 & as.numeric(Round) %in% c(1,3,5)], weights = 1/dat[Revision_of_Q6 > 0 & as.numeric(Round) %in% c(1,3,5), Revision_of_Q6])
+ggplot(byr, aes(x = ID, y = `Standard\nDeviation`, label = paste0(number(`Standard\nDeviation`, .001),'\n(N=',number(N),')'))) + 
+  geom_line() + 
+  geom_point(color = 'lightblue', size = 3) + 
+  geom_text(family = 'serif', size = 12/.pt, vjust = -1) +
+  scale_x_continuous(labels = byr$Round) + 
+  expand_limits(y = c(min(byr$`Standard\nDeviation`)*.8,max(byr$`Standard\nDeviation`)*1.2)) +
+  theme_slides + 
+  labs(x = NULL)
+```
+
+## Only Among Those Submitting Revisions
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+didrev = copy(dat)
+didrev[, did_rev1 := max((Round == 'Task 1 Revision')*1), by = Q1]
+didrev[, did_rev2 := max((Round == 'Task 2 Revision')*1), by = Q1]
+didrev[, did_rev3 := max((Round == 'Task 3 Revision')*1), by = Q1]
+didrev = didrev[Round %like% 'Revision' | (Round == 'Task 1' & did_rev1 == 1) |
+                  (Round == 'Task 2' & did_rev2 == 1) | 
+                  (Round == 'Task 3' & did_rev3 == 1)]
+byr = didrev[Revision_of_Q6 > 0, .(`Standard\nDeviation` = weighted.sd(Revision_of_Q4, 1/Revision_of_Q6, na.rm = TRUE), N = .N), by = Round]
+setorder(byr, Round)
+byr[, ID := 1:.N]
+dat[, demean := (Revision_of_Q4 - mean(Revision_of_Q4, na.rm = TRUE))^2, by = Round]
+m = lm(demean ~ as.numeric(Round), data = dat[Revision_of_Q6 >0 & as.numeric(Round) %in% c(1,3,5)], weights = 1/dat[Revision_of_Q6 > 0 & as.numeric(Round) %in% c(1,3,5), Revision_of_Q6])
+ggplot(byr, aes(x = ID, y = `Standard\nDeviation`, label = paste0(number(`Standard\nDeviation`, .001),'\n(N=',number(N),')'))) + 
+  geom_line() + 
+  geom_point(color = 'lightblue', size = 3) + 
+  geom_text(family = 'serif', size = 12/.pt, vjust = -1) +
+  scale_x_continuous(labels = byr$Round) + 
+  expand_limits(y = c(min(byr$`Standard\nDeviation`)*.8,max(byr$`Standard\nDeviation`)*1.2)) +
+  theme_slides + 
+  labs(x = NULL)
+```
+
+## Peer Review
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+compare_revis = function(r) {
+  thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
+  pairs = fread(here("raw_data", paste0('task_', r, '_peer_review_pairs.csv')))
+  pairs = pairs[!(dont_send)]
+  thisr = merge(thisr, pairs[, .(Q1 = id2, match = id1, pairID)], all.x = TRUE)
+  thisr[, got_reviewed := !is.na(pairID)]
+  thisr[, Stage := fifelse(Round == paste0('Task ', r), 0, 1)]
+  thisr[, ReviewRound := r]
+  return(thisr)
+}
+reviews = rbindlist(lapply(1:3, compare_revis))
+
+# Find differences in other rounds
+get_diff = function(i, r) {
+  if (!reviews[i, got_reviewed]) {
+    return(NA_real_)
+  }
+  thispair = reviews[Q1 %in% c(reviews[i, Q1], reviews[i, match]) & Round == r]
+  if (nrow(thispair) < 2) {
+    return(NA_real_)
+  }
+  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
+}
+
+roundnames = sort(unique(reviews$Round))
+for (rn in 1:length(roundnames)) {
+  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
+}
+
+# for now
+reviews$Diff_6 = NA_real_
+
+more_sim = unique(reviews[Stage == 0 & (got_reviewed), .(Round, pairID, Diff_1, Diff_2, Diff_3, Diff_4, Diff_5, Diff_6)])
+
+reviews[, Reviewed_1 := fifelse(sum(ReviewRound == 1) > 0, any(got_reviewed[ReviewRound == 1]), FALSE), by = Q1]
+reviews[, Reviewed_2 := fifelse(sum(ReviewRound == 2) > 0, any(got_reviewed[ReviewRound == 2]), FALSE), by = Q1]
+reviews[, Reviewed_3 := fifelse(sum(ReviewRound == 3) > 0, any(got_reviewed[ReviewRound == 3]), FALSE), by = Q1]
+
+dist_compare = rbindlist(list(
+  reviews[Round == 'Task 1' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
+  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
+  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
+  reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)]
+))
+dist_compare[, Observed := factor(Observed, levels = c('Pre-Review','Next Round'))]
+dist_compare[, Reviewed := fifelse(Reviewed == 1, 'Not Peer-Reviewed','Peer Reviewed')]
+ggplot(dist_compare, aes(x = Effect, weight = weight, color = Reviewed, fill = Reviewed)) + 
+  geom_density(alpha = .4) + 
+  coord_cartesian(xlim = c(-.05, .15)) + 
+  facet_grid(cols = vars(Observed), rows = vars(Round)) + 
+  theme_slides + 
+  labs(caption = 'Viewing range limited to .05 to .15.', y = 'Density')
+```
+
+## Do You Become More Like Your Reviewer?
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+reviews = rbindlist(lapply(1:3, compare_revis))
+
+# Find differences in other rounds
+get_diff_across = function(i, r) {
+  if (!reviews[i, got_reviewed]) {
+    return(NA_real_)
+  }
+  thispair = reviews[(Q1 == reviews[i, Q1] & Round == r) | (Q1 == reviews[i, match] & Round == paste0('Task ', as.numeric(str_sub(r,-1))-1))]
+  if (nrow(thispair) < 2) {
+    return(NA_real_)
+  }
+  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
+}
+
+roundnames = c('Task 1','Task 2','Task 3')
+for (rn in 1:length(roundnames)) {
+  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
+  reviews[[paste0('Diff_',rn,'_vs_',rn-1)]] = sapply(1:nrow(reviews), \(x) get_diff_across(x, roundnames[rn]))
+}
+
+# for now
+reviews$Diff_6 = NA_real_
+
+unreviewed = reviews[!(got_reviewed)]
+reviews = reviews[(got_reviewed)]
+
+unreviewed[, id := 1:.N]
+allreviews = CJ(id1 = 1:nrow(unreviewed), id2 = 1:nrow(unreviewed))
+allreviews = allreviews[id1 != id2]
+ar_round1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round1 = merge(ar_round1, unreviewed[Round == 'Task 1', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round1[, diff := abs(E1-E2)]
+ar_round2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round2 = merge(ar_round2, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round2[, diff := abs(E1-E2)]
+ar_round3 = merge(allreviews, unreviewed[Round == 'Task 3', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round3 = merge(ar_round3, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round3[, diff := abs(E1-E2)]
+ar_round2v1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round2v1 = merge(ar_round2v1, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round2v1[, diff := abs(E1-E2)]
+ar_round3v2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
+ar_round3v2 = merge(ar_round3v2, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
+ar_round3v2[, diff := abs(E1-E2)]
+
+changediff = rbindlist(list(
+  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Original',
+             diff = reviews[Round == 'Task 1', Diff_1]),
+  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next Round', 
+             diff = reviews[Round == 'Task 1', Diff_2]),
+  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next vs. This',
+            diff = reviews[Round == 'Task 1', Diff_2_vs_1]),
+  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Original',
+           diff = reviews[Round == 'Task 2', Diff_2]),
+  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next Round',
+           diff = reviews[Round == 'Task 2', Diff_3]),
+  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next vs. This',
+           diff = reviews[Round == 'Task 2', Diff_3_vs_2]),
+  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Original',
+             diff = ar_round1$diff),
+  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Original',
+             diff = ar_round2$diff),
+  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next Round',
+             diff = ar_round2$diff),
+  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next Round',
+             diff = ar_round3$diff),
+  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next vs. This',
+             diff = ar_round2v1$diff),
+    data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next vs. This',
+             diff = ar_round3v2$diff)
+))
+changediff[, Comparison := factor(Comparison, levels = c('Original','Next Round','Next vs. This'))]
+ggplot(changediff, aes(x = Comparison, y = diff, color = Type)) + 
+  geom_violin() + 
+  geom_boxplot(width = .2, position = position_dodge(.9))  + 
+  coord_cartesian(ylim = c(0, .1)) + 
+  theme_slides + 
+  facet_wrap(~Round, nrow = 2) + 
+  labs(caption = str_wrap('For Task 1, Original is Task 1 effect vs. Task 1 partner\'s Task 1, Next Round is Task 2 effect vs. Task 1 partner\'s Task 2, and Next Vs. This is Task 2 effect vs. Task 1 partner\'s Task 1', 100),
+       y = 'Absolute\neffect\ndifference')
+```
+
+## Changes in Peer Similarity
+
+```{r}
+feols(diff ~ Comparison*Type, data = changediff, split = 'Round') |> 
+  msummary(stars = c('*' = .1, '**' = .05, '***' = .01),
+                         gof_omit = c('IC|R2|RMSE|Err'),
+           output = 'kableExtra') |>
+  kableExtra::kable_styling(font_size = 20)
+```
+
+## Sample Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+viol = dat[Round %in% c('Task 1','Task 2','Task 3'), .(Round, Revision_of_Q12, Revision_of_Q18, Revision_of_Q21)]
+ggplot(viol, aes(x = Round, y = Revision_of_Q12)) + 
+  geom_violin(fill = 'lightblue', alpha = .5, scale = 'width') +
+  geom_boxplot(width = .1) +
+  theme_slides + 
+  scale_y_log10(labels = label_rangescale()) +
+  labs(y = 'Sample\nSize')
+
+
+```
+
+## Treated Group Sample Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+ggplot(viol, aes(x = Round, y = Revision_of_Q18)) + 
+  geom_violin(fill = 'lightblue', alpha = .5, scale = 'width') +
+  geom_boxplot(width = .1) +
+  theme_slides + 
+  scale_y_log10(labels = label_rangescale()) +
+  labs(y = 'Treated\nGroup\nSample\nSize',
+       caption = 'Task 3 variation partially reflects differences in whether pre-treatment individuals are "treated."')
+```
+
+## Untreated Group Sample Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+ggplot(viol, aes(x = Round, y = Revision_of_Q21)) + 
+  geom_violin(fill = 'lightblue', alpha = .5, scale = 'width') +
+  geom_boxplot(width = .1) +
+  theme_slides + 
+  scale_y_log10(labels = label_rangescale()) +
+  labs(y = 'Untreated\nGroup\nSample\nSize')
+```
+
+## Sample Size Summaries
+
+```{r}
+sumtable(viol, c('Revision_of_Q12','Revision_of_Q18','Revision_of_Q21'), labels = c('Overall Sample','Treated','Untreated'), group = 'Round', group.long = TRUE, numformat = 'comma') |>
+  kableExtra::kable_styling(font_size = 24)
+```
+
+
+## Method Distribution
+
+
+
+```{r}
+library(tidyverse)
+
+# Rename column name function ----
+rename_to_lower_snake <- function(df) {
+  df %>% 
+    rename_with( ~gsub("([a-z])([A-Z])", "\\1_\\2", .x) ) %>%  # Adds _ to camel case var names
+    rename_with( ~tolower(gsub("[ ]+", "_", .x)) )  # Converts to lower and substitutes _ for spaces
+}
+
+
+# Load  and clean data ----
+researcher_variable_key <- read_csv(here("raw_data", "researcher_variable_key.csv"))
+survey_variable_key <- read_csv(here("raw_data", "survey_variable_key.csv"))
+survey <- import(here("raw_data", "cleaned_survey.parquet")) 
+
+
+# Clean data
+base <- survey %>% 
+  rename_to_lower_snake() %>%
+  # Remove researchers who did not complete the first replication task
+  filter(q1 != 0) %>%
+  filter(!is.na(q2)) %>% 
+  # Better variable names
+  rename(
+    researcher_id = q1,
+    round = q2,
+    method = recoded_q10,
+    se_adjustment = recoded_q8,
+    effect_size = revision_of_q4,
+    sample_size = revision_of_q12
+  ) %>% 
+  # Keep only researchers who have completed the third replication task
+  group_by(researcher_id) %>%
+  filter(any(round == "The third replication task")) %>%
+  ungroup() %>%
+  # General clean-up/reorganize
+  select(researcher_id, round, method, se_adjustment, effect_size, everything()) 
+
+# Better labels for variables
+base <- base %>% 
+  mutate(
+    round = case_when(
+      round == 'Revision following the first replication task (such as following peer review)' ~ 'Task 1 Revision',
+      round == 'Revision following the second replication task (such as following peer review)' ~ 'Task 2 Revision',
+      round == 'Revision following the third replication task (such as following peer review)' ~ 'Task 3 Revision',
+      round == 'The first replication task' ~ 'Task 1',
+      round == 'The second replication task' ~ 'Task 2',
+      round == 'The third replication task' ~ 'Task 3'
+    ),
+    method = case_when(
+      is.na(method) ~ 'Other/NA',
+      method == "Other" ~ 'Other/NA',
+      TRUE ~ method 
+    ),
+    se_adjustment = case_when(
+      se_adjustment %in% c("Bootstrap", "None", "Other", "New DID Estimator") ~ 'Other/Bootstrap/NA',
+      se_adjustment %in% c("Cluster: ID", "Cluster: Other", "Cluster: Strata") ~ "Cluster (ID/Strata/Other)",
+      se_adjustment %in% c("Cluster: State") ~ "Cluster (State)",
+      se_adjustment %in% c("Cluster: State/Yr") ~ "Cluster (State & Year)",
+      TRUE ~ se_adjustment 
+    ),
+    # Absolute differences
+    effect_abs_diff = abs(effect_size - mean(effect_size, na.rm = TRUE)),
+    sample_size_abs_diff = abs(sample_size - mean(sample_size, na.rm = TRUE)),
+    # Researcher characteristics
+    highest_degree = factor(
+      case_when(
+        researcher_q10 == "PhD" ~ "Ph.D.",
+        TRUE ~ "Not Ph.D",
+      ), 
+      levels = c("Ph.D.", "Not Ph.D")
+    ),
+    position = factor(
+      case_when(
+        researcher_q6 == "Faculty" ~ "University faculty",
+        researcher_q6 == "Graduate student" ~ "Graduate student",
+        researcher_q6 == "Other (describe)" ~ "Other/NA",
+        is.na(researcher_q6) ~ "Other/NA",
+        TRUE ~ "Other researcher"
+      ),
+      levels = c("University faculty", "Graduate student", "Other researcher", "Other/NA")
+    )
+  )
+  
+  
+
+
+
+# Analytical choices ----
+
+# Show distribution of e.g. logit/linear, standard error adjustments across stages
+
+sumtable(base, 
+         vars = 'method', 
+         labels = c("Method"),
+         group = 'round',
+         title = "") |>
+  kableExtra::kable_styling(font_size = 24)
+
+```
+
+## Standard Error Adjustments
+
+```{r}
+
+sumtable(base, 
+         vars = 'se_adjustment', 
+         labels = c("Type"),
+         group = 'round',
+         title = "") |>
+  kableExtra::kable_styling(font_size = 24)
+
+```
+
+## Researcher Degree and Models
+
+```{r}
+lm_effect_degree <- lm(effect_abs_diff ~ highest_degree, data = base)
+lm_sample_degree <- lm(sample_size_abs_diff ~ highest_degree, data = base)
+lm_effect_position <- lm(effect_abs_diff ~ position, data = base)
+lm_sample_position <- lm(sample_size_abs_diff ~ position, data = base)
+
+models_degree <- list("Effect Size" = lm_effect_degree, 
+                      "Sample Size" = lm_sample_degree)
+
+models_position <- list("Effect Size" = lm_effect_position, 
+                        "Sample Size" = lm_sample_position)
+
+f <- function(x) formatC(x, digits = 2, big.mark = ",", format = "f")
+
+modelsummary(models_degree, stars = TRUE, statistic = "std.error", 
+             title = "Effect of Highest Degree on Absolute Deviation from Mean Effect Size and Mean Sample Size
+             (Ph.D. as Reference Group)",
+             coef_rename = c("highest_degreeNot Ph.D" = "Not Ph.D"),
+             fmt = f, gof_map = NA)
+
+
+
+```
+
+<!-- Not really powered! -->
+
+<!-- Calculate absolute difference from mean (median?) of effect size and also sample size. Regress abs difference on different researcher characteristics one at a time -->
+
+## Researcher Position and Models
+
+```{r}  
+modelsummary(models_position, stars = TRUE, statistic = "std.error", 
+             title = "Effect of Researcher Position on Absolute Deviation from Mean Effect Size and Mean Sample Size
+             (University Faculty as Reference Group)",
+             coef_rename = c("positionUniversity faculty" = "University faculty",
+                             "positionGraduate student" = "Graduate student",
+                             "positionOther researcher" = "Other researcher",
+                             "positionOther/NA" = "Other/NA"),
+             fmt = f, gof_map = NA)
+
+```
+
+
+## Summary
+
+-   Replicators largely agreed on the direction of the effect, although not always on its statistical significance.
+
+-   Specifying the research design without also cleaning/preparing the data *reduced* agreement between replicators, while cleaning the data increased it.
+
+-   Peer review had surprisingly little effect, although keep in mind this is a somewhat unusual peer review situation. If revisions were required, we may have seen more movement.
+
+-   Model method choices are relatively stable over rounds, but there was an increase in clustering at state level over rounds.
+
+-  Neither highest degree nor researcher position had statistically significant effects on the absolute difference in effect size or sample size, although 
+we are not really powered for this type of analysis.
+
+## Conclusion
+
+-   Counter to Auspurg & Bruderl, 2023, specifying the research question explicitly and even the design did not remove the differences between researchers; in fact it seemed to increase them!
+
+-   Data cleaning procedures were highly variable and seemed to be a driver of disagreement, in line with Huntington-Klein et al. (2021).
+
+-   We don't talk too much about data cleaning! This seems like an area that clearly receives too little attention in studies, relative to modeling etc.
+
+-   We can disagree on how much we *want* all studies to be consistent - there are reasons to do things different ways. But making a norm where reporting on data cleaning procedures receives as much attention as reporting on modeling choices seems like a clear positive recommendation.
