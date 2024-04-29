@@ -1,0 +1,65 @@
+varname,desc
+StartDate,Start Date
+EndDate,End Date
+Status,Response Type
+IPAddress,IP Address
+Progress,Progress
+Duration (in seconds),Duration (in seconds)
+Finished,Finished
+RecordedDate,Recorded Date
+ResponseId,Response ID
+RecipientLastName,Recipient Last Name
+RecipientFirstName,Recipient First Name
+RecipientEmail,Recipient Email
+ExternalReference,External Data Reference
+LocationLatitude,Location Latitude
+LocationLongitude,Location Longitude
+DistributionChannel,Distribution Channel
+UserLanguage,User Language
+Q1,What is your participant ID?
+Q2,What stage of the project are you currently submitting results for?
+Q3,"Before completing this survey, please submit any files related to your replication to the upload directory linked in the research task. This includes:
+
+- A Word, PDF, or HTML document that contains both a short (1-2 paragraph) description and interpretation of your results, as you might find in the ‚ÄúResults‚Äù section of a paper, as well as a demonstration of your results (for example, a table of regression coefficients). 
+- Your compressed (.gz, typically) IPUMS extract file
+- Any code files used. Code files should begin from a clean slate by loading the IPUMS .dat.gz or .dat file
+- If there is more than one code file that needs to be run, then there should be a clear indication (such as numbered scripts) as to the order they should be run in. 
+
+
+Please confirm that you have done this."
+Q4,"From your results: Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what was the causal impact of eligibility for the Deferred Action for Childhood Arrivals (DACA) program (treatment) on the probability that the eligible person is employed full-time (outcome), defined as usually working 35 hours per week or more?
+Report your estimate even if it is not statistically significant.
+
+Report the effect as a single number in terms of increased/decreased absolute probability (0-1). For example, if you find that DACA increased the probability of working full-time from 35% to 38% on average, then you would report .38 - .35 = .03. If your primary model produces a result in terms of odds ratios, coefficients, increased/decreased percentage points (0-100%), etc., please convert to probability terms in your preferred manner if possible."
+Revision_of_Q4,
+Q5,"If you feel that the single number you reported in the previous question is an insufficient description of the effect you estimated, please describe your result in more detail here. (Do not discuss uncertainty estimates like standard errors here)"
+Q6,"What is the standard error of your estimate? If you estimated a form of uncertainty that cannot be converted to a standard error, or did not produce an estimate of uncertainty, skip this question."
+Revision_of_Q6,
+Q7,"If you estimated uncertainty that could not be reported in the form of a standard error, please describe how you reported uncertainty and what your uncertainty estimate was. Alternately, if you did not report any uncertainty in your estimate, mention that here. If you reported a standard error in the previous question, skip this question."
+Q8,"Did you make any adjustments to your reported uncertainty estimate beyond the default reported estimates (for example, using heteroskedasticity-robust standard errors)? If so, what adjustments did you make?"
+Revision_of_Q8,
+Q9,"If you made any adjustments to your reported uncertainty estimates, why did you make those adjustments?"
+Q23,"What variables, if any, did you directly ""control for"", for example by adding them as a covariate in a regression, including them as a matching variable, or including them as a set of fixed effects or random effects? Please use original IPUMS variable names if possible."
+Revision_of_Q23,
+Q10,"What is the estimation method you used to produce your result (linear regression, logit regression, inverse probability weighting, ANOVA, etc.)?"
+Revision_of_Q10,
+Q24,"If relevant, provide any additional details about the estimation method you used. For example, if you used inverse probability weighting, what bandwidth did you use?"
+Q11,Why did you choose this estimation method?
+Q12,What is the sample size in the analysis that produces your final result?
+Revision_of_Q12,
+Q13,"When you created your data extract on IPUMS, did you use ‚ÄúSelect Cases‚Äù to limit the size of your download? If so, what limitations did you impose on the data before you downloaded it? Please use original IPUMS variable names if possible."
+Revision_of_Q13,
+Q14,Describe any criteria you used to further limit your sample (drop observations) after downloading data from IPUMS but before performing your analysis.
+Revision_of_Q14,
+Q15,Why did you choose to limit your data in these ways (regardless of whether it was done using Select Cases or further dropping observations)?
+Q16,"What other data manipulation or cleaning did you perform before doing your analysis, and why?"
+Q17,"In your analysis, what were the criteria used to determine if someone was both ‚Äúeligible for DACA‚Äù and included in the analysis? If someone satisfies all eligibility criteria but is in a year where DACA has not been enacted, do not count them as eligible for DACA. Please use original IPUMS variable names if possible. For example, if your analysis for some reason treated all women in the years of 2015 and 2016 as ‚Äúeligible for DACA‚Äù then you might respond ‚ÄúYEAR > 2014 & SEX == 2‚Äù."
+Revision_of_Q17,
+Q18,How many observations in the data are both ‚Äúeligible  for DACA‚Äù and included in the analysis?
+Revision_of_Q18,
+Q19,Why did you choose to define the ‚Äúeligible for DACA and included in the analysis‚Äù group in that way?
+Q20,"In your analysis, what were the criteria used to determine if someone would be included in the analysis but not eligible for DACA? Please use original IPUMS variable names if possible."
+Revision_of_Q20,
+Q21,How many observations in the data are both ‚Äúnot eligible  for DACA‚Äù and included in the analysis?
+Revision_of_Q21,
+Q22,"Why did you choose to define the ‚Äúnot eligible for DACA, but included in the analysis‚Äù group in this way? If your estimate is based on treating this set of observations as a comparison group, why do you think this is an appropriate comparison group?"
