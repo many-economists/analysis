@@ -91,6 +91,10 @@ colorpal = palette.colors(palette = 'Paired')
 
 ## Recruitment and Attrition
 
+# Data
+
+# Recruitment and Attrition
+
 ```{r}
 orig_num = dat[is.na(Q2) & Q1 == 0, .N] + dat[is.na(Q2) & Q1 != 0, uniqueN(Q1)] + uniqueN(dat[!is.na(Q2),Q1])
 neverfin = dat[Q1 != 0,uniqueN(Q1)]
@@ -945,7 +949,6 @@ conchange = conchange[,.(ControlSwitch = fcase(
 
 conchange[, .(Increase = percent(mean(R2Effect > .05, na.rm = TRUE))),by = .(Control, ControlSwitch)] |>
   dcast(Control ~ ControlSwitch) |>
-  knitr::kable(booktabs = TRUE)
 
 ```
 
@@ -1002,3 +1005,4 @@ changesamp[, .(N = .N, Increase = mean(Increase, na.rm = TRUE),
 -   THe things on which we have standards and common practice, we use them. On the things we don't, we don't. This should be recognized.
 
 -   Implications for reading empirical results
+
