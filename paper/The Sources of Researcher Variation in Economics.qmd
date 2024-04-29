@@ -3,6 +3,7 @@ title: "The Sources of Researcher Variation in Economics"
 author: "Nick Huntington-Klein, Claus Portner, and 147 others"
 format: pdf
 editor: visual
+bibliography: references.bib
 execute:
   warning: false
   message: false
@@ -38,9 +39,57 @@ colorpal = palette.colors(palette = 'Paired')
 
 # Introduction
 
+-   Replication crisis generally and trust in research. Why do things fail?
+
+-   Researcher degrees of freedom as a source. Distinguish this from coding errors.
+
+-   Many-analysts as a way of studying it - mention a bunch of many-analyst studies
+
+    -   Often focused on just finding dfferences and less on their sources
+
+    -   Of those that do, peer review is common, sometimes you see researcher characteristics or skill. Some looks at data processing or cleaning, plenty on model selection (outside of many-analysts too)
+
+    -   Note power issues with previous studies
+
+-   The goal of this paper
+
+# Design
+
+-   What we plan to isolate
+
+-   The multi-stage process
+
+-   The general concept behind what we can identify by comparing task 1 to 2 and task 2 to 3
+
+-   Link to preregistration
+
 # Data
 
-# Recruitment and Attrition
+### The Focal Research Task
+
+-   Describe the research task
+
+-   Basic background on DACA
+
+-   A few previous studies that look at a similar question but the intent here is not to match
+
+### Recruitment and Attrition
+
+-   How eligibility was defined and why
+
+-   Recruitment processes
+
+-   Show the attrition stages
+
+-   Describe the survey used for collecting responses and the coding process for interpreting those responses
+
+-   Link to OSF of completed data
+
+# Results
+
+(move these around as appropriate; the recruitment and attrition stuff might move up to data)
+
+## Recruitment and Attrition
 
 ```{r}
 orig_num = dat[is.na(Q2) & Q1 == 0, .N] + dat[is.na(Q2) & Q1 != 0, uniqueN(Q1)] + uniqueN(dat[!is.na(Q2),Q1])
@@ -322,7 +371,7 @@ dat[, Round := factor(Round, levels = c('Task 1',
                                         'Task 3 Revision'))]
 compare_revis = function(r) {
   thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
-  pairs = fread(paste0('../code/task_', r, '_peer_review_pairs.csv'))
+  pairs = fread(paste0('../data/task_', r, '_peer_review_pairs.csv'))
   pairs = pairs[!(dont_send)]
   thisr = merge(thisr, pairs[, .(Q1 = id2, match = id1, pairID)], all.x = TRUE)
   thisr[, got_reviewed := !is.na(pairID)]
@@ -760,7 +809,7 @@ make_efftab = function(sdat, title, anchor) {
 ```
 
 ```{r}
-#| output: asis
+# WHY DOESN"T THIS ESCAPE PROPERLY
 cat('')
 cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
           align = 'llllllllll',
@@ -770,7 +819,7 @@ cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
 ```
 
 ```{r}
-#| output: asis
+# WHY DOESN"T THIS ESCAPE PROPERLY
 cat('')
 cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 2']),
           align = 'llllllllll',
@@ -866,9 +915,9 @@ shtask = shtask[, .(N = uniqueN(Q1),
 setcolorder(shtask, c('Control','N_Task 1','Share above .05_Task 1',
                      'N_Task 2','Share above .05_Task 2',
                      'N_Task 3','Share above .05_Task 3'))
-setnames(shtask, c('Control','Task 1: N', 'Share above .05',
-                  'Task 2: N','Share above .05',
-                  'Task 3: N','Share above .05'))
+setnames(shtask, c('Control','Task 1: N', 'Above .05',
+                  'Task 2: N','Above .05',
+                  'Task 3: N','Above .05'))
 shtask[, Control := factor(Control, levels = 
                              c('Total',controllevs))]
 setorder(shtask, Control)
@@ -894,8 +943,9 @@ conchange = conchange[,.(ControlSwitch = fcase(
   merge(dat[Round == 'Task 2', .(R2Effect = Revision_of_Q4,
                                  Q1)], by = 'Q1')
 
-conchange[, .(Increase = mean(R2Effect > .05, na.rm = TRUE)),by = .(Control, ControlSwitch)] |>
-  dcast(Control ~ ControlSwitch)
+conchange[, .(Increase = percent(mean(R2Effect > .05, na.rm = TRUE))),by = .(Control, ControlSwitch)] |>
+  dcast(Control ~ ControlSwitch) |>
+  knitr::kable(booktabs = TRUE)
 
 ```
 
@@ -922,5 +972,33 @@ changesamp[, .(N = .N, Increase = mean(Increase, na.rm = TRUE),
                R2Effect = mean(R2Effect, na.rm = TRUE),
                Abovep05 = mean(R2Effect > .05, na.rm = TRUE)),
            by = .(`Sample Limitation`, Changed)][order(`Sample Limitation`, Changed)][!is.na(Changed)] |>
-  View()
+  knitr::kable(booktabs = TRUE)
 ```
+
+# Conclusion
+
+## Recommendations for Improved Practice
+
+-   How we think this means people should change their research processes
+
+-   Possibilities:
+
+    -   Data cleaning best practices
+
+    -   Transparency about the data cleaning and preparation process in publications
+
+    -   Inclusion of data cleaning and preparation code in replication practices
+
+    -   Treatment of sample selection in a similar robustness- or multiverse analysis-style way to how analytic choices are treated
+
+## Discussion
+
+-   Clearly a lot of different choices are made
+
+-   But we actually get a fair amount of agreement here, and the effects themselves don't vary *that* much
+
+-   Note this suggests a fairly standard design that lots of microeconomists would be familiar with
+
+-   THe things on which we have standards and common practice, we use them. On the things we don't, we don't. This should be recognized.
+
+-   Implications for reading empirical results
