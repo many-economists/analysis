@@ -81,6 +81,10 @@ colorpal = palette.colors(palette = 'Paired')
 
 -   Show the attrition stages
 
+-   Incentives of participants
+
+-   Discussing how the peer review here differs from real life peer reviews
+
 -   Describe the survey used for collecting responses and the coding process for interpreting those responses
 
 -   Link to OSF of completed data
@@ -790,7 +794,7 @@ make_efftab = function(sdat, title, anchor) {
   efftab = lapply(titles, one_characteristic_tab, sdat = sdat) |>
     rbindlist()
   efftab = rbind(data.table(var = 'HEADERROW',
-                            a = '\\multicolumn{3}{c}{Treated-Group Restriction',
+                            a = '\\multicolumn{3}{c}{Treated-Group Restriction}',
                             b = 'DELETECELL',
                             c = 'DELETECELL',
                             d = '\\multicolumn{6}{c}{All-Sample Restriction}',
@@ -809,6 +813,7 @@ make_efftab = function(sdat, title, anchor) {
 ```
 
 ```{r}
+#| output: asis
 # WHY DOESN"T THIS ESCAPE PROPERLY
 cat('')
 cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
@@ -819,6 +824,7 @@ cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
 ```
 
 ```{r}
+#| output: asis
 # WHY DOESN"T THIS ESCAPE PROPERLY
 cat('')
 cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 2']),
@@ -966,13 +972,23 @@ changesamp = r12samp_w_q1[Sample == 'All',
        value.name = 'Changed') |>
   merge(changelevels, by = 'Q1') |>
   merge(dat[Round == 'Task 2', .(R2Effect = Revision_of_Q4,
-                                 Q1)], by = 'Q1')
+                                 Q1)], by = 'Q1') |>
+  merge(dat[Round == 'Task 2', .(Q1,`Sample Size` = Revision_of_Q12)], by = 'Q1') |>
+  merge(dat[Round == 'Task 2', .(Q1,`Standard Error` = Revision_of_Q6)], by = 'Q1')
 
 changesamp[, .(N = .N, Increase = mean(Increase, na.rm = TRUE),
+               `Standard Error` = median(`Standard Error`, na.rm = TRUE),
                R2Effect = mean(R2Effect, na.rm = TRUE),
                Abovep05 = mean(R2Effect > .05, na.rm = TRUE)),
            by = .(`Sample Limitation`, Changed)][order(`Sample Limitation`, Changed)][!is.na(Changed)] |>
   knitr::kable(booktabs = TRUE)
+```
+
+```{r}
+r12samp_w_q1[, Correct := Round == 'Task 2' & Hispanic == 'Hispanic-Mexican' & Birthplace == 'Mexican-Born' & Citizenship == 'Non-Citizen' & `Age at Migration` == '< 16' & `Age in June 2012` == 'Year-Quarter Age' & `Education/Veteran` == 'HS Grad or Veteran', `Effect`]
+
+rfield = dat[, .(Researcher_Cats, Q1)]
+merge(r12samp_w_q1[Round == 'Task 2'], rfield, by = 'Q1')[, .(table(Researcher_Cats, Correct))]
 ```
 
 # Conclusion
@@ -998,6 +1014,8 @@ changesamp[, .(N = .N, Increase = mean(Increase, na.rm = TRUE),
 -   But we actually get a fair amount of agreement here, and the effects themselves don't vary *that* much
 
 -   Note this suggests a fairly standard design that lots of microeconomists would be familiar with
+
+-   Differences in peer review findings
 
 -   THe things on which we have standards and common practice, we use them. On the things we don't, we don't. This should be recognized.
 
