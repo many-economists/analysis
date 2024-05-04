@@ -118,7 +118,8 @@ This research design and analysis plan has been preregistered [@portner_huntingt
 
 -   Discussing how the peer review here differs from real life peer reviews
 
--   Link to OSF of completed data
+-   Describe the survey used for collecting responses and the coding process for interpreting those responses
+
 
 # Results
 
@@ -1047,6 +1048,10 @@ setcolorder(rfield, c('Field', 'Share_Match', 'N_Match', 'Share_Some Mismatch', 
 setnames(rfield, c('Field', 'Num. Match','Share Match','Num Some Mismatch','Share Some Mismatch'))
 rfield |>
   knitr::kable(booktabs = TRUE)
+r12samp_w_q1[, Correct := Round == 'Task 2' & Hispanic == 'Hispanic-Mexican' & Birthplace == 'Mexican-Born' & Citizenship == 'Non-Citizen' & `Age at Migration` == '< 16' & `Age in June 2012` == 'Year-Quarter Age' & `Education/Veteran` == 'HS Grad or Veteran', `Effect`]
+
+rfield = dat[, .(Researcher_Cats, Q1)]
+merge(r12samp_w_q1[Round == 'Task 2'], rfield, by = 'Q1')[, .(table(Researcher_Cats, Correct))]
 ```
 
 # Conclusion
@@ -1074,7 +1079,7 @@ rfield |>
 -   Note this suggests a fairly standard design that lots of microeconomists would be familiar with
 
 -   Differences in peer review findings
-
+-   
 -   THe things on which we have standards and common practice, we use them. On the things we don't, we don't. This should be recognized.
 
 -   Implications for reading empirical results
