@@ -14,6 +14,9 @@ include-in-header:
   text:
     \usepackage{booktabs}
     \usepackage{longtable}
+output: 
+  rticles::arxiv_article:
+    keep_tex: true
 ---
 
 ```{r}
@@ -98,6 +101,37 @@ Following each of the research tasks, researchers engage in a round of peer revi
 Following peer review, all researchers have an opportunity to revise their work in light of the peer review (or for any other reason). Importantly, revision is not mandatory, nor is satisfying one's peer reviewer, and the majority researchers did not choose to submit revisions.
 
 Notably, this form of peer review does not exactly match what is typically done in peer review work for journal publications. In particular, revision is non-mandatory, all reviewers have themselves completed a study with the same goal and data and so have extensive background information, and all reviewers are themselves also reviewed by the same person. These features will all affect interpretation of the peer review results. In particular, the non-mandatory nature of the peer review means that the between-round revision work is only visible for a small subset of the researchers, and the paired nature of the reviews means we cannot separate the effect of being reviewed from the effect of reviewing someone else.
+=======
+
+Task 1 gives each researcher a large amount of freedom in terms of how they plan to complete the research task. Each successive task removes a degree of freedom from the researcher and specifies a specific way that the analysis is to be performed. The intuition behind this design is that if the removal of a specific kind of researcher freedom meaningfully reduces the variation in results between researchees, then that degree of freedom is a meaningful contributor to researcher variation.
+
+The following goals and instructions are shared across all tasks:
+
+-   Estimate the causal effect of a policy on a specified outcome, among the group affected by that policy (see Section \ref{sec:focaltask} below for more details).
+
+-   Use American Community Survey (ACS) data to estimate the effect, using data no older than 2006 and no newer than 2016.
+
+-   Procure ACS data from IPUMS [@ruggles2024ipums], selecting only one-year files and using harmonized variables.
+
+-   Optionally, combine the ACS data with a data set on the presence or absence of other relevant policies, provided by the organizers.
+
+-   Use a statistics package or language that allows results to be immediately replicated.
+
+Researchers were also given background information on the policy itself and its eligibility criteria, guidance on how to use the IPUMS website, instructed to use assistants for any work they would normally use assistants for, and to complete their analysis as though it had been their own idea, rather than attempting to match or not-match other researchers, or asking the project organizers how they would like the analysis to be performed.
+
+These instructions comprise the entirety of the limitations on researchers in Task 2. Tasks 2 and 3 specified the task further and removed researcher degrees of freedom.
+
+-   Task 2 specified the research design more precisely. Instead of allowing any research design to identify the causal effect of interest, Task 2 gave specific definitions for which individuals comprised a "treated" group and which comprised an "untreated" group.\^\[Although eligibility criteria for the policy were explicitly given in Task 1, Task 2 further limits the treated group by narrowing the acceptable age range. The limitation was more impactful for defining the untreated comparison group, though. Many researchers did use a treated/untreated group approach in Task 1 before it was specified in Task 2, but different individuals defined the untreated group in highly diverse ways, as will be shown in the Results section.\] Then, it instructed researchers to estimate the effect by comparing how outcomes for the "treated" group changed from before policy implementation to afterwards against how outcome for the "untreated" group changed. This can be thought of as a difference-in-differences style design, although the phrase "difference-in-differences" was not used in the instructions.
+
+-   Task 3 uses the same research design limitations of Task 2, but also provides a pre-cleaned data set, prepared by the organizers. The data set offered a pre-prepared treated/untreated-group indicator as specified in Task 2, limited the data set only to the treated and untreated group, prepared and cleaned all variables in the data set that did not already come pre-cleaned, handled missing-data flags, merged in state policy data, and offered standardized simplified recodings of demographic variables. Researchers were instructed to not further clean the data or limit the sample.
+
+Comparison of the researcher output between Task 1 and Task 2 is intended to show the researcher variation introduced by either an imprecise statement of the research question, as in @auspurg2023social, or due to differences in research design choices.
+
+Comparison of the researcher output between Task 2 and Task 3 is intended to show the researcher variation introduced by decisions made in the data cleaning and variable definition process. A researcher following the Task 2 instructions should arrive at the same sample size, number of treated individuals, and number of untreated individuals as in Task 3, as well as the same definition for the outcome variable.\^\[The Task 2 instructions do leave some leeway for definition of some variables, in particular control variables like education or race, which have a specific recoded version available in Task 3 that are not specified in the Task 2 instructions.\] Differences in the data set and in the results between Task 2 and Task 3 should be a result of differences in the data cleaning and preparation process.
+
+Following each of the research tasks, researchers engage in a round of peer review. 2/3 of researchers are randomly assigned to peer review, and 1/3 do not engage in peer review. Those in peer review are randomly assigned in pairs. Those pairs performed a blind review of each others' work, and provided a written assessment of that work. Reviewers were instructed to produce a review "as though (they) were the reviewer of a journal article," and to judge the work as though they were reviewing for a journal where a study of this kind "could be published if the work was of high quality."
+
+Following peer review, all researchers have an opportunity to revise their work in light of the peer review (or for any other reason). Importantly, revision is not mandatory, nor is satisfying one's peer reviewer, and the majority researchers did not choose to submit revisions. The non-mandatory nature of revision will impact the interpretation of peer review results.
 
 Following each research task and revision, researchers filled out a survey about their work. This survey asked them to report their findings, additional information like sample size and standard errors, and choices made in the process of doing the analysis like sample restrictions, treated-group definitions, estimator, and standard error adjustments. Researchers were also asked to justify why they had made these choices.
 
@@ -132,6 +166,8 @@ Researchers, many of whom are not from the United States and so may not be famil
 Researchers were also given information on the eligibility criteria for DACA, which was intended to apply only to a specific subset of undocumented immigants who arrived in the United States as children, and not to all undocumented immigrants. Eligible people must:
 
 -   Have arrived in the United States before their 16th birthday.
+
+-   Describe the research task
 
 -   Not have had their 31st birthday as of June 15, 2012.
 
@@ -1159,6 +1195,34 @@ changesamp[, .(N = .N, Increase = mean(Increase, na.rm = TRUE),
 
 ```{r}
 r12samp_w_q1[, Correct := fifelse(Round == 'Task 2' & Hispanic == 'Hispanic-Mexican' & Birthplace == 'Mexican-Born' & Citizenship == 'Non-Citizen' & `Age at Migration` == '< 16' & `Age in June 2012` == 'Year-Quarter Age' & `Education/Veteran` == 'HS Grad or Veteran','Match','Some Mismatch'), `Effect`]
+
+ggplot(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct, Effect)]), 
+       aes(x = Effect, fill = Correct)) + 
+  geom_density(alpha = .4) + 
+  scale_fill_manual(values = colorpal) + 
+  scale_x_continuous(limits = c(-.05, .1)) +
+  labs(x = 'Task 2 Effect Estimate',
+       y = 'Density',
+       caption = 'Visible range restricted to -.05 to .10 for clarity') + 
+  theme_nick()
+```
+
+```{r}
+rfield = unique(dat[, .(Researcher_Cats, Q1)])
+rfield = merge(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct)]), rfield, by = 'Q1')
+rfield[is.na(Researcher_Cats), Researcher_Cats := 'Neither']
+rfield[Researcher_Cats == 'Neither', Researcher_Cats := 'Neither/Other']
+rfield = rfield[, .(N = .N), by = .(Correct, Field = Researcher_Cats)]
+rfield = rfield[, .(N = N, Share = N/sum(N),
+                    Correct), by = Field] |>
+  dcast(Field ~ Correct, value.var = c('N','Share'))
+rfield[, Share_Match := percent(Share_Match, .1)]
+rfield[, `Share_Some Mismatch` := percent(`Share_Some Mismatch`,.1)]
+setcolorder(rfield, c('Field', 'Share_Match', 'N_Match', 'Share_Some Mismatch', 'N_Some Mismatch'))
+setnames(rfield, c('Field', 'Num. Match','Share Match','Num Some Mismatch','Share Some Mismatch'))
+rfield |>
+  knitr::kable(booktabs = TRUE)
+r12samp_w_q1[, Correct := Round == 'Task 2' & Hispanic == 'Hispanic-Mexican' & Birthplace == 'Mexican-Born' & Citizenship == 'Non-Citizen' & `Age at Migration` == '< 16' & `Age in June 2012` == 'Year-Quarter Age' & `Education/Veteran` == 'HS Grad or Veteran', `Effect`]
 
 ggplot(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct, Effect)]), 
        aes(x = Effect, fill = Correct)) + 
