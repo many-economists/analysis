@@ -1,7 +1,9 @@
 ---
 title: "The Sources of Researcher Variation in Economics"
 author: "Nick Huntington-Klein, Claus Portner, and 147 others"
-format: pdf
+format: 
+  pdf:
+    keep-tex: true
 editor: visual
 bibliography: References.bib
 execute:
@@ -12,9 +14,6 @@ include-in-header:
   text:
     \usepackage{booktabs}
     \usepackage{longtable}
-output: 
-  rticles::arxiv_article:
-    keep_tex: true
 ---
 
 ```{r}
@@ -42,19 +41,23 @@ colorpal = palette.colors(palette = 'Paired')
 
 # Introduction
 
+The social sciences produce a staggeringly large flow of empirical results
+
 -   Replication crisis generally and trust in research. Why do things fail?
 
 -   Researcher degrees of freedom as a source. Distinguish this from coding errors.
 
+-   The goal of this paper
+
 -   Many-analysts as a way of studying it - mention a bunch of many-analyst studies
 
-    -   Often focused on just finding dfferences and less on their sources
+    -   Often focused on just finding differences and less on their sources
 
     -   Of those that do, peer review is common, sometimes you see researcher characteristics or skill. Some looks at data processing or cleaning, plenty on model selection (outside of many-analysts too)
 
     -   Note power issues with previous studies
 
--   The goal of this paper
+    -   
 
 # Design
 
@@ -78,17 +81,23 @@ Researchers were also given background information on the policy itself and its 
 
 These instructions comprise the entirety of the limitations on researchers in Task 2. Tasks 2 and 3 specified the task further and removed researcher degrees of freedom.
 
--   Task 2 specified the research design more precisely. Instead of allowing any research design to identify the causal effect of interest, Task 2 gave specific definitions for which individuals comprised a "treated" group and which comprised an "untreated" group.\^\[Although eligibility criteria for the policy were explicitly given in Task 1, Task 2 further limits the treated group by narrowing the acceptable age range. The limitation was more impactful for defining the untreated comparison group, though. Many researchers did use a treated/untreated group approach in Task 1 before it was specified in Task 2, but different individuals defined the untreated group in highly diverse ways, as will be shown in the Results section.\] Then, it instructed researchers to estimate the effect by comparing how outcomes for the "treated" group changed from before policy implementation to afterwards against how outcome for the "untreated" group changed. This can be thought of as a difference-in-differences style design, although the phrase "difference-in-differences" was not used in the instructions.
+-   Task 2 specified the research design more precisely. Instead of allowing any research design to identify the causal effect of interest, Task 2 gave specific definitions for which individuals comprised a "treated" group and which comprised an "untreated" group.[^1] Then, it instructed researchers to estimate the effect by comparing how outcomes for the "treated" group changed from before policy implementation to afterwards against how outcome for the "untreated" group changed. This can be thought of as a difference-in-differences style design, although the phrase "difference-in-differences" was not used in the instructions.
 
 -   Task 3 uses the same research design limitations of Task 2, but also provides a pre-cleaned data set, prepared by the organizers. The data set offered a pre-prepared treated/untreated-group indicator as specified in Task 2, limited the data set only to the treated and untreated group, prepared and cleaned all variables in the data set that did not already come pre-cleaned, handled missing-data flags, merged in state policy data, and offered standardized simplified recodings of demographic variables. Researchers were instructed to not further clean the data or limit the sample.
 
+[^1]: Although eligibility criteria for the policy were explicitly given in Task 1, Task 2 further limits the treated group by narrowing the acceptable age range. The limitation was more impactful for defining the untreated comparison group, though. Many researchers did use a treated/untreated group approach in Task 1 before it was specified in Task 2, but different individuals defined the untreated group in highly diverse ways, as will be shown in the Results section.
+
 Comparison of the researcher output between Task 1 and Task 2 is intended to show the researcher variation introduced by either an imprecise statement of the research question, as in @auspurg2023social, or due to differences in research design choices.
 
-Comparison of the researcher output between Task 2 and Task 3 is intended to show the researcher variation introduced by decisions made in the data cleaning and variable definition process. A researcher following the Task 2 instructions should arrive at the same sample size, number of treated individuals, and number of untreated individuals as in Task 3, as well as the same definition for the outcome variable.\^\[The Task 2 instructions do leave some leeway for definition of some variables, in particular control variables like education or race, which have a specific recoded version available in Task 3 that are not specified in the Task 2 instructions.\] Differences in the data set and in the results between Task 2 and Task 3 should be a result of differences in the data cleaning and preparation process.
+Comparison of the researcher output between Task 2 and Task 3 is intended to show the researcher variation introduced by decisions made in the data cleaning and variable definition process. A researcher following the Task 2 instructions should arrive at the same sample size, number of treated individuals, and number of untreated individuals as in Task 3, as well as the same definition for the outcome variable.[^2] Differences in the data set and in the results between Task 2 and Task 3 should be a result of differences in the data cleaning and preparation process.
+
+[^2]: The Task 2 instructions do leave some leeway for definition of some variables, in particular control variables like education or race, which have a specific recoded version available in Task 3 that are not specified in the Task 2 instructions.
 
 Following each of the research tasks, researchers engage in a round of peer review. 2/3 of researchers are randomly assigned to peer review, and 1/3 do not engage in peer review. Those in peer review are randomly assigned in pairs. Those pairs performed a blind review of each others' work, and provided a written assessment of that work. Reviewers were instructed to produce a review "as though (they) were the reviewer of a journal article," and to judge the work as though they were reviewing for a journal where a study of this kind "could be published if the work was of high quality."
 
-Following peer review, all researchers have an opportunity to revise their work in light of the peer review (or for any other reason). Importantly, revision is not mandatory, nor is satisfying one's peer reviewer, and the majority researchers did not choose to submit revisions. The non-mandatory nature of revision will impact the interpretation of peer review results.
+Following peer review, all researchers have an opportunity to revise their work in light of the peer review (or for any other reason). Importantly, revision is not mandatory, nor is satisfying one's peer reviewer, and the majority researchers did not choose to submit revisions.
+
+Notably, this form of peer review does not exactly match what is typically done in peer review work for journal publications. In particular, revision is non-mandatory, all reviewers have themselves completed a study with the same goal and data and so have extensive background information, and all reviewers are themselves also reviewed by the same person. These features will all affect interpretation of the peer review results. In particular, the non-mandatory nature of the peer review means that the between-round revision work is only visible for a small subset of the researchers, and the paired nature of the reviews means we cannot separate the effect of being reviewed from the effect of reviewing someone else.
 
 Following each research task and revision, researchers filled out a survey about their work. This survey asked them to report their findings, additional information like sample size and standard errors, and choices made in the process of doing the analysis like sample restrictions, treated-group definitions, estimator, and standard error adjustments. Researchers were also asked to justify why they had made these choices.
 
@@ -100,36 +109,116 @@ This research design and analysis plan has been preregistered [@portner_huntingt
 
 \label{sec:focaltask}
 
--   Describe the research task
+In all research tasks, the specific goal given to researchers was:[^3]
 
--   Basic background on DACA
+[^3]: Full instructions are available in the online appendix.
 
--   A few previous studies that look at a similar question but the intent here is not to match
+> Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what was the causal impact of eligibility for the Deferred Action for Childhood Arrivals (DACA) program (treatment) on the probability that the eligible person is employed full-time (outcome), defined as usually working 35 hours per week or more?
+>
+> DACA was implemented in 2012. Examine the effects on full-time employment in the years 2013-2016.
+
+In simple terms, this asks researchers to estimate the impact of the DACA program on the probability that those eligible for the program usually work 35 hours per week or more in the years 2013-2016.[^4]
+
+[^4]: Notably, there are several existing papers that use the same ACS data set to identify the effect of DACA on various outcomes. The design used in Tasks 2 and 3 was most directly inspired by @amuedo2016can, although the designs do not match exactly, and the outcomes of interest are not the same. Researchers are informed that such previous studies exist and that they can optionally look into previous studies for background as they would normally do when performing research, although no specific previous study is listed. The instructions emphasize that any previous study should not be understood to be a "right answer" that researchers should be trying to match.
+
+Researchers, many of whom are not from the United States and so may not be familiar with DACA, are given further background information about the DACA program:
+
+-   DACA allowed undocumented immigrants who were accepted into the program to have legal work authorization for two years without fear of deportation, and also allowed them to apply for drivers' licenses or other forms of identification. People could reapply after the two years expired, and many did.
+
+-   Applications for the program opened on August 15, 2012, and over the first four years of the program's existence, over 900,000 applications were received, about 90% of which were approved.[@citservices2016]
+
+-   While the program was not specific to immigrants from any origin country, because of the structure of undocumented immigration to the United States, the great majority of eligible people were from Mexico.
+
+Researchers were also given information on the eligibility criteria for DACA, which was intended to apply only to a specific subset of undocumented immigants who arrived in the United States as children, and not to all undocumented immigrants. Eligible people must:
+
+-   Have arrived in the United States before their 16th birthday.
+
+-   Not have had their 31st birthday as of June 15, 2012.
+
+-   Have lived continuously in the United States since June 15, 2007.
+
+-   Were present in the United States on June 15, 2012 and did not yet have legal status (either citizenship or legal residency) during that time.
+
+An additional eligibility requirement was mistakenly omitted from the Task 1 instructions, but was included for Tasks 2 and 3:
+
+-   Eligible people must have completed at least high school (12th grade) or be a veteran of the military.
+
+In addition to this information about the policy itself and the effect that researchers are supposed to identify, researchers were also given instructions about the data set to use and how to procure it, as well as some details on usage of the data:
+
+-   Data should come from the American Community Survey (ACS), using data no older than 2006, and no newer than 2016.
+
+-   In addition, a file of state/year-level data was provided including labor market data and the presence or absence of different immigration policies in different years. Immigration policy data comes from @urbaninstdata.[^5]
+
+    ACS data should be procured from the IPUMS website [@ruggles2024ipums], specifically selecting one-year ACS files and harmonized variables. Written and video instructions were included showing how to select data samples and variables on the IPUMS website.
+
+-   Researchers were not told which specific variables to use to determine eligibility status, but they were given guidance onto how to find relevant vairables (like looking at the Person $\rightarrow$ Race, Ethnicity, and Nativity page to find variables relevant to ethnicity, birthplace, citizenship, and year of immigration).
+
+-   Several relevant features of the ACS that may affect analysis were emphasized: (a) ACS is a repeated cross-section, not a year-to-year panel data set, and (b) ACS does not list the month that data was collected in, so it is not possible to distinguish whether a given observation in 2012 is from before or after the policy was implemented, and (c) we do not actually observe in ACS whether a given person is enrolled in DACA, so we assume that all eligible people who are ethnically Mexican and Mexican-born are treated.
+
+[^5]: This file included the state/year-level unemployment rate and labor force participation rate. Immigration policy flags were for policies for undocumented immigrants to get state drivers' licenses, to get college financial aid, to be banned from state public colleges, or to follow Omnibus immigation legislation that serves to increase the surveillance of immigation documentation. Additional indicators were for participation in E-Verify laws that require employers to verify immigration authorization, to limit E-Verify participation, participation in Secure Communities, and for participation in task-force or jail based 287(g) policies.
+
+Finally, researchers were instructed to keep track of any variables used to limit their sample download on IPUMS, and to review the survey where they would be reporting their results before beginning their analysis.
+
+From there, researchers were given free reign to complete the analysis as they thought most appropriate, including their own choice of statistical software, an instruction to use assistants for any work that they might normally use assistants for, and asking them to complete the analysis as they thought best, as though the research task had been their own idea, not trying to match or not-match other researchers or guess what analyses the project organizers wanted to see. Once finished, they uploaded all of their code and data to a Sharepoint website, wrote a short description and interpretation of their results focusing on a single "headline" result, and filled out the research survey to report their results.
+
+For Task 2, all of the previous instructions remained in place, but several were added to further specify the research design:
+
+-   There is a "treated" group that is comprised of all ethnically Mexican and Mexican-born individuals who are aged 26-30 on June 15, 2012 (recall that individuals must not have had their 31st birthday as of June 15, 2012 to be eligible for DACA).
+
+-   There is an "untreated" group that is comprised of people who would have been eligible for DACA, except that they were aged 31-35 on June 15, 2012.
+
+-   Researchers should estimate the effect of treatment by seeing how the 26-30 group changed from before treatment to after relative to how the 31-35 group changed (keeping in mind this is a repeated cross-section and not panel data).
+
+-   Researchers should attempt to estimate the effect for all individuals in the "treated" group and not, for example, estimate the effect only for men or only for women.
+
+-   The instructions specifically mention that researchers can, if they like, use covariates or account for differing trends to improve the comparability of the treated and untreated groups.
+
+The task is otherwise unchanged for Task 2.
+
+In Task 3, the instructions remain unchanged from Task 2, except that the data is provided directly instead of having researchers download data from IPUMS, omitting data from the year of 2012. In Task 3, project organizers cleaned the data, merged in the state policy data, created a variable indiciating whether a given individual was in the "treated" or "untreated" group, limited the sample only to individuals in "treated" or "untreated," and created simplified versions of variables like education. Researchers were instructed not to further limit the sample from this prepared data set, or to perform further extensive data cleaning.[^6]
+
+[^6]: There were three observations in the final cleaned data set that were missing values of the education variable. The final used sample in Task 3 sometimes differs by 3 across researchers, based on whether the analysis uses education and thus drops these individuals.
 
 ### Recruitment and Attrition
 
--   How eligibility was defined and why
+In a many-analysts study, researchers who carry out the research task make up both the bulk of the author list and are the subject of inquiry, so their recruitment is a key feature of the study.
 
--   Recruitment processes
+#### Researcher Qualifications
 
--   Show the attrition stages
+The goal of the project organizers was to make the set of researchers representative of the set of people who are producing the applied microeconomics literature. As such, recruitment criteria focused on identifying people who have produced applied microeconomic research, including potentially non-academic applied microeconomics research.
 
--   Incentives of participants
+A given researcher was qualified for the project if they satisfied any one of the following criteria:
 
--   Discussing how the peer review here differs from real life peer reviews
+-   They are academic faculty working in applied microeconomics.
 
+<<<<<<< Updated upstream
 -   Describe the survey used for collecting responses and the coding process for interpreting those responses
 
+=======
+-   They are a graduate student **and** have a published or forthcoming paper in applied microeconomics.
+>>>>>>> Stashed changes
 
-# Results
+-   They hold a PhD **and** work in a job where they write non-academic reports using tools from applied microeconomics to estimate causal effects.[^7]
 
-(move these around as appropriate; the recruitment and attrition stuff might move up to data)
+[^7]: This qualification would allow, for example, employees of the World Bank, or people working in private sector research, to participate.
 
-## Recruitment and Attrition
+Participation was not limited on the basis of country, career stage, or demographics such as sex, race, or sexual or gender identity.
 
-# Data
+#### Target Sample Size
 
-# Recruitment and Attrition
+An initial simulation-based power analysis assumed that each research task would have 5% less between-researcher variation in observed effects than the previous round and looked at the statisical power to detect a linear relationship between round number and the squared deviation of effects (variance of estimated effects across researchers). We found that we had 90% power to detect this effect if 90 researchers finished all tasks. We also found that, for comparisons of only two different research tasks, 90 researchers would give 85% power to detect a decline in variance from one stage to the next of 15% or more, a reasonable effect size given previous many-analyst studies.
+
+We further assumed that attrition rates would be roughly 50%, which would suggest recruiting 180 eligible researchers to achieve adequate power. We revised that goal to 200 to account for our assumptions potentially being optimistic. Project organizers obtained funding to support payments to 200 researchers (see below).
+
+#### Recruitment and Incentives
+
+Recruitment was advertised to potential researchers through three avenues: (1) social media posts on Twitter and LinkedIn, (2) emails to professional organizations including the Institute for Replication and the Committee on the Status of Women in the Economics Profession, and (3) emails to United States economics department chairs. For emails to departments heads, we gathered the list of all 286 economics departments listed in the U.S. News and World Report. We could locate emails for a front desk or (preferably) department chair for 264 of those departments. We emailed those 264 departments, asking for the message to be passed on to all faculty or just all microeconomics faculty.
+
+The recruitment message described the project and its goals, and provided a link to a website that included further detail on project expectations and incentives for participation.[^8] Researchers were told that if they completed all stages of the project, they would be offered authorship on the eventual paper and a \$2,000 payment for up to 200 of the participants. The website included a link to a survey that asked questions related to eligibility for the project.
+
+[^8]: <https://nickch-k.github.io/ManyEconomists/>
+
+#### Participation and Attrition
 
 ```{r}
 orig_num = dat[is.na(Q2) & Q1 == 0, .N] + dat[is.na(Q2) & Q1 != 0, uniqueN(Q1)] + uniqueN(dat[!is.na(Q2),Q1])
@@ -140,10 +229,26 @@ justcount = rbind(data.table(Round = c('Original Signup','Assigned Task 1'),
                              Participants = c(orig_num, neverfin)),
                   justcount)
 justcount[, Attrition := percent(1-shift(Participants,-1)/Participants, .01)]
+justcount[.N, Attrition := '']
+```
+
+Overall participation and attrition values are in Table \ref{tbl-attrition}. `r justcount[1,Participants]` people submitted applications for the project. `r justcount[1, Attrition]` of these were found to be ineligible for the project. Most of these were graduate students who did not yet have a forthcoming paper.
+
+```{r attrition}
+#| label: tbl-attrition
+#| tbl-cap: Participation and Attrition
 justcount |> knitr::kable(booktabs = TRUE)
 ```
 
+This left `r justcount[2,Participants]` eligible participants. This is more than the 200 for which budget was available to pay the offered \$2,000 incentive. The 282 of these participants who had signed up by the original cutoff date were put into a random order, and then the 13 late signups were put at the end of this order. Participants were given their place in the order, and informed that, among people completing all stages of the project, the first 200 in the order would be paid.
+
+Initial assumptions from the power analysis that attrition rates would be near 50% were almost exactly correct, with `r percent(justcount[5,Participants]/justcount[2,Participants],.01)` of these initial `r justcount[2,Participants]` eligible researchers completing all three stages. Nearly all of the attrition occurred by the completion of Task 1. After `r justcount[3,Participants]-justcount[2,Participants]` eligible researchers failed to complete Task 1, only a further `r justcount[5,Participants]-justcount[3,Participants]` failed to complete Task 3. This means we have `r justcount[5,Participants]` researchers who completed all three research tasks, well above the goal of 90.
+
+The high recruitment numbers and the fact that nearly all attrition occurs before Task 1 is complete allows us to evaluate the impact of the payment incentive. One potential concern with our incentive design is that payment and authorship are offered to anyone who completes all tasks, regardless of the quality of their work. We evaluate whether being guaranteed payment affects the probability of completing Task 1 using a regression discontinuity design. Someone randomly assigned to position 199 in the ordering is guaranteed payment if they complete all the tasks, while someone in position 201 may think they are likely to receive payment, but they are not guaranteed it.
+
 ```{r}
+#| label: fig-rdd
+#| fig-cap: Impact of Guaranteed Payment on Probability of Task 1 Completion
 eo = import('../data/email_order.xlsx')
 moneyatt = dat[Q1 != 0]
 moneyatt = moneyatt[, .(Finished = max(!is.na(Q2))), by = Q1]
@@ -157,12 +262,22 @@ moneyatt[, Stage := factor(fcase(
 library(rdrobust)
 m = feols(Finished ~ Stage, data = moneyatt)
 m2 = feols(Finished ~ I(order-200)*Stage, data = moneyatt)
-etable(m, m2)
+#etable(m, m2)
 
 rdplot(moneyatt$Finished,moneyatt$order,200,
-       x.label = 'Order',y.label = 'Prob. Completed First Task')
-
+       x.label = 'Order',y.label = 'Prob. Completed First Task',
+       title = '')
 ```
+
+Figure \ref{fig-rdd} shows no meaningful effect of being guaranteed payment on the probability of completing Task 1. In additional results in the appendix, using a linear regression specification of the regression discontinuity design and the full range of the data (not including the late sign-ups) to maximize statistical power,[^9] we again find no statistically significant effect of being guaranteed treatment. This is suggestive that participants were not simply signing up in an attempt to get a \$2,000 payment for little effort.
+
+[^9]: Use of the full range, rather than a bandwidth, is justified given that the running variable is randomly assigned.
+
+#### Sample Characteristics
+
+Tables \ref{tab-samp1} to \ref{tab-samp3} show the characteristics of the recruited sample, and how those characteristics changed with eligibility and attrition. Task 2 is omitted as an attrition stage since so few people dropped out between Task 1 and Task 2.
+
+Table \ref{tab-samp1} shows that the majority of researchers were recruited via social media, with only about 9% coming from a department email, 4% from a professional organization email, and 9% from some other source (like word-of-mouth). Those recruited from another source were less likely to qualify for the study, and slightly less likely to finish, while those recruited from social media were most likely to qualify and finish. We also asked researchers how certain they were of their ability to finish the first task as well as the full set of tasks, on a scale of 1 to 100. Enrollees were about 90% confident in their ability to complete the full set of research tasks (although only about 50% did). Those who were more confident were slightly more likely to actually finish, and average confidence rates of those who did finish were about 92% instead of 90%.
 
 ```{r}
 dat[, Researcher_Q10 := as.character(Researcher_Q10)]
@@ -185,7 +300,7 @@ tokeep = c('Q1', names(dat)[names(dat) %like% 'Researcher_'], 'Revision_of_Q4')
 tokeep2 = c('Q1', 'Q2', names(dat)[names(dat) %like% 'Researcher_'], 'Revision_of_Q4')
 alldemog = rbindlist(list(
   unique(subset(fullset, select = tokeep))[, Q2 := 'Original Signup'],
-  unique(subset(dat[Q1 != 0], select = tokeep))[, Q2 := 'Assigned Task 1'],
+  unique(subset(dat[Q1 != 0], select = tokeep))[, lapply(.SD, last), by = Q1][, Q2 := 'Assigned Task 1'],
   unique(subset(demogdat, select = tokeep2))
 ), use.names = TRUE)
 qrecode(alldemog, 'Q2',c('Assigned Task 1','Original Signup',
@@ -216,7 +331,6 @@ qrecode(alldemog, 'Researcher_Q6',
 ```
 
 ```{r}
-#| output: asis
 alldemog[, Q8Recode := fcase(
   Researcher_Q8 == 'I have 1-5 papers in applied microeconomics published or accepted for publication', '1-5 Papers in Applied Micro',
   Researcher_Q8 == 'I have 6+ papers in applied microeconomics published or accepted for publication', '6+ Papers',
@@ -227,21 +341,6 @@ alldemog[, RaceRecode := Researcher_Q16]
 alldemog[str_detect(RaceRecode, ',') | RaceRecode == 'Other', RaceRecode := 'Other or Multiracial']
 alldemog[, RaceRecode := factor(RaceRecode,
                                 levels = c('White','Asian','Black or African American','Hispanic','Other or Multiracial'))]
-sumtable(alldemog, vars = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Cats'), 
-         labels = c('Degree','Occupation', 'Research Experience','Field'), group = 'Round',
-         out = 'latex', fit.page = '\\textwidth')
-```
-
-```{r}
-#| output: asis
-alldemog[, Researcher_Q17 := factor(Researcher_Q17, 
-                                    levels = c('Yes','No','Prefer not to say'))]
-sumtable(alldemog, vars = c('Researcher_Q15',
-                            'RaceRecode',
-                            'Researcher_Q17'), 
-         labels = c('Gender','Race','LGBTQ+'), group = 'Round',
-         out = 'latex',
-         fit.page = '\\textwidth')
 ```
 
 ```{r}
@@ -253,11 +352,47 @@ sumtable(alldemog, vars = c('Researcher_Q11',
                             'Researcher_Q12_2'), 
          labels = c('Recruitment Source','Certainty to Finish Task 1','Certainty to Finish Task 3'), group = 'Round',
          out = 'latex',
-         fit.page = '\\textwidth')
+         title = 'Researcher Recruitment Source and Completion Confidence',
+         fit.page = '\\textwidth',
+         anchor = 'tab-samp1')
 ```
+
+Table \ref{tab-samp1} shows the professional experience of enrollees. While graduate students were considered eligible for the project as long as they had a published or forthcoming paper, the great majority of eligible researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q10 %in% c('PhD','Prof. Degree')),1)]`) had PhDs. PhD holders were also more likely than other eligible researchers to complete all three tasks.
+
+These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Faculty')),1)]`) and other non-faculty researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Other Researcher')),1)]`), both of which were more likely than graduate students to finish all three rounds. Note that the researchers in these categories who do not hold PhDs were either people who had been hired to faculty roles without holding PhDs (such as ABDs, or people in countries where a faculty position requires only a Master's degree), or people with Master's degrees in non-faculty research positions who had published academic papers (some of whom were still graduate students).
+
+Most of the researchers had at least one published paper, and researchers with 6+ papers were more likely than others to complete all three research tasks. Those with "No Academic Papers" are non-academic researchers who produce work not intended for academic journal publication. Those with "No Published Academic Papers" have papers that are forthcoming, or are faculty who only have working papers and no publications.
+
+The set of researchers in the study generally do not work in the specific subfield that the research task is in. The research task is similar to many studies done across all of applied microeconomics, but specifically is on the topics of labor and immigration. About a third of the enrollees had done research in either immigration or labor previously, and these researchers were somewhat more likely to complete all three tasks. No researchers enrolled who had previously worked in both immigration and labor.
 
 ```{r}
 #| output: asis
+sumtable(alldemog, vars = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Cats'), 
+         labels = c('Degree','Occupation', 'Research Experience','Field'), group = 'Round',
+         out = 'latex', fit.page = '\\textwidth',
+         title = 'Researcher Professional Experience',
+         anchor = 'tab-samp2')
+```
+
+Table \ref{tab-samp3} shows the demographics of the researcher sample. The eligible sample was just under 80% male and more than 55% white, and both percentages grew by the conclusion of task 3, with the white share growing significantly to 66%. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. A small share reported being LGBTQ+, and this share remained constant over all rounds of the research tasks. An additional form of demographic difference is geographic. About half of the sample was situated in the United States, and about half was from another country.[^10] The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
+
+[^10]: Exact figures are not given for geography, and crosstabulations across geography are not given, because non-geographic demographic information comes from a survey where we acquired permission to share aggregate figures. Geographic information, on the other hand, comes from researcher payments information, for which we did not request permission to share responses.
+
+```{r}
+#| output: asis
+alldemog[, Researcher_Q17 := factor(Researcher_Q17, 
+                                    levels = c('Yes','No','Prefer not to say'))]
+sumtable(alldemog, vars = c('Researcher_Q15',
+                            'RaceRecode',
+                            'Researcher_Q17'), 
+         labels = c('Gender','Race','LGBTQ+'), group = 'Round',
+         out = 'latex',
+         title = 'Researcher Demographics',
+         fit.page = '\\textwidth',
+         anchor = 'tab-samp3')
+```
+
+```{r}
 # Final summary statistics
 lang = import('../data/Replication Coding Language.xlsx', setclass = 'data.table')
 setnames(lang, c('Researcher ID','Language Used'),c('Q1','Language'))
@@ -267,19 +402,27 @@ lang = rbind(lang, data.table(Q1 = 322, Language = 'R/Stata'))
 dat = merge(dat, lang, by = 'Q1', all.x = TRUE)
 alldemog = merge(alldemog, lang, by = 'Q1', all.x = TRUE)
 
-alldemog[Q2 == 'Finished task 3'] |>
-  sumtable(vars =  c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Q15',
-                            'RaceRecode',
-                            'Researcher_Q17',
-                     'Researcher_Q11',
-                     'Researcher_Cats',
-                     'Language'), 
-         labels = c('Degree','Occupation', 'Research Experience','Gender','Race','LGBTQ+','Recruitment Source','Field',
-                    'Coding Language'),
-         col.breaks = 4,
-         out = 'latex',
-         fit.page = '\\textwidth')
+# OMIT THIS TABLE, BUT FROM IT WE GET 1 completed Python, 1 SPSS, 1 R/Stata, 33 R, 109 Stata in completed
+# alldemog[Q2 == 'Finished task 3'] |>
+#   sumtable(vars =  c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Q15',
+#                             'RaceRecode',
+#                             'Researcher_Q17',
+#                      'Researcher_Q11',
+#                      'Researcher_Cats',
+#                      'Language'), 
+#          labels = c('Degree','Occupation', 'Research Experience','Gender','Race','LGBTQ+','Recruitment Source','Field',
+#                     'Coding Language'),
+#          col.breaks = 4,
+#          out = 'latex',
+#          fit.page = '\\textwidth',
+#          anchor = 'tab-samp4')
 ```
+
+As a whole, the goal of constructing a sample that largely reflects the group of people who publish work in applied microeconomics. The sample is skewed towards the United States, which is partially driven by the emails sent to US economics departments, the fact that the project was advertised and carried out in English, and the fact that the project organizers are in the United States and advertised the project using their own social media. Given that caveat, the makeup of the sample appears to be fairly similar to the makeup of the profession itself, although this is difficult to verify for some demographics.
+
+# Results
+
+(move these around as appropriate; the recruitment and attrition stuff might move up to data)
 
 ## Researcher Characteristics and Effects
 
