@@ -1,6 +1,38 @@
 ---
 title: "The Sources of Researcher Variation in Economics"
-author: "Nick Huntington-Klein, Claus Portner, and 147 others"
+author:
+  - id: HK1
+    number: 1
+    name: Nick Huntington-Klein
+    email: nhuntington-klein@seattleu.edu
+    phone: 1-206-296-5815
+    fax: NONE
+    orcid: 0000-0002-7352-3991
+    degrees: PhD
+    attributes:
+      corresponding: True
+    affiliations:
+      - id: NHK1_1
+        number: 1
+        name: Seattle University
+        department: Department of Economics
+        address: 901 12th Ave, Seattle, WA, 98122
+  - id: CP2
+    number: 2
+    name: Claus Pörtner
+    email: cportner@seattleu.edu
+    phone: 1-206-296-2593
+    fax: NONE
+    orcid: 0000-0001-8052-9462
+    degrees: PhD
+    attributes:
+      corresponding: True
+    affiliations:
+      - id: CP1_1
+        number: 1
+        name: Seattle University
+        department: Department of Economics
+        address: 901 12th Ave, Seattle, WA, 98122
 format: 
   pdf:
     keep-tex: true
@@ -10,6 +42,7 @@ execute:
   warning: false
   message: false
   echo: false
+acknowledgements: This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the
 include-in-header:
   text:
     \usepackage{booktabs}
@@ -44,23 +77,44 @@ colorpal = palette.colors(palette = 'Paired')
 
 # Introduction
 
-The social sciences produce a staggeringly large flow of empirical results
 
--   Replication crisis generally and trust in research. Why do things fail?
+The social and behavioral sciences produce a staggeringly large flow of empirical results. A responsible reader of this literature should wonder how much they can trust a given study, given the potential for errors, fluke results, or intentional attempts to produce a specific result. Any responsible producer of this literature, however, is well aware that even a researcher doing their best to avoid these problems must make hundreds of choices in the process of collecting and cleaning data, planning their estimation, and coding their analysis, in other words "researcher degrees of freedom" [@simmons2011false]. Even if Researcher A's choices would stand up to scrutiny and argument from a reviewer or reader, Researcher B with the same goal, data, and skills might have reasonably chosen in a different way that would also stand up to scrutiny. If A and B's choices lead to different results, but only one of them performs the study, then this is a source of largely arbitrary variation in the collection of published results. Estimates in one context suggest this variation might outweigh the population variation we typically consider when estimating standard errors [@holzmeister2023heterogeneity].
 
--   Researcher degrees of freedom as a source. Distinguish this from coding errors.
+This study looks at the impact of researcher degrees of freedom on results, and also attempts to isolate researcher degrees of freedom at different stages of the research process to try to isolate where researcher choice is most varied, and most strongly influences results. We do this using a "many-analysts" design where multiple researchers attempt the same research task, specifically a task that is common across applied econometrics: estimating the causal effect of a policy that is implemented at a specific period of time and affects some people but not others. We look at differences between researchers in the results as well as the analytic and data cleaning choices made.
 
--   The goal of this paper
+We expand on a typical many-analysts design by introducing multiple iterations of analysis, each time restricting the amount of choice that researchers can make and so reducing researcher degrees of freedom. This allows us to observe the overall amount of variation in estimates between researchers, as is common in many-analysts designs, and also to separately evaluate the influence of choice in research design and in data cleaning, as well as the impact of peer review.
 
--   Many-analysts as a way of studying it - mention a bunch of many-analyst studies
+We find meaningful differences in the ways that different researchers approach the same research task. Some of these differences come from decisions that would receive a typical and expected amount of scrutiny from a reader, like the research design, and choice of control variables. Other differences came from sources where researchers did choose differently but a reader might not recognize that a consequential decision had been made, like in the functional form of the control variables or on a number of data cleaning or sample limitation decisions. When researchers were forced to all use the same research design, results became more similar, especially among the researchers most familiar with the subfield of the research task. Researcher agreement increased sharply when pre-cleaned data was provided to researchers, implying that data cleaning decisions are a major source of variation between researchers. Development of more mature and standardized data cleaning procedures, and increased visibility for data cleaning, may have a meaningful impact on the consistency and believability of results in applied microeconomics.
 
-    -   Often focused on just finding differences and less on their sources
+## Previous Work on Research Reliability and Researcher Degrees of Freedom
 
-    -   Of those that do, peer review is common, sometimes you see researcher characteristics or skill. Some looks at data processing or cleaning, plenty on model selection (outside of many-analysts too)
+In economics, suspicion about empirical results is not new [@leamer1983let]. The most recent wave of concern inspired by discussions, originating in the field of psychology, of the "replication crisis", which shows that a high percentage of studies cannot be replicated when tested using new data [for example @open2015estimating or @camerer2016evaluating in economics], that study code and data is not available or does not reproduce the published results [@herbert2021reproducibility], or that "policing replications" that test sensitivity of published results are rare [@ankel2023economists].
 
-    -   Note power issues with previous studies
 
-    -   
+However, this greater body of replication work takes an existing study as a baseline and asks whether it is robust to re-evaluation in some way. Questions about researcher degrees of freedom are not about whether a given study can be challenged, but whether a different researcher performing the same study would have done it differently if they had been the person to perform it, without taking the original as a baseline.[^1] There is some research on this topic in regards to researcher identity or political orientation, as in @jelveh2024political, or personality characteristics, as in @sulik2023scientists. But a common way to empirically study researcher degrees of freedom is using a many-analysts design.
+
+[^1]: Notably these two fields intersect, and some failures to replicate in replication studies may be due to researcher degrees of freedom, where both the original study and the replication made reasonable choices but found different results [@bryan2019replicator]. The difference in framing here is that the replication literature views the differing choices as a challenge to the validity of the original results, while the researcher degrees of freedom framing views both as part of a universe of reasonable results, assuming both analyses are defensible.
+
+The many-analysts design,[^2] popularized by @silberzahn2018many, gives the same data set to multiple teams of researchers and have them independently try to answer the same research question.
+
+[^2]: Many-analysts designs are sometimes referred to as "crowdsourced" science.
+
+Many-analysts studies have now been carried out in many fields, including microeconomics [@huntington2021influence], finance [@menkveld2021non], religion [@hoogeveen2023many], neuroimaging [@botvinik2020variability], political science [@breznau2021observing], machine learning [@chen2024subjectivity], ecology and evolutionary biology [@gould2023same], psychology [@boehm2018estimating, @bastiaansen2020time, @schweinsberg2021same], and medical informatics [@ostropolets2023reproducible], among others.
+
+With little exception, many-analysts studies find that there *is* meaningful variation in both methods and conclusions across researchers. @holzmeister2023heterogeneity finds that researcher variation in design and analysis likely outweighs population variation in effects.
+
+These studies vary considerably, however, in the extent to which they can establish the source of that researcher variation or suggest policies that might reduce it. Establishing that there is variation is important, but is of limited impact if we do not understand why it is there or what we can do about it. Further, many-analysts results may not even imply a problem if not carefully performed. Variation in the original @silberzahn2018many study may be largely explained by the research question not being made sufficiently clear to researchers [@auspurg2021has], and skipping standard meta-analytic practice may overstate variation between researchers by being too sensitive to outlier estimates [@auspurg2023social].
+
+The ability to explain variation between researchers, rather than just show that variation exists, is limited by the size of these many-analyst studies. As will be explored in Section @sec-target-sample, this study pursued a sample of at least 90 researchers so as to have acceptable power to explain differences in variation. @perignon2022reproducibility, in looking at the sources of reproducibility variation using many teams, used a design with 1,000 tests to replicate in order to adequately power comparisons. Since participation in a many-analysts study takes considerable time and effort, sample sizes are often well below even the aforementioned 90, which may explain why many studies do not attempt do decompose the variation in effects they find between sources. These smaller sample sizes can produce acceptable statistical power for some tests but not others, and explaining variation or agreement in effects between researchers generally demands a larger sample than showing the existence of meaningful variation or showing a difference in rates of making a particular research decision. Many-analyst studies that aim to explain the sources of variation between researchers either do so despite the low-power issue, gather larger samples of researchers, or select analyses which produce adequate power despite small samples.
+
+Among studies that do attempt to explain researcher variation, there are three common sources of explanation. The first of these is in the difficulty of the research task, with some studies showing less researcher agreement in more complex or difficult-to-analyze scenarios \[@menkveld2021non, @ortloff2023different,. A second source is researcher experience or characteristics. @menkveld2021non find that higher-quality teams (with more experience, seniority, publishing success, and/or people) agreed more. @ortloff2023different find that experienced researchers tended to draw more abstract codebooks and conclusions than students, and @broderick2020automatic find that replicators with more coding skill found more errors in original work. @breznau2021observing, however, found that researcher characteristics explained only a small share of the variation in results.
+
+A third factor used to explain variation is peer review or evaluation. Seeing the actual impact of review requires that researchers be able to revise their work after receiving it, as in @menkveld2021non, who find that review increases agreement. In some cases there is no chance to revise so we cannot see the impact of peer review, but instead outside evaluation is used as a measure of researcher quality. In this vein, @gould2023same find that peer review scores do not predict whether a given researcher produces an outlier result.
+
+Outside of many-analyst designs, there are studies that use simulation to try many combinations of analytical or data-cleaning choices and examine the resulting variation in estimates. This approach is similar to a many-analysts design in that they look at variability in potential research choices and, often, try to explain variation in effects estimates using those choices. They differ in that they are necessarily limited to the set of research decisions that the project organizers consider ahead of time (which constrains the universe of possible decisions but also makes interpretation of the results far more clear), and typically consider all combinations of decisions equally, rather than favoring combinations an actual researcher would choose. Of these studies, the closest to the present study is @klau2023comparing, a study which evaluates the sensitivity of results in an observational psychological data set to different data preprocessing and modeling choices. They try multiple combinations of reasonably preprocessing and modeling choices using simulation to iterate through the universe of potential choices, and find significant variation in effects over reasonable preprocessing and modeling choices. A similar attempt to separate researcher variation into modeling and preprocessing components is also done in a many-analysts design in @huntington2021influence, although in a limited way.
+
+This study's design attempts to evaluate multiple of these sources of variation using a staged design, similar to @perignon2022reproducibility. The different stages allow different levels of researcher choice along the lines of interpretation of the research question, research design, and data preparation, as well as randomized peer review incorporating these mechanisms proposed by the literature and responding to the critique of @auspurg2021has. Researcher characteristics are collected, as well, allowing for exploration of the researcher-characteristics source of researcher variation, although not in a controlled way. We do not address the difficulty of the research task as a potential source of researcher variation in this study.
+
 
 # Design
 
@@ -84,24 +138,23 @@ Researchers were also given background information on the policy itself and its 
 
 These instructions comprise the entirety of the limitations on researchers in Task 2. Tasks 2 and 3 specified the task further and removed researcher degrees of freedom.
 
--   Task 2 specified the research design more precisely. Instead of allowing any research design to identify the causal effect of interest, Task 2 gave specific definitions for which individuals comprised a "treated" group and which comprised an "untreated" group.[^1] Then, it instructed researchers to estimate the effect by comparing how outcomes for the "treated" group changed from before policy implementation to afterwards against how outcome for the "untreated" group changed. This can be thought of as a difference-in-differences style design, although the phrase "difference-in-differences" was not used in the instructions.
+-   Task 2 specified the research design more precisely. Instead of allowing any research design to identify the causal effect of interest, Task 2 gave specific definitions for which individuals comprised a "treated" group and which comprised an "untreated" group.[^3] Then, it instructed researchers to estimate the effect by comparing how outcomes for the "treated" group changed from before policy implementation to afterwards against how outcome for the "untreated" group changed. This can be thought of as a difference-in-differences style design, although the phrase "difference-in-differences" was not used in the instructions.
 
 -   Task 3 uses the same research design limitations of Task 2, but also provides a pre-cleaned data set, prepared by the organizers. The data set offered a pre-prepared treated/untreated-group indicator as specified in Task 2, limited the data set only to the treated and untreated group, prepared and cleaned all variables in the data set that did not already come pre-cleaned, handled missing-data flags, merged in state policy data, and offered standardized simplified recodings of demographic variables. Researchers were instructed to not further clean the data or limit the sample.
 
-[^1]: Although eligibility criteria for the policy were explicitly given in Task 1, Task 2 further limits the treated group by narrowing the acceptable age range. The limitation was more impactful for defining the untreated comparison group, though. Many researchers did use a treated/untreated group approach in Task 1 before it was specified in Task 2, but different individuals defined the untreated group in highly diverse ways, as will be shown in the Results section.
+[^3]: Although eligibility criteria for the policy were explicitly given in Task 1, Task 2 further limits the treated group by narrowing the acceptable age range. The limitation was more impactful for defining the untreated comparison group, though. Many researchers did use a treated/untreated group approach in Task 1 before it was specified in Task 2, but different individuals defined the untreated group in highly diverse ways, as will be shown in the Results section.
 
 Comparison of the researcher output between Task 1 and Task 2 is intended to show the researcher variation introduced by either an imprecise statement of the research question, as in @auspurg2023social, or due to differences in research design choices.
 
-Comparison of the researcher output between Task 2 and Task 3 is intended to show the researcher variation introduced by decisions made in the data cleaning and variable definition process. A researcher following the Task 2 instructions should arrive at the same sample size, number of treated individuals, and number of untreated individuals as in Task 3, as well as the same definition for the outcome variable.[^2] Differences in the data set and in the results between Task 2 and Task 3 should be a result of differences in the data cleaning and preparation process.
+Comparison of the researcher output between Task 2 and Task 3 is intended to show the researcher variation introduced by decisions made in the data cleaning and variable definition process. A researcher following the Task 2 instructions should arrive at the same sample size, number of treated individuals, and number of untreated individuals as in Task 3, as well as the same definition for the outcome variable.[^4] Differences in the data set and in the results between Task 2 and Task 3 should be a result of differences in the data cleaning and preparation process.
 
-[^2]: The Task 2 instructions do leave some leeway for definition of some variables, in particular control variables like education or race, which have a specific recoded version available in Task 3 that are not specified in the Task 2 instructions.
+[^4]: The Task 2 instructions do leave some leeway for definition of some variables, in particular control variables like education or race, which have a specific recoded version available in Task 3 that are not specified in the Task 2 instructions.
 
 Following each of the research tasks, researchers engage in a round of peer review. 2/3 of researchers are randomly assigned to peer review, and 1/3 do not engage in peer review. Those in peer review are randomly assigned in pairs. Those pairs performed a blind review of each others' work, and provided a written assessment of that work. Reviewers were instructed to produce a review "as though (they) were the reviewer of a journal article," and to judge the work as though they were reviewing for a journal where a study of this kind "could be published if the work was of high quality."
 
 Following peer review, all researchers have an opportunity to revise their work in light of the peer review (or for any other reason). Importantly, revision is not mandatory, nor is satisfying one's peer reviewer, and the majority researchers did not choose to submit revisions.
 
 Notably, this form of peer review does not exactly match what is typically done in peer review work for journal publications. In particular, revision is non-mandatory, all reviewers have themselves completed a study with the same goal and data and so have extensive background information, and all reviewers are themselves also reviewed by the same person. These features will all affect interpretation of the peer review results. In particular, the non-mandatory nature of the peer review means that the between-round revision work is only visible for a small subset of the researchers, and the paired nature of the reviews means we cannot separate the effect of being reviewed from the effect of reviewing someone else.
-=======
 
 Task 1 gives each researcher a large amount of freedom in terms of how they plan to complete the research task. Each successive task removes a degree of freedom from the researcher and specifies a specific way that the analysis is to be performed. The intuition behind this design is that if the removal of a specific kind of researcher freedom meaningfully reduces the variation in results between researchees, then that degree of freedom is a meaningful contributor to researcher variation.
 
@@ -133,7 +186,9 @@ Following each of the research tasks, researchers engage in a round of peer revi
 
 Following peer review, all researchers have an opportunity to revise their work in light of the peer review (or for any other reason). Importantly, revision is not mandatory, nor is satisfying one's peer reviewer, and the majority researchers did not choose to submit revisions. The non-mandatory nature of revision will impact the interpretation of peer review results.
 
-Following each research task and revision, researchers filled out a survey about their work. This survey asked them to report their findings, additional information like sample size and standard errors, and choices made in the process of doing the analysis like sample restrictions, treated-group definitions, estimator, and standard error adjustments. Researchers were also asked to justify why they had made these choices.
+Following each research task and revision, researchers filled out a survey about their work.[^5] This survey asked them to report their findings, additional information like sample size and standard errors, and choices made in the process of doing the analysis like sample restrictions, treated-group definitions, estimator, and standard error adjustments. Researchers were also asked to justify why they had made these choices.
+
+[^5]: Note that the design of this study, and this survey, predates @sarafoglou2024subjective and so does not follow it.
 
 This research design and analysis plan has been preregistered [@portner_huntington-klein_2022]. Analyses that were not preregistered will be noted in the results section as they are performed. Full instructions for each task, as well as post-task survey text and the peer-reviewing instructions, are available in the online appendix.
 
@@ -143,17 +198,18 @@ This research design and analysis plan has been preregistered [@portner_huntingt
 
 \label{sec:focaltask}
 
-In all research tasks, the specific goal given to researchers was:[^3]
+In all research tasks, the specific goal given to researchers was:[^6]
 
-[^3]: Full instructions are available in the online appendix.
+[^6]: Full instructions are available in the online appendix.
 
 > Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what was the causal impact of eligibility for the Deferred Action for Childhood Arrivals (DACA) program (treatment) on the probability that the eligible person is employed full-time (outcome), defined as usually working 35 hours per week or more?
 >
 > DACA was implemented in 2012. Examine the effects on full-time employment in the years 2013-2016.
 
-In simple terms, this asks researchers to estimate the impact of the DACA program on the probability that those eligible for the program usually work 35 hours per week or more in the years 2013-2016.[^4]
 
-[^4]: Notably, there are several existing papers that use the same ACS data set to identify the effect of DACA on various outcomes. The design used in Tasks 2 and 3 was most directly inspired by @amuedo2016can, although the designs do not match exactly, and the outcomes of interest are not the same. Researchers are informed that such previous studies exist and that they can optionally look into previous studies for background as they would normally do when performing research, although no specific previous study is listed. The instructions emphasize that any previous study should not be understood to be a "right answer" that researchers should be trying to match.
+In simple terms, this asks researchers to estimate the impact of the DACA program on the probability that those eligible for the program usually work 35 hours per week or more in the years 2013-2016.[^7]
+
+[^7]: Notably, there are several existing papers that use the same ACS data set to identify the effect of DACA on various outcomes. The design used in Tasks 2 and 3 was most directly inspired by @amuedo2016can, although the designs do not match exactly, and the outcomes of interest are not the same. Researchers are informed that such previous studies exist and that they can optionally look into previous studies for background as they would normally do when performing research, although no specific previous study is listed. The instructions emphasize that any previous study should not be understood to be a "right answer" that researchers should be trying to match.
 
 Researchers, many of whom are not from the United States and so may not be familiar with DACA, are given further background information about the DACA program:
 
@@ -183,7 +239,7 @@ In addition to this information about the policy itself and the effect that rese
 
 -   Data should come from the American Community Survey (ACS), using data no older than 2006, and no newer than 2016.
 
--   In addition, a file of state/year-level data was provided including labor market data and the presence or absence of different immigration policies in different years. Immigration policy data comes from @urbaninstdata.[^5]
+-   In addition, a file of state/year-level data was provided including labor market data and the presence or absence of different immigration policies in different years. Immigration policy data comes from @urbaninstdata.[^8]
 
     ACS data should be procured from the IPUMS website [@ruggles2024ipums], specifically selecting one-year ACS files and harmonized variables. Written and video instructions were included showing how to select data samples and variables on the IPUMS website.
 
@@ -191,7 +247,7 @@ In addition to this information about the policy itself and the effect that rese
 
 -   Several relevant features of the ACS that may affect analysis were emphasized: (a) ACS is a repeated cross-section, not a year-to-year panel data set, and (b) ACS does not list the month that data was collected in, so it is not possible to distinguish whether a given observation in 2012 is from before or after the policy was implemented, and (c) we do not actually observe in ACS whether a given person is enrolled in DACA, so we assume that all eligible people who are ethnically Mexican and Mexican-born are treated.
 
-[^5]: This file included the state/year-level unemployment rate and labor force participation rate. Immigration policy flags were for policies for undocumented immigrants to get state drivers' licenses, to get college financial aid, to be banned from state public colleges, or to follow Omnibus immigation legislation that serves to increase the surveillance of immigation documentation. Additional indicators were for participation in E-Verify laws that require employers to verify immigration authorization, to limit E-Verify participation, participation in Secure Communities, and for participation in task-force or jail based 287(g) policies.
+[^8]: This file included the state/year-level unemployment rate and labor force participation rate. Immigration policy flags were for policies for undocumented immigrants to get state drivers' licenses, to get college financial aid, to be banned from state public colleges, or to follow Omnibus immigation legislation that serves to increase the surveillance of immigation documentation. Additional indicators were for participation in E-Verify laws that require employers to verify immigration authorization, to limit E-Verify participation, participation in Secure Communities, and for participation in task-force or jail based 287(g) policies.
 
 Finally, researchers were instructed to keep track of any variables used to limit their sample download on IPUMS, and to review the survey where they would be reporting their results before beginning their analysis.
 
@@ -211,9 +267,9 @@ For Task 2, all of the previous instructions remained in place, but several were
 
 The task is otherwise unchanged for Task 2.
 
-In Task 3, the instructions remain unchanged from Task 2, except that the data is provided directly instead of having researchers download data from IPUMS, omitting data from the year of 2012. In Task 3, project organizers cleaned the data, merged in the state policy data, created a variable indiciating whether a given individual was in the "treated" or "untreated" group, limited the sample only to individuals in "treated" or "untreated," and created simplified versions of variables like education. Researchers were instructed not to further limit the sample from this prepared data set, or to perform further extensive data cleaning.[^6]
+In Task 3, the instructions remain unchanged from Task 2, except that the data is provided directly instead of having researchers download data from IPUMS, omitting data from the year of 2012. In Task 3, project organizers cleaned the data, merged in the state policy data, created a variable indiciating whether a given individual was in the "treated" or "untreated" group, limited the sample only to individuals in "treated" or "untreated," and created simplified versions of variables like education. Researchers were instructed not to further limit the sample from this prepared data set, or to perform further extensive data cleaning.[^9]
 
-[^6]: There were three observations in the final cleaned data set that were missing values of the education variable. The final used sample in Task 3 sometimes differs by 3 across researchers, based on whether the analysis uses education and thus drops these individuals.
+[^9]: There were three observations in the final cleaned data set that were missing values of the education variable. The final used sample in Task 3 sometimes differs by 3 across researchers, based on whether the analysis uses education and thus drops these individuals.
 
 ### Recruitment and Attrition
 
@@ -229,13 +285,15 @@ A given researcher was qualified for the project if they satisfied any one of th
 
 -   They are a graduate student **and** have a published or forthcoming paper in applied microeconomics.
 
--   They hold a PhD **and** work in a job where they write non-academic reports using tools from applied microeconomics to estimate causal effects.[^7]
+-   They hold a PhD **and** work in a job where they write non-academic reports using tools from applied microeconomics to estimate causal effects.[^10]
 
-[^7]: This qualification would allow, for example, employees of the World Bank, or people working in private sector research, to participate.
+[^10]: This qualification would allow, for example, employees of the World Bank, or people working in private sector research, to participate.
 
 Participation was not limited on the basis of country, career stage, or demographics such as sex, race, or sexual or gender identity.
 
 #### Target Sample Size
+
+\label{sec-target-sample}
 
 An initial simulation-based power analysis assumed that each research task would have 5% less between-researcher variation in observed effects than the previous round and looked at the statisical power to detect a linear relationship between round number and the squared deviation of effects (variance of estimated effects across researchers). We found that we had 90% power to detect this effect if 90 researchers finished all tasks. We also found that, for comparisons of only two different research tasks, 90 researchers would give 85% power to detect a decline in variance from one stage to the next of 15% or more, a reasonable effect size given previous many-analyst studies.
 
@@ -245,9 +303,9 @@ We further assumed that attrition rates would be roughly 50%, which would sugges
 
 Recruitment was advertised to potential researchers through three avenues: (1) social media posts on Twitter and LinkedIn, (2) emails to professional organizations including the Institute for Replication and the Committee on the Status of Women in the Economics Profession, and (3) emails to United States economics department chairs. For emails to departments heads, we gathered the list of all 286 economics departments listed in the U.S. News and World Report. We could locate emails for a front desk or (preferably) department chair for 264 of those departments. We emailed those 264 departments, asking for the message to be passed on to all faculty or just all microeconomics faculty.
 
-The recruitment message described the project and its goals, and provided a link to a website that included further detail on project expectations and incentives for participation.[^8] Researchers were told that if they completed all stages of the project, they would be offered authorship on the eventual paper and a \$2,000 payment for up to 200 of the participants. The website included a link to a survey that asked questions related to eligibility for the project.
+The recruitment message described the project and its goals, and provided a link to a website that included further detail on project expectations and incentives for participation.[^11] Researchers were told that if they completed all stages of the project, they would be offered authorship on the eventual paper and a \$2,000 payment for up to 200 of the participants. The website included a link to a survey that asked questions related to eligibility for the project.
 
-[^8]: <https://nickch-k.github.io/ManyEconomists/>
+[^11]: <https://nickch-k.github.io/ManyEconomists/>
 
 #### Participation and Attrition
 
@@ -300,9 +358,9 @@ rdplot(moneyatt$Finished,moneyatt$order,200,
        title = '')
 ```
 
-Figure \ref{fig-rdd} shows no meaningful effect of being guaranteed payment on the probability of completing Task 1. In additional results in the appendix, using a linear regression specification of the regression discontinuity design and the full range of the data (not including the late sign-ups) to maximize statistical power,[^9] we again find no statistically significant effect of being guaranteed treatment. This is suggestive that participants were not simply signing up in an attempt to get a \$2,000 payment for little effort.
+Figure \ref{fig-rdd} shows no meaningful effect of being guaranteed payment on the probability of completing Task 1. In additional results in the appendix, using a linear regression specification of the regression discontinuity design and the full range of the data (not including the late sign-ups) to maximize statistical power,[^12] we again find no statistically significant effect of being guaranteed treatment. This is suggestive that participants were not simply signing up in an attempt to get a \$2,000 payment for little effort.
 
-[^9]: Use of the full range, rather than a bandwidth, is justified given that the running variable is randomly assigned.
+[^12]: Use of the full range, rather than a bandwidth, is justified given that the running variable is randomly assigned.
 
 #### Sample Characteristics
 
@@ -405,9 +463,9 @@ sumtable(alldemog, vars = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Resear
          anchor = 'tab-samp2')
 ```
 
-Table \ref{tab-samp3} shows the demographics of the researcher sample. The eligible sample was just under 80% male and more than 55% white, and both percentages grew by the conclusion of task 3, with the white share growing significantly to 66%. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. A small share reported being LGBTQ+, and this share remained constant over all rounds of the research tasks. An additional form of demographic difference is geographic. About half of the sample was situated in the United States, and about half was from another country.[^10] The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
+Table \ref{tab-samp3} shows the demographics of the researcher sample. The eligible sample was just under 80% male and more than 55% white, and both percentages grew by the conclusion of task 3, with the white share growing significantly to 66%. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. A small share reported being LGBTQ+, and this share remained constant over all rounds of the research tasks. An additional form of demographic difference is geographic. About half of the sample was situated in the United States, and about half was from another country.[^13] The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
 
-[^10]: Exact figures are not given for geography, and crosstabulations across geography are not given, because non-geographic demographic information comes from a survey where we acquired permission to share aggregate figures. Geographic information, on the other hand, comes from researcher payments information, for which we did not request permission to share responses.
+[^13]: Exact figures are not given for geography, and crosstabulations across geography are not given, because non-geographic demographic information comes from a survey where we acquired permission to share aggregate figures. Geographic information, on the other hand, comes from researcher payments information, for which we did not request permission to share responses.
 
 ```{r}
 #| output: asis
@@ -447,6 +505,104 @@ alldemog = merge(alldemog, lang, by = 'Q1', all.x = TRUE)
 #          out = 'latex',
 #          fit.page = '\\textwidth',
 #          anchor = 'tab-samp4')
+
+```
+
+One researcher did complete all three research tasks, and appears in the above tables, but their work has been removed from the results that follow in the rest of the paper, as due to a misunderstanding of the instructions, their work did not attempt to estimate the effect of DACA on the probability of employment.
+
+```{r}
+# This person's submissions judged to not satisfactorily complete the tasks
+dat = dat[Q1 != 972]
+```
+
+As a whole, the goal of constructing a sample that largely reflects the group of people who publish work in applied microeconomics. The sample is skewed towards the United States, which is partially driven by the emails sent to US economics departments, the fact that the project was advertised and carried out in English, and the fact that the project organizers are in the United States and advertised the project using their own social media. Given that caveat, the makeup of the sample appears to be fairly similar to the makeup of the profession itself, although this is difficult to verify for some demographics.
+
+# Results
+
+(move these around as appropriate; the recruitment and attrition stuff might move up to data)
+
+## Variation in Effects and Sample Sizes
+
+```{r}
+efdat = dat[!is.na(Q2)]
+efdat = efdat[Q1 %in% efdat[Q2 == 'The third replication task', Q1]]
+
+qrecode(efdat, 'Q2', 
+        c('Revision following the first replication task (such as following peer review)',
+          'Revision following the second replication task (such as following peer review)',
+          'Revision following the third replication task (such as following peer review)',
+          'The first replication task',
+          'The second replication task',
+          'The third replication task'),
+        c('Task 1 Revision',
+          'Task 2 Revision',
+          'Task 3 Revision',
+          'Task 1',
+          'Task 2',
+          'Task 3'), 'Round', checkfrom = TRUE)
+efdat[, Round := factor(Round, levels = c('Task 1',
+                                        'Task 1 Revision',
+                                        'Task 2',
+                                        'Task 2 Revision',
+                                        'Task 3',
+                                        'Task 3 Revision'))]
+efdat[Revision_of_Q6 < 0, Revision_of_Q6 := abs(Revision_of_Q6)]
+viol = efdat[Round %in% c('Task 1','Task 2','Task 3') & Revision_of_Q4 != 0, .(Round, Revision_of_Q4, Revision_of_Q6, Revision_of_Q12, Revision_of_Q18, weight = 1, Type = 'Unweighted')]
+viol = rbind(viol,
+             efdat[Round %in% c('Task 1','Task 2','Task 3'), .(Round, Revision_of_Q4, Revision_of_Q12, Revision_of_Q18, weight = 1/Revision_of_Q6, Revision_of_Q6, Type = 'Weighted')])
+ggplot(viol[(!is.infinite(weight)) & !is.na(weight)], aes(x = Revision_of_Q4, weight = weight)) + 
+  geom_density(fill = colorpal[1], alpha = .5) +
+  geom_boxplot(width = 5) +
+  theme_nick() + 
+  coord_cartesian(xlim = c(-.05, .1)) +
+  labs(x = 'Effect Size', caption = 'Range limited to [-.05, .1] for viewing.', y = 'Density') +
+  facet_grid(rows = vars(Type), cols = vars(Round),
+             scales = 'free_x')
+```
+
+```{r}
+viol[, ci_upper := Revision_of_Q4 + 1.96*Revision_of_Q6]
+viol[, ci_lower := Revision_of_Q4 - 1.96*Revision_of_Q6]
+viol[, sig := !xor((ci_upper > 0),(ci_lower > 0))]
+setorder(viol, Revision_of_Q4)
+viol[, Order := 1:.N, by = .(Round, Type)]
+ggplot(viol[Type == 'Unweighted'], aes(x = Order, y = Revision_of_Q4,
+                                       ymax = ci_upper, ymin = ci_lower)) + 
+  geom_hline(yintercept = 0, linetype = 'dashed') +
+  geom_errorbar(mapping = aes(color = sig)) + 
+  geom_point()+
+  coord_cartesian(ylim = c(-.05, .15)) + 
+  scale_color_manual(values = colorpal) +
+  facet_wrap(~Round, nrow = 3) + 
+  guides(color = 'none') +
+  labs(y = 'Effect Size\n(95% CI)',
+       x = NULL, caption = '95% CI reconstructed from effect size and SE,\neven if asymmetric CI was reported. Visible range limited to (-.05, .15).') + 
+  theme_nick() + 
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
+```
+
+```{r}
+ggplot(viol[Type == 'Unweighted' & Round %in% c('Task 1','Task 2')], aes(x = Revision_of_Q12)) + 
+  geom_density(fill = colorpal[1], alpha = .5) +
+  geom_boxplot(width = .1) +
+  theme_nick() + 
+  coord_cartesian(ylim = c(0, 2)) +
+  scale_x_log10(labels = label_rangescale()) +
+  labs(x = 'Total Sample Size', y = 'Density') +
+  facet_grid(rows = vars(Type), cols = vars(Round))
+```
+
+```{r}
+ggplot(viol[Type == 'Unweighted'], aes(x = Revision_of_Q18)) + 
+  geom_density(fill = colorpal[1], alpha = .5) +
+  geom_boxplot(width = .1) +
+  theme_nick() + 
+  coord_cartesian(ylim = c(0, 2),
+                  xlim = c(1000,200000)) +
+  scale_x_log10(labels = label_rangescale()) +
+  labs(x = 'Treated-Group Sample Size', caption = 'Range limited to [1k, 200k] for viewing.', y = 'Density') +
+  facet_grid(rows = vars(Type), cols = vars(Round))
 ```
 
 As a whole, the goal of constructing a sample that largely reflects the group of people who publish work in applied microeconomics. The sample is skewed towards the United States, which is partially driven by the emails sent to US economics departments, the fact that the project was advertised and carried out in English, and the fact that the project organizers are in the United States and advertised the project using their own social media. Given that caveat, the makeup of the sample appears to be fairly similar to the makeup of the profession itself, although this is difficult to verify for some demographics.
@@ -1241,6 +1397,7 @@ rfield = merge(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct)]), rfield, 
 rfield[is.na(Researcher_Cats), Researcher_Cats := 'Neither']
 rfield[Researcher_Cats == 'Neither', Researcher_Cats := 'Neither/Other']
 rfield = rfield[, .(N = .N), by = .(Correct, Field = Researcher_Cats)]
+rfield[, Correct := fifelse(as.logical(Correct), 'Match','Some Mismatch')]
 rfield = rfield[, .(N = N, Share = N/sum(N),
                     Correct), by = Field] |>
   dcast(Field ~ Correct, value.var = c('N','Share'))

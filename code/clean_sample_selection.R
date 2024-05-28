@@ -1,3 +1,14 @@
+# TO ANYONE WHO COMBS THROUGH THIS CODE
+# First off, my apologies. This was as awful to write as it will be to read, I assure you.
+# Second, why do it this way instead of just doing it in a spreadsheet?
+# two words: encoding issues.
+# Third, if you check this code closely you will find in quite a few cases
+# situations where the coding value selected does not *logically* match
+# the set of boolean conditions on offer. This occurs when the wya that 
+# researchers tend to write these leads to the set of booleans
+# misrepresenting their actual work, in combination with some hands-on checking
+# that also suggested the booleans didn't match.
+
 pastenulls = function(a, b, c) {
   s = fifelse(is.na(a) | a == 'BLANK','',paste0(a, ' & '))
   s = fifelse(is.na(b) | b == 'BLANK',s,paste0(s, b, ' & '))
@@ -13,6 +24,18 @@ sampdat = copy(dat)
 sampdat = sampdat[!is.na(Q2)]
 sampdat[, did3 := max(Q2 == 'The third replication task', na.rm = TRUE), by = Q1]
 sampdat = sampdat[did3 == TRUE]
+
+
+# The final set of observations to fix
+fixers = import('../data/final_question_fixes.xlsx')
+for (i in 1:nrow(fixers)) {
+  print(sampdat[Q1 == fixers$Q1[i] & Round == fixers$Round[i], .N > 0])
+  sampdat[Q1 == fixers$Q1[i] & Round == fixers$Round[i], Revision_of_Q13 := fixers$Revision_of_Q13[i]]
+  sampdat[Q1 == fixers$Q1[i] & Round == fixers$Round[i], Revision_of_Q14 := fixers$Revision_of_Q14[i]]
+  sampdat[Q1 == fixers$Q1[i] & Round == fixers$Round[i], Revision_of_Q17 := fixers$Revision_of_Q17[i]]
+  sampdat[Q1 == fixers$Q1[i] & Round == fixers$Round[i], Revision_of_Q20 := fixers$Revision_of_Q20[i]]
+}
+
 # Put together the full group definitions
 sampdat[, AllLim := str_to_upper(pastenullsV(Revision_of_Q13,
                                              Revision_of_Q14,
@@ -167,25 +190,23 @@ for (i in 1:nrow(fixdat)) {
 }
 
 # Final fixes for ???s, do these by hand evaluation of code
-questions = sampdat[AllLim %like% '\\?\\?\\?' | TreatLim %like% '\\?\\?\\?' | UnTreatLim %like% '\\?\\?\\?']
-questions = questions[, .(Q1, Round, Q13, Revision_of_Q13, 
-                          Q14, Revision_of_Q14,
-                          Q17, Revision_of_Q17,
-                          Q20, Revision_of_Q20,
-                          AllLim, TreatLim, UnTreatLim)]
-export(questions, '../data/final_questions.xlsx')
-questions = import('../data/final_questions.xlsx')
-for (i in 1:nrow(questions)) {
-  sampdat[Q1 == questions$Q1[i] & Round == questions$Round[i], AllLim := questions$AllLim[i]]
-  sampdat[Q1 == questions$Q1[i] & Round == questions$Round[i], TreatLim := questions$TreatLim[i]]
-  sampdat[Q1 == questions$Q1[i] & Round == questions$Round[i], UnTreatLim := questions$UnTreatLim[i]]
-}
-rm(questions)
+## NOW HAS BEEN PROCESSED, AND IS REINGESTED EARLIER
+# questions = sampdat[AllLim %like% '\\?\\?\\?' | TreatLim %like% '\\?\\?\\?' | UnTreatLim %like% '\\?\\?\\?']
+# questions = questions[, .(Q1, Round, Q13, Revision_of_Q13, 
+#                           Q14, Revision_of_Q14,
+#                           Q17, Revision_of_Q17,
+#                           Q20, Revision_of_Q20,
+#                           AllLim, TreatLim, UnTreatLim)]
+# export(questions, '../data/final_questions.xlsx')
+
 
 # Remove remaining ???s
 sampdat[AllLim %like% '\\?\\?\\?', AllLim := NA_character_]
 sampdat[TreatLim %like% '\\?\\?\\?', TreatLim := NA_character_]
 sampdat[UnTreatLim %like% '\\?\\?\\?', UnTreatLim := NA_character_]
+
+# For now
+sampdat = sampdat[!is.na(TreatLim)]
 
 sampdat[, limAll_HISPAN := handlingV(AllLim, 'HISPAN')]
 sampdat[, limTreat_HISPAN := handlingV(TreatLim, 'HISPAN')]
@@ -274,6 +295,7 @@ for (i in 1:nrow(fixdat_aam)) {
 # Wrote AGE_AT_MIGRATION in a weird way
 sampdat[95, limTreat_AGE_AT_MIGRATION := '> 16']
 
+
 # AGE_IN_2012 / BIRTHYR + BIRTHQTR / BIRTHYR
 # Here we are simplifying to whether the quarter is used
 sampdat[, limAll_AGE_IN_2012 := fcase(AllLim %like% 'AGE_IN_2012' | AllLim %like% 'BIRTHQTR', 'Year-Quarter Age',
@@ -340,6 +362,8 @@ for (i in 1:nrow(fixdat_educvet)) {
   sampdat[limTreat_YRIMMIG == fixdat_yrimmig$original[i], limTreat_YRIMMIG := fixdat_yrimmig$new[i]]
   sampdat[limUn_YRIMMIG == fixdat_yrimmig$original[i], limUn_YRIMMIG := fixdat_yrimmig$new[i]]
 }
+# the rest are all multisteps
+sampdat[limUn_YRIMMIG %like% '\\|', limUn_YRIMMIG := 'Multistep Condition']
 
 # HS GRAD OR VETERAN
 for (vrs in c('EDUC','EDUCD','VETSTAT')) {
@@ -385,7 +409,8 @@ for (i in 1:nrow(fixdat_educvet)) {
   sampdat[limTreat_EDUCVET == fixdat_educvet$original[i], limTreat_EDUCVET := fixdat_educvet$new[i]]
   sampdat[limUn_EDUCVET == fixdat_educvet$original[i], limUn_EDUCVET := fixdat_educvet$new[i]]
 }
-
+# The rest are multisteps
+sampdat[limUn_EDUCVET %like% '\\|', limUn_EDUCVET := 'Multistep Condition']
 
 # LIVED CONTINUOUSLY
 # Just look for presence of YRSUSA
@@ -393,46 +418,46 @@ sampdat = copy(sampdat)
 sampdat[, limAll_YRSUSA := fifelse(AllLim %like% 'YRSUSA', 'Used YRSUSA', 'No YRSUSA')]
 sampdat[, limTreat_YRSUSA := fifelse(TreatLim %like% 'YRSUSA', 'Used YRSUSA', 'No YRSUSA')]
 sampdat[, limUn_YRSUSA := fifelse(UnTreatLim %like% 'YRSUSA', 'Used YRSUSA', 'No YRSUSA')]
-
-### REVISIONS
-# At this point an error in the original handlingV was discovered which blanked
-# any limitation in which the relevant variable was after the last & in AllLim/etc.
-# Thankfully, due to the construction of the code, which looks for exact matches in relevant cases
-# This will lead to omitted codings reflecting the original values in any case where this error changed the output,
-# which can be easily spotted and corrected at this point.
-source('../code/sample_selection_fixdat_revisions.R')
-
-for (i in 1:nrow(fixdat_aam)) {
-  sampdat[limAll_AGE_AT_MIGRATION == fixdat_aam$original[i], limAll_AGE_AT_MIGRATION := fixdat_aam$new[i]]
-  sampdat[limTreat_AGE_AT_MIGRATION == fixdat_aam$original[i], limTreat_AGE_AT_MIGRATION := fixdat_aam$new[i]]
-  sampdat[limUn_AGE_AT_MIGRATION == fixdat_aam$original[i], limUn_AGE_AT_MIGRATION := fixdat_aam$new[i]]
-}
-
-for (i in 1:nrow(fixdat_bpl)) {
-  sampdat[limAll_BPL == fixdat_bpl$original[i], limAll_BPL := fixdat_bpl$new[i]]
-  sampdat[limTreat_BPL == fixdat_bpl$original[i], limTreat_BPL := fixdat_bpl$new[i]]
-  sampdat[limUn_BPL == fixdat_bpl$original[i], limUn_BPL := fixdat_bpl$new[i]]
-}
-
-for (i in 1:nrow(fixdat_citizen)) {
-  sampdat[limAll_CITIZEN == fixdat_citizen$original[i], limAll_CITIZEN := fixdat_citizen$new[i]]
-  sampdat[limTreat_CITIZEN == fixdat_citizen$original[i], limTreat_CITIZEN := fixdat_citizen$new[i]]
-  sampdat[limUn_CITIZEN == fixdat_citizen$original[i], limUn_CITIZEN := fixdat_citizen$new[i]]
-}
-
-for (i in 1:nrow(fixdat_educvet)) {
-  sampdat[limAll_EDUCVET == fixdat_educvet$original[i], limAll_EDUCVET := fixdat_educvet$new[i]]
-  sampdat[limTreat_EDUCVET == fixdat_educvet$original[i], limTreat_EDUCVET := fixdat_educvet$new[i]]
-  sampdat[limUn_EDUCVET == fixdat_educvet$original[i], limUn_EDUCVET := fixdat_educvet$new[i]]
-}
-
-sampdat[limAll_HISPAN == '(HISPAN == 1) & (HISPAN == 1))', limAll_HISPAN := 'Hispanic-Mexican']
-sampdat[limTreat_HISPAN == '(HISPAN == 1) & (HISPAN == 1))', limTreat_HISPAN := 'Hispanic-Mexican']
-sampdat[limUn_HISPAN == '(HISPAN == 1) & (HISPAN == 1))', limUn_HISPAN := 'Hispanic-Mexican']
-
-for (i in 1:nrow(fixdat_yrimmig)) {
-  sampdat[limAll_YRIMMIG == fixdat_yrimmig$original[i], limAll_YRIMMIG := fixdat_yrimmig$new[i]]
-  sampdat[limTreat_YRIMMIG == fixdat_yrimmig$original[i], limTreat_YRIMMIG := fixdat_yrimmig$new[i]]
-  sampdat[limUn_YRIMMIG == fixdat_yrimmig$original[i], limUn_YRIMMIG := fixdat_yrimmig$new[i]]
-}
-
+# 
+# ### REVISIONS
+# # At this point an error in the original handlingV was discovered which blanked
+# # any limitation in which the relevant variable was after the last & in AllLim/etc.
+# # Thankfully, due to the construction of the code, which looks for exact matches in relevant cases
+# # This will lead to omitted codings reflecting the original values in any case where this error changed the output,
+# # which can be easily spotted and corrected at this point.
+# source('../code/sample_selection_fixdat_revisions.R')
+# 
+# for (i in 1:nrow(fixdat_aam)) {
+#   sampdat[limAll_AGE_AT_MIGRATION == fixdat_aam$original[i], limAll_AGE_AT_MIGRATION := fixdat_aam$new[i]]
+#   sampdat[limTreat_AGE_AT_MIGRATION == fixdat_aam$original[i], limTreat_AGE_AT_MIGRATION := fixdat_aam$new[i]]
+#   sampdat[limUn_AGE_AT_MIGRATION == fixdat_aam$original[i], limUn_AGE_AT_MIGRATION := fixdat_aam$new[i]]
+# }
+# 
+# for (i in 1:nrow(fixdat_bpl)) {
+#   sampdat[limAll_BPL == fixdat_bpl$original[i], limAll_BPL := fixdat_bpl$new[i]]
+#   sampdat[limTreat_BPL == fixdat_bpl$original[i], limTreat_BPL := fixdat_bpl$new[i]]
+#   sampdat[limUn_BPL == fixdat_bpl$original[i], limUn_BPL := fixdat_bpl$new[i]]
+# }
+# 
+# for (i in 1:nrow(fixdat_citizen)) {
+#   sampdat[limAll_CITIZEN == fixdat_citizen$original[i], limAll_CITIZEN := fixdat_citizen$new[i]]
+#   sampdat[limTreat_CITIZEN == fixdat_citizen$original[i], limTreat_CITIZEN := fixdat_citizen$new[i]]
+#   sampdat[limUn_CITIZEN == fixdat_citizen$original[i], limUn_CITIZEN := fixdat_citizen$new[i]]
+# }
+# 
+# for (i in 1:nrow(fixdat_educvet)) {
+#   sampdat[limAll_EDUCVET == fixdat_educvet$original[i], limAll_EDUCVET := fixdat_educvet$new[i]]
+#   sampdat[limTreat_EDUCVET == fixdat_educvet$original[i], limTreat_EDUCVET := fixdat_educvet$new[i]]
+#   sampdat[limUn_EDUCVET == fixdat_educvet$original[i], limUn_EDUCVET := fixdat_educvet$new[i]]
+# }
+# 
+# sampdat[limAll_HISPAN == '(HISPAN == 1) & (HISPAN == 1))', limAll_HISPAN := 'Hispanic-Mexican']
+# sampdat[limTreat_HISPAN == '(HISPAN == 1) & (HISPAN == 1))', limTreat_HISPAN := 'Hispanic-Mexican']
+# sampdat[limUn_HISPAN == '(HISPAN == 1) & (HISPAN == 1))', limUn_HISPAN := 'Hispanic-Mexican']
+# 
+# for (i in 1:nrow(fixdat_yrimmig)) {
+#   sampdat[limAll_YRIMMIG == fixdat_yrimmig$original[i], limAll_YRIMMIG := fixdat_yrimmig$new[i]]
+#   sampdat[limTreat_YRIMMIG == fixdat_yrimmig$original[i], limTreat_YRIMMIG := fixdat_yrimmig$new[i]]
+#   sampdat[limUn_YRIMMIG == fixdat_yrimmig$original[i], limUn_YRIMMIG := fixdat_yrimmig$new[i]]
+# }
+# 
