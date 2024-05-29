@@ -1,0 +1,121 @@
+p_sample_size_scatter = dat[Round == 'Task 2'] |>
+  ggplot(aes(x = Revision_of_Q12, y = Revision_of_Q4)) + 
+  geom_smooth( color = 'black', se = FALSE) +
+  geom_point() + 
+  theme_nick() + 
+  labs(x = 'Sample Size (log scale)', y = 'Effect Size',
+       caption = 'Analysis range limited to effects from 0 to .1') + 
+  scale_x_log10(label = label_rangescale()) + 
+  scale_y_continuous(limits = c(0, .1))
+
+p_standard_error_scatter = dat[Round == 'Task 2'] |>
+  ggplot(aes(x = Revision_of_Q6, y = Revision_of_Q4)) + 
+  geom_smooth(color = 'black', se = FALSE) +
+  geom_point() + 
+  theme_nick() + 
+  labs(x = 'Standard Error', y = 'Effect Size',
+       caption = 'Analysis range limited to effects from 0 to .1') + 
+  scale_y_continuous(limits = c(0, .1)) + 
+  scale_x_log10() + 
+  coord_cartesian(xlim = c(0.001, .5))
+
+r12 = dat[Round %in% c('Task 1','Task 2'), .(Round, Effect = Revision_of_Q4, Q1)] |>
+  dcast(Q1 ~ Round, value.var ='Effect')
+p_task1_vs_task2 = r12 |>
+  ggplot(aes(x = `Task 1`, y = `Task 2`)) + 
+  geom_smooth(color = 'black', se = FALSE) +
+  geom_point() + 
+  theme_nick() + 
+  labs(x = 'Task 1 Effect', y = 'Task\n2\nEffect',
+       caption = 'Analysis range limited to effects from 0 to .1') + 
+  scale_y_continuous(limits = c(0, .1)) +
+  scale_x_continuous(limits = c(0, .1))
+
+# Share above .05 by controls
+shtask = allcontrols[, .(Q1, Effect, Round, Control = as.character(Control))] |>
+  rbind(dat[Round %in% paste0('Task ',1:3), .(Q1, Effect = Revision_of_Q4, Round, Control = 'Total')])
+shtask = shtask[, .(N = uniqueN(Q1),
+                    `Share above .05` = percent(mean(Effect > .05, na.rm = TRUE), .1)),
+                by = .(Round,Control)][order(-`Share above .05`)] |>
+  dcast(Control ~ Round, value.var = c('N','Share above .05'))
+setcolorder(shtask, c('Control','N_Task 1','Share above .05_Task 1',
+                      'N_Task 2','Share above .05_Task 2',
+                      'N_Task 3','Share above .05_Task 3'))
+setnames(shtask, c('Control','Task 1: N', 'Above .05',
+                   'Task 2: N','Above .05',
+                   'Task 3: N','Above .05'))
+shtask[, Control := factor(Control, levels = 
+                             c('Total',controllevs))]
+setorder(shtask, Control)
+
+# Changes in controls from task 1 to 2
+changelevels = dat[Round %in% c('Task 1','Task 2'),
+                   .(Q1, Round, Effect = Revision_of_Q4)] |>
+  dcast(Q1 ~ Round)
+changelevels = changelevels[, .(Q1, Increase = `Task 2` - `Task 1`)][!is.na(Increase)]
+
+# Check whether changes in controls drove shifts
+conchange = allcontrols[Round %in% c('Task 1','Task 2'), .(Q1,Round, Control, Effect)] |> unique()
+conchange = conchange[,.(ControlSwitch = fcase(
+  sum(Round == 'Task 1') > 0 & sum(Round == 'Task 2') > 0, 'In Both',
+  sum(Round == 'Task 1') > 0 & sum(Round == 'Task 2') == 0, 'Removed',
+  sum(Round == 'Task 1') == 0 & sum(Round == 'Task 2') > 0, 'Added'
+)), by = .(Q1, Control)] |>
+  merge(changelevels, by = 'Q1') |>
+  merge(dat[Round == 'Task 2', .(R2Effect = Revision_of_Q4,
+                                 Q1)], by = 'Q1')
+
+# Changes in sample limitations from task 1 to task 2
+sampconds = names(r12samp_w_q1)
+sampconds = sampconds[!(sampconds %in% c('Round','Effect','Sample Size', 'Sample','Round/Sample','Q1'))]
+changesamp = r12samp_w_q1[Sample == 'All',
+                          lapply(.SD, \(x) x[1] != x[2]),
+                          .SDcols = sampconds,
+                          by = Q1] |>
+  melt(id.vars = 'Q1',
+       variable.name = 'Sample Limitation',
+       value.name = 'Changed') |>
+  merge(changelevels, by = 'Q1') |>
+  merge(dat[Round == 'Task 2', .(R2Effect = Revision_of_Q4,
+                                 Q1)], by = 'Q1') |>
+  merge(dat[Round == 'Task 2', .(Q1,`Sample Size` = Revision_of_Q12)], by = 'Q1') |>
+  merge(dat[Round == 'Task 2', .(Q1,`Standard Error` = Revision_of_Q6)], by = 'Q1')
+
+# matching the description vs not distribution
+r12samp_w_q1[, Correct := fifelse(Round == 'Task 2' & Hispanic == 'Hispanic-Mexican' & Birthplace == 'Mexican-Born' & Citizenship == 'Non-Citizen' & `Age at Migration` == '< 16' & `Age in June 2012` == 'Year-Quarter Age' & `Education/Veteran` == 'HS Grad or Veteran','Match','Some Mismatch'), `Effect`]
+
+p_match_vs_mismatch_distribution = ggplot(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct, Effect)]), 
+       aes(x = Effect, fill = Correct)) + 
+  geom_density(alpha = .4) + 
+  scale_fill_manual(values = colorpal) + 
+  scale_x_continuous(limits = c(-.05, .1)) +
+  labs(x = 'Task 2 Effect Estimate',
+       y = 'Density',
+       caption = 'Visible range restricted to -.05 to .10 for clarity') + 
+  theme_nick()
+
+# Matching the instructions
+rfield = unique(dat[, .(Researcher_Cats, Q1)])
+rfield = merge(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct)]), rfield, by = 'Q1')
+rfield[is.na(Researcher_Cats), Researcher_Cats := 'Neither']
+rfield[Researcher_Cats == 'Neither', Researcher_Cats := 'Neither/Other']
+rfield = rfield[, .(N = .N), by = .(Correct, Field = Researcher_Cats)]
+rfield = rfield[, .(N = N, Share = N/sum(N),
+                    Correct), by = Field] |>
+  dcast(Field ~ Correct, value.var = c('N','Share'))
+rfield[, Share_Match := percent(Share_Match, .1)]
+rfield[, `Share_Some Mismatch` := percent(`Share_Some Mismatch`,.1)]
+setcolorder(rfield, c('Field', 'Share_Match', 'N_Match', 'Share_Some Mismatch', 'N_Some Mismatch'))
+setnames(rfield, c('Field', 'Num. Match','Share Match','Num Some Mismatch','Share Some Mismatch'))
+
+r12samp_w_q1[, Correct := Round == 'Task 2' & Hispanic == 'Hispanic-Mexican' & Birthplace == 'Mexican-Born' & Citizenship == 'Non-Citizen' & `Age at Migration` == '< 16' & `Age in June 2012` == 'Year-Quarter Age' & `Education/Veteran` == 'HS Grad or Veteran']
+
+p_distribution_by_instruction_match = ggplot(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct = fifelse(Correct, 'Match','Some Mismatch'), Effect)]), 
+                                             aes(x = Effect, fill = Correct)) + 
+  geom_density(alpha = .4) + 
+  scale_fill_manual(values = colorpal) + 
+  scale_x_continuous(limits = c(-.05, .1)) +
+  labs(x = 'Task 2 Effect Estimate',
+       y = 'Density',
+       caption = 'Visible range restricted to -.05 to .10 for clarity') + 
+  theme_nick()

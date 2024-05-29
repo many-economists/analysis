@@ -306,15 +306,7 @@ The recruitment message described the project and its goals, and provided a link
 #### Participation and Attrition
 
 ```{r}
-orig_num = dat[is.na(Q2) & Q1 == 0, .N] + dat[is.na(Q2) & Q1 != 0, uniqueN(Q1)] + uniqueN(dat[!is.na(Q2),Q1])
-neverfin = dat[Q1 != 0,uniqueN(Q1)]
-justcount = dat[!(str_detect(Q2, '\\('))]
-justcount = justcount[, .(Participants = uniqueN(Q1)), by = .(Round = Q2)]
-justcount = rbind(data.table(Round = c('Original Signup','Assigned Task 1'),
-                             Participants = c(orig_num, neverfin)),
-                  justcount)
-justcount[, Attrition := percent(1-shift(Participants,-1)/Participants, .01)]
-justcount[.N, Attrition := '']
+source('../code/participation_and_attrition.R')
 ```
 
 Overall participation and attrition values are in Table \ref{tbl-attrition}. `r justcount[1,Participants]` people submitted applications for the project. `r justcount[1, Attrition]` of these were found to be ineligible for the project. Most of these were graduate students who did not yet have a forthcoming paper.
@@ -334,20 +326,6 @@ The high recruitment numbers and the fact that nearly all attrition occurs befor
 ```{r}
 #| label: fig-rdd
 #| fig-cap: Impact of Guaranteed Payment on Probability of Task 1 Completion
-eo = import('../data/email_order.xlsx')
-moneyatt = dat[Q1 != 0]
-moneyatt = moneyatt[, .(Finished = max(!is.na(Q2))), by = Q1]
-setnames(moneyatt, "Q1",'respondent_id')
-moneyatt = merge(moneyatt, eo, by = 'respondent_id')
-moneyatt[, Stage := factor(fcase(
-  order <= 200, 'Assured',
-  order <= moneyatt[respondent_id > 10000, min(order)], 'Not Assured',
-  !is.na(order), 'Late'
-), levels = c('Assured','Not Assured','Late'))]
-library(rdrobust)
-m = feols(Finished ~ Stage, data = moneyatt)
-m2 = feols(Finished ~ I(order-200)*Stage, data = moneyatt)
-#etable(m, m2)
 
 rdplot(moneyatt$Finished,moneyatt$order,200,
        x.label = 'Order',y.label = 'Prob. Completed First Task',
@@ -365,73 +343,7 @@ Tables \ref{tab-samp1} to \ref{tab-samp3} show the characteristics of the recrui
 Table \ref{tab-samp1} shows that the majority of researchers were recruited via social media, with only about 9% coming from a department email, 4% from a professional organization email, and 9% from some other source (like word-of-mouth). Those recruited from another source were less likely to qualify for the study, and slightly less likely to finish, while those recruited from social media were most likely to qualify and finish. We also asked researchers how certain they were of their ability to finish the first task as well as the full set of tasks, on a scale of 1 to 100. Enrollees were about 90% confident in their ability to complete the full set of research tasks (although only about 50% did). Those who were more confident were slightly more likely to actually finish, and average confidence rates of those who did finish were about 92% instead of 90%.
 
 ```{r}
-dat[, Researcher_Q10 := as.character(Researcher_Q10)]
-dat[Researcher_Q10 == "Professional or graduate degree other than master's or PhD", Researcher_Q10 := 'Prof. Degree']
-dat[Researcher_Q10 == "Some graduate school, but no graduate degree", Researcher_Q10 := 'Some Grad School']
-
-# Create research field categories
-dat[, Researcher_Cats := factor(fcase(Researcher_Q13 %like% 'Immigration' & Researcher_Q13 %like% 'Labor', 'Immigation & Labor',
-                            Researcher_Q13 %like% 'Immigration', 'Immigration',
-                            Researcher_Q13 %like% 'Labor', 'Labor',
-                            !is.na(Researcher_Q13),'Neither'),
-                            levels = c('Immigration & Labor','Immigration','Labor','Neither'))]
-
-fullset = copy(dat)
-fullset[Q1 == 0, Q1 := (1:.N) + 100000]
-fullset = fullset[, lapply(.SD, last), by = Q1]
-
-demogdat = dat[Q2 %in% c('The first replication task', 'The third replication task')]
-tokeep = c('Q1', names(dat)[names(dat) %like% 'Researcher_'], 'Revision_of_Q4')
-tokeep2 = c('Q1', 'Q2', names(dat)[names(dat) %like% 'Researcher_'], 'Revision_of_Q4')
-alldemog = rbindlist(list(
-  unique(subset(fullset, select = tokeep))[, Q2 := 'Original Signup'],
-  unique(subset(dat[Q1 != 0], select = tokeep))[, lapply(.SD, last), by = Q1][, Q2 := 'Assigned Task 1'],
-  unique(subset(demogdat, select = tokeep2))
-), use.names = TRUE)
-qrecode(alldemog, 'Q2',c('Assigned Task 1','Original Signup',
-                         'The first replication task',
-                         'The third replication task'),
-        c('Assigned task 1',
-          'Original signup',
-          'Finished task 1',
-          'Finished task 3'))
-alldemog[, Round := factor(Q2, levels = c('Original signup',
-                                          'Assigned task 1',
-                                          'Finished task 1',
-                                          'Finished task 3'))]
-alldemog[, Researcher_Q10 := factor(Researcher_Q10,
-                                    levels = c('No graduate school',
-                                    'Some Grad School',
-                                    'Master\'s degree',
-                                    'Prof. Degree',
-                                    'PhD'))]
-qrecode(alldemog, 'Researcher_Q6',
-        c('Faculty','Graduate student',
-          'Non-faculty researcher at a university', 
-          'Other (describe)',
-          'Private-sector researcher',
-          'Public-sector researcher not at a university'),
-        c('Faculty','Grad. Student',
-          'Other Researcher','Other','Other Researcher','Other Researcher'))
-```
-
-```{r}
-alldemog[, Q8Recode := fcase(
-  Researcher_Q8 == 'I have 1-5 papers in applied microeconomics published or accepted for publication', '1-5 Papers in Applied Micro',
-  Researcher_Q8 == 'I have 6+ papers in applied microeconomics published or accepted for publication', '6+ Papers',
-  Researcher_Q8 == 'I have never performed academic research in applied microeconomics', 'No Academic Papers',
-  Researcher_Q8 == 'I have written at least one academic paper in applied microeconomics, but none of this work is published or accepted for publication', 'No Published Academic Papers'
-)]
-alldemog[, RaceRecode := Researcher_Q16]
-alldemog[str_detect(RaceRecode, ',') | RaceRecode == 'Other', RaceRecode := 'Other or Multiracial']
-alldemog[, RaceRecode := factor(RaceRecode,
-                                levels = c('White','Asian','Black or African American','Hispanic','Other or Multiracial'))]
-```
-
-```{r}
 #| output: asis
-alldemog[, Researcher_Q11 := factor(Researcher_Q11,
-                                    levels = c('Social media', 'Department email','Email of a professional organization','Other'))]
 sumtable(alldemog, vars = c('Researcher_Q11',
                             'Researcher_Q12_1',
                             'Researcher_Q12_2'), 
@@ -465,8 +377,6 @@ Table \ref{tab-samp3} shows the demographics of the researcher sample. The eligi
 
 ```{r}
 #| output: asis
-alldemog[, Researcher_Q17 := factor(Researcher_Q17, 
-                                    levels = c('Yes','No','Prefer not to say'))]
 sumtable(alldemog, vars = c('Researcher_Q15',
                             'RaceRecode',
                             'Researcher_Q17'), 
@@ -478,15 +388,6 @@ sumtable(alldemog, vars = c('Researcher_Q15',
 ```
 
 ```{r}
-# Final summary statistics
-lang = import('../data/Replication Coding Language.xlsx', setclass = 'data.table')
-setnames(lang, c('Researcher ID','Language Used'),c('Q1','Language'))
-lang = lang[Q1 != 322]
-lang[, `Replication Task` := NULL]
-lang = rbind(lang, data.table(Q1 = 322, Language = 'R/Stata'))
-dat = merge(dat, lang, by = 'Q1', all.x = TRUE)
-alldemog = merge(alldemog, lang, by = 'Q1', all.x = TRUE)
-
 # OMIT THIS TABLE, BUT FROM IT WE GET 1 completed Python, 1 SPSS, 1 R/Stata, 33 R, 109 Stata in completed
 # alldemog[Q2 == 'Finished task 3'] |>
 #   sumtable(vars =  c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Q15',
@@ -505,11 +406,6 @@ alldemog = merge(alldemog, lang, by = 'Q1', all.x = TRUE)
 
 One researcher did complete all three research tasks, and appears in the above tables, but their work has been removed from the results that follow in the rest of the paper, as due to a misunderstanding of the instructions, their work did not attempt to estimate the effect of DACA on the probability of employment.
 
-```{r}
-# This person's submissions judged to not satisfactorily complete the tasks
-dat = dat[Q1 != 972]
-```
-
 As a whole, the goal of constructing a sample that largely reflects the group of people who publish work in applied microeconomics. The sample is skewed towards the United States, which is partially driven by the emails sent to US economics departments, the fact that the project was advertised and carried out in English, and the fact that the project organizers are in the United States and advertised the project using their own social media. Given that caveat, the makeup of the sample appears to be fairly similar to the makeup of the profession itself, although this is difficult to verify for some demographics.
 
 # Results
@@ -519,189 +415,41 @@ As a whole, the goal of constructing a sample that largely reflects the group of
 ## Variation in Effects and Sample Sizes
 
 ```{r}
-efdat = dat[!is.na(Q2)]
-efdat = efdat[Q1 %in% efdat[Q2 == 'The third replication task', Q1]]
+source('../code/variation_in_effects_and_sample_sizes.R')
 
-qrecode(efdat, 'Q2', 
-        c('Revision following the first replication task (such as following peer review)',
-          'Revision following the second replication task (such as following peer review)',
-          'Revision following the third replication task (such as following peer review)',
-          'The first replication task',
-          'The second replication task',
-          'The third replication task'),
-        c('Task 1 Revision',
-          'Task 2 Revision',
-          'Task 3 Revision',
-          'Task 1',
-          'Task 2',
-          'Task 3'), 'Round', checkfrom = TRUE)
-efdat[, Round := factor(Round, levels = c('Task 1',
-                                        'Task 1 Revision',
-                                        'Task 2',
-                                        'Task 2 Revision',
-                                        'Task 3',
-                                        'Task 3 Revision'))]
-efdat[Revision_of_Q6 < 0, Revision_of_Q6 := abs(Revision_of_Q6)]
-viol = efdat[Round %in% c('Task 1','Task 2','Task 3') & Revision_of_Q4 != 0, .(Round, Revision_of_Q4, Revision_of_Q6, Revision_of_Q12, Revision_of_Q18, weight = 1, Type = 'Unweighted')]
-viol = rbind(viol,
-             efdat[Round %in% c('Task 1','Task 2','Task 3'), .(Round, Revision_of_Q4, Revision_of_Q12, Revision_of_Q18, weight = 1/Revision_of_Q6, Revision_of_Q6, Type = 'Weighted')])
-ggplot(viol[(!is.infinite(weight)) & !is.na(weight)], aes(x = Revision_of_Q4, weight = weight)) + 
-  geom_density(fill = colorpal[1], alpha = .5) +
-  geom_boxplot(width = 5) +
-  theme_nick() + 
-  coord_cartesian(xlim = c(-.05, .1)) +
-  labs(x = 'Effect Size', caption = 'Range limited to [-.05, .1] for viewing.', y = 'Density') +
-  facet_grid(rows = vars(Type), cols = vars(Round),
-             scales = 'free_x')
+p_effect_distribution
 ```
 
 ```{r}
-viol[, ci_upper := Revision_of_Q4 + 1.96*Revision_of_Q6]
-viol[, ci_lower := Revision_of_Q4 - 1.96*Revision_of_Q6]
-viol[, sig := !xor((ci_upper > 0),(ci_lower > 0))]
-setorder(viol, Revision_of_Q4)
-viol[, Order := 1:.N, by = .(Round, Type)]
-ggplot(viol[Type == 'Unweighted'], aes(x = Order, y = Revision_of_Q4,
-                                       ymax = ci_upper, ymin = ci_lower)) + 
-  geom_hline(yintercept = 0, linetype = 'dashed') +
-  geom_errorbar(mapping = aes(color = sig)) + 
-  geom_point()+
-  coord_cartesian(ylim = c(-.05, .15)) + 
-  scale_color_manual(values = colorpal) +
-  facet_wrap(~Round, nrow = 3) + 
-  guides(color = 'none') +
-  labs(y = 'Effect Size\n(95% CI)',
-       x = NULL, caption = '95% CI reconstructed from effect size and SE,\neven if asymmetric CI was reported. Visible range limited to (-.05, .15).') + 
-  theme_nick() + 
-  theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
+p_full_effect_distribution_individual
 ```
 
 ```{r}
-ggplot(viol[Type == 'Unweighted' & Round %in% c('Task 1','Task 2')], aes(x = Revision_of_Q12)) + 
-  geom_density(fill = colorpal[1], alpha = .5) +
-  geom_boxplot(width = .1) +
-  theme_nick() + 
-  coord_cartesian(ylim = c(0, 2)) +
-  scale_x_log10(labels = label_rangescale()) +
-  labs(x = 'Total Sample Size', y = 'Density') +
-  facet_grid(rows = vars(Type), cols = vars(Round))
+p_sample_size_distributions
 ```
 
 ```{r}
-ggplot(viol[Type == 'Unweighted'], aes(x = Revision_of_Q18)) + 
-  geom_density(fill = colorpal[1], alpha = .5) +
-  geom_boxplot(width = .1) +
-  theme_nick() + 
-  coord_cartesian(ylim = c(0, 2),
-                  xlim = c(1000,200000)) +
-  scale_x_log10(labels = label_rangescale()) +
-  labs(x = 'Treated-Group Sample Size', caption = 'Range limited to [1k, 200k] for viewing.', y = 'Density') +
-  facet_grid(rows = vars(Type), cols = vars(Round))
+p_treated_group_sample_size
 ```
 
 ## Researcher Characteristics and Effects
 
 ```{r}
-rcats = dat[!is.na(Q2) & !(Q2 %like% 'Revision')]
-rcats[, Q8Recode := fcase(
-  Researcher_Q8 == 'I have 1-5 papers in applied microeconomics published or accepted for publication', '1-5 Papers in Applied Micro',
-  Researcher_Q8 == 'I have 6+ papers in applied microeconomics published or accepted for publication', '6+ Papers',
-  Researcher_Q8 == 'I have never performed academic research in applied microeconomics', 'No Academic Papers',
-  Researcher_Q8 == 'I have written at least one academic paper in applied microeconomics, but none of this work is published or accepted for publication', 'No Published Academic Papers'
-)]
-rcats[, RaceRecode := Researcher_Q16]
-rcats[str_detect(RaceRecode, ',') | RaceRecode == 'Other', RaceRecode := 'Other or Multiracial']
-rcats[, RaceRecode := factor(RaceRecode,
-                                levels = c('White','Asian','Black or African American','Hispanic','Other or Multiracial'))]
-# Get F stat, p-value, and R2 for every predictor individually
-preds = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Q15',
-                            'RaceRecode',
-                            'Researcher_Q17',
-                     'Researcher_Q11',
-                     'Researcher_Cats',
-                     'Language')
-label = c('Degree','Occupation', 'Research Experience','Gender','Race','LGBTQ+','Recruitment Source','Field',
-                    'Coding Language')
-rcats[, Round := fcase(Q2 == 'The first replication task','Round 1',
-                       Q2 == 'The second replication task','Round 2',
-                       Q2 == 'The third replication task','Round 3')]
-# Only if round 3 completed
-rcats[, did3 := max(Round == 'Round 3'), by = Q1]
-rcats = rcats[did3 == TRUE]
-rcats[, deviation := abs(Revision_of_Q4-mean(Revision_of_Q4)), 
-         by = Round]
+source('../code/researcher_characteristics_and_effects.R')
 
-build_row = function(pred, dv = 'Revision_of_Q4') {
-  fmla = as.formula(paste0(dv,' ~ ',preds[pred]))
-  # Don't include very tiny categories
-  rcats[, N := .N, by = c('Round',preds[pred])]
-  m = feols(fmla, data = rcats[N > 5], split = ~Round)
-  dt = data.table(Predictor = label[pred])
-  for (i in 1:3) {
-    newnames = paste(paste0('R',i),c('F','p','R2'))
-    dt[, (newnames) := list(
-      fitstat(m[[i]], 'f')$f$stat,
-      fitstat(m[[i]], 'f')$f$p,
-      fitstat(m[[i]],'r2')$r2
-    )]
-  }
-  return(dt)
-}
-
-res_tab = 1:length(preds) |>
-  lapply(build_row) |>
-  rbindlist()
-tonom = names(res_tab)[2:10]
-res_tab[, (tonom) := lapply(.SD, label_number(.001)), .SDcols = tonom]
-setnames(res_tab, c('Predictor','R1: F','p','R2',
-                    'R2: F','p','R2',
-                    'R3: F','p','R2'))
-res_tab |>
+res_tab_effect |>
   knitr::kable(booktabs = TRUE)
 ```
 
 ```{r}
-res_tab = 1:length(preds) |>
-  lapply(build_row, dv = 'deviation') |>
-  rbindlist()
-tonom = names(res_tab)[2:10]
-res_tab[, (tonom) := lapply(.SD, label_number(.001)), .SDcols = tonom]
-setnames(res_tab, c('Predictor','R1: F','p','R2',
-                    'R2: F','p','R2',
-                    'R3: F','p','R2'))
-res_tab |>
+res_tab_deviation |>
   knitr::kable(booktabs = TRUE)
 ```
 
 ```{r}
 #| fig-width: 8
 #| fig-height: 6
-rcats[, `Abs. Deviation from Sample Mean` := factor(fcase(
-  deviation < .05, '< .05',
-  deviation < .1, '.05-.1',
-  !is.na(deviation), '> .1'
-), levels = c('< .05', '.05-.1','> .1'))]
-langdev = rcats[, .(N = .N), by = .(Round, Language, `Abs. Deviation from Sample Mean`)]
-# no observations
-langdev = rbind(langdev,
-                data.table(Round = 'Round 3',
-                           Language = 'R',
-                           N = 0,
-                           `Abs. Deviation from Sample Mean` = '.05-.1'))
-langdev[, Share := N/sum(N), by = .(Round, Language)]
-langdev[, label := paste0(percent(Share, .1), '\n(', N,')')]
-ggplot(langdev[Language %in% c('R','Stata')], aes(x = `Abs. Deviation from Sample Mean`, y = Share, color = Language, fill = Language,
-                                                label = label)) + 
-  geom_col(alpha = .4, position = 'dodge') + 
-  geom_text(family = 'serif', vjust = -.2, position = position_dodge(.9), show.legend = FALSE) +
-  scale_color_manual(values = colorpal) +
-  scale_fill_manual(values = colorpal) +
-  scale_y_continuous(labels = label_percent(1), limits = c(0,1.1)) +
-  facet_wrap(~Round, ncol = 2) + 
-  theme_nick() + 
-  labs(y = 'Share',
-       x = 'Abs. Deviation from Sample Mean')
+p_deviations_by_language
 
 # NOTE FOR WRITEUP: Of the big R outliers two people were in that category every round, and everyone else was only in there once.
 ```
@@ -709,78 +457,8 @@ ggplot(langdev[Language %in% c('R','Stata')], aes(x = `Abs. Deviation from Sampl
 ## Peer Review
 
 ```{r}
-qrecode(dat, 'Q2', 
-        c('Revision following the first replication task (such as following peer review)',
-          'Revision following the second replication task (such as following peer review)',
-          'Revision following the third replication task (such as following peer review)',
-          'The first replication task',
-          'The second replication task',
-          'The third replication task'),
-        c('Task 1 Revision',
-          'Task 2 Revision',
-          'Task 3 Revision',
-          'Task 1',
-          'Task 2',
-          'Task 3'), 'Round', checkfrom = TRUE)
-dat[, Round := factor(Round, levels = c('Task 1',
-                                        'Task 1 Revision',
-                                        'Task 2',
-                                        'Task 2 Revision',
-                                        'Task 3',
-                                        'Task 3 Revision'))]
-compare_revis = function(r) {
-  thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
-  pairs = fread(paste0('../data/task_', r, '_peer_review_pairs.csv'))
-  pairs = pairs[!(dont_send)]
-  thisr = merge(thisr, pairs[, .(Q1 = id2, match = id1, pairID)], all.x = TRUE)
-  thisr[, got_reviewed := !is.na(pairID)]
-  thisr[, Stage := fifelse(Round == paste0('Task ', r), 0, 1)]
-  thisr[, ReviewRound := r]
-  return(thisr)
-}
-reviews = rbindlist(lapply(1:3, compare_revis))
-
-# Find differences in other rounds
-get_diff = function(i, r) {
-  if (!reviews[i, got_reviewed]) {
-    return(NA_real_)
-  }
-  thispair = reviews[Q1 %in% c(reviews[i, Q1], reviews[i, match]) & Round == r]
-  if (nrow(thispair) < 2) {
-    return(NA_real_)
-  }
-  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
-}
-
-roundnames = sort(unique(reviews$Round))
-for (rn in 1:length(roundnames)) {
-  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
-}
-
-more_sim = unique(reviews[Stage == 0 & (got_reviewed), .(Round, pairID, Diff_1, Diff_2, Diff_3, Diff_4, Diff_5, Diff_6)])
-
-reviews = copy(reviews)
-reviews[, Reviewed_1 := fifelse(sum(ReviewRound == 1) > 0, any(got_reviewed[ReviewRound == 1]), FALSE), by = Q1]
-reviews[, Reviewed_2 := fifelse(sum(ReviewRound == 2) > 0, any(got_reviewed[ReviewRound == 2]), FALSE), by = Q1]
-reviews[, Reviewed_3 := fifelse(sum(ReviewRound == 3) > 0, any(got_reviewed[ReviewRound == 3]), FALSE), by = Q1]
-
-dist_compare = rbindlist(list(
-  reviews[Round == 'Task 1' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-    reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 3', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)]
-))
-dist_compare[, Observed := factor(Observed, levels = c('Pre-Review','Next Round'))]
-dist_compare[, Reviewed := fifelse(Reviewed == 1, 'Not Peer-Reviewed','Peer Reviewed')]
-ggplot(dist_compare, aes(x = Effect, weight = weight, color = Reviewed, fill = Reviewed)) + 
-  geom_density(alpha = .4) + 
-  scale_color_manual(values = colorpal) +
-  scale_fill_manual(values = colorpal) +
-  coord_cartesian(xlim = c(-.05, .15)) + 
-  facet_grid(cols = vars(Observed), rows = vars(Round)) + 
-  theme_nick() + 
-  labs(caption = 'Viewing range limited to -.05 to .15.', y = 'Density')
+source('../code/peer_review.R')
+p_peer_review_effect_distributions
 ```
 
 ### Do You Become More Like Your Reviewer?
@@ -788,94 +466,19 @@ ggplot(dist_compare, aes(x = Effect, weight = weight, color = Reviewed, fill = R
 ```{r}
 #| fig-width: 8
 #| fig-height: 5
-reviews = rbindlist(lapply(1:3, compare_revis))
-
-# Find differences in other rounds
-get_diff_across = function(i, r) {
-  if (!reviews[i, got_reviewed]) {
-    return(NA_real_)
-  }
-  thispair = reviews[(Q1 == reviews[i, Q1] & Round == r) | (Q1 == reviews[i, match] & Round == paste0('Task ', as.numeric(str_sub(r,-1))-1))]
-  if (nrow(thispair) < 2) {
-    return(NA_real_)
-  }
-  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
-}
-
-roundnames = c('Task 1','Task 2','Task 3')
-for (rn in 1:length(roundnames)) {
-  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
-  reviews[[paste0('Diff_',rn,'_vs_',rn-1)]] = sapply(1:nrow(reviews), \(x) get_diff_across(x, roundnames[rn]))
-}
-
-unreviewed = reviews[!(got_reviewed)]
-reviews = reviews[(got_reviewed)]
-
-unreviewed[, id := 1:.N]
-allreviews = CJ(id1 = 1:nrow(unreviewed), id2 = 1:nrow(unreviewed))
-allreviews = allreviews[id1 != id2]
-ar_round1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round1 = merge(ar_round1, unreviewed[Round == 'Task 1', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round1[, diff := abs(E1-E2)]
-ar_round2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round2 = merge(ar_round2, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round2[, diff := abs(E1-E2)]
-ar_round3 = merge(allreviews, unreviewed[Round == 'Task 3', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round3 = merge(ar_round3, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round3[, diff := abs(E1-E2)]
-ar_round2v1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round2v1 = merge(ar_round2v1, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round2v1[, diff := abs(E1-E2)]
-ar_round3v2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round3v2 = merge(ar_round3v2, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round3v2[, diff := abs(E1-E2)]
-
-changediff = rbindlist(list(
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Original',
-             diff = reviews[Round == 'Task 1', Diff_1]),
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next Round', 
-             diff = reviews[Round == 'Task 1', Diff_2]),
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next vs. This',
-            diff = reviews[Round == 'Task 1', Diff_2_vs_1]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Original',
-           diff = reviews[Round == 'Task 2', Diff_2]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next Round',
-           diff = reviews[Round == 'Task 2', Diff_3]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next vs. This',
-           diff = reviews[Round == 'Task 2', Diff_3_vs_2]),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Original',
-             diff = ar_round1$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Original',
-             diff = ar_round2$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next Round',
-             diff = ar_round2$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next Round',
-             diff = ar_round3$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next vs. This',
-             diff = ar_round2v1$diff),
-    data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next vs. This',
-             diff = ar_round3v2$diff)
-))
-changediff[, Comparison := factor(Comparison, levels = c('Original','Next Round','Next vs. This'))]
-ggplot(changediff, aes(x = diff, color = Type,
-                       fill = Type)) + 
-  geom_density(alpha = .1) +
-  scale_color_manual(values = colorpal) +
-  scale_fill_manual(values = colorpal) +
-  coord_cartesian(xlim = c(0, .1)) + 
-  theme_nick() + 
-  theme(axis.text.x = element_text(size = 10)) +
-  facet_grid(rows = vars(Round),
-             cols = vars(Comparison)) + 
-  labs(caption = str_wrap('Original is this round vs. this round. Next round is next round vs. next round. Next vs. This is your next round vs. partner\'s this round. Values beyond .1 omitted for visibility.', 100),
-       x = 'Absolute effect difference',
-       y = 'Density')
+p_more_like_reviewer
 ```
 
 ```{r}
-feols(diff ~ Comparison*Type, data = changediff, split = 'Round') |> 
+peer_review_reg |> 
   msummary(stars = c('*' = .1, '**' = .05, '***' = .01),
                          gof_omit = c('IC|R2|RMSE|Err'),
+           coef_rename = c('Intercept',
+                           'Comparison: Next Round',
+                           'Comparison: Next Round vs. This Round',
+                           'Unreviewed',
+                           'Next Round x Unreviewed',
+                           'Next vs. This x Unreviewed')
            output = 'kableExtra') 
 ```
 
@@ -884,110 +487,7 @@ TO DO: The same but for sample sizes and analytic choices
 ## Analytic Choices
 
 ```{r}
-library(tidyverse)
-
-# Rename column name function ----
-rename_to_lower_snake <- function(df) {
-  df %>% 
-    rename_with( ~gsub("([a-z])([A-Z])", "\\1_\\2", .x) ) %>%  # Adds _ to camel case var names
-    rename_with( ~tolower(gsub("[ ]+", "_", .x)) )  # Converts to lower and substitutes _ for spaces
-}
-
-
-# Load  and clean data ----
-researcher_variable_key <- read_csv("../data/researcher_variable_key.csv")
-survey_variable_key <- read_csv("../data/survey_variable_key.csv")
-survey <- import("../data/cleaned_survey_post_corrections.parquet")
-
-
-# Clean data
-base <- survey %>% 
-  rename_to_lower_snake() %>%
-  # Remove researchers who did not complete the first replication task
-  filter(q1 != 0) %>%
-  filter(!is.na(q2)) %>% 
-  # Better variable names
-  rename(
-    researcher_id = q1,
-    round = q2,
-    method = recoded_q10,
-    se_adjustment = recoded_q8,
-    effect_size = revision_of_q4,
-    sample_size = revision_of_q12
-  ) %>% 
-  # Keep only researchers who have completed the third replication task
-  group_by(researcher_id) %>%
-  filter(any(round == "The third replication task")) %>%
-  ungroup() %>%
-  # General clean-up/reorganize
-  dplyr::select(researcher_id, round, method, se_adjustment, effect_size, everything()) 
-
-# Better labels for variables
-base <- base %>% 
-  mutate(
-    round = case_when(
-      round == 'Revision following the first replication task (such as following peer review)' ~ 'Task 1 Revision',
-      round == 'Revision following the second replication task (such as following peer review)' ~ 'Task 2 Revision',
-      round == 'Revision following the third replication task (such as following peer review)' ~ 'Task 3 Revision',
-      round == 'The first replication task' ~ 'Task 1',
-      round == 'The second replication task' ~ 'Task 2',
-      round == 'The third replication task' ~ 'Task 3'
-    ),
-    se_adjustment = case_when(
-      se_adjustment %in% c("Bootstrap", "Other", "New DID Estimator") ~ 'Other/Bootstrap',
-      se_adjustment %in% c("Cluster: ID", "Cluster: Other", "Cluster: Strata") ~ "Cluster (ID/Strata/Other)",
-      se_adjustment %in% c("Cluster: State") ~ "Cluster (State)",
-      se_adjustment %in% c("Cluster: State/Yr") ~ "Cluster (State & Year)",
-      TRUE ~ se_adjustment 
-    ),
-    # Absolute differences
-    effect_abs_diff = abs(effect_size - mean(effect_size, na.rm = TRUE)),
-    sample_size_abs_diff = abs(sample_size - mean(sample_size, na.rm = TRUE)),
-    # Researcher characteristics
-    highest_degree = factor(
-      case_when(
-        researcher_q10 == "PhD" ~ "Ph.D.",
-        TRUE ~ "Not Ph.D",
-      ), 
-      levels = c("Ph.D.", "Not Ph.D")
-    ),
-    position = factor(
-      case_when(
-        researcher_q6 == "Faculty" ~ "University faculty",
-        researcher_q6 == "Graduate student" ~ "Graduate student",
-        researcher_q6 == "Other (describe)" ~ "Other/NA",
-        is.na(researcher_q6) ~ "Other/NA",
-        TRUE ~ "Other researcher"
-      ),
-      levels = c("University faculty", "Graduate student", "Other researcher", "Other/NA")
-    )
-  )
-  
-  
-
-
-
-# Analytical choices ----
-
-# Show distribution of e.g. logit/linear, standard error adjustments across stages
-# Because of some confusion on where to report that one used sample weights, report weights as being used if the word "weight" appears in any column
-charvars = names(base)[sapply(base, is.character)]
-setDT(base)
-checklist = c()
-base[, Weights := 'No Sample Weights']
-for (cv in charvars) {
-  checklist = c(checklist, base[base[[cv]] %ilike% 'weight'][[cv]])
-  base[base[[cv]] %ilike% 'sampling weight' |
-         base[[cv]] %ilike% 'sample weight' |
-         base[[cv]] %ilike% 'survey weight' |
-         base[[cv]] %ilike% 'perwt' |
-         base[[cv]] %ilike% 'hhwt' |
-       (base[[cv]] %ilike% 'weight' & 
-         !(base[[cv]] %ilike% 'inverse probability') &
-         !(base[[cv]] %ilike% 'propensity score matching/weighted') &
-          !(base[[cv]] %ilike% 'kernel weights') &
-         !(base[[cv]] %ilike% 'weighted by the number of individuals')), Weights := 'Sample Weights']
-}
+source('../code/analytic_choices.R')
 
 base %>%
   mutate(se_adjustment = factor(se_adjustment, levels = c(
@@ -1009,111 +509,14 @@ base %>%
 ## Sample Limitations
 
 ```{r}
-#source('../code/clean_sample_selection.R')
-#save(sampdat, file = 'temp_sampdat.Rdata')
-load('../data/temp_sampdat.Rdata')
-
-```
-
-```{r}
-# Count the number of variables used in sample selection
-count_vars = function(s) {
-  s = str_replace_all(s, '[^a-zA-Z]',' ')
-  s = str_squish(s)
-  s = str_split(s,' ')[[1]]
-  s = s[!(s %in% c('BETWEEN','AND','MIN','MAX','I','X','FE','NS','OF','N','A','','IN','ABS'))]
-  return(uniqueN(s))
-}
-count_varsV = Vectorize(count_vars, 's')
-
-sampdat[, `Whole Sample` := count_varsV(AllLim)]
-sampdat[, `Treated Group` := count_varsV(TreatLim)]
-sampdat[, `Untreated Group` := count_varsV(UnTreatLim)]
-
-sumtable(sampdat[!(Round %like% 'Revision') & Round != 'Task 3'], vars = c('Whole Sample','Treated Group','Untreated Group'), add.median = TRUE, group = 'Round', group.long = TRUE)
+source('../code/sample_limitations.R')
+# Basic sample limitations table
+sumtable(basic_samp_limitations, vars = c('Whole Sample','Treated Group','Untreated Group'), add.median = TRUE, group = 'Round', group.long = TRUE)
 ```
 
 ```{r}
 #| output: asis
-
-vars_to_consider = c('HISPAN','BPL','CITIZEN','AGE_AT_MIGRATION','AGE_IN_2012','YRIMMIG','EDUCVET','YRSUSA')
-titles = c('Hispanic','Birthplace','Citizenship','Age at Migration',
-           'Age in June 2012','Year of Immigration','Education/Veteran','Years Continuous in USA')
-# Simplifying some of the coding
-remapper = list(
-  CITIZEN = data.table(orig = c("Citizen", "Foreign-Born", "Multistep Condition", "Natural-Born Citizen", "Naturalized Citizen", "Non-Citizen", "Non-Citizen or Naturalized", "Non-Citizen or Naturalized After 2012", "None", "Other"), new = c("Citizen (various)", "Foreign-Born", "Multistep Condition", "Citizen (various)", "Citizen (various)", "Non-Citizen", "Other", "Non-Cit or Natlzd post-2012", "None", "Other")),
-  AGE_AT_MIGRATION = data.table(orig = c("< 15", "< 16", "<= 16", "> 16", "Any", "Multistep Condition", "None", "Not 16", "Other"), new = c("Other", "< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "None", "Other", "Other")),
-  YRIMMIG = data.table(orig = c("< 2007", "< 2012", "<= 2007", "<= 2012", "> 2012", ">= 2007", ">= 2012", "Any Year", "Multistep Condition", "None", "Not 2007", "Not 2012", "Other"), new = c("< 2007", "< 2012", "<= 2007", "<= 2012", "Other", ">= 2007", "Other", "Any Year", "Multistep Condition", "None", "Other", "Other", "Other")),
-  EDUCVET = data.table(orig = c("", "12th Grade", "12th Grade or Veteran", "HS Grad", "HS Grad and Non-Veteran", "HS Grad and Veteran", "HS Grad or In School", "HS Grad or Non-Veteran", "HS Grad or Veteran", "HS Grad or Veteran or In School", "None", "Other", "Other Education", "Other Education or Non-Veteran", "Other Education or Veteran"), new = c("None", "12th Grade or Veteran", "12th Grade or Veteran", "HS Grad", "Other", "Other", "Other", "HS Grad or Non-Veteran", "HS Grad or Veteran", "Other", "None", "Other", "Other", "Other", "Other")),
-  HISPAN = data.table(orig = c('Hispanic-Mex or Birthplace-Mex'),
-                      new = c('Hispanic-Mex or Mex-Born')),
-  BPL = data.table(orig = c('Hispanic-Mexican or Mexican-Born'),
-                   new = c('Hispanic-Mex or Mex-Born'))
-)
-
-for (var in names(remapper)) {
-  for (i in 1:nrow(remapper[[var]])) {
-    qrecode(sampdat, paste0('limAll_',var),
-            remapper[[var]]$orig,
-            remapper[[var]]$new,
-            checkfrom = FALSE)
-    qrecode(sampdat, paste0('limTreat_',var),
-            remapper[[var]]$orig,
-            remapper[[var]]$new,
-            checkfrom = FALSE)
-    qrecode(sampdat, paste0('limUn_',var),
-        remapper[[var]]$orig,
-        remapper[[var]]$new,
-        checkfrom = FALSE)
-  }
-}
-
-# Note these levels only appear levels that appear in All or Treat
-sampdat[, limAll_HISPAN := factor(limAll_HISPAN, levels = c( "Hispanic-Mexican","Hispanic-Any", "Hispanic-Mex or Mex-Born", "Multistep Condition", "None"))]
-sampdat[, limTreat_HISPAN := factor(limTreat_HISPAN, levels = c( "Hispanic-Mexican","Hispanic-Any", "Hispanic-Mex or Mex-Born", "Multistep Condition", "None"))]
-
-sampdat[, limAll_BPL := factor(limAll_BPL, levels = c("Mexican-Born", "Hispanic-Mex or Mex-Born", "Non-US Born", "Central America-Born",    "None"))]
-sampdat[, limTreat_BPL := factor(limTreat_BPL, levels = c("Mexican-Born", "Hispanic-Mex or Mex-Born", "Non-US Born", "Central America-Born",    "None"))]
-
-sampdat[, limAll_CITIZEN := factor(limAll_CITIZEN, levels = c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012", "Citizen (various)",  "Multistep Condition", "Other" ,  "None"))]
-sampdat[, limTreat_CITIZEN := factor(limTreat_CITIZEN, levels =c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012", "Citizen (various)",  "Multistep Condition", "Other" ,  "None"))]
-
-sampdat[, limAll_AGE_AT_MIGRATION := factor(limAll_AGE_AT_MIGRATION, levels = c("< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "Other", "None"))]
-sampdat[, limTreat_AGE_AT_MIGRATION := factor(limTreat_AGE_AT_MIGRATION, levels = c("< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "Other", "None"))]
-
-sampdat[, limAll_AGE_IN_2012 := factor(limAll_AGE_IN_2012, levels = c("Year-Quarter Age", "Year-Only Age", "None"))]
-sampdat[, limTreat_AGE_IN_2012 := factor(limTreat_AGE_IN_2012, levels = c("Year-Quarter Age", "Year-Only Age", "None"))]
-
-sampdat[, limAll_YRIMMIG := factor(limAll_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012", ">= 2007", "Any Year", "Multistep Condition", "Other", "None"))]
-sampdat[, limTreat_YRIMMIG := factor(limTreat_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012", ">= 2007", "Any Year", "Multistep Condition", "Other", "None"))]
-
-sampdat[, limAll_EDUCVET := factor(limAll_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or In School", "HS Grad or Non-Veteran", "Other", "None"))]
-sampdat[, limTreat_EDUCVET := factor(limTreat_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or In School", "HS Grad or Non-Veteran", "Other", "None"))]
-
-sampdat[, limAll_YRSUSA := factor(limAll_YRSUSA, levels = c("Used YRSUSA", "No YRSUSA"))]
-sampdat[, limTreat_YRSUSA := factor(limTreat_YRSUSA, levels = c("Used YRSUSA", "No YRSUSA"))]
-
-# Since sample restrictions are mostly null for Task 3, do this for only task 2, and only for All and Treat
-r12samp = sampdat[Round %in% c('Task 1','Task 2')]
-r12samp = rbind(r12samp[, .SD, .SDcols = c(
-  'Round',
-  paste0('limAll_',vars_to_consider),
-  'Revision_of_Q4',
-  'Revision_of_Q12',
-  'Q1'
-)][, Sample := 'All'],
-r12samp[, .SD, .SDcols = c(
-  'Round',
-  paste0('limTreat_',vars_to_consider),
-  'Revision_of_Q4',
-  'Revision_of_Q12',
-  'Q1'
-)][, Sample := 'Treated'],
-use.names = FALSE)
-setnames(r12samp, c('Round',titles,'Effect','Sample Size','Q1','Sample'))
-r12samp[, `Round/Sample` := paste(Round,Sample)]
-r12samp_w_q1 = copy(r12samp)
-r12samp[, Q1 := NULL]
+# Variables used in limitations
 sumtable(r12samp, titles, group = 'Round/Sample',
          out = 'latex',
          fit.page = '.9\\textwidth',
@@ -1121,56 +524,8 @@ sumtable(r12samp, titles, group = 'Round/Sample',
 ```
 
 ```{r}
-one_characteristic_tab = function(var,sdat) {
-  sstats = sdat[, .(a = quantile(Effect[Sample == 'Treated'], .25),
-           b = quantile(Effect[Sample == 'Treated'], .5, na.rm = TRUE),
-           c = quantile(Effect[Sample == 'Treated'], .75, na.rm = TRUE),
-           d = quantile(Effect[Sample == 'All'], .25),
-           e = quantile(Effect[Sample == 'All'], .5, na.rm = TRUE),
-           f = quantile(Effect[Sample == 'All'], .75, na.rm = TRUE),
-
-           g = quantile(`Sample Size`[Sample == 'All'], .25, na.rm = TRUE),
-           h = quantile(`Sample Size`[Sample == 'All'], .5, na.rm = TRUE),
-           i = quantile(`Sample Size`[Sample == 'All'], .75, na.rm = TRUE)), by = var]
-  setorderv(sstats, var)
-  sstats = sstats[!is.na(sstats[[var]])]
-  sstats[, (var) := lapply(.SD, \(x) paste('...', x)), .SDcols = var]
-  sstats[, (letters[1:6]) := lapply(.SD, label_number(.001)), .SDcols = letters[1:6]]
-  sstats[, (letters[7:9]) := lapply(.SD, label_number(1, big.mark = ',')), .SDcols = letters[7:9]]
-  setnames(sstats, var,'var')
-  sstats = rbind(data.table(var = var),
-                 sstats, fill = TRUE)
-  cn = names(sstats)
-  sstats[, (cn) := lapply(.SD, \(x) fifelse(is.na(x),'',x))]
-  return(copy(sstats))
-}
-
-make_efftab = function(sdat, title, anchor) {
-  efftab = lapply(titles, one_characteristic_tab, sdat = sdat) |>
-    rbindlist()
-  efftab = rbind(data.table(var = 'HEADERROW',
-                            a = '\\multicolumn{3}{c}{Treated-Group Restriction}',
-                            b = 'DELETECELL',
-                            c = 'DELETECELL',
-                            d = '\\multicolumn{6}{c}{All-Sample Restriction}',
-                            e = 'DELETECELL',
-                            f = 'DELETECELL',
-                            g = 'DELETECELL',
-                            h = 'DELETECELL',
-                            i = 'DELETECELL'),
-                 efftab)
-  setnames(efftab,
-           c('Variable','Effect Pctl. 25','Pctl. 50','Pctl. 75',
-             'Effect Pctl. 25','Pctl. 50','Pctl. 75',
-             'Samp Size Pctl. 25','Pctl. 50','Pctl. 75'))
-  return(efftab)
-}
-```
-
-```{r}
 #| output: asis
-# WHY DOESN"T THIS ESCAPE PROPERLY
-cat('')
+# sample limitationsand effects/samples, task 1
 cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
           align = 'llllllllll',
             title = 'Task 1 Effect and Samples by Sample Definitions',
@@ -1180,8 +535,7 @@ cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
 
 ```{r}
 #| output: asis
-# WHY DOESN"T THIS ESCAPE PROPERLY
-cat('')
+# sample limitationsand effects/samples, task 2
 cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 2']),
           align = 'llllllllll',
             title = 'Task 2 Effect and Samples by Sample Definitions',
@@ -1216,94 +570,34 @@ trans_con[, .(N = uniqueN(paste0(Q1,Round)),
 
 ```{r}
 # Average appearances across rounds
-allcontrols[, Total := uniqueN(Q1), by = Round]
-controllevs = sort(unique(allcontrols$Control))
-controllevs = c(controllevs[controllevs != 'None'],'None')
 allcontrols[, .(Average = number(.N/first(Total), .01)), by = .(Control = factor(Control, levels = controllevs), Round)] |>
   dcast(Control ~ Round, value.var = 'Average') |>
   knitr::kable(booktabs = TRUE)
 
 ```
 
-### Bimodality in Round 2
+## Round 2 Bimodality
 
 ```{r}
-dat[Round == 'Task 2'] |>
-  ggplot(aes(x = Revision_of_Q12, y = Revision_of_Q4)) + 
-  geom_smooth( color = 'black', se = FALSE) +
-  geom_point() + 
-  theme_nick() + 
-  labs(x = 'Sample Size (log scale)', y = 'Effect Size',
-       caption = 'Analysis range limited to effects from 0 to .1') + 
-  scale_x_log10(label = label_rangescale()) + 
-  scale_y_continuous(limits = c(0, .1))
+source('../code/round_2_bimodality.R')
+p_sample_size_scatter
 ```
 
 ```{r}
-dat[Round == 'Task 2'] |>
-  ggplot(aes(x = Revision_of_Q6, y = Revision_of_Q4)) + 
-  geom_smooth(color = 'black', se = FALSE) +
-  geom_point() + 
-  theme_nick() + 
-  labs(x = 'Standard Error', y = 'Effect Size',
-       caption = 'Analysis range limited to effects from 0 to .1') + 
-  scale_y_continuous(limits = c(0, .1)) + 
-  scale_x_log10() + 
-  coord_cartesian(xlim = c(0.001, .5))
+p_standard_error_scatter
 ```
 
 ```{r}
-r12 = dat[Round %in% c('Task 1','Task 2'), .(Round, Effect = Revision_of_Q4, Q1)] |>
-  dcast(Q1 ~ Round, value.var ='Effect')
-r12 |>
-  ggplot(aes(x = `Task 1`, y = `Task 2`)) + 
-  geom_smooth(color = 'black', se = FALSE) +
-  geom_point() + 
-  theme_nick() + 
-  labs(x = 'Task 1 Effect', y = 'Task\n2\nEffect',
-       caption = 'Analysis range limited to effects from 0 to .1') + 
-  scale_y_continuous(limits = c(0, .1)) +
-  scale_x_continuous(limits = c(0, .1))
+p_task1_vs_task2
 ```
 
 ```{r}
-shtask = allcontrols[, .(Q1, Effect, Round, Control = as.character(Control))] |>
-  rbind(dat[Round %in% paste0('Task ',1:3), .(Q1, Effect = Revision_of_Q4, Round, Control = 'Total')])
-shtask = shtask[, .(N = uniqueN(Q1),
-                `Share above .05` = percent(mean(Effect > .05, na.rm = TRUE), .1)),
-            by = .(Round,Control)][order(-`Share above .05`)] |>
-  dcast(Control ~ Round, value.var = c('N','Share above .05'))
-setcolorder(shtask, c('Control','N_Task 1','Share above .05_Task 1',
-                     'N_Task 2','Share above .05_Task 2',
-                     'N_Task 3','Share above .05_Task 3'))
-setnames(shtask, c('Control','Task 1: N', 'Above .05',
-                  'Task 2: N','Above .05',
-                  'Task 3: N','Above .05'))
-shtask[, Control := factor(Control, levels = 
-                             c('Total',controllevs))]
-setorder(shtask, Control)
 shtask |>
   knitr::kable(booktabs = TRUE)
 
 ```
 
 ```{r}
-changelevels = dat[Round %in% c('Task 1','Task 2'),
-                   .(Q1, Round, Effect = Revision_of_Q4)] |>
-  dcast(Q1 ~ Round)
-changelevels = changelevels[, .(Q1, Increase = `Task 2` - `Task 1`)][!is.na(Increase)]
-
-# Check whether changes in controls drove shifts
-conchange = allcontrols[Round %in% c('Task 1','Task 2'), .(Q1,Round, Control, Effect)] |> unique()
-conchange = conchange[,.(ControlSwitch = fcase(
-  sum(Round == 'Task 1') > 0 & sum(Round == 'Task 2') > 0, 'In Both',
-  sum(Round == 'Task 1') > 0 & sum(Round == 'Task 2') == 0, 'Removed',
-  sum(Round == 'Task 1') == 0 & sum(Round == 'Task 2') > 0, 'Added'
-)), by = .(Q1, Control)] |>
-  merge(changelevels, by = 'Q1') |>
-  merge(dat[Round == 'Task 2', .(R2Effect = Revision_of_Q4,
-                                 Q1)], by = 'Q1')
-
 conchange[, .(Increase = percent(mean(R2Effect > .05, na.rm = TRUE))),by = .(Control, ControlSwitch)] |>
   dcast(Control ~ ControlSwitch) |>
   knitr::kable(booktabs = TRUE)
@@ -1315,85 +609,24 @@ conchange[, .(N = .N),by = .(Control, ControlSwitch)] |>
 ```
 
 ```{r}
-sampconds = names(r12samp_w_q1)
-sampconds = sampconds[!(sampconds %in% c('Round','Effect','Sample Size', 'Sample','Round/Sample','Q1'))]
-changesamp = r12samp_w_q1[Sample == 'All',
-                     lapply(.SD, \(x) x[1] != x[2]),
-                     .SDcols = sampconds,
-                     by = Q1] |>
-  melt(id.vars = 'Q1',
-       variable.name = 'Sample Limitation',
-       value.name = 'Changed') |>
-  merge(changelevels, by = 'Q1') |>
-  merge(dat[Round == 'Task 2', .(R2Effect = Revision_of_Q4,
-                                 Q1)], by = 'Q1') |>
-  merge(dat[Round == 'Task 2', .(Q1,`Sample Size` = Revision_of_Q12)], by = 'Q1') |>
-  merge(dat[Round == 'Task 2', .(Q1,`Standard Error` = Revision_of_Q6)], by = 'Q1')
-
-changesamp[, .(N = .N, Increase = mean(Increase, na.rm = TRUE),
-               `Standard Error` = median(`Standard Error`, na.rm = TRUE),
-               R2Effect = mean(R2Effect, na.rm = TRUE),
-               Abovep05 = mean(R2Effect > .05, na.rm = TRUE)),
+numberp1 = label_number(accuracy = .01)
+changesamp[, .(N = .N, Increase = numberp1(mean(Increase, na.rm = TRUE)),
+               `Standard Error` = numberp1(median(`Standard Error`, na.rm = TRUE)),
+               R2Effect = numberp1(mean(R2Effect, na.rm = TRUE)),
+               Abovep05 = percent(mean(R2Effect > .05, na.rm = TRUE), .1)),
            by = .(`Sample Limitation`, Changed)][order(`Sample Limitation`, Changed)][!is.na(Changed)] |>
   knitr::kable(booktabs = TRUE)
 ```
 
 ```{r}
-r12samp_w_q1[, Correct := fifelse(Round == 'Task 2' & Hispanic == 'Hispanic-Mexican' & Birthplace == 'Mexican-Born' & Citizenship == 'Non-Citizen' & `Age at Migration` == '< 16' & `Age in June 2012` == 'Year-Quarter Age' & `Education/Veteran` == 'HS Grad or Veteran','Match','Some Mismatch'), `Effect`]
-
-ggplot(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct, Effect)]), 
-       aes(x = Effect, fill = Correct)) + 
-  geom_density(alpha = .4) + 
-  scale_fill_manual(values = colorpal) + 
-  scale_x_continuous(limits = c(-.05, .1)) +
-  labs(x = 'Task 2 Effect Estimate',
-       y = 'Density',
-       caption = 'Visible range restricted to -.05 to .10 for clarity') + 
-  theme_nick()
+p_match_vs_mismatch_distribution
 ```
 
 ```{r}
-rfield = unique(dat[, .(Researcher_Cats, Q1)])
-rfield = merge(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct)]), rfield, by = 'Q1')
-rfield[is.na(Researcher_Cats), Researcher_Cats := 'Neither']
-rfield[Researcher_Cats == 'Neither', Researcher_Cats := 'Neither/Other']
-rfield = rfield[, .(N = .N), by = .(Correct, Field = Researcher_Cats)]
-rfield = rfield[, .(N = N, Share = N/sum(N),
-                    Correct), by = Field] |>
-  dcast(Field ~ Correct, value.var = c('N','Share'))
-rfield[, Share_Match := percent(Share_Match, .1)]
-rfield[, `Share_Some Mismatch` := percent(`Share_Some Mismatch`,.1)]
-setcolorder(rfield, c('Field', 'Share_Match', 'N_Match', 'Share_Some Mismatch', 'N_Some Mismatch'))
-setnames(rfield, c('Field', 'Num. Match','Share Match','Num Some Mismatch','Share Some Mismatch'))
-rfield |>
-  knitr::kable(booktabs = TRUE)
-r12samp_w_q1[, Correct := Round == 'Task 2' & Hispanic == 'Hispanic-Mexican' & Birthplace == 'Mexican-Born' & Citizenship == 'Non-Citizen' & `Age at Migration` == '< 16' & `Age in June 2012` == 'Year-Quarter Age' & `Education/Veteran` == 'HS Grad or Veteran', `Effect`]
-
-ggplot(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct, Effect)]), 
-       aes(x = Effect, fill = Correct)) + 
-  geom_density(alpha = .4) + 
-  scale_fill_manual(values = colorpal) + 
-  scale_x_continuous(limits = c(-.05, .1)) +
-  labs(x = 'Task 2 Effect Estimate',
-       y = 'Density',
-       caption = 'Visible range restricted to -.05 to .10 for clarity') + 
-  theme_nick()
+p_distribution_by_instruction_match
 ```
 
 ```{r}
-rfield = unique(dat[, .(Researcher_Cats, Q1)])
-rfield = merge(unique(r12samp_w_q1[Round == 'Task 2', .(Q1, Correct)]), rfield, by = 'Q1')
-rfield[is.na(Researcher_Cats), Researcher_Cats := 'Neither']
-rfield[Researcher_Cats == 'Neither', Researcher_Cats := 'Neither/Other']
-rfield = rfield[, .(N = .N), by = .(Correct, Field = Researcher_Cats)]
-rfield[, Correct := fifelse(as.logical(Correct), 'Match','Some Mismatch')]
-rfield = rfield[, .(N = N, Share = N/sum(N),
-                    Correct), by = Field] |>
-  dcast(Field ~ Correct, value.var = c('N','Share'))
-rfield[, Share_Match := percent(Share_Match, .1)]
-rfield[, `Share_Some Mismatch` := percent(`Share_Some Mismatch`,.1)]
-setcolorder(rfield, c('Field', 'Share_Match', 'N_Match', 'Share_Some Mismatch', 'N_Some Mismatch'))
-setnames(rfield, c('Field', 'Num. Match','Share Match','Num Some Mismatch','Share Some Mismatch'))
 rfield |>
   knitr::kable(booktabs = TRUE)
 ```

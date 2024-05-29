@@ -195,3 +195,8 @@ levels = c(
   "Linear Age", "Age FE","Age Quadratic", "Linear Education",  "Education FE","Education Transform","Linear Year", "Year FE" ,"State FE","State FE x Year FE","State FE x Linear Year"
 )))
 trans_con = merge(trans_con, fixdat, by = 'Control')
+
+
+allcontrols[, Total := uniqueN(Q1), by = Round]
+controllevs = sort(unique(allcontrols$Control))
+controllevs = c(controllevs[controllevs != 'None'],'None')
