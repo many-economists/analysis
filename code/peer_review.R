@@ -54,11 +54,11 @@ reviews[, Reviewed_2 := fifelse(sum(ReviewRound == 2) > 0, any(got_reviewed[Revi
 reviews[, Reviewed_3 := fifelse(sum(ReviewRound == 3) > 0, any(got_reviewed[ReviewRound == 3]), FALSE), by = Q1]
 
 dist_compare = rbindlist(list(
-  reviews[Round == 'Task 1' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 3', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)]
+  reviews[Round == 'Task 1' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = fifelse(1/Revision_of_Q6> 200, 200, 1/Revision_of_Q6))],
+  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Next Round', Effect = Revision_of_Q4, weight = fifelse(1/Revision_of_Q6> 200, 200, 1/Revision_of_Q6))],
+  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = fifelse(1/Revision_of_Q6> 200, 200, 1/Revision_of_Q6))],
+  reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Next Round', Effect = Revision_of_Q4, weight = fifelse(1/Revision_of_Q6> 200, 200, 1/Revision_of_Q6))],
+  reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 3', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = fifelse(1/Revision_of_Q6> 200, 200, 1/Revision_of_Q6))]
 ))
 dist_compare[, Observed := factor(Observed, levels = c('Pre-Review','Next Round'))]
 dist_compare[, Reviewed := fifelse(Reviewed == 1, 'Not Peer-Reviewed','Peer Reviewed')]
@@ -148,12 +148,14 @@ p_more_like_reviewer = ggplot(changediff, aes(x = diff, color = Type,
   geom_density(alpha = .1) +
   scale_color_manual(values = colorpal) +
   scale_fill_manual(values = colorpal) +
+  scale_x_continuous(breaks = c(0, .025, .05, .075, .1),
+                     labels = c('0', '.025', '.05', '.075', .1)) +
   coord_cartesian(xlim = c(0, .1)) + 
   theme_nick() + 
   theme(axis.text.x = element_text(size = 10)) +
   facet_grid(rows = vars(Round),
              cols = vars(Comparison)) + 
-  labs(caption = str_wrap('Original is this round vs. this round. Next round is next round vs. next round. Next vs. This is your next round vs. partner\'s this round. Values beyond .1 omitted for visibility.', 100),
+  labs(caption = str_wrap('Original is this round vs. this round. Next round is next round vs. next round. Next vs. This is your next round vs. partner\'s this round. Values beyond .1 omitted for visibility. No weights applied.', 100),
        x = 'Absolute effect difference',
        y = 'Density')
 
