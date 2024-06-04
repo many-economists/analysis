@@ -12,7 +12,7 @@ split_controls = function(i) {
 
 source('../code/control_var_fixdat.R')
 
-condat = copy(dat)
+condat = copy(dat[Q1 %in% Q1[Round == 'Task 3']])
 
 for (i in 1:nrow(condat)) {
   condat[Revision_of_Q23 == fixdat$original[i], Revision_of_Q23 := fixdat$new[i]]
@@ -200,3 +200,32 @@ trans_con = merge(trans_con, fixdat, by = 'Control')
 allcontrols[, Total := uniqueN(Q1), by = Round]
 controllevs = sort(unique(allcontrols$Control))
 controllevs = c(controllevs[controllevs != 'None'],'None')
+
+controls_across_rounds = allcontrols[, .(Average = number(.N/first(Total), .01)), by = .(Control = factor(Control, levels = controllevs), Round)] |>
+  dcast(Control ~ Round, value.var = 'Average')
+controls_across_rounds$Control = c('Age','Age at Migration',
+                     'Age in 2012', 'Education','Labor Force Participation Rate',
+                     'Marital Status','Other', 'Race','Sex','English Speaker',
+                     'State','State Policy Variables','Unemployment Rate',
+                     'Year','Year of Migration','Continuous Years in USA','None')
+setorder(controls_across_rounds, Control)
+controls_across_rounds = rbind(
+  controls_across_rounds[!(Control %in% c('Other','None'))],
+  controls_across_rounds[Control == 'Other'],
+  controls_across_rounds[Control == 'None']
+)
+
+effects_by_controls = allcontrols[, .(N = uniqueN(paste0(Q1,Round)),
+                                      Effect = number(mean(Effect, na.rm = TRUE), .001),
+                                      `Mean SE` = number(mean(SE, na.rm = TRUE), .001),
+                                      `Effect SD` = number(sd(Effect, na.rm = TRUE), .001)),
+                                  by = Control][order(Control)]
+effects_by_controls$Control = c('Age','Age at Migration',
+                                'Age in 2012', 'Education','Labor Force Participation Rate',
+                                'Marital Status','None','Other', 'Race','Sex','English Speaker',
+                                'State','State Policy Variables','Unemployment Rate',
+                                'Year','Year of Migration','Continuous Years in USA')
+setorder(effects_by_controls, -Effect)
+
+#exact matches
+exact_matches = allcontrols[!(Control %in% c('OTHER')), .(Allcon = paste(sort(unique(Control)), collapse = ', ')), by = .(Q1, Round)][, .(numpairs = uniqueN(Q1)), by = .(Allcon, Round)]

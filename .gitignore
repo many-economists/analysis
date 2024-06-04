@@ -17,7 +17,6 @@
 *.DTA
 
 # Other files
-*.pdf
 *.html
 *.nb.html
 *.ZIP
@@ -26,7 +25,7 @@
 *.sav
 *.SAV
 # *.csv
-*.xlsx
+# *.xlsx
 
 # Override for raw data files
 !raw_data/*.xlsx
@@ -47,6 +46,7 @@
 *.map
 *.yml
 LICENSE
+*.pdf
 
 
 
