@@ -1,17 +1,55 @@
 ---
 title: "The Sources of Researcher Variation in Economics"
-author: "Nick Huntington-Klein, Claus Portner, and 147 others"
-format: pdf
+author:
+  - id: HK1
+    number: 1
+    name: Nick Huntington-Klein
+    email: nhuntington-klein@seattleu.edu
+    phone: 1-206-296-5815
+    fax: NONE
+    orcid: 0000-0002-7352-3991
+    degrees: PhD
+    attributes:
+      corresponding: True
+    affiliations:
+      - id: NHK1_1
+        number: 1
+        name: Seattle University
+        department: Department of Economics
+        address: 901 12th Ave, Seattle, WA, 98122
+  - id: CP2
+    number: 2
+    name: Claus Pörtner
+    email: cportner@seattleu.edu
+    phone: 1-206-296-2593
+    fax: NONE
+    orcid: 0000-0001-8052-9462
+    degrees: PhD
+    attributes:
+      corresponding: True
+    affiliations:
+      - id: CP1_1
+        number: 1
+        name: Seattle University
+        department: Department of Economics
+        address: 901 12th Ave, Seattle, WA, 98122
+format: 
+  pdf:
+    keep-tex: true
 editor: visual
-bibliography: references.bib
+bibliography: References.bib
 execute:
   warning: false
   message: false
   echo: false
+acknowledgements: This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the
 include-in-header:
   text:
     \usepackage{booktabs}
     \usepackage{longtable}
+output: 
+  rticles::arxiv_article:
+    keep_tex: true
 ---
 
 ```{r}
@@ -39,314 +77,390 @@ colorpal = palette.colors(palette = 'Paired')
 
 # Introduction
 
--   Replication crisis generally and trust in research. Why do things fail?
 
--   Researcher degrees of freedom as a source. Distinguish this from coding errors.
+The social and behavioral sciences produce a staggeringly large flow of empirical results. A responsible reader of this literature should wonder how much they can trust a given study, given the potential for errors, fluke results, or intentional attempts to produce a specific result. Any responsible producer of this literature, however, is well aware that even a researcher doing their best to avoid these problems must make hundreds of choices in the process of collecting and cleaning data, planning their estimation, and coding their analysis, in other words "researcher degrees of freedom" [@simmons2011false]. Even if Researcher A's choices would stand up to scrutiny and argument from a reviewer or reader, Researcher B with the same goal, data, and skills might have reasonably chosen in a different way that would also stand up to scrutiny. If A and B's choices lead to different results, but only one of them performs the study, then this is a source of largely arbitrary variation in the collection of published results. Estimates in one context suggest this variation might outweigh the population variation we typically consider when estimating standard errors [@holzmeister2023heterogeneity].
 
--   Many-analysts as a way of studying it - mention a bunch of many-analyst studies
+This study looks at the impact of researcher degrees of freedom on results, and also attempts to isolate researcher degrees of freedom at different stages of the research process to try to isolate where researcher choice is most varied, and most strongly influences results. We do this using a "many-analysts" design where multiple researchers attempt the same research task, specifically a task that is common across applied econometrics: estimating the causal effect of a policy that is implemented at a specific period of time and affects some people but not others. We look at differences between researchers in the results as well as the analytic and data cleaning choices made.
 
-    -   Often focused on just finding dfferences and less on their sources
+We expand on a typical many-analysts design by introducing multiple iterations of analysis, each time restricting the amount of choice that researchers can make and so reducing researcher degrees of freedom. This allows us to observe the overall amount of variation in estimates between researchers, as is common in many-analysts designs, and also to separately evaluate the influence of choice in research design and in data cleaning, as well as the impact of peer review.
 
-    -   Of those that do, peer review is common, sometimes you see researcher characteristics or skill. Some looks at data processing or cleaning, plenty on model selection (outside of many-analysts too)
+We find meaningful differences in the ways that different researchers approach the same research task. Some of these differences come from decisions that would receive a typical and expected amount of scrutiny from a reader, like the research design, and choice of control variables. Other differences came from sources where researchers did choose differently but a reader might not recognize that a consequential decision had been made, like in the functional form of the control variables or on a number of data cleaning or sample limitation decisions. When researchers were forced to all use the same research design, results became more similar, especially among the researchers most familiar with the subfield of the research task. Researcher agreement increased sharply when pre-cleaned data was provided to researchers, implying that data cleaning decisions are a major source of variation between researchers. Development of more mature and standardized data cleaning procedures, and increased visibility for data cleaning, may have a meaningful impact on the consistency and believability of results in applied microeconomics.
 
-    -   Note power issues with previous studies
+## Previous Work on Research Reliability and Researcher Degrees of Freedom
 
--   The goal of this paper
+In economics, suspicion about empirical results is not new [@leamer1983let]. The most recent wave of concern inspired by discussions, originating in the field of psychology, of the "replication crisis", which shows that a high percentage of studies cannot be replicated when tested using new data [for example @open2015estimating or @camerer2016evaluating in economics], that study code and data is not available or does not reproduce the published results [@herbert2021reproducibility], or that "policing replications" that test sensitivity of published results are rare [@ankel2023economists].
+
+
+However, this greater body of replication work takes an existing study as a baseline and asks whether it is robust to re-evaluation in some way. Questions about researcher degrees of freedom are not about whether a given study can be challenged, but whether a different researcher performing the same study would have done it differently if they had been the person to perform it, without taking the original as a baseline.[^1] There is some research on this topic in regards to researcher identity or political orientation, as in @jelveh2024political, or personality characteristics, as in @sulik2023scientists. But a common way to empirically study researcher degrees of freedom is using a many-analysts design.
+
+[^1]: Notably these two fields intersect, and some failures to replicate in replication studies may be due to researcher degrees of freedom, where both the original study and the replication made reasonable choices but found different results [@bryan2019replicator]. The difference in framing here is that the replication literature views the differing choices as a challenge to the validity of the original results, while the researcher degrees of freedom framing views both as part of a universe of reasonable results, assuming both analyses are defensible.
+
+The many-analysts design,[^2] popularized by @silberzahn2018many, gives the same data set to multiple teams of researchers and have them independently try to answer the same research question.
+
+[^2]: Many-analysts designs are sometimes referred to as "crowdsourced" science.
+
+Many-analysts studies have now been carried out in many fields, including microeconomics [@huntington2021influence], finance [@menkveld2021non], religion [@hoogeveen2023many], neuroimaging [@botvinik2020variability], political science [@breznau2021observing], machine learning [@chen2024subjectivity], ecology and evolutionary biology [@gould2023same], psychology [@boehm2018estimating, @bastiaansen2020time, @schweinsberg2021same], and medical informatics [@ostropolets2023reproducible], among others.
+
+With little exception, many-analysts studies find that there *is* meaningful variation in both methods and conclusions across researchers. @holzmeister2023heterogeneity finds that researcher variation in design and analysis likely outweighs population variation in effects.
+
+These studies vary considerably, however, in the extent to which they can establish the source of that researcher variation or suggest policies that might reduce it. Establishing that there is variation is important, but is of limited impact if we do not understand why it is there or what we can do about it. Further, many-analysts results may not even imply a problem if not carefully performed. Variation in the original @silberzahn2018many study may be largely explained by the research question not being made sufficiently clear to researchers [@auspurg2021has], and skipping standard meta-analytic practice may overstate variation between researchers by being too sensitive to outlier estimates [@auspurg2023social].
+
+The ability to explain variation between researchers, rather than just show that variation exists, is limited by the size of these many-analyst studies. As will be explored in Section @sec-target-sample, this study pursued a sample of at least 90 researchers so as to have acceptable power to explain differences in variation. @perignon2022reproducibility, in looking at the sources of reproducibility variation using many teams, used a design with 1,000 tests to replicate in order to adequately power comparisons. Since participation in a many-analysts study takes considerable time and effort, sample sizes are often well below even the aforementioned 90, which may explain why many studies do not attempt do decompose the variation in effects they find between sources. These smaller sample sizes can produce acceptable statistical power for some tests but not others, and explaining variation or agreement in effects between researchers generally demands a larger sample than showing the existence of meaningful variation or showing a difference in rates of making a particular research decision. Many-analyst studies that aim to explain the sources of variation between researchers either do so despite the low-power issue, gather larger samples of researchers, or select analyses which produce adequate power despite small samples.
+
+Among studies that do attempt to explain researcher variation, there are three common sources of explanation. The first of these is in the difficulty of the research task, with some studies showing less researcher agreement in more complex or difficult-to-analyze scenarios \[@menkveld2021non, @ortloff2023different,. A second source is researcher experience or characteristics. @menkveld2021non find that higher-quality teams (with more experience, seniority, publishing success, and/or people) agreed more. @ortloff2023different find that experienced researchers tended to draw more abstract codebooks and conclusions than students, and @broderick2020automatic find that replicators with more coding skill found more errors in original work. @breznau2021observing, however, found that researcher characteristics explained only a small share of the variation in results.
+
+A third factor used to explain variation is peer review or evaluation. Seeing the actual impact of review requires that researchers be able to revise their work after receiving it, as in @menkveld2021non, who find that review increases agreement. In some cases there is no chance to revise so we cannot see the impact of peer review, but instead outside evaluation is used as a measure of researcher quality. In this vein, @gould2023same find that peer review scores do not predict whether a given researcher produces an outlier result.
+
+Outside of many-analyst designs, there are studies that use simulation to try many combinations of analytical or data-cleaning choices and examine the resulting variation in estimates. This approach is similar to a many-analysts design in that they look at variability in potential research choices and, often, try to explain variation in effects estimates using those choices. They differ in that they are necessarily limited to the set of research decisions that the project organizers consider ahead of time (which constrains the universe of possible decisions but also makes interpretation of the results far more clear), and typically consider all combinations of decisions equally, rather than favoring combinations an actual researcher would choose. Of these studies, the closest to the present study is @klau2023comparing, a study which evaluates the sensitivity of results in an observational psychological data set to different data preprocessing and modeling choices. They try multiple combinations of reasonably preprocessing and modeling choices using simulation to iterate through the universe of potential choices, and find significant variation in effects over reasonable preprocessing and modeling choices. A similar attempt to separate researcher variation into modeling and preprocessing components is also done in a many-analysts design in @huntington2021influence, although in a limited way.
+
+This study's design attempts to evaluate multiple of these sources of variation using a staged design, similar to @perignon2022reproducibility. The different stages allow different levels of researcher choice along the lines of interpretation of the research question, research design, and data preparation, as well as randomized peer review incorporating these mechanisms proposed by the literature and responding to the critique of @auspurg2021has. Researcher characteristics are collected, as well, allowing for exploration of the researcher-characteristics source of researcher variation, although not in a controlled way. We do not address the difficulty of the research task as a potential source of researcher variation in this study.
+
 
 # Design
 
--   What we plan to isolate
+In this study, we attempt to isolate the influence of several different potential sources of researcher variation by having the same set of researchers complete the same research task at least three times. We refer to these main research tasks as Task 1, Task 2, and Task 3. Following each task there is also a round of peer review and an opportunity to revise work.
 
--   The multi-stage process
+Task 1 gives each researcher a large amount of freedom in terms of how they plan to complete the research task. Each successive task removes a degree of freedom from the researcher and specifies a specific way that the analysis is to be performed. The intuition behind this design is that if the removal of a specific kind of researcher freedom meaningfully reduces the variation in results between researchees, then that degree of freedom is a meaningful contributor to researcher variation.
 
--   The general concept behind what we can identify by comparing task 1 to 2 and task 2 to 3
+The following goals and instructions are shared across all tasks:
 
--   Link to preregistration
+-   Estimate the causal effect of a policy on a specified outcome, among the group affected by that policy (see Section \ref{sec:focaltask} below for more details).
+
+-   Use American Community Survey (ACS) data to estimate the effect, using data no older than 2006 and no newer than 2016.
+
+-   Procure ACS data from IPUMS [@ruggles2024ipums], selecting only one-year files and using harmonized variables.
+
+-   Optionally, combine the ACS data with a data set on the presence or absence of other relevant policies, provided by the organizers.
+
+-   Use a statistics package or language that allows results to be immediately replicated.
+
+Researchers were also given background information on the policy itself and its eligibility criteria, guidance on how to use the IPUMS website, instructed to use assistants for any work they would normally use assistants for, and to complete their analysis as though it had been their own idea, rather than attempting to match or not-match other researchers, or asking the project organizers how they would like the analysis to be performed.
+
+These instructions comprise the entirety of the limitations on researchers in Task 2. Tasks 2 and 3 specified the task further and removed researcher degrees of freedom.
+
+-   Task 2 specified the research design more precisely. Instead of allowing any research design to identify the causal effect of interest, Task 2 gave specific definitions for which individuals comprised a "treated" group and which comprised an "untreated" group.[^3] Then, it instructed researchers to estimate the effect by comparing how outcomes for the "treated" group changed from before policy implementation to afterwards against how outcome for the "untreated" group changed. This can be thought of as a difference-in-differences style design, although the phrase "difference-in-differences" was not used in the instructions.
+
+-   Task 3 uses the same research design limitations of Task 2, but also provides a pre-cleaned data set, prepared by the organizers. The data set offered a pre-prepared treated/untreated-group indicator as specified in Task 2, limited the data set only to the treated and untreated group, prepared and cleaned all variables in the data set that did not already come pre-cleaned, handled missing-data flags, merged in state policy data, and offered standardized simplified recodings of demographic variables. Researchers were instructed to not further clean the data or limit the sample.
+
+[^3]: Although eligibility criteria for the policy were explicitly given in Task 1, Task 2 further limits the treated group by narrowing the acceptable age range. The limitation was more impactful for defining the untreated comparison group, though. Many researchers did use a treated/untreated group approach in Task 1 before it was specified in Task 2, but different individuals defined the untreated group in highly diverse ways, as will be shown in the Results section.
+
+Comparison of the researcher output between Task 1 and Task 2 is intended to show the researcher variation introduced by either an imprecise statement of the research question, as in @auspurg2023social, or due to differences in research design choices.
+
+Comparison of the researcher output between Task 2 and Task 3 is intended to show the researcher variation introduced by decisions made in the data cleaning and variable definition process. A researcher following the Task 2 instructions should arrive at the same sample size, number of treated individuals, and number of untreated individuals as in Task 3, as well as the same definition for the outcome variable.[^4] Differences in the data set and in the results between Task 2 and Task 3 should be a result of differences in the data cleaning and preparation process.
+
+[^4]: The Task 2 instructions do leave some leeway for definition of some variables, in particular control variables like education or race, which have a specific recoded version available in Task 3 that are not specified in the Task 2 instructions.
+
+Following each of the research tasks, researchers engage in a round of peer review. 2/3 of researchers are randomly assigned to peer review, and 1/3 do not engage in peer review. Those in peer review are randomly assigned in pairs. Those pairs performed a blind review of each others' work, and provided a written assessment of that work. Reviewers were instructed to produce a review "as though (they) were the reviewer of a journal article," and to judge the work as though they were reviewing for a journal where a study of this kind "could be published if the work was of high quality."
+
+Following peer review, all researchers have an opportunity to revise their work in light of the peer review (or for any other reason). Importantly, revision is not mandatory, nor is satisfying one's peer reviewer, and the majority researchers did not choose to submit revisions.
+
+Notably, this form of peer review does not exactly match what is typically done in peer review work for journal publications. In particular, revision is non-mandatory, all reviewers have themselves completed a study with the same goal and data and so have extensive background information, and all reviewers are themselves also reviewed by the same person. These features will all affect interpretation of the peer review results. In particular, the non-mandatory nature of the peer review means that the between-round revision work is only visible for a small subset of the researchers, and the paired nature of the reviews means we cannot separate the effect of being reviewed from the effect of reviewing someone else.
+
+Task 1 gives each researcher a large amount of freedom in terms of how they plan to complete the research task. Each successive task removes a degree of freedom from the researcher and specifies a specific way that the analysis is to be performed. The intuition behind this design is that if the removal of a specific kind of researcher freedom meaningfully reduces the variation in results between researchees, then that degree of freedom is a meaningful contributor to researcher variation.
+
+The following goals and instructions are shared across all tasks:
+
+-   Estimate the causal effect of a policy on a specified outcome, among the group affected by that policy (see Section \ref{sec:focaltask} below for more details).
+
+-   Use American Community Survey (ACS) data to estimate the effect, using data no older than 2006 and no newer than 2016.
+
+-   Procure ACS data from IPUMS [@ruggles2024ipums], selecting only one-year files and using harmonized variables.
+
+-   Optionally, combine the ACS data with a data set on the presence or absence of other relevant policies, provided by the organizers.
+
+-   Use a statistics package or language that allows results to be immediately replicated.
+
+Researchers were also given background information on the policy itself and its eligibility criteria, guidance on how to use the IPUMS website, instructed to use assistants for any work they would normally use assistants for, and to complete their analysis as though it had been their own idea, rather than attempting to match or not-match other researchers, or asking the project organizers how they would like the analysis to be performed.
+
+These instructions comprise the entirety of the limitations on researchers in Task 2. Tasks 2 and 3 specified the task further and removed researcher degrees of freedom.
+
+-   Task 2 specified the research design more precisely. Instead of allowing any research design to identify the causal effect of interest, Task 2 gave specific definitions for which individuals comprised a "treated" group and which comprised an "untreated" group.\^\[Although eligibility criteria for the policy were explicitly given in Task 1, Task 2 further limits the treated group by narrowing the acceptable age range. The limitation was more impactful for defining the untreated comparison group, though. Many researchers did use a treated/untreated group approach in Task 1 before it was specified in Task 2, but different individuals defined the untreated group in highly diverse ways, as will be shown in the Results section.\] Then, it instructed researchers to estimate the effect by comparing how outcomes for the "treated" group changed from before policy implementation to afterwards against how outcome for the "untreated" group changed. This can be thought of as a difference-in-differences style design, although the phrase "difference-in-differences" was not used in the instructions.
+
+-   Task 3 uses the same research design limitations of Task 2, but also provides a pre-cleaned data set, prepared by the organizers. The data set offered a pre-prepared treated/untreated-group indicator as specified in Task 2, limited the data set only to the treated and untreated group, prepared and cleaned all variables in the data set that did not already come pre-cleaned, handled missing-data flags, merged in state policy data, and offered standardized simplified recodings of demographic variables. Researchers were instructed to not further clean the data or limit the sample.
+
+Comparison of the researcher output between Task 1 and Task 2 is intended to show the researcher variation introduced by either an imprecise statement of the research question, as in @auspurg2023social, or due to differences in research design choices.
+
+Comparison of the researcher output between Task 2 and Task 3 is intended to show the researcher variation introduced by decisions made in the data cleaning and variable definition process. A researcher following the Task 2 instructions should arrive at the same sample size, number of treated individuals, and number of untreated individuals as in Task 3, as well as the same definition for the outcome variable.\^\[The Task 2 instructions do leave some leeway for definition of some variables, in particular control variables like education or race, which have a specific recoded version available in Task 3 that are not specified in the Task 2 instructions.\] Differences in the data set and in the results between Task 2 and Task 3 should be a result of differences in the data cleaning and preparation process.
+
+Following each of the research tasks, researchers engage in a round of peer review. 2/3 of researchers are randomly assigned to peer review, and 1/3 do not engage in peer review. Those in peer review are randomly assigned in pairs. Those pairs performed a blind review of each others' work, and provided a written assessment of that work. Reviewers were instructed to produce a review "as though (they) were the reviewer of a journal article," and to judge the work as though they were reviewing for a journal where a study of this kind "could be published if the work was of high quality."
+
+Following peer review, all researchers have an opportunity to revise their work in light of the peer review (or for any other reason). Importantly, revision is not mandatory, nor is satisfying one's peer reviewer, and the majority researchers did not choose to submit revisions. The non-mandatory nature of revision will impact the interpretation of peer review results.
+
+Following each research task and revision, researchers filled out a survey about their work.[^5] This survey asked them to report their findings, additional information like sample size and standard errors, and choices made in the process of doing the analysis like sample restrictions, treated-group definitions, estimator, and standard error adjustments. Researchers were also asked to justify why they had made these choices.
+
+[^5]: Note that the design of this study, and this survey, predates @sarafoglou2024subjective and so does not follow it.
+
+This research design and analysis plan has been preregistered [@portner_huntington-klein_2022]. Analyses that were not preregistered will be noted in the results section as they are performed. Full instructions for each task, as well as post-task survey text and the peer-reviewing instructions, are available in the online appendix.
 
 # Data
 
 ### The Focal Research Task
 
+\label{sec:focaltask}
+
+In all research tasks, the specific goal given to researchers was:[^6]
+
+[^6]: Full instructions are available in the online appendix.
+
+> Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what was the causal impact of eligibility for the Deferred Action for Childhood Arrivals (DACA) program (treatment) on the probability that the eligible person is employed full-time (outcome), defined as usually working 35 hours per week or more?
+>
+> DACA was implemented in 2012. Examine the effects on full-time employment in the years 2013-2016.
+
+
+In simple terms, this asks researchers to estimate the impact of the DACA program on the probability that those eligible for the program usually work 35 hours per week or more in the years 2013-2016.[^7]
+
+[^7]: Notably, there are several existing papers that use the same ACS data set to identify the effect of DACA on various outcomes. The design used in Tasks 2 and 3 was most directly inspired by @amuedo2016can, although the designs do not match exactly, and the outcomes of interest are not the same. Researchers are informed that such previous studies exist and that they can optionally look into previous studies for background as they would normally do when performing research, although no specific previous study is listed. The instructions emphasize that any previous study should not be understood to be a "right answer" that researchers should be trying to match.
+
+Researchers, many of whom are not from the United States and so may not be familiar with DACA, are given further background information about the DACA program:
+
+-   DACA allowed undocumented immigrants who were accepted into the program to have legal work authorization for two years without fear of deportation, and also allowed them to apply for drivers' licenses or other forms of identification. People could reapply after the two years expired, and many did.
+
+-   Applications for the program opened on August 15, 2012, and over the first four years of the program's existence, over 900,000 applications were received, about 90% of which were approved.[@citservices2016]
+
+-   While the program was not specific to immigrants from any origin country, because of the structure of undocumented immigration to the United States, the great majority of eligible people were from Mexico.
+
+Researchers were also given information on the eligibility criteria for DACA, which was intended to apply only to a specific subset of undocumented immigants who arrived in the United States as children, and not to all undocumented immigrants. Eligible people must:
+
+-   Have arrived in the United States before their 16th birthday.
+
 -   Describe the research task
 
--   Basic background on DACA
+-   Not have had their 31st birthday as of June 15, 2012.
 
--   A few previous studies that look at a similar question but the intent here is not to match
+-   Have lived continuously in the United States since June 15, 2007.
+
+-   Were present in the United States on June 15, 2012 and did not yet have legal status (either citizenship or legal residency) during that time.
+
+An additional eligibility requirement was mistakenly omitted from the Task 1 instructions, but was included for Tasks 2 and 3:
+
+-   Eligible people must have completed at least high school (12th grade) or be a veteran of the military.
+
+In addition to this information about the policy itself and the effect that researchers are supposed to identify, researchers were also given instructions about the data set to use and how to procure it, as well as some details on usage of the data:
+
+-   Data should come from the American Community Survey (ACS), using data no older than 2006, and no newer than 2016.
+
+-   In addition, a file of state/year-level data was provided including labor market data and the presence or absence of different immigration policies in different years. Immigration policy data comes from @urbaninstdata.[^8]
+
+    ACS data should be procured from the IPUMS website [@ruggles2024ipums], specifically selecting one-year ACS files and harmonized variables. Written and video instructions were included showing how to select data samples and variables on the IPUMS website.
+
+-   Researchers were not told which specific variables to use to determine eligibility status, but they were given guidance onto how to find relevant vairables (like looking at the Person $\rightarrow$ Race, Ethnicity, and Nativity page to find variables relevant to ethnicity, birthplace, citizenship, and year of immigration).
+
+-   Several relevant features of the ACS that may affect analysis were emphasized: (a) ACS is a repeated cross-section, not a year-to-year panel data set, and (b) ACS does not list the month that data was collected in, so it is not possible to distinguish whether a given observation in 2012 is from before or after the policy was implemented, and (c) we do not actually observe in ACS whether a given person is enrolled in DACA, so we assume that all eligible people who are ethnically Mexican and Mexican-born are treated.
+
+[^8]: This file included the state/year-level unemployment rate and labor force participation rate. Immigration policy flags were for policies for undocumented immigrants to get state drivers' licenses, to get college financial aid, to be banned from state public colleges, or to follow Omnibus immigation legislation that serves to increase the surveillance of immigation documentation. Additional indicators were for participation in E-Verify laws that require employers to verify immigration authorization, to limit E-Verify participation, participation in Secure Communities, and for participation in task-force or jail based 287(g) policies.
+
+Finally, researchers were instructed to keep track of any variables used to limit their sample download on IPUMS, and to review the survey where they would be reporting their results before beginning their analysis.
+
+From there, researchers were given free reign to complete the analysis as they thought most appropriate, including their own choice of statistical software, an instruction to use assistants for any work that they might normally use assistants for, and asking them to complete the analysis as they thought best, as though the research task had been their own idea, not trying to match or not-match other researchers or guess what analyses the project organizers wanted to see. Once finished, they uploaded all of their code and data to a Sharepoint website, wrote a short description and interpretation of their results focusing on a single "headline" result, and filled out the research survey to report their results.
+
+For Task 2, all of the previous instructions remained in place, but several were added to further specify the research design:
+
+-   There is a "treated" group that is comprised of all ethnically Mexican and Mexican-born individuals who are aged 26-30 on June 15, 2012 (recall that individuals must not have had their 31st birthday as of June 15, 2012 to be eligible for DACA).
+
+-   There is an "untreated" group that is comprised of people who would have been eligible for DACA, except that they were aged 31-35 on June 15, 2012.
+
+-   Researchers should estimate the effect of treatment by seeing how the 26-30 group changed from before treatment to after relative to how the 31-35 group changed (keeping in mind this is a repeated cross-section and not panel data).
+
+-   Researchers should attempt to estimate the effect for all individuals in the "treated" group and not, for example, estimate the effect only for men or only for women.
+
+-   The instructions specifically mention that researchers can, if they like, use covariates or account for differing trends to improve the comparability of the treated and untreated groups.
+
+The task is otherwise unchanged for Task 2.
+
+In Task 3, the instructions remain unchanged from Task 2, except that the data is provided directly instead of having researchers download data from IPUMS, omitting data from the year of 2012. In Task 3, project organizers cleaned the data, merged in the state policy data, created a variable indiciating whether a given individual was in the "treated" or "untreated" group, limited the sample only to individuals in "treated" or "untreated," and created simplified versions of variables like education. Researchers were instructed not to further limit the sample from this prepared data set, or to perform further extensive data cleaning.[^9]
+
+[^9]: There were three observations in the final cleaned data set that were missing values of the education variable. The final used sample in Task 3 sometimes differs by 3 across researchers, based on whether the analysis uses education and thus drops these individuals.
 
 ### Recruitment and Attrition
 
--   How eligibility was defined and why
+In a many-analysts study, researchers who carry out the research task make up both the bulk of the author list and are the subject of inquiry, so their recruitment is a key feature of the study.
 
--   Recruitment processes
+#### Researcher Qualifications
 
--   Show the attrition stages
+The goal of the project organizers was to make the set of researchers representative of the set of people who are producing the applied microeconomics literature. As such, recruitment criteria focused on identifying people who have produced applied microeconomic research, including potentially non-academic applied microeconomics research.
 
--   Describe the survey used for collecting responses and the coding process for interpreting those responses
+A given researcher was qualified for the project if they satisfied any one of the following criteria:
 
--   Link to OSF of completed data
+-   They are academic faculty working in applied microeconomics.
 
-# Results
+-   They are a graduate student **and** have a published or forthcoming paper in applied microeconomics.
 
-(move these around as appropriate; the recruitment and attrition stuff might move up to data)
+-   They hold a PhD **and** work in a job where they write non-academic reports using tools from applied microeconomics to estimate causal effects.[^10]
 
-## Recruitment and Attrition
+[^10]: This qualification would allow, for example, employees of the World Bank, or people working in private sector research, to participate.
 
-# Data
+Participation was not limited on the basis of country, career stage, or demographics such as sex, race, or sexual or gender identity.
 
-# Recruitment and Attrition
+#### Target Sample Size
+
+\label{sec-target-sample}
+
+An initial simulation-based power analysis assumed that each research task would have 5% less between-researcher variation in observed effects than the previous round and looked at the statisical power to detect a linear relationship between round number and the squared deviation of effects (variance of estimated effects across researchers). We found that we had 90% power to detect this effect if 90 researchers finished all tasks. We also found that, for comparisons of only two different research tasks, 90 researchers would give 85% power to detect a decline in variance from one stage to the next of 15% or more, a reasonable effect size given previous many-analyst studies.
+
+We further assumed that attrition rates would be roughly 50%, which would suggest recruiting 180 eligible researchers to achieve adequate power. We revised that goal to 200 to account for our assumptions potentially being optimistic. Project organizers obtained funding to support payments to 200 researchers (see below).
+
+#### Recruitment and Incentives
+
+Recruitment was advertised to potential researchers through three avenues: (1) social media posts on Twitter and LinkedIn, (2) emails to professional organizations including the Institute for Replication and the Committee on the Status of Women in the Economics Profession, and (3) emails to United States economics department chairs. For emails to departments heads, we gathered the list of all 286 economics departments listed in the U.S. News and World Report. We could locate emails for a front desk or (preferably) department chair for 264 of those departments. We emailed those 264 departments, asking for the message to be passed on to all faculty or just all microeconomics faculty.
+
+The recruitment message described the project and its goals, and provided a link to a website that included further detail on project expectations and incentives for participation.[^11] Researchers were told that if they completed all stages of the project, they would be offered authorship on the eventual paper and a \$2,000 payment for up to 200 of the participants. The website included a link to a survey that asked questions related to eligibility for the project.
+
+[^11]: <https://nickch-k.github.io/ManyEconomists/>
+
+#### Participation and Attrition
 
 ```{r}
-orig_num = dat[is.na(Q2) & Q1 == 0, .N] + dat[is.na(Q2) & Q1 != 0, uniqueN(Q1)] + uniqueN(dat[!is.na(Q2),Q1])
-neverfin = dat[Q1 != 0,uniqueN(Q1)]
-justcount = dat[!(str_detect(Q2, '\\('))]
-justcount = justcount[, .(Participants = uniqueN(Q1)), by = .(Round = Q2)]
-justcount = rbind(data.table(Round = c('Original Signup','Assigned Task 1'),
-                             Participants = c(orig_num, neverfin)),
-                  justcount)
-justcount[, Attrition := percent(1-shift(Participants,-1)/Participants, .01)]
+source('../code/participation_and_attrition.R')
+```
+
+Overall participation and attrition values are in Table \ref{tbl-attrition}. `r justcount[1,Participants]` people submitted applications for the project. `r justcount[1, Attrition]` of these were found to be ineligible for the project. Most of these were graduate students who did not yet have a forthcoming paper.
+
+```{r attrition}
+#| label: tbl-attrition
+#| tbl-cap: Participation and Attrition
 justcount |> knitr::kable(booktabs = TRUE)
 ```
 
+This left `r justcount[2,Participants]` eligible participants. This is more than the 200 for which budget was available to pay the offered \$2,000 incentive. The 282 of these participants who had signed up by the original cutoff date were put into a random order, and then the 13 late signups were put at the end of this order. Participants were given their place in the order, and informed that, among people completing all stages of the project, the first 200 in the order would be paid.
+
+Initial assumptions from the power analysis that attrition rates would be near 50% were almost exactly correct, with `r percent(justcount[5,Participants]/justcount[2,Participants],.01)` of these initial `r justcount[2,Participants]` eligible researchers completing all three stages. Nearly all of the attrition occurred by the completion of Task 1. After `r justcount[3,Participants]-justcount[2,Participants]` eligible researchers failed to complete Task 1, only a further `r justcount[5,Participants]-justcount[3,Participants]` failed to complete Task 3. This means we have `r justcount[5,Participants]` researchers who completed all three research tasks, well above the goal of 90.
+
+The high recruitment numbers and the fact that nearly all attrition occurs before Task 1 is complete allows us to evaluate the impact of the payment incentive. One potential concern with our incentive design is that payment and authorship are offered to anyone who completes all tasks, regardless of the quality of their work. We evaluate whether being guaranteed payment affects the probability of completing Task 1 using a regression discontinuity design. Someone randomly assigned to position 199 in the ordering is guaranteed payment if they complete all the tasks, while someone in position 201 may think they are likely to receive payment, but they are not guaranteed it.
+
 ```{r}
-eo = import('../data/email_order.xlsx')
-moneyatt = dat[Q1 != 0]
-moneyatt = moneyatt[, .(Finished = max(!is.na(Q2))), by = Q1]
-setnames(moneyatt, "Q1",'respondent_id')
-moneyatt = merge(moneyatt, eo, by = 'respondent_id')
-moneyatt[, Stage := factor(fcase(
-  order <= 200, 'Assured',
-  order <= moneyatt[respondent_id > 10000, min(order)], 'Not Assured',
-  !is.na(order), 'Late'
-), levels = c('Assured','Not Assured','Late'))]
-library(rdrobust)
-m = feols(Finished ~ Stage, data = moneyatt)
-m2 = feols(Finished ~ I(order-200)*Stage, data = moneyatt)
-etable(m, m2)
+#| label: fig-rdd
+#| fig-cap: Impact of Guaranteed Payment on Probability of Task 1 Completion
 
 rdplot(moneyatt$Finished,moneyatt$order,200,
-       x.label = 'Order',y.label = 'Prob. Completed First Task')
-
+       x.label = 'Order',y.label = 'Prob. Completed First Task',
+       title = '')
 ```
 
-```{r}
-dat[, Researcher_Q10 := as.character(Researcher_Q10)]
-dat[Researcher_Q10 == "Professional or graduate degree other than master's or PhD", Researcher_Q10 := 'Prof. Degree']
-dat[Researcher_Q10 == "Some graduate school, but no graduate degree", Researcher_Q10 := 'Some Grad School']
+Figure \ref{fig-rdd} shows no meaningful effect of being guaranteed payment on the probability of completing Task 1. In additional results in the appendix, using a linear regression specification of the regression discontinuity design and the full range of the data (not including the late sign-ups) to maximize statistical power,[^12] we again find no statistically significant effect of being guaranteed treatment. This is suggestive that participants were not simply signing up in an attempt to get a \$2,000 payment for little effort.
 
-# Create research field categories
-dat[, Researcher_Cats := factor(fcase(Researcher_Q13 %like% 'Immigration' & Researcher_Q13 %like% 'Labor', 'Immigation & Labor',
-                            Researcher_Q13 %like% 'Immigration', 'Immigration',
-                            Researcher_Q13 %like% 'Labor', 'Labor',
-                            !is.na(Researcher_Q13),'Neither'),
-                            levels = c('Immigration & Labor','Immigration','Labor','Neither'))]
+[^12]: Use of the full range, rather than a bandwidth, is justified given that the running variable is randomly assigned.
 
-fullset = copy(dat)
-fullset[Q1 == 0, Q1 := (1:.N) + 100000]
-fullset = fullset[, lapply(.SD, last), by = Q1]
+#### Sample Characteristics
 
-demogdat = dat[Q2 %in% c('The first replication task', 'The third replication task')]
-tokeep = c('Q1', names(dat)[names(dat) %like% 'Researcher_'], 'Revision_of_Q4')
-tokeep2 = c('Q1', 'Q2', names(dat)[names(dat) %like% 'Researcher_'], 'Revision_of_Q4')
-alldemog = rbindlist(list(
-  unique(subset(fullset, select = tokeep))[, Q2 := 'Original Signup'],
-  unique(subset(dat[Q1 != 0], select = tokeep))[, Q2 := 'Assigned Task 1'],
-  unique(subset(demogdat, select = tokeep2))
-), use.names = TRUE)
-qrecode(alldemog, 'Q2',c('Assigned Task 1','Original Signup',
-                         'The first replication task',
-                         'The third replication task'),
-        c('Assigned task 1',
-          'Original signup',
-          'Finished task 1',
-          'Finished task 3'))
-alldemog[, Round := factor(Q2, levels = c('Original signup',
-                                          'Assigned task 1',
-                                          'Finished task 1',
-                                          'Finished task 3'))]
-alldemog[, Researcher_Q10 := factor(Researcher_Q10,
-                                    levels = c('No graduate school',
-                                    'Some Grad School',
-                                    'Master\'s degree',
-                                    'Prof. Degree',
-                                    'PhD'))]
-qrecode(alldemog, 'Researcher_Q6',
-        c('Faculty','Graduate student',
-          'Non-faculty researcher at a university', 
-          'Other (describe)',
-          'Private-sector researcher',
-          'Public-sector researcher not at a university'),
-        c('Faculty','Grad. Student',
-          'Other Researcher','Other','Other Researcher','Other Researcher'))
-```
+Tables \ref{tab-samp1} to \ref{tab-samp3} show the characteristics of the recruited sample, and how those characteristics changed with eligibility and attrition. Task 2 is omitted as an attrition stage since so few people dropped out between Task 1 and Task 2.
+
+Table \ref{tab-samp1} shows that the majority of researchers were recruited via social media, with only about 9% coming from a department email, 4% from a professional organization email, and 9% from some other source (like word-of-mouth). Those recruited from another source were less likely to qualify for the study, and slightly less likely to finish, while those recruited from social media were most likely to qualify and finish. We also asked researchers how certain they were of their ability to finish the first task as well as the full set of tasks, on a scale of 1 to 100. Enrollees were about 90% confident in their ability to complete the full set of research tasks (although only about 50% did). Those who were more confident were slightly more likely to actually finish, and average confidence rates of those who did finish were about 92% instead of 90%.
 
 ```{r}
 #| output: asis
-alldemog[, Q8Recode := fcase(
-  Researcher_Q8 == 'I have 1-5 papers in applied microeconomics published or accepted for publication', '1-5 Papers in Applied Micro',
-  Researcher_Q8 == 'I have 6+ papers in applied microeconomics published or accepted for publication', '6+ Papers',
-  Researcher_Q8 == 'I have never performed academic research in applied microeconomics', 'No Academic Papers',
-  Researcher_Q8 == 'I have written at least one academic paper in applied microeconomics, but none of this work is published or accepted for publication', 'No Published Academic Papers'
-)]
-alldemog[, RaceRecode := Researcher_Q16]
-alldemog[str_detect(RaceRecode, ',') | RaceRecode == 'Other', RaceRecode := 'Other or Multiracial']
-alldemog[, RaceRecode := factor(RaceRecode,
-                                levels = c('White','Asian','Black or African American','Hispanic','Other or Multiracial'))]
-sumtable(alldemog, vars = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Cats'), 
-         labels = c('Degree','Occupation', 'Research Experience','Field'), group = 'Round',
-         out = 'latex', fit.page = '\\textwidth')
-```
-
-```{r}
-#| output: asis
-alldemog[, Researcher_Q17 := factor(Researcher_Q17, 
-                                    levels = c('Yes','No','Prefer not to say'))]
-sumtable(alldemog, vars = c('Researcher_Q15',
-                            'RaceRecode',
-                            'Researcher_Q17'), 
-         labels = c('Gender','Race','LGBTQ+'), group = 'Round',
-         out = 'latex',
-         fit.page = '\\textwidth')
-```
-
-```{r}
-#| output: asis
-alldemog[, Researcher_Q11 := factor(Researcher_Q11,
-                                    levels = c('Social media', 'Department email','Email of a professional organization','Other'))]
 sumtable(alldemog, vars = c('Researcher_Q11',
                             'Researcher_Q12_1',
                             'Researcher_Q12_2'), 
          labels = c('Recruitment Source','Certainty to Finish Task 1','Certainty to Finish Task 3'), group = 'Round',
          out = 'latex',
-         fit.page = '\\textwidth')
+         title = 'Researcher Recruitment Source and Completion Confidence',
+         fit.page = '\\textwidth',
+         anchor = 'tab-samp1')
 ```
+
+Table \ref{tab-samp1} shows the professional experience of enrollees. While graduate students were considered eligible for the project as long as they had a published or forthcoming paper, the great majority of eligible researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q10 %in% c('PhD','Prof. Degree')),1)]`) had PhDs. PhD holders were also more likely than other eligible researchers to complete all three tasks.
+
+These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Faculty')),1)]`) and other non-faculty researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Other Researcher')),1)]`), both of which were more likely than graduate students to finish all three rounds. Note that the researchers in these categories who do not hold PhDs were either people who had been hired to faculty roles without holding PhDs (such as ABDs, or people in countries where a faculty position requires only a Master's degree), or people with Master's degrees in non-faculty research positions who had published academic papers (some of whom were still graduate students).
+
+Most of the researchers had at least one published paper, and researchers with 6+ papers were more likely than others to complete all three research tasks. Those with "No Academic Papers" are non-academic researchers who produce work not intended for academic journal publication. Those with "No Published Academic Papers" have papers that are forthcoming, or are faculty who only have working papers and no publications.
+
+The set of researchers in the study generally do not work in the specific subfield that the research task is in. The research task is similar to many studies done across all of applied microeconomics, but specifically is on the topics of labor and immigration. About a third of the enrollees had done research in either immigration or labor previously, and these researchers were somewhat more likely to complete all three tasks. No researchers enrolled who had previously worked in both immigration and labor.
 
 ```{r}
 #| output: asis
-# Final summary statistics
-lang = import('../data/Replication Coding Language.xlsx', setclass = 'data.table')
-setnames(lang, c('Researcher ID','Language Used'),c('Q1','Language'))
-lang = lang[Q1 != 322]
-lang[, `Replication Task` := NULL]
-lang = rbind(lang, data.table(Q1 = 322, Language = 'R/Stata'))
-dat = merge(dat, lang, by = 'Q1', all.x = TRUE)
-alldemog = merge(alldemog, lang, by = 'Q1', all.x = TRUE)
-
-alldemog[Q2 == 'Finished task 3'] |>
-  sumtable(vars =  c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Q15',
-                            'RaceRecode',
-                            'Researcher_Q17',
-                     'Researcher_Q11',
-                     'Researcher_Cats',
-                     'Language'), 
-         labels = c('Degree','Occupation', 'Research Experience','Gender','Race','LGBTQ+','Recruitment Source','Field',
-                    'Coding Language'),
-         col.breaks = 4,
-         out = 'latex',
-         fit.page = '\\textwidth')
+sumtable(alldemog, vars = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Cats'), 
+         labels = c('Degree','Occupation', 'Research Experience','Field'), group = 'Round',
+         out = 'latex', fit.page = '\\textwidth',
+         title = 'Researcher Professional Experience',
+         anchor = 'tab-samp2')
 ```
+
+Table \ref{tab-samp3} shows the demographics of the researcher sample. The eligible sample was just under 80% male and more than 55% white, and both percentages grew by the conclusion of task 3, with the white share growing significantly to 66%. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. A small share reported being LGBTQ+, and this share remained constant over all rounds of the research tasks. An additional form of demographic difference is geographic. About half of the sample was situated in the United States, and about half was from another country.[^13] The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
+
+[^13]: Exact figures are not given for geography, and crosstabulations across geography are not given, because non-geographic demographic information comes from a survey where we acquired permission to share aggregate figures. Geographic information, on the other hand, comes from researcher payments information, for which we did not request permission to share responses.
+
+```{r}
+#| output: asis
+sumtable(alldemog, vars = c('Researcher_Q15',
+                            'RaceRecode',
+                            'Researcher_Q17'), 
+         labels = c('Gender','Race','LGBTQ+'), group = 'Round',
+         out = 'latex',
+         title = 'Researcher Demographics',
+         fit.page = '\\textwidth',
+         anchor = 'tab-samp3')
+```
+
+```{r}
+# OMIT THIS TABLE, BUT FROM IT WE GET 1 completed Python, 1 SPSS, 1 R/Stata, 33 R, 109 Stata in completed
+# alldemog[Q2 == 'Finished task 3'] |>
+#   sumtable(vars =  c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Q15',
+#                             'RaceRecode',
+#                             'Researcher_Q17',
+#                      'Researcher_Q11',
+#                      'Researcher_Cats',
+#                      'Language'), 
+#          labels = c('Degree','Occupation', 'Research Experience','Gender','Race','LGBTQ+','Recruitment Source','Field',
+#                     'Coding Language'),
+#          col.breaks = 4,
+#          out = 'latex',
+#          fit.page = '\\textwidth',
+#          anchor = 'tab-samp4')
+
+```
+
+One researcher did complete all three research tasks, and appears in the above tables, but their work has been removed from the results that follow in the rest of the paper, as due to a misunderstanding of the instructions, their work did not attempt to estimate the effect of DACA on the probability of employment.
+
+As a whole, the goal of constructing a sample that largely reflects the group of people who publish work in applied microeconomics. The sample is skewed towards the United States, which is partially driven by the emails sent to US economics departments, the fact that the project was advertised and carried out in English, and the fact that the project organizers are in the United States and advertised the project using their own social media. Given that caveat, the makeup of the sample appears to be fairly similar to the makeup of the profession itself, although this is difficult to verify for some demographics.
+
+# Results
+
+(move these around as appropriate; the recruitment and attrition stuff might move up to data)
+
+## Variation in Effects and Sample Sizes
+
+```{r}
+source('../code/variation_in_effects_and_sample_sizes.R')
+
+p_effect_distribution
+```
+
+```{r}
+p_full_effect_distribution_individual
+```
+
+```{r}
+p_sample_size_distributions
+```
+
+```{r}
+p_treated_group_sample_size
+```
+
+As a whole, the goal of constructing a sample that largely reflects the group of people who publish work in applied microeconomics. The sample is skewed towards the United States, which is partially driven by the emails sent to US economics departments, the fact that the project was advertised and carried out in English, and the fact that the project organizers are in the United States and advertised the project using their own social media. Given that caveat, the makeup of the sample appears to be fairly similar to the makeup of the profession itself, although this is difficult to verify for some demographics.
+
+# Results
+
+(move these around as appropriate; the recruitment and attrition stuff might move up to data)
 
 ## Researcher Characteristics and Effects
 
 ```{r}
-rcats = dat[!is.na(Q2) & !(Q2 %like% 'Revision')]
-rcats[, Q8Recode := fcase(
-  Researcher_Q8 == 'I have 1-5 papers in applied microeconomics published or accepted for publication', '1-5 Papers in Applied Micro',
-  Researcher_Q8 == 'I have 6+ papers in applied microeconomics published or accepted for publication', '6+ Papers',
-  Researcher_Q8 == 'I have never performed academic research in applied microeconomics', 'No Academic Papers',
-  Researcher_Q8 == 'I have written at least one academic paper in applied microeconomics, but none of this work is published or accepted for publication', 'No Published Academic Papers'
-)]
-rcats[, RaceRecode := Researcher_Q16]
-rcats[str_detect(RaceRecode, ',') | RaceRecode == 'Other', RaceRecode := 'Other or Multiracial']
-rcats[, RaceRecode := factor(RaceRecode,
-                                levels = c('White','Asian','Black or African American','Hispanic','Other or Multiracial'))]
-# Get F stat, p-value, and R2 for every predictor individually
-preds = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Q15',
-                            'RaceRecode',
-                            'Researcher_Q17',
-                     'Researcher_Q11',
-                     'Researcher_Cats',
-                     'Language')
-label = c('Degree','Occupation', 'Research Experience','Gender','Race','LGBTQ+','Recruitment Source','Field',
-                    'Coding Language')
-rcats[, Round := fcase(Q2 == 'The first replication task','Round 1',
-                       Q2 == 'The second replication task','Round 2',
-                       Q2 == 'The third replication task','Round 3')]
-# Only if round 3 completed
-rcats[, did3 := max(Round == 'Round 3'), by = Q1]
-rcats = rcats[did3 == TRUE]
-rcats[, deviation := abs(Revision_of_Q4-mean(Revision_of_Q4)), 
-         by = Round]
+source('../code/researcher_characteristics_and_effects.R')
 
-build_row = function(pred, dv = 'Revision_of_Q4') {
-  fmla = as.formula(paste0(dv,' ~ ',preds[pred]))
-  # Don't include very tiny categories
-  rcats[, N := .N, by = c('Round',preds[pred])]
-  m = feols(fmla, data = rcats[N > 5], split = ~Round)
-  dt = data.table(Predictor = label[pred])
-  for (i in 1:3) {
-    newnames = paste(paste0('R',i),c('F','p','R2'))
-    dt[, (newnames) := list(
-      fitstat(m[[i]], 'f')$f$stat,
-      fitstat(m[[i]], 'f')$f$p,
-      fitstat(m[[i]],'r2')$r2
-    )]
-  }
-  return(dt)
-}
-
-res_tab = 1:length(preds) |>
-  lapply(build_row) |>
-  rbindlist()
-tonom = names(res_tab)[2:10]
-res_tab[, (tonom) := lapply(.SD, label_number(.001)), .SDcols = tonom]
-setnames(res_tab, c('Predictor','R1: F','p','R2',
-                    'R2: F','p','R2',
-                    'R3: F','p','R2'))
-res_tab |>
+res_tab_effect |>
   knitr::kable(booktabs = TRUE)
 ```
 
 ```{r}
-res_tab = 1:length(preds) |>
-  lapply(build_row, dv = 'deviation') |>
-  rbindlist()
-tonom = names(res_tab)[2:10]
-res_tab[, (tonom) := lapply(.SD, label_number(.001)), .SDcols = tonom]
-setnames(res_tab, c('Predictor','R1: F','p','R2',
-                    'R2: F','p','R2',
-                    'R3: F','p','R2'))
-res_tab |>
+res_tab_deviation |>
   knitr::kable(booktabs = TRUE)
 ```
 
 ```{r}
 #| fig-width: 8
 #| fig-height: 6
-rcats[, `Abs. Deviation from Sample Mean` := factor(fcase(
-  deviation < .05, '< .05',
-  deviation < .1, '.05-.1',
-  !is.na(deviation), '> .1'
-), levels = c('< .05', '.05-.1','> .1'))]
-langdev = rcats[, .(N = .N), by = .(Round, Language, `Abs. Deviation from Sample Mean`)]
-# no observations
-langdev = rbind(langdev,
-                data.table(Round = 'Round 3',
-                           Language = 'R',
-                           N = 0,
-                           `Abs. Deviation from Sample Mean` = '.05-.1'))
-langdev[, Share := N/sum(N), by = .(Round, Language)]
-langdev[, label := paste0(percent(Share, .1), '\n(', N,')')]
-ggplot(langdev[Language %in% c('R','Stata')], aes(x = `Abs. Deviation from Sample Mean`, y = Share, color = Language, fill = Language,
-                                                label = label)) + 
-  geom_col(alpha = .4, position = 'dodge') + 
-  geom_text(family = 'serif', vjust = -.2, position = position_dodge(.9), show.legend = FALSE) +
-  scale_color_manual(values = colorpal) +
-  scale_fill_manual(values = colorpal) +
-  scale_y_continuous(labels = label_percent(1), limits = c(0,1.1)) +
-  facet_wrap(~Round, ncol = 2) + 
-  theme_nick() + 
-  labs(y = 'Share',
-       x = 'Abs. Deviation from Sample Mean')
+p_deviations_by_language
 
 # NOTE FOR WRITEUP: Of the big R outliers two people were in that category every round, and everyone else was only in there once.
 ```
@@ -354,78 +468,8 @@ ggplot(langdev[Language %in% c('R','Stata')], aes(x = `Abs. Deviation from Sampl
 ## Peer Review
 
 ```{r}
-qrecode(dat, 'Q2', 
-        c('Revision following the first replication task (such as following peer review)',
-          'Revision following the second replication task (such as following peer review)',
-          'Revision following the third replication task (such as following peer review)',
-          'The first replication task',
-          'The second replication task',
-          'The third replication task'),
-        c('Task 1 Revision',
-          'Task 2 Revision',
-          'Task 3 Revision',
-          'Task 1',
-          'Task 2',
-          'Task 3'), 'Round', checkfrom = TRUE)
-dat[, Round := factor(Round, levels = c('Task 1',
-                                        'Task 1 Revision',
-                                        'Task 2',
-                                        'Task 2 Revision',
-                                        'Task 3',
-                                        'Task 3 Revision'))]
-compare_revis = function(r) {
-  thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
-  pairs = fread(paste0('../data/task_', r, '_peer_review_pairs.csv'))
-  pairs = pairs[!(dont_send)]
-  thisr = merge(thisr, pairs[, .(Q1 = id2, match = id1, pairID)], all.x = TRUE)
-  thisr[, got_reviewed := !is.na(pairID)]
-  thisr[, Stage := fifelse(Round == paste0('Task ', r), 0, 1)]
-  thisr[, ReviewRound := r]
-  return(thisr)
-}
-reviews = rbindlist(lapply(1:3, compare_revis))
-
-# Find differences in other rounds
-get_diff = function(i, r) {
-  if (!reviews[i, got_reviewed]) {
-    return(NA_real_)
-  }
-  thispair = reviews[Q1 %in% c(reviews[i, Q1], reviews[i, match]) & Round == r]
-  if (nrow(thispair) < 2) {
-    return(NA_real_)
-  }
-  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
-}
-
-roundnames = sort(unique(reviews$Round))
-for (rn in 1:length(roundnames)) {
-  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
-}
-
-more_sim = unique(reviews[Stage == 0 & (got_reviewed), .(Round, pairID, Diff_1, Diff_2, Diff_3, Diff_4, Diff_5, Diff_6)])
-
-reviews = copy(reviews)
-reviews[, Reviewed_1 := fifelse(sum(ReviewRound == 1) > 0, any(got_reviewed[ReviewRound == 1]), FALSE), by = Q1]
-reviews[, Reviewed_2 := fifelse(sum(ReviewRound == 2) > 0, any(got_reviewed[ReviewRound == 2]), FALSE), by = Q1]
-reviews[, Reviewed_3 := fifelse(sum(ReviewRound == 3) > 0, any(got_reviewed[ReviewRound == 3]), FALSE), by = Q1]
-
-dist_compare = rbindlist(list(
-  reviews[Round == 'Task 1' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 1', Reviewed = Reviewed_1, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 2' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-  reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 2', Reviewed = Reviewed_2, Observed = 'Next Round', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)],
-    reviews[Round == 'Task 3' & Revision_of_Q6 > 0, .(Round = 'Round 3', Reviewed = Reviewed_2, Observed = 'Pre-Review', Effect = Revision_of_Q4, weight = 1/Revision_of_Q6)]
-))
-dist_compare[, Observed := factor(Observed, levels = c('Pre-Review','Next Round'))]
-dist_compare[, Reviewed := fifelse(Reviewed == 1, 'Not Peer-Reviewed','Peer Reviewed')]
-ggplot(dist_compare, aes(x = Effect, weight = weight, color = Reviewed, fill = Reviewed)) + 
-  geom_density(alpha = .4) + 
-  scale_color_manual(values = colorpal) +
-  scale_fill_manual(values = colorpal) +
-  coord_cartesian(xlim = c(-.05, .15)) + 
-  facet_grid(cols = vars(Observed), rows = vars(Round)) + 
-  theme_nick() + 
-  labs(caption = 'Viewing range limited to -.05 to .15.', y = 'Density')
+source('../code/peer_review.R')
+p_peer_review_effect_distributions
 ```
 
 ### Do You Become More Like Your Reviewer?
@@ -433,94 +477,19 @@ ggplot(dist_compare, aes(x = Effect, weight = weight, color = Reviewed, fill = R
 ```{r}
 #| fig-width: 8
 #| fig-height: 5
-reviews = rbindlist(lapply(1:3, compare_revis))
-
-# Find differences in other rounds
-get_diff_across = function(i, r) {
-  if (!reviews[i, got_reviewed]) {
-    return(NA_real_)
-  }
-  thispair = reviews[(Q1 == reviews[i, Q1] & Round == r) | (Q1 == reviews[i, match] & Round == paste0('Task ', as.numeric(str_sub(r,-1))-1))]
-  if (nrow(thispair) < 2) {
-    return(NA_real_)
-  }
-  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
-}
-
-roundnames = c('Task 1','Task 2','Task 3')
-for (rn in 1:length(roundnames)) {
-  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
-  reviews[[paste0('Diff_',rn,'_vs_',rn-1)]] = sapply(1:nrow(reviews), \(x) get_diff_across(x, roundnames[rn]))
-}
-
-unreviewed = reviews[!(got_reviewed)]
-reviews = reviews[(got_reviewed)]
-
-unreviewed[, id := 1:.N]
-allreviews = CJ(id1 = 1:nrow(unreviewed), id2 = 1:nrow(unreviewed))
-allreviews = allreviews[id1 != id2]
-ar_round1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round1 = merge(ar_round1, unreviewed[Round == 'Task 1', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round1[, diff := abs(E1-E2)]
-ar_round2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round2 = merge(ar_round2, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round2[, diff := abs(E1-E2)]
-ar_round3 = merge(allreviews, unreviewed[Round == 'Task 3', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round3 = merge(ar_round3, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round3[, diff := abs(E1-E2)]
-ar_round2v1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round2v1 = merge(ar_round2v1, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round2v1[, diff := abs(E1-E2)]
-ar_round3v2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round3v2 = merge(ar_round3v2, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round3v2[, diff := abs(E1-E2)]
-
-changediff = rbindlist(list(
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Original',
-             diff = reviews[Round == 'Task 1', Diff_1]),
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next Round', 
-             diff = reviews[Round == 'Task 1', Diff_2]),
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next vs. This',
-            diff = reviews[Round == 'Task 1', Diff_2_vs_1]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Original',
-           diff = reviews[Round == 'Task 2', Diff_2]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next Round',
-           diff = reviews[Round == 'Task 2', Diff_3]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next vs. This',
-           diff = reviews[Round == 'Task 2', Diff_3_vs_2]),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Original',
-             diff = ar_round1$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Original',
-             diff = ar_round2$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next Round',
-             diff = ar_round2$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next Round',
-             diff = ar_round3$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next vs. This',
-             diff = ar_round2v1$diff),
-    data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next vs. This',
-             diff = ar_round3v2$diff)
-))
-changediff[, Comparison := factor(Comparison, levels = c('Original','Next Round','Next vs. This'))]
-ggplot(changediff, aes(x = diff, color = Type,
-                       fill = Type)) + 
-  geom_density(alpha = .1) +
-  scale_color_manual(values = colorpal) +
-  scale_fill_manual(values = colorpal) +
-  coord_cartesian(xlim = c(0, .1)) + 
-  theme_nick() + 
-  theme(axis.text.x = element_text(size = 10)) +
-  facet_grid(rows = vars(Round),
-             cols = vars(Comparison)) + 
-  labs(caption = str_wrap('Original is this round vs. this round. Next round is next round vs. next round. Next vs. This is your next round vs. partner\'s this round. Values beyond .1 omitted for visibility.', 100),
-       x = 'Absolute effect difference',
-       y = 'Density')
+p_more_like_reviewer
 ```
 
 ```{r}
-feols(diff ~ Comparison*Type, data = changediff, split = 'Round') |> 
+peer_review_reg |> 
   msummary(stars = c('*' = .1, '**' = .05, '***' = .01),
                          gof_omit = c('IC|R2|RMSE|Err'),
+           coef_rename = c('Intercept',
+                           'Comparison: Next Round',
+                           'Comparison: Next Round vs. This Round',
+                           'Unreviewed',
+                           'Next Round x Unreviewed',
+                           'Next vs. This x Unreviewed')
            output = 'kableExtra') 
 ```
 
@@ -529,110 +498,7 @@ TO DO: The same but for sample sizes and analytic choices
 ## Analytic Choices
 
 ```{r}
-library(tidyverse)
-
-# Rename column name function ----
-rename_to_lower_snake <- function(df) {
-  df %>% 
-    rename_with( ~gsub("([a-z])([A-Z])", "\\1_\\2", .x) ) %>%  # Adds _ to camel case var names
-    rename_with( ~tolower(gsub("[ ]+", "_", .x)) )  # Converts to lower and substitutes _ for spaces
-}
-
-
-# Load  and clean data ----
-researcher_variable_key <- read_csv("../data/researcher_variable_key.csv")
-survey_variable_key <- read_csv("../data/survey_variable_key.csv")
-survey <- import("../data/cleaned_survey_post_corrections.parquet")
-
-
-# Clean data
-base <- survey %>% 
-  rename_to_lower_snake() %>%
-  # Remove researchers who did not complete the first replication task
-  filter(q1 != 0) %>%
-  filter(!is.na(q2)) %>% 
-  # Better variable names
-  rename(
-    researcher_id = q1,
-    round = q2,
-    method = recoded_q10,
-    se_adjustment = recoded_q8,
-    effect_size = revision_of_q4,
-    sample_size = revision_of_q12
-  ) %>% 
-  # Keep only researchers who have completed the third replication task
-  group_by(researcher_id) %>%
-  filter(any(round == "The third replication task")) %>%
-  ungroup() %>%
-  # General clean-up/reorganize
-  dplyr::select(researcher_id, round, method, se_adjustment, effect_size, everything()) 
-
-# Better labels for variables
-base <- base %>% 
-  mutate(
-    round = case_when(
-      round == 'Revision following the first replication task (such as following peer review)' ~ 'Task 1 Revision',
-      round == 'Revision following the second replication task (such as following peer review)' ~ 'Task 2 Revision',
-      round == 'Revision following the third replication task (such as following peer review)' ~ 'Task 3 Revision',
-      round == 'The first replication task' ~ 'Task 1',
-      round == 'The second replication task' ~ 'Task 2',
-      round == 'The third replication task' ~ 'Task 3'
-    ),
-    se_adjustment = case_when(
-      se_adjustment %in% c("Bootstrap", "Other", "New DID Estimator") ~ 'Other/Bootstrap',
-      se_adjustment %in% c("Cluster: ID", "Cluster: Other", "Cluster: Strata") ~ "Cluster (ID/Strata/Other)",
-      se_adjustment %in% c("Cluster: State") ~ "Cluster (State)",
-      se_adjustment %in% c("Cluster: State/Yr") ~ "Cluster (State & Year)",
-      TRUE ~ se_adjustment 
-    ),
-    # Absolute differences
-    effect_abs_diff = abs(effect_size - mean(effect_size, na.rm = TRUE)),
-    sample_size_abs_diff = abs(sample_size - mean(sample_size, na.rm = TRUE)),
-    # Researcher characteristics
-    highest_degree = factor(
-      case_when(
-        researcher_q10 == "PhD" ~ "Ph.D.",
-        TRUE ~ "Not Ph.D",
-      ), 
-      levels = c("Ph.D.", "Not Ph.D")
-    ),
-    position = factor(
-      case_when(
-        researcher_q6 == "Faculty" ~ "University faculty",
-        researcher_q6 == "Graduate student" ~ "Graduate student",
-        researcher_q6 == "Other (describe)" ~ "Other/NA",
-        is.na(researcher_q6) ~ "Other/NA",
-        TRUE ~ "Other researcher"
-      ),
-      levels = c("University faculty", "Graduate student", "Other researcher", "Other/NA")
-    )
-  )
-  
-  
-
-
-
-# Analytical choices ----
-
-# Show distribution of e.g. logit/linear, standard error adjustments across stages
-# Because of some confusion on where to report that one used sample weights, report weights as being used if the word "weight" appears in any column
-charvars = names(base)[sapply(base, is.character)]
-setDT(base)
-checklist = c()
-base[, Weights := 'No Sample Weights']
-for (cv in charvars) {
-  checklist = c(checklist, base[base[[cv]] %ilike% 'weight'][[cv]])
-  base[base[[cv]] %ilike% 'sampling weight' |
-         base[[cv]] %ilike% 'sample weight' |
-         base[[cv]] %ilike% 'survey weight' |
-         base[[cv]] %ilike% 'perwt' |
-         base[[cv]] %ilike% 'hhwt' |
-       (base[[cv]] %ilike% 'weight' & 
-         !(base[[cv]] %ilike% 'inverse probability') &
-         !(base[[cv]] %ilike% 'propensity score matching/weighted') &
-          !(base[[cv]] %ilike% 'kernel weights') &
-         !(base[[cv]] %ilike% 'weighted by the number of individuals')), Weights := 'Sample Weights']
-}
+source('../code/analytic_choices.R')
 
 base %>%
   mutate(se_adjustment = factor(se_adjustment, levels = c(
@@ -654,111 +520,14 @@ base %>%
 ## Sample Limitations
 
 ```{r}
-#source('../code/clean_sample_selection.R')
-#save(sampdat, file = 'temp_sampdat.Rdata')
-load('../data/temp_sampdat.Rdata')
-
-```
-
-```{r}
-# Count the number of variables used in sample selection
-count_vars = function(s) {
-  s = str_replace_all(s, '[^a-zA-Z]',' ')
-  s = str_squish(s)
-  s = str_split(s,' ')[[1]]
-  s = s[!(s %in% c('BETWEEN','AND','MIN','MAX','I','X','FE','NS','OF','N','A','','IN','ABS'))]
-  return(uniqueN(s))
-}
-count_varsV = Vectorize(count_vars, 's')
-
-sampdat[, `Whole Sample` := count_varsV(AllLim)]
-sampdat[, `Treated Group` := count_varsV(TreatLim)]
-sampdat[, `Untreated Group` := count_varsV(UnTreatLim)]
-
-sumtable(sampdat[!(Round %like% 'Revision') & Round != 'Task 3'], vars = c('Whole Sample','Treated Group','Untreated Group'), add.median = TRUE, group = 'Round', group.long = TRUE)
+source('../code/sample_limitations.R')
+# Basic sample limitations table
+sumtable(basic_samp_limitations, vars = c('Whole Sample','Treated Group','Untreated Group'), add.median = TRUE, group = 'Round', group.long = TRUE)
 ```
 
 ```{r}
 #| output: asis
-
-vars_to_consider = c('HISPAN','BPL','CITIZEN','AGE_AT_MIGRATION','AGE_IN_2012','YRIMMIG','EDUCVET','YRSUSA')
-titles = c('Hispanic','Birthplace','Citizenship','Age at Migration',
-           'Age in June 2012','Year of Immigration','Education/Veteran','Years Continuous in USA')
-# Simplifying some of the coding
-remapper = list(
-  CITIZEN = data.table(orig = c("Citizen", "Foreign-Born", "Multistep Condition", "Natural-Born Citizen", "Naturalized Citizen", "Non-Citizen", "Non-Citizen or Naturalized", "Non-Citizen or Naturalized After 2012", "None", "Other"), new = c("Citizen (various)", "Foreign-Born", "Multistep Condition", "Citizen (various)", "Citizen (various)", "Non-Citizen", "Other", "Non-Cit or Natlzd post-2012", "None", "Other")),
-  AGE_AT_MIGRATION = data.table(orig = c("< 15", "< 16", "<= 16", "> 16", "Any", "Multistep Condition", "None", "Not 16", "Other"), new = c("Other", "< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "None", "Other", "Other")),
-  YRIMMIG = data.table(orig = c("< 2007", "< 2012", "<= 2007", "<= 2012", "> 2012", ">= 2007", ">= 2012", "Any Year", "Multistep Condition", "None", "Not 2007", "Not 2012", "Other"), new = c("< 2007", "< 2012", "<= 2007", "<= 2012", "Other", ">= 2007", "Other", "Any Year", "Multistep Condition", "None", "Other", "Other", "Other")),
-  EDUCVET = data.table(orig = c("", "12th Grade", "12th Grade or Veteran", "HS Grad", "HS Grad and Non-Veteran", "HS Grad and Veteran", "HS Grad or In School", "HS Grad or Non-Veteran", "HS Grad or Veteran", "HS Grad or Veteran or In School", "None", "Other", "Other Education", "Other Education or Non-Veteran", "Other Education or Veteran"), new = c("None", "12th Grade or Veteran", "12th Grade or Veteran", "HS Grad", "Other", "Other", "Other", "HS Grad or Non-Veteran", "HS Grad or Veteran", "Other", "None", "Other", "Other", "Other", "Other")),
-  HISPAN = data.table(orig = c('Hispanic-Mex or Birthplace-Mex'),
-                      new = c('Hispanic-Mex or Mex-Born')),
-  BPL = data.table(orig = c('Hispanic-Mexican or Mexican-Born'),
-                   new = c('Hispanic-Mex or Mex-Born'))
-)
-
-for (var in names(remapper)) {
-  for (i in 1:nrow(remapper[[var]])) {
-    qrecode(sampdat, paste0('limAll_',var),
-            remapper[[var]]$orig,
-            remapper[[var]]$new,
-            checkfrom = FALSE)
-    qrecode(sampdat, paste0('limTreat_',var),
-            remapper[[var]]$orig,
-            remapper[[var]]$new,
-            checkfrom = FALSE)
-    qrecode(sampdat, paste0('limUn_',var),
-        remapper[[var]]$orig,
-        remapper[[var]]$new,
-        checkfrom = FALSE)
-  }
-}
-
-# Note these levels only appear levels that appear in All or Treat
-sampdat[, limAll_HISPAN := factor(limAll_HISPAN, levels = c( "Hispanic-Mexican","Hispanic-Any", "Hispanic-Mex or Mex-Born", "Multistep Condition", "None"))]
-sampdat[, limTreat_HISPAN := factor(limTreat_HISPAN, levels = c( "Hispanic-Mexican","Hispanic-Any", "Hispanic-Mex or Mex-Born", "Multistep Condition", "None"))]
-
-sampdat[, limAll_BPL := factor(limAll_BPL, levels = c("Mexican-Born", "Hispanic-Mex or Mex-Born", "Non-US Born", "Central America-Born",    "None"))]
-sampdat[, limTreat_BPL := factor(limTreat_BPL, levels = c("Mexican-Born", "Hispanic-Mex or Mex-Born", "Non-US Born", "Central America-Born",    "None"))]
-
-sampdat[, limAll_CITIZEN := factor(limAll_CITIZEN, levels = c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012", "Citizen (various)",  "Multistep Condition", "Other" ,  "None"))]
-sampdat[, limTreat_CITIZEN := factor(limTreat_CITIZEN, levels =c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012", "Citizen (various)",  "Multistep Condition", "Other" ,  "None"))]
-
-sampdat[, limAll_AGE_AT_MIGRATION := factor(limAll_AGE_AT_MIGRATION, levels = c("< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "Other", "None"))]
-sampdat[, limTreat_AGE_AT_MIGRATION := factor(limTreat_AGE_AT_MIGRATION, levels = c("< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "Other", "None"))]
-
-sampdat[, limAll_AGE_IN_2012 := factor(limAll_AGE_IN_2012, levels = c("Year-Quarter Age", "Year-Only Age", "None"))]
-sampdat[, limTreat_AGE_IN_2012 := factor(limTreat_AGE_IN_2012, levels = c("Year-Quarter Age", "Year-Only Age", "None"))]
-
-sampdat[, limAll_YRIMMIG := factor(limAll_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012", ">= 2007", "Any Year", "Multistep Condition", "Other", "None"))]
-sampdat[, limTreat_YRIMMIG := factor(limTreat_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012", ">= 2007", "Any Year", "Multistep Condition", "Other", "None"))]
-
-sampdat[, limAll_EDUCVET := factor(limAll_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or In School", "HS Grad or Non-Veteran", "Other", "None"))]
-sampdat[, limTreat_EDUCVET := factor(limTreat_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or In School", "HS Grad or Non-Veteran", "Other", "None"))]
-
-sampdat[, limAll_YRSUSA := factor(limAll_YRSUSA, levels = c("Used YRSUSA", "No YRSUSA"))]
-sampdat[, limTreat_YRSUSA := factor(limTreat_YRSUSA, levels = c("Used YRSUSA", "No YRSUSA"))]
-
-# Since sample restrictions are mostly null for Task 3, do this for only task 2, and only for All and Treat
-r12samp = sampdat[Round %in% c('Task 1','Task 2')]
-r12samp = rbind(r12samp[, .SD, .SDcols = c(
-  'Round',
-  paste0('limAll_',vars_to_consider),
-  'Revision_of_Q4',
-  'Revision_of_Q12',
-  'Q1'
-)][, Sample := 'All'],
-r12samp[, .SD, .SDcols = c(
-  'Round',
-  paste0('limTreat_',vars_to_consider),
-  'Revision_of_Q4',
-  'Revision_of_Q12',
-  'Q1'
-)][, Sample := 'Treated'],
-use.names = FALSE)
-setnames(r12samp, c('Round',titles,'Effect','Sample Size','Q1','Sample'))
-r12samp[, `Round/Sample` := paste(Round,Sample)]
-r12samp_w_q1 = copy(r12samp)
-r12samp[, Q1 := NULL]
+# Variables used in limitations
 sumtable(r12samp, titles, group = 'Round/Sample',
          out = 'latex',
          fit.page = '.9\\textwidth',
@@ -766,55 +535,8 @@ sumtable(r12samp, titles, group = 'Round/Sample',
 ```
 
 ```{r}
-one_characteristic_tab = function(var,sdat) {
-  sstats = sdat[, .(a = quantile(Effect[Sample == 'Treated'], .25),
-           b = quantile(Effect[Sample == 'Treated'], .5, na.rm = TRUE),
-           c = quantile(Effect[Sample == 'Treated'], .75, na.rm = TRUE),
-           d = quantile(Effect[Sample == 'All'], .25),
-           e = quantile(Effect[Sample == 'All'], .5, na.rm = TRUE),
-           f = quantile(Effect[Sample == 'All'], .75, na.rm = TRUE),
-
-           g = quantile(`Sample Size`[Sample == 'All'], .25, na.rm = TRUE),
-           h = quantile(`Sample Size`[Sample == 'All'], .5, na.rm = TRUE),
-           i = quantile(`Sample Size`[Sample == 'All'], .75, na.rm = TRUE)), by = var]
-  setorderv(sstats, var)
-  sstats = sstats[!is.na(sstats[[var]])]
-  sstats[, (var) := lapply(.SD, \(x) paste('...', x)), .SDcols = var]
-  sstats[, (letters[1:6]) := lapply(.SD, label_number(.001)), .SDcols = letters[1:6]]
-  sstats[, (letters[7:9]) := lapply(.SD, label_number(1, big.mark = ',')), .SDcols = letters[7:9]]
-  setnames(sstats, var,'var')
-  sstats = rbind(data.table(var = var),
-                 sstats, fill = TRUE)
-  cn = names(sstats)
-  sstats[, (cn) := lapply(.SD, \(x) fifelse(is.na(x),'',x))]
-  return(copy(sstats))
-}
-
-make_efftab = function(sdat, title, anchor) {
-  efftab = lapply(titles, one_characteristic_tab, sdat = sdat) |>
-    rbindlist()
-  efftab = rbind(data.table(var = 'HEADERROW',
-                            a = '\\multicolumn{3}{c}{Treated-Group Restriction',
-                            b = 'DELETECELL',
-                            c = 'DELETECELL',
-                            d = '\\multicolumn{6}{c}{All-Sample Restriction}',
-                            e = 'DELETECELL',
-                            f = 'DELETECELL',
-                            g = 'DELETECELL',
-                            h = 'DELETECELL',
-                            i = 'DELETECELL'),
-                 efftab)
-  setnames(efftab,
-           c('Variable','Effect Pctl. 25','Pctl. 50','Pctl. 75',
-             'Effect Pctl. 25','Pctl. 50','Pctl. 75',
-             'Samp Size Pctl. 25','Pctl. 50','Pctl. 75'))
-  return(efftab)
-}
-```
-
-```{r}
-# WHY DOESN"T THIS ESCAPE PROPERLY
-cat('')
+#| output: asis
+# sample limitationsand effects/samples, task 1
 cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
           align = 'llllllllll',
             title = 'Task 1 Effect and Samples by Sample Definitions',
@@ -823,8 +545,8 @@ cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
 ```
 
 ```{r}
-# WHY DOESN"T THIS ESCAPE PROPERLY
-cat('')
+#| output: asis
+# sample limitationsand effects/samples, task 2
 cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 2']),
           align = 'llllllllll',
             title = 'Task 2 Effect and Samples by Sample Definitions',
@@ -859,97 +581,37 @@ trans_con[, .(N = uniqueN(paste0(Q1,Round)),
 
 ```{r}
 # Average appearances across rounds
-allcontrols[, Total := uniqueN(Q1), by = Round]
-controllevs = sort(unique(allcontrols$Control))
-controllevs = c(controllevs[controllevs != 'None'],'None')
 allcontrols[, .(Average = number(.N/first(Total), .01)), by = .(Control = factor(Control, levels = controllevs), Round)] |>
   dcast(Control ~ Round, value.var = 'Average') |>
   knitr::kable(booktabs = TRUE)
 
 ```
 
-### Bimodality in Round 2
+## Round 2 Bimodality
 
 ```{r}
-dat[Round == 'Task 2'] |>
-  ggplot(aes(x = Revision_of_Q12, y = Revision_of_Q4)) + 
-  geom_smooth( color = 'black', se = FALSE) +
-  geom_point() + 
-  theme_nick() + 
-  labs(x = 'Sample Size (log scale)', y = 'Effect Size',
-       caption = 'Analysis range limited to effects from 0 to .1') + 
-  scale_x_log10(label = label_rangescale()) + 
-  scale_y_continuous(limits = c(0, .1))
+source('../code/round_2_bimodality.R')
+p_sample_size_scatter
 ```
 
 ```{r}
-dat[Round == 'Task 2'] |>
-  ggplot(aes(x = Revision_of_Q6, y = Revision_of_Q4)) + 
-  geom_smooth(color = 'black', se = FALSE) +
-  geom_point() + 
-  theme_nick() + 
-  labs(x = 'Standard Error', y = 'Effect Size',
-       caption = 'Analysis range limited to effects from 0 to .1') + 
-  scale_y_continuous(limits = c(0, .1)) + 
-  scale_x_log10() + 
-  coord_cartesian(xlim = c(0.001, .5))
+p_standard_error_scatter
 ```
 
 ```{r}
-r12 = dat[Round %in% c('Task 1','Task 2'), .(Round, Effect = Revision_of_Q4, Q1)] |>
-  dcast(Q1 ~ Round, value.var ='Effect')
-r12 |>
-  ggplot(aes(x = `Task 1`, y = `Task 2`)) + 
-  geom_smooth(color = 'black', se = FALSE) +
-  geom_point() + 
-  theme_nick() + 
-  labs(x = 'Task 1 Effect', y = 'Task\n2\nEffect',
-       caption = 'Analysis range limited to effects from 0 to .1') + 
-  scale_y_continuous(limits = c(0, .1)) +
-  scale_x_continuous(limits = c(0, .1))
+p_task1_vs_task2
 ```
 
 ```{r}
-shtask = allcontrols[, .(Q1, Effect, Round, Control = as.character(Control))] |>
-  rbind(dat[Round %in% paste0('Task ',1:3), .(Q1, Effect = Revision_of_Q4, Round, Control = 'Total')])
-shtask = shtask[, .(N = uniqueN(Q1),
-                `Share above .05` = percent(mean(Effect > .05, na.rm = TRUE), .1)),
-            by = .(Round,Control)][order(-`Share above .05`)] |>
-  dcast(Control ~ Round, value.var = c('N','Share above .05'))
-setcolorder(shtask, c('Control','N_Task 1','Share above .05_Task 1',
-                     'N_Task 2','Share above .05_Task 2',
-                     'N_Task 3','Share above .05_Task 3'))
-setnames(shtask, c('Control','Task 1: N', 'Above .05',
-                  'Task 2: N','Above .05',
-                  'Task 3: N','Above .05'))
-shtask[, Control := factor(Control, levels = 
-                             c('Total',controllevs))]
-setorder(shtask, Control)
 shtask |>
   knitr::kable(booktabs = TRUE)
 
 ```
 
 ```{r}
-changelevels = dat[Round %in% c('Task 1','Task 2'),
-                   .(Q1, Round, Effect = Revision_of_Q4)] |>
-  dcast(Q1 ~ Round)
-changelevels = changelevels[, .(Q1, Increase = `Task 2` - `Task 1`)][!is.na(Increase)]
-
-# Check whether changes in controls drove shifts
-conchange = allcontrols[Round %in% c('Task 1','Task 2'), .(Q1,Round, Control, Effect)] |> unique()
-conchange = conchange[,.(ControlSwitch = fcase(
-  sum(Round == 'Task 1') > 0 & sum(Round == 'Task 2') > 0, 'In Both',
-  sum(Round == 'Task 1') > 0 & sum(Round == 'Task 2') == 0, 'Removed',
-  sum(Round == 'Task 1') == 0 & sum(Round == 'Task 2') > 0, 'Added'
-)), by = .(Q1, Control)] |>
-  merge(changelevels, by = 'Q1') |>
-  merge(dat[Round == 'Task 2', .(R2Effect = Revision_of_Q4,
-                                 Q1)], by = 'Q1')
-
 conchange[, .(Increase = percent(mean(R2Effect > .05, na.rm = TRUE))),by = .(Control, ControlSwitch)] |>
   dcast(Control ~ ControlSwitch) |>
-
+  knitr::kable(booktabs = TRUE)
 ```
 
 ```{r}
@@ -958,23 +620,25 @@ conchange[, .(N = .N),by = .(Control, ControlSwitch)] |>
 ```
 
 ```{r}
-sampconds = names(r12samp_w_q1)
-sampconds = sampconds[!(sampconds %in% c('Round','Effect','Sample Size', 'Sample','Round/Sample','Q1'))]
-changesamp = r12samp_w_q1[Sample == 'All',
-                     lapply(.SD, \(x) x[1] != x[2]),
-                     .SDcols = sampconds,
-                     by = Q1] |>
-  melt(id.vars = 'Q1',
-       variable.name = 'Sample Limitation',
-       value.name = 'Changed') |>
-  merge(changelevels, by = 'Q1') |>
-  merge(dat[Round == 'Task 2', .(R2Effect = Revision_of_Q4,
-                                 Q1)], by = 'Q1')
-
-changesamp[, .(N = .N, Increase = mean(Increase, na.rm = TRUE),
-               R2Effect = mean(R2Effect, na.rm = TRUE),
-               Abovep05 = mean(R2Effect > .05, na.rm = TRUE)),
+numberp1 = label_number(accuracy = .01)
+changesamp[, .(N = .N, Increase = numberp1(mean(Increase, na.rm = TRUE)),
+               `Standard Error` = numberp1(median(`Standard Error`, na.rm = TRUE)),
+               R2Effect = numberp1(mean(R2Effect, na.rm = TRUE)),
+               Abovep05 = percent(mean(R2Effect > .05, na.rm = TRUE), .1)),
            by = .(`Sample Limitation`, Changed)][order(`Sample Limitation`, Changed)][!is.na(Changed)] |>
+  knitr::kable(booktabs = TRUE)
+```
+
+```{r}
+p_match_vs_mismatch_distribution
+```
+
+```{r}
+p_distribution_by_instruction_match
+```
+
+```{r}
+rfield |>
   knitr::kable(booktabs = TRUE)
 ```
 
@@ -1002,7 +666,8 @@ changesamp[, .(N = .N, Increase = mean(Increase, na.rm = TRUE),
 
 -   Note this suggests a fairly standard design that lots of microeconomists would be familiar with
 
+-   Differences in peer review findings
+
 -   THe things on which we have standards and common practice, we use them. On the things we don't, we don't. This should be recognized.
 
 -   Implications for reading empirical results
-
