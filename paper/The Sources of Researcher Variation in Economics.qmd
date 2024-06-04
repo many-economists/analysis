@@ -42,7 +42,7 @@ execute:
   warning: false
   message: false
   echo: false
-acknowledgements: Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th ave., Seattle, WA, 98122. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the
+acknowledgements: Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th ave., Seattle, WA, 98122. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the project.
 include-in-header:
   text:
     \usepackage{booktabs}
@@ -286,6 +286,8 @@ A given researcher was qualified for the project if they satisfied any one of th
 Participation was not limited on the basis of country, career stage, or demographics such as sex, race, or sexual or gender identity.
 
 #### Target Sample Size {#sec-target-sample}
+
+\label{sec-target-sample}
 
 An initial simulation-based power analysis assumed that each research task would have 5% less between-researcher variation in observed effects than the previous round and looked at the statisical power to detect a linear relationship between round number and the squared deviation of effects (variance of estimated effects across researchers). We found that we had 90% power to detect this effect if 90 researchers finished all tasks. We also found that, for comparisons of only two different research tasks, 90 researchers would give 85% power to detect a decline in variance from one stage to the next of 15% or more, a reasonable effect size given previous many-analyst studies.
 

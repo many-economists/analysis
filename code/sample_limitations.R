@@ -1,5 +1,5 @@
- # source('../code/clean_sample_selection.R')
- # save(sampdat, file = '../data/temp_sampdat.Rdata')
+#source('../code/clean_sample_selection.R')
+#save(sampdat, file = 'temp_sampdat.Rdata')
 load('../data/temp_sampdat.Rdata')
 
 # Count the number of variables used in sample selection
