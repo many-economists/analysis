@@ -77,7 +77,6 @@ colorpal = palette.colors(palette = 'Paired')
 
 # Introduction
 
-
 The social and behavioral sciences produce a staggeringly large flow of empirical results. A responsible reader of this literature should wonder how much they can trust a given study, given the potential for errors, fluke results, or intentional attempts to produce a specific result. Any responsible producer of this literature, however, is well aware that even a researcher doing their best to avoid these problems must make hundreds of choices in the process of collecting and cleaning data, planning their estimation, and coding their analysis, in other words "researcher degrees of freedom" [@simmons2011false]. Even if Researcher A's choices would stand up to scrutiny and argument from a reviewer or reader, Researcher B with the same goal, data, and skills might have reasonably chosen in a different way that would also stand up to scrutiny. If A and B's choices lead to different results, but only one of them performs the study, then this is a source of largely arbitrary variation in the collection of published results. Estimates in one context suggest this variation might outweigh the population variation we typically consider when estimating standard errors [@holzmeister2023heterogeneity].
 
 This study looks at the impact of researcher degrees of freedom on results, and also attempts to isolate researcher degrees of freedom at different stages of the research process to try to isolate where researcher choice is most varied, and most strongly influences results. We do this using a "many-analysts" design where multiple researchers attempt the same research task, specifically a task that is common across applied econometrics: estimating the causal effect of a policy that is implemented at a specific period of time and affects some people but not others. We look at differences between researchers in the results as well as the analytic and data cleaning choices made.
@@ -89,7 +88,6 @@ We find meaningful differences in the ways that different researchers approach t
 ## Previous Work on Research Reliability and Researcher Degrees of Freedom
 
 In economics, suspicion about empirical results is not new [@leamer1983let]. The most recent wave of concern inspired by discussions, originating in the field of psychology, of the "replication crisis", which shows that a high percentage of studies cannot be replicated when tested using new data [for example @open2015estimating or @camerer2016evaluating in economics], that study code and data is not available or does not reproduce the published results [@herbert2021reproducibility], or that "policing replications" that test sensitivity of published results are rare [@ankel2023economists].
-
 
 However, this greater body of replication work takes an existing study as a baseline and asks whether it is robust to re-evaluation in some way. Questions about researcher degrees of freedom are not about whether a given study can be challenged, but whether a different researcher performing the same study would have done it differently if they had been the person to perform it, without taking the original as a baseline.[^1] There is some research on this topic in regards to researcher identity or political orientation, as in @jelveh2024political, or personality characteristics, as in @sulik2023scientists. But a common way to empirically study researcher degrees of freedom is using a many-analysts design.
 
@@ -114,7 +112,6 @@ A third factor used to explain variation is peer review or evaluation. Seeing th
 Outside of many-analyst designs, there are studies that use simulation to try many combinations of analytical or data-cleaning choices and examine the resulting variation in estimates. This approach is similar to a many-analysts design in that they look at variability in potential research choices and, often, try to explain variation in effects estimates using those choices. They differ in that they are necessarily limited to the set of research decisions that the project organizers consider ahead of time (which constrains the universe of possible decisions but also makes interpretation of the results far more clear), and typically consider all combinations of decisions equally, rather than favoring combinations an actual researcher would choose. Of these studies, the closest to the present study is @klau2023comparing, a study which evaluates the sensitivity of results in an observational psychological data set to different data preprocessing and modeling choices. They try multiple combinations of reasonably preprocessing and modeling choices using simulation to iterate through the universe of potential choices, and find significant variation in effects over reasonable preprocessing and modeling choices. A similar attempt to separate researcher variation into modeling and preprocessing components is also done in a many-analysts design in @huntington2021influence, although in a limited way.
 
 This study's design attempts to evaluate multiple of these sources of variation using a staged design, similar to @perignon2022reproducibility. The different stages allow different levels of researcher choice along the lines of interpretation of the research question, research design, and data preparation, as well as randomized peer review incorporating these mechanisms proposed by the literature and responding to the critique of @auspurg2021has. Researcher characteristics are collected, as well, allowing for exploration of the researcher-characteristics source of researcher variation, although not in a controlled way. We do not address the difficulty of the research task as a potential source of researcher variation in this study.
-
 
 # Design
 
@@ -205,7 +202,6 @@ In all research tasks, the specific goal given to researchers was:[^6]
 > Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what was the causal impact of eligibility for the Deferred Action for Childhood Arrivals (DACA) program (treatment) on the probability that the eligible person is employed full-time (outcome), defined as usually working 35 hours per week or more?
 >
 > DACA was implemented in 2012. Examine the effects on full-time employment in the years 2013-2016.
-
 
 In simple terms, this asks researchers to estimate the impact of the DACA program on the probability that those eligible for the program usually work 35 hours per week or more in the years 2013-2016.[^7]
 
@@ -489,7 +485,7 @@ peer_review_reg |>
                            'Comparison: Next Round vs. This Round',
                            'Unreviewed',
                            'Next Round x Unreviewed',
-                           'Next vs. This x Unreviewed')
+                           'Next vs. This x Unreviewed'),
            output = 'kableExtra') 
 ```
 
