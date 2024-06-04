@@ -194,7 +194,7 @@
     },
     "arrow": {
       "Package": "arrow",
-      "Version": "15.0.1",
+      "Version": "16.1.0",
       "Source": "Repository",
       "Repository": "CRAN",
       "Requirements": [
@@ -212,7 +212,7 @@
         "utils",
         "vctrs"
       ],
-      "Hash": "85c24dd7844977e4a680ba28f576125c"
+      "Hash": "d9cb18a8fc53895548150650cadde3a6"
     },
     "askpass": {
       "Package": "askpass",
@@ -1954,6 +1954,22 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "96710351d642b70e8f02ddeb237c46a7"
+    },
+    "rticles": {
+      "Package": "rticles",
+      "Version": "0.27",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Requirements": [
+        "knitr",
+        "lifecycle",
+        "rmarkdown",
+        "tinytex",
+        "utils",
+        "xfun",
+        "yaml"
+      ],
+      "Hash": "1a05d2cc06f9fb360d2dc15f99293dfe"
     },
     "rvest": {
       "Package": "rvest",
