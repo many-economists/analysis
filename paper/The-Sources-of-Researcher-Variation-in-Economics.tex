@@ -188,7 +188,7 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={The Sources of Researcher Variation in Economics},
-  pdfauthor={Nick Huntington-Klein},
+  pdfauthor={Nick Huntington-Klein; Claus Pörtner},
   colorlinks=true,
   linkcolor={blue},
   filecolor={Maroon},
@@ -197,12 +197,12 @@
   pdfcreator={LaTeX via pandoc}}
 
 \title{The Sources of Researcher Variation in Economics}
-\author{Nick Huntington-Klein}
+\author{Nick Huntington-Klein \and Claus Pörtner}
 \date{}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, breakable, enhanced, frame hidden, interior hidden, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, frame hidden, breakable, boxrule=0pt, enhanced, interior hidden, borderline west={3pt}{0pt}{shadecolor}]}{\end{tcolorbox}}\fi
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -307,8 +307,9 @@ including microeconomics (Huntington-Klein et al. 2021), finance
 (Menkveld et al. 2021), religion (Hoogeveen et al. 2023), neuroimaging
 (Botvinik-Nezer et al. 2020), political science (Breznau et al. 2021),
 machine learning (Chen and Cummings 2024), ecology and evolutionary
-biology (Gould et al. 2023), psychology Schweinsberg et al. (2021), and
-medical informatics (Ostropolets et al. 2023), among others.
+biology (Gould et al. 2023), psychology (Boehm et al. 2018; Bastiaansen
+et al. 2020; Schweinsberg et al. 2021), and medical informatics
+(Ostropolets et al. 2023), among others.
 
 With little exception, many-analysts studies find that there \emph{is}
 meaningful variation in both methods and conclusions across researchers.
@@ -329,10 +330,10 @@ outlier estimates (Auspurg and Brüderl 2023).
 
 The ability to explain variation between researchers, rather than just
 show that variation exists, is limited by the size of these many-analyst
-studies. As will be explored in Section \textbf{?@sec-target-sample},
-this study pursued a sample of at least 90 researchers so as to have
+studies. As will be explored in Section~\ref{sec-target-sample}, this
+study pursued a sample of at least 90 researchers so as to have
 acceptable power to explain differences in variation. Pérignon et al.
-(n.d.), in looking at the sources of reproducibility variation using
+(2022), in looking at the sources of reproducibility variation using
 many teams, used a design with 1,000 tests to replicate in order to
 adequately power comparisons. Since participation in a many-analysts
 study takes considerable time and effort, sample sizes are often well
@@ -352,7 +353,7 @@ Among studies that do attempt to explain researcher variation, there are
 three common sources of explanation. The first of these is in the
 difficulty of the research task, with some studies showing less
 researcher agreement in more complex or difficult-to-analyze scenarios
-{[}Menkveld et al. (2021), Ortloff et al. (2023),. A second source is
+(Menkveld et al. 2021; Ortloff et al. 2023). A second source is
 researcher experience or characteristics. Menkveld et al. (2021) find
 that higher-quality teams (with more experience, seniority, publishing
 success, and/or people) agreed more. Ortloff et al. (2023) find that
@@ -395,7 +396,7 @@ is also done in a many-analysts design in Huntington-Klein et al.
 (2021), although in a limited way.
 
 This study's design attempts to evaluate multiple of these sources of
-variation using a staged design, similar to Pérignon et al. (n.d.). The
+variation using a staged design, similar to Pérignon et al. (2022). The
 different stages allow different levels of researcher choice along the
 lines of interpretation of the research question, research design, and
 data preparation, as well as randomized peer review incorporating these
@@ -405,32 +406,6 @@ well, allowing for exploration of the researcher-characteristics source
 of researcher variation, although not in a controlled way. We do not
 address the difficulty of the research task as a potential source of
 researcher variation in this study.
-=======
-\begin{itemize}
-\item
-  Replication crisis generally and trust in research. Why do things
-  fail?
-\item
-  Researcher degrees of freedom as a source. Distinguish this from
-  coding errors.
-\item
-  Many-analysts as a way of studying it - mention a bunch of
-  many-analyst studies
-
-  \begin{itemize}
-  \item
-    Often focused on just finding differences and less on their sources
-  \item
-    Of those that do, peer review is common, sometimes you see
-    researcher characteristics or skill. Some looks at data processing
-    or cleaning, plenty on model selection (outside of many-analysts
-    too)
-  \item
-    Note power issues with previous studies
-  \end{itemize}
-\item
-  The goal of this paper
-\end{itemize}
 
 \hypertarget{design}{%
 \section{Design}\label{design}}
@@ -456,7 +431,7 @@ The following goals and instructions are shared across all tasks:
 \begin{itemize}
 \item
   Estimate the causal effect of a policy on a specified outcome, among
-  the group affected by that policy (see Section \ref{sec:focaltask}
+  the group affected by that policy (see Section~\ref{sec-focaltask}
   below for more details).
 \item
   Use American Community Survey (ACS) data to estimate the effect, using
@@ -575,7 +550,7 @@ The following goals and instructions are shared across all tasks:
 \begin{itemize}
 \item
   Estimate the causal effect of a policy on a specified outcome, among
-  the group affected by that policy (see Section \ref{sec:focaltask}
+  the group affected by that policy (see Section~\ref{sec-focaltask}
   below for more details).
 \item
   Use American Community Survey (ACS) data to estimate the effect, using
@@ -609,14 +584,7 @@ removed researcher degrees of freedom.
   allowing any research design to identify the causal effect of
   interest, Task 2 gave specific definitions for which individuals
   comprised a ``treated'' group and which comprised an ``untreated''
-  group.\^{}{[}Although eligibility criteria for the policy were
-  explicitly given in Task 1, Task 2 further limits the treated group by
-  narrowing the acceptable age range. The limitation was more impactful
-  for defining the untreated comparison group, though. Many researchers
-  did use a treated/untreated group approach in Task 1 before it was
-  specified in Task 2, but different individuals defined the untreated
-  group in highly diverse ways, as will be shown in the Results
-  section.{]} Then, it instructed researchers to estimate the effect by
+  group. Then, it instructed researchers to estimate the effect by
   comparing how outcomes for the ``treated'' group changed from before
   policy implementation to afterwards against how outcome for the
   ``untreated'' group changed. This can be thought of as a
@@ -644,13 +612,10 @@ intended to show the researcher variation introduced by decisions made
 in the data cleaning and variable definition process. A researcher
 following the Task 2 instructions should arrive at the same sample size,
 number of treated individuals, and number of untreated individuals as in
-Task 3, as well as the same definition for the outcome
-variable.\^{}{[}The Task 2 instructions do leave some leeway for
-definition of some variables, in particular control variables like
-education or race, which have a specific recoded version available in
-Task 3 that are not specified in the Task 2 instructions.{]} Differences
-in the data set and in the results between Task 2 and Task 3 should be a
-result of differences in the data cleaning and preparation process.
+Task 3, as well as the same definition for the outcome variable.
+Differences in the data set and in the results between Task 2 and Task 3
+should be a result of differences in the data cleaning and preparation
+process.
 
 Following each of the research tasks, researchers engage in a round of
 peer review. 2/3 of researchers are randomly assigned to peer review,
@@ -678,28 +643,17 @@ made in the process of doing the analysis like sample restrictions,
 treated-group definitions, estimator, and standard error adjustments.
 Researchers were also asked to justify why they had made these choices.
 
-Following each research task and revision, researchers filled out a
-survey about their work. This survey asked them to report their
-findings, additional information like sample size and standard errors,
-and choices made in the process of doing the analysis like sample
-restrictions, treated-group definitions, estimator, and standard error
-adjustments. Researchers were also asked to justify why they had made
-these choices.
-
-
 This research design and analysis plan has been preregistered (Portner
 and Huntington-Klein 2022). Analyses that were not preregistered will be
-noted in the results section as they are performed. Full instructions
-for each task, as well as post-task survey text and the peer-reviewing
-instructions, are available in the online appendix.
+noted in the results section as they are performed. XXX DO THIS Full
+instructions for each task, as well as post-task survey text and the
+peer-reviewing instructions, are available in the online appendix.
 
 \hypertarget{data}{%
 \section{Data}\label{data}}
 
-\hypertarget{the-focal-research-task}{%
-\subsubsection{The Focal Research Task}\label{the-focal-research-task}}
-
-\label{sec:focaltask}
+\hypertarget{sec-focaltask}{%
+\subsubsection{The Focal Research Task}\label{sec-focaltask}}
 
 In all research tasks, the specific goal given to researchers
 was:\footnote{Full instructions are available in the online appendix.}
@@ -760,6 +714,8 @@ not to all undocumented immigrants. Eligible people must:
 \begin{itemize}
 \item
   Have arrived in the United States before their 16th birthday.
+\item
+  Describe the research task
 \item
   Not have had their 31st birthday as of June 15, 2012.
 \item
@@ -924,8 +880,10 @@ one of the following criteria:
 Participation was not limited on the basis of country, career stage, or
 demographics such as sex, race, or sexual or gender identity.
 
-\hypertarget{target-sample-size}{%
-\paragraph{Target Sample Size}\label{target-sample-size}}
+\hypertarget{sec-target-sample}{%
+\paragraph{Target Sample Size}\label{sec-target-sample}}
+
+\label{sec-target-sample}
 
 An initial simulation-based power analysis assumed that each research
 task would have 5\% less between-researcher variation in observed
@@ -976,7 +934,25 @@ Overall participation and attrition values are in Table
 18.51\% of these were found to be ineligible for the project. Most of
 these were graduate students who did not yet have a forthcoming paper.
 
-\hypertarget{tbl-attrition}{}
+\begin{longtable}[]{@{}lrl@{}}
+\caption{Participation and
+Attrition\label{tbl-attrition}}\tabularnewline
+\toprule\noalign{}
+Round & Participants & Attrition \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Round & Participants & Attrition \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Original Signup & 362 & 18.51\% \\
+Assigned Task 1 & 295 & 47.80\% \\
+The first replication task & 154 & 2.60\% \\
+The second replication task & 150 & 2.67\% \\
+The third replication task & 146 & \\
+\end{longtable}
 
 This left 295 eligible participants. This is more than the 200 for which
 budget was available to pay the offered \$2,000 incentive. The 282 of
@@ -989,10 +965,12 @@ first 200 in the order would be paid.
 Initial assumptions from the power analysis that attrition rates would
 be near 50\% were almost exactly correct, with 49.49\% of these initial
 295 eligible researchers completing all three stages. Nearly all of the
-attrition occurred by the completion of Task 1. After -141 eligible
-researchers failed to complete Task 1, only a further -8 failed to
-complete Task 3. This means we have 146 researchers who completed all
-three research tasks, well above the goal of 90.
+attrition occurred by the completion of Task 1. After
+\texttt{r\textasciigrave{}\textasciigrave{}justcount{[}2,Participants{]}-\textasciigrave{}\textasciigrave{}justcount{[}3,Participants{]}}
+eligible researchers failed to complete Task 1, only a further
+\texttt{r\ justcount{[}3,Participants{]}-\textasciigrave{}\textasciigrave{}justcount{[}5,Participants{]}}
+failed to complete Task 3. This means we have 146 researchers who
+completed all three research tasks, well above the goal of 90.
 
 The high recruitment numbers and the fact that nearly all attrition
 occurs before Task 1 is complete allows us to evaluate the impact of the
@@ -1016,13 +994,15 @@ Task 1 Completion}
 
 \end{figure}
 
-Figure \ref{fig-rdd} shows no meaningful effect of being guaranteed
-payment on the probability of completing Task 1. In additional results
-in the appendix, using a linear regression specification of the
-regression discontinuity design and the full range of the data (not
-including the late sign-ups) to maximize statistical power,\footnote{Use
-  of the full range, rather than a bandwidth, is justified given that
-  the running variable is randomly assigned.} we again find no
+Figure Figure~\ref{fig-rdd} shows no meaningful effect of being
+guaranteed payment on the probability of completing Task 1. In
+additional results in the appendix, using a linear regression
+specification of the regression discontinuity design and the full range
+of the data (not including the late sign-ups) to maximize statistical
+power,\footnote{Use of the full range, rather than a bandwidth, is
+  justified given that the running variable is randomly assigned aside
+  from the late sign-ups. We also find no effect if we drop the late
+  sign-ups from the regression discontinuity analysis.} we again find no
 statistically significant effect of being guaranteed treatment. This is
 suggestive that participants were not simply signing up in an attempt to
 get a \$2,000 payment for little effort.
@@ -1070,7 +1050,6 @@ Certainty to Finish Task 3 & 355 & 89 & 12 & 292 & 89 & 12 & 153 & 91 & 9.9 & 14
 \end{table}
 
 Table \ref{tab-samp1} shows the professional experience of enrollees.
-
 While graduate students were considered eligible for the project as long
 as they had a published or forthcoming paper, the great majority of
 eligible researchers (83\%) had PhDs. PhD holders were also more likely
@@ -1186,7 +1165,6 @@ LGBTQ+ & 360 &  & 294 &  & 154 &  & 146 &  \\
 }
 \end{table}
 
-
 One researcher did complete all three research tasks, and appears in the
 above tables, but their work has been removed from the results that
 follow in the rest of the paper, as due to a misunderstanding of the
@@ -1206,21 +1184,809 @@ although this is difficult to verify for some demographics.
 \hypertarget{results}{%
 \section{Results}\label{results}}
 
-(move these around as appropriate; the recruitment and attrition stuff
-might move up to data)
+This section demonstrates the variation in effects and methods across
+researchers and conditions, both demonstrating that variation and
+attempting to explain it.
 
-\hypertarget{variation-in-effects-and-sample-sizes}{%
-\subsection{Variation in Effects and Sample
-Sizes}\label{variation-in-effects-and-sample-sizes}}
+Importantly, these results are derived from the survey responses that
+researchers gave about their findings and the choices made. Project
+organizers did not cross-reference survey responses against researcher
+code to ensure that their code was accurately reflected in the survey,
+except in a small number of cases where the survey response could not be
+interpreted. This means that the variation presented here represents the
+variation in how researchers would plan to implement the research task
+if they were doing it independently, and what a reader would see as the
+description of a study in a published version of their work. Any
+variation between researchers that occurs as a result of coding error or
+a research report that misrepresents what a researcher actually did will
+not be reflected here, but could be the subject of a future
+investigation.
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-11-1.pdf}
+\hypertarget{sec-variation}{%
+\subsection{Variation in Effects and Sample Sizes}\label{sec-variation}}
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-12-1.pdf}
+Figure Figure~\ref{fig-effect-distributions} and Table
+\ref{tab-effectdist} show the distribution of estimated effects across
+all researchers. The effect distributions are shown in two ways:
+unweighted and using inverse-standard-error weights.\footnote{The use of
+  inverse-standard-error weights is not preregistered but follows
+  meta-analytic standards, reducing the influence of estimates that may
+  be outliers due to being estimated with a highly-noisy method, under
+  the suggestion of Auspurg and Brüderl (2023). Weights are truncated at
+  the 95th percentile (200, or a standard error of .005) so as to avoid
+  any single researcher having too much influence on results. Skipping
+  the truncation shows more agreement because a few researchers with
+  very small standard errors make up a significant share of the weighted
+  sample.} Several data points are dropped from the weighted analysis
+for researchers who did not report standard errors or reported 0. Other
+missing values are researchers who did not repond to a given question.
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-13-1.pdf}
+In Task 1, the mean estimated effect of DACA eligibility on the
+probability of working full-time was .053 unweighted or .044 weighted.
+In both cases these means are pulled upwards by high top-end estimates
+and are above the 75th percentiles. Median estimates were .030
+unweighted or .026 weighted. Even in Task 1 with a large amount of
+freedom afforded, researchers found a reasonable amount of agreement in
+the effect sizes outside of the tails, with the 25th to 75th percentile
+ranges of effect being .014 to .051 unweighted, an inter-quartile range
+(IQR) of .037, or 3.7 percentage points in the effect, or .012 to .043
+weighted, an IQR of .031. The use of weights narrows the distribution of
+effects: researchers reporting smaller standard errors also reported
+estimates that were more similar to each other, which was also the case
+in Tasks 2 and 3.
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-14-1.pdf}
+Task 2 is somewhat odd in that it shows less agreement than Task 1
+despite giving researchers less freedom. The IQRs increase to .043
+unweighted or .040 weighted. Further, the effect distributions are
+somewhat bimodal, especially when weighted. One of these modes appears
+to be researchers reporting effect estimates of a similar level to those
+in Task 1, and others reporting effect estimates similar to what would
+later be found in Task 3.
 
+Moving all the way to Task 3, agreement considerably increases between
+researchers. The 25th and 75th percentile effects are .031 and .058
+unweighted (IQR .027), and .036 and .060 weighted (IQR .024). The
+bimodality from Task 2 is still there, but with much more agreement and
+density at the higher mode. From Round 1 to Round 3 we see considerable
+increases in agreement between researchers.
+
+Taking only the effect distributions as a baseline, we see that, at
+least in this application, researchers in general report fairly similar,
+although certainly not identical, effect estimates on average, but there
+are some extreme outlier estimates as well. We may also take this to
+mean that providing pre-cleaned data, as in Task 3, led to a strong
+increase in researcher agreement. Specifying further the research
+question and design, however, as in Task 2, led to somewhat less
+agreement. The odd result for Task 2 and its proper interpretation will
+be investigated further in Section~\ref{sec-bimodal}.
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-distributions-1.pdf}
+
+}
+
+\caption{\label{fig-effect-distributions}Distributions of Reported
+Effect Sizes}
+
+\end{figure}
+
+Table \ref{tab-effectdist} also shows the reported standard errors.
+Reported standard errors increase significantly from round to round,
+driven largely by the specification of the research design, which for
+many researchers considerably narrowed the sample they were supposed to
+use. This can also be seen in Figure
+Figure~\ref{fig-full-effect-distribution}, where the distribution of
+effects narrows across rounds, but confidence intervals increase
+considerably. Throughout, while there is general agreement on effect
+size in the middle of the distribution, researchers vary in whether the
+reported effect is statistically significant, with 78\%, 60\%, and 64\%
+reporting results that were statistically significantly different from 0
+in Tasks 1, 2, and 3, respectively.
+
+We can compare average standard errors against the variation in effects
+between researchers to get a sense of how much effect variability is
+omitted by only considering a reported standard error, as in
+Huntington-Klein et al. (2021) or Menkveld et al. (2021). Comparing the
+standard deviation of weighted effects against the average standard
+error gives ratios of 4.84, 2.23, and 1.75 for Tasks 1, 2, and 3,
+respectively. Huntington-Klein et al. (2021) used a single round and
+allowed full researcher freedom, and found a range of 3-4 for this
+ratio, below what we find for the full-freedom Task 1. If we instead
+compare weighted IQR to average standard errors we get ratios of 1.63,
+1.29, and .41. This is partially driven by increasing agreement over
+rounds, but is also driven by the addition of restrictions that reduce
+sample size and thus increase average standard errors. These figures
+suggest that a reported standard error considerably understates the
+estimate uncertainty that we should acknowledge when including
+researcher variation. However, these figures also demonstrate a flaw
+with these ratios, introduced in Huntington-Klein et al. (2021), as a
+metric for researcher-indused uncertainty: in that they are sensitive to
+the estimate precision one might be expected to get given the research
+task. Researcher variation does not scale with that uncertainty.
+
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Distribution of Reported Effects and Sample Sizes}\label{tab-effectdist}\resizebox{\textwidth}{!}{
+\begin{tabular}{lllllllll}
+\hline
+\hline
+Variable & N & Mean & SD & Min & Pctl. 25 & Median & Pctl. 75 & Max \\ 
+\hline
+\multicolumn{9}{c}{Round: Task 1} \\ 
+Effect Size (Unweighted) & 145 & 0.053 & 0.095 & -0.049 & 0.014 & 0.030 & 0.051 & 0.660 \\ 
+Effect Size (Weighted) & 138 & 0.044 & 0.092 & -0.049 & 0.012 & 0.026 & 0.043 & 0.660 \\ 
+Standard Error & 139 & 0.019 & 0.055 & 0.000 & 0.005 & 0.007 & 0.013 & 0.460 \\ 
+Sample Size & 145 & 828,318 & 3,056,037 & 681 & 61,600 & 179,960 & 356,787 & 29,536,580 \\ 
+Treated-Group Size & 141 & 96,395 & 648,493 & 270 & 17,950 & 34,435 & 52,581 & 7,727,201 \\ 
+\multicolumn{9}{c}{Round: Task 2} \\ 
+Effect Size (Unweighted) & 145 & 0.044 & 0.100 & -0.390 & 0.015 & 0.032 & 0.058 & 0.850 \\ 
+Effect Size (Weighted) & 141 & 0.046 & 0.069 & -0.090 & 0.018 & 0.034 & 0.058 & 0.850 \\ 
+Standard Error & 141 & 0.031 & 0.078 & 0.001 & 0.010 & 0.014 & 0.020 & 0.744 \\ 
+Sample Size & 144 & 157,006 & 1,065,593 & 6,196 & 18,981 & 25,414 & 48,125 & 12,609,847 \\ 
+Treated-Group Size & 140 & 31,948 & 221,175 & 3,519 & 5,953 & 11,157 & 15,832 & 2,627,183 \\ 
+\multicolumn{9}{c}{Round: Task 3} \\ 
+Effect Size (Unweighted) & 145 & 0.045 & 0.101 & -0.810 & 0.031 & 0.050 & 0.058 & 0.650 \\ 
+Effect Size (Weighted) & 142 & 0.062 & 0.103 & -0.810 & 0.036 & 0.051 & 0.060 & 0.650 \\ 
+Standard Error & 144 & 0.059 & 0.268 & 0.000 & 0.015 & 0.018 & 0.026 & 2.747 \\ 
+Sample Size & 145 & 16,904 & 1,756 & 7,833 & 17,379 & 17,382 & 17,382 & 17,832 \\ 
+Treated-Group Size & 129 & 9,433 & 3,008 & 11 & 5,149 & 11,382 & 11,382 & 17,383\\ 
+\hline
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-full-effect-distribution-1.pdf}
+
+}
+
+\caption{\label{fig-full-effect-distribution}Specification Curve for All
+Reported Estimates}
+
+\end{figure}
+
+Table \ref{tab-effectdist} also shows summary statistics for reported
+standard errors, both overall and for the treated group. These
+distributions are also shown in Figures
+Figure~\ref{fig-sample-size-distributions} and
+Figure~\ref{fig-treated-group-distributions}.
+
+In Figure~\ref{fig-sample-size-distributions} we see a huge amount of
+variation in the reported sample size used in Task 1, noting that the
+x-axis is on a log scale. The 25th and 75th percentiles of reported
+sample sizes ranging from 61,600 to 356,787, and some researchers using
+millions of observations.\footnote{Keep in mind that for Task 1, there
+  was not a specified control group, so a researcher may decide to use
+  the entire ACS sample in the analysis, including people very unlike
+  the eligible group in the sample. In Task 2, the instructions
+  specified a treated and comparison group, but some researchers may
+  have different samples than in Task 3 either due to error, or because
+  they included people other than the treated and comparison group in
+  their sample to improve precision, and used their model to compare
+  those groups more directly.} For Task 2, which specified in the
+instructions the treated and comparison groups to use, variation reduces
+considerably, although the 75th percentile (48,125) is still double the
+25th (18,981), and there are still some researchers using millions of
+observations. Task 3 is not shown in the graph because the sample is
+pre-specified, with the only meaningful variation being whether or not
+the researcher dropped three rows of data with missing education values,
+and a few outliers reporting lower numbers. The lower sample sizes for
+this question is due to researchers who skipped it because they assumed
+the answer was obvious.
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-sample-size-distributions-1.pdf}
+
+}
+
+\caption{\label{fig-sample-size-distributions}Distributions of Reported
+Sample Sizes}
+
+\end{figure}
+
+Variation in the reported size of the treated group in Figure
+Figure~\ref{fig-treated-group-distributions} is affected somewhat by
+researcher confusion in responding to the survey question. The survey
+question about treated-group size instructed researchers not to count
+individuals eligible for DACA as treated for the purposes of this
+question if they were in a pre-DACA year. However, many researchers
+counted these individuals as treated anyway, leading to variation in the
+Task 3 distribution, even though every researcher is at this point
+working with the same eligibility indicator.
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-treated-group-distributions-1.pdf}
+
+}
+
+\caption{\label{fig-treated-group-distributions}Distributions of
+Reported Treated-Group Sizes}
+
+\end{figure}
+
+Aside from this issue, we see that the imposition of a shared definition
+for the trated group reduced the IQR for the size of the group from
+34,631 in Taks 1 to 9,879 in Task 2. Theoretically, however, since there
+was a shared definition of the treated group in Task 2, there should be
+no more variation in this variable in Task 2 than in Task 3. This
+indicates that not all instructions were implemented in the same way
+across researchers, which will be explored further in
+Section~\ref{sec-sample-limitations}. Despite a shared understanding of
+who was eligible for DACA and who should be in the treated group, only a
+shared data preparation that implemented these rules for people led to
+sharp agreement in the size of the treated-groups sample.
+
+\hypertarget{peer-review}{%
+\subsection{Peer Review}\label{peer-review}}
+
+This section evaluates the impact of peer review on the later work
+performed by a researcher. The structure of peer review in this study is
+that, following each main task, 2/3 of the researchers are randomized
+into pairs that produce a peer review report of the other's work, while
+the remaining 1/3 do not receive or perform peer review. Then,
+researchers have an opportunity to revise their work. Notably, revision
+is optional, and relatively few researchers (about 30 per task) chose to
+revise their work after receiving peer review. As such, we mostly look
+at the impact of peer review on the work performed in subsequent main
+tasks.
+
+In general, the mechanisms by which peer review might be expected to
+change a researcher's work in normal journal submissions include both
+that researchers might find peer review comments helpful and incorporate
+them into their work, and that researchers are required by the journal
+submission process to incorporate most reviewer comments. In this study,
+our peer review process can only capture the first of these mechanisms.
+
+Figure Figure~\ref{fig-peer-review-effect-distributions} shows the
+distribution of effect sizes estimated by those who did, and did not,
+engage in peer review in each round. The left column of graphs show the
+effects reported in each task before researchers were assigned to peer
+review, and the right column shows the effects reported in the follow-up
+task, comparing those either assigned or not assigned to peer review in
+the previous task. As we might expect given random assignment, effect
+distributions are fairly similar pre-review between the review and
+non-review groups, with a slightly narrower distribution of effects for
+researchers about to be reviewed.
+
+We also see that these groups have very similar effect distributions in
+their follow-up task. Neither group has a considerably narrower
+distribution than the other. This is not strong evidence in favor of the
+idea that peer review might drive agreement between researchers due to
+the receipt of feedback.
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-peer-review-effect-distributions-1.pdf}
+
+}
+
+\caption{\label{fig-peer-review-effect-distributions}Distributions of
+Reported Effect Sizes}
+
+\end{figure}
+
+Figure Figure~\ref{fig-like-your-reviewer} explores the possibility that
+peer review might not make the peer-reviewed group as a whole more
+similar, but rather just make someone more similar to their specific
+reviewer. We calculate the absolute difference in effects between each
+reviewer pair, in the task they perform before reviewing (left column),
+in the follow-up task (middle column) and comparing your follow-up task
+against your reviewer's result this round (right column), with the right
+column representing the possibility that a researcher may select an
+analysis so as to produce a result more similar to the one they saw in
+the previous round. The distributions of absolute differences for
+non-reviewed researchers are generated as a null distribution by
+matching every non-reviewed researcher to every other non-reviewed
+researcher and calculating all absolute differences.\footnote{This null
+  distribution represents the distribution of absolute differences among
+  people who did not actually experience peer review. Notably, each
+  non-reviewer is matched multiple times in this approach, instead of
+  just once for reviewers. However, matching the non-reviewers only once
+  to a single random pair just produces a noisier version of this
+  all-matches null distribution. Averaging the single-random-match
+  approach over many random single matches produces the same null
+  distribution.}
+
+In Figure Figure~\ref{fig-like-your-reviewer} we see some of the
+anticipated effect of peer review for Task 1. Before review (left
+column), absolute differences between review pairs were more likely to
+be large than differences between non-review pairs. But by the follow-up
+in Task 2, both groups were similar, potentially suggesting that peer
+review reduced the large absolute differences. In the right column, the
+unreviewed group still shows lower differences, but to a smaller degree.
+However, none of this holds up in Task 2. Again the actual review pairs
+started out with larger differences, and those differences shrank for
+both groups by Task 3, but by the same degree. Appendix Table
+\ref{tab-peer-review-reg} shows that average absolute differences grew
+by a statistically significant .051 more for the unreviewed group than
+for the reviewed group in Task 1, but that this effect reverses to a
+statistically significant .029 in favor of the unreviewed group for Task
+2. This is not consistent strong evidence of peer review making a
+researcher more like their reviewer as the result of feedback.
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-like-your-reviewer-1.pdf}
+
+}
+
+\caption{\label{fig-like-your-reviewer}Comparisons of Effect Sizes
+vs.~One's Reviewer}
+
+\end{figure}
+
+\hypertarget{sec-analytic}{%
+\subsection{Analytic Choices}\label{sec-analytic}}
+
+The next two sections examine the different choices that researchers
+made, both to demonstrate the variation in ways that different
+researchers chose to carry out the research tasks, and to relate those
+choices to differences in outcomes.
+
+Table \ref{tab-estimation-methods} shows the different choices made in
+estimating the effect of DACA on the probability of employment across
+all three tasks, in particular the estimator chosen, the use of ACS
+sampling weights provided by IPUMS, and the choice of standard error
+adjustment.\footnote{For most researchers, these choices did not change
+  over the tasks, and so we just present the overall view.} The
+dependent variable of interest, working full-time or not, is binary.
+However, as is generally standard in applied microeconomics, linear
+regression was the most common estimator used, with 82\% of entries.
+13\% used logit or probit regression instead. Notably, many reserachers
+used linear regression as a means of implementing a fully saturated (or
+nearly fully saturated) difference-in-differences design, in which case
+the downsides of linear probability models are muted. Other researchers
+mostly used a matching estimator (sometimes combined with linear
+regression) or one of several newly-introduced estimators for
+difference-in-differences designs, like Callaway and Sant'Anna (2021).
+
+The use of sample weights was relatively uncommon, despite their use
+being advised with survey data like ACS. Only 25\% of task completions
+mentioned the use of weights or any of the standard ACS weight
+variables.
+
+There was considerable variation across researchers in the selection of
+standard error adjustment. A slim majority of researchers applied
+clustered standard errors in some way, but clustered at different
+levels: state, state/year, or according to a survey clustering indicator
+like Strata or some other variable. A further 17\% of submissions used
+heteroskedasticity-robust but not cluster-robust standard errors.
+
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Estimation Methods}\label{tab-estimation-methods}\resizebox{\textwidth}{!}{
+\begin{tabular}{lrr@{\hskip .1in}lrr}
+\hline
+\hline
+Variable & N & Percent & Variable & N & Percent \\ 
+\hline
+Method & 437 &  & S.E. Adjustment & 438 &  \\ 
+... Linear Regression & 358 & 82\% & ... Cluster (State) & 118 & 27\% \\ 
+... Logit/Probit & 57 & 13\% & ... Cluster (State \& Year) & 58 & 13\% \\ 
+... Matching & 11 & 3\% & ... Cluster (ID/Strata/Other) & 65 & 15\% \\ 
+... New DID Estimator & 7 & 2\% & ... Het-Robust & 76 & 17\% \\ 
+... Other & 4 & 1\% & ... Other/Bootstrap & 23 & 5\% \\ 
+Weights & 438 &  & ... None & 98 & 22\% \\ 
+... No Sample Weights & 329 & 75\% &  &  &  \\ 
+... Sample Weights & 109 & 25\% &  &  & \\ 
+\hline
+\hline
+\multicolumn{6}{l}{This table shows details on estimation, not research design. "Difference-in-differences"\newline implemented with linear regression, for example, counts here as linear regression.}\\ 
+\end{tabular}
+}
+\end{table}
+
+Table \ref{tab-controls-across-rounds} shows the average rate of
+inclusion of covariates across all three tasks. These can be read as the
+share of researchers who included the covariate, with the exception of
+``Other'', which allows each researcher to have multiple ``Other''
+controls. The most common covariates included are shown, with the
+exception of indicators for ``eligible for DACA'' or ``in a post-DACA
+period'', as these are considered part of the core research design
+rather than covariates. Variables are included here regardless of the
+functional form used to include them.
+
+The most common included controls were for state, year, age, and sex,
+which were included as covariates for more than 50\% of researchers in
+all three tasks. There was heavy variation in the sets of included
+covariates, however. In Task 1, for example, there are ten covariates
+with rates between .2 and .8, meaning that at least 20\% of the
+researchers made a different decision on inclusion of the covariate than
+the majority. There are four covariates in the 40-60\% range, meaning
+that the researchers were almost evenly split on whether or not to
+include the covariate. These rates did not change much by Task 3.
+
+Across all rounds, in which there were 435 submitted research tasks,
+there were 333 different unique sets of included covariates after
+``Other'' covariates are excluded. 64\% of submissions had a set of
+covariates that was unique for the task. 17\% shared a covariate set
+with one other person in that task, 12\% shared with two or three other
+people, and only the those with no controls shared with more than three
+other people.
+
+\begin{longtable}[]{@{}llll@{}}
+\caption{Average Rate of Covariate Inclusion Across Rounds
+\label{tab-controls-across-rounds}}\tabularnewline
+\toprule\noalign{}
+Control & Task 1 & Task 2 & Task 3 \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Control & Task 1 & Task 2 & Task 3 \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Age & 0.62 & 0.57 & 0.52 \\
+Age at Migration & 0.18 & 0.14 & 0.14 \\
+Age in 2012 & 0.05 & 0.04 & 0.08 \\
+Continuous Years in USA & 0.13 & 0.13 & 0.12 \\
+Education & 0.48 & 0.50 & 0.51 \\
+English Speaker & 0.17 & 0.17 & 0.23 \\
+Labor Force Participation Rate & 0.22 & 0.17 & 0.20 \\
+Marital Status & 0.10 & 0.13 & 0.12 \\
+Race & 0.24 & 0.22 & 0.28 \\
+Sex & 0.63 & 0.64 & 0.72 \\
+State & 0.62 & 0.64 & 0.64 \\
+State Policy Variables & 0.25 & 0.21 & 0.23 \\
+Unemployment Rate & 0.32 & 0.27 & 0.30 \\
+Year & 0.68 & 0.60 & 0.57 \\
+Year of Migration & 0.14 & 0.13 & 0.11 \\
+Other & 0.66 & 0.63 & 0.63 \\
+None & 0.07 & 0.07 & 0.06 \\
+\end{longtable}
+
+There was very little agreement across researchers on the exact set of
+appropriate controls, or the inclusion or exclusion of any given control
+(aside from those very rarely included). Did these choices impact the
+effect estimates? Not by much. Table \ref{tab-effects-by-controls} shows
+the average effect among researchers who included a given control,
+pooling all three tasks. The mean reported effects differ by only .023
+percentage points comparing the covariate included in analyses with the
+highest average effectestimates (Continuous Years in the USA) against
+the lowest (Race). This likely overstates the impact of covariate
+selection here, as selecting the highest vs.~lowest after estimates are
+known will bias us towards a larger difference from noise alone.
+
+There do not appear to be major differences in the average reported
+standard errors either, or in the standard deviation of the effect
+distribution among reserachers including that covariate.
+
+\begin{longtable}[]{@{}lrlll@{}}
+\caption{Estimated Effects by Control-Variable Inclusion
+\label{tab-effects-by-controls}}\tabularnewline
+\toprule\noalign{}
+Control & N & Effect & Mean SE & Effect SD \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Control & N & Effect & Mean SE & Effect SD \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Continuous Years in USA & 55 & 0.054 & 0.035 & 0.123 \\
+Age & 248 & 0.048 & 0.025 & 0.094 \\
+Year of Migration & 55 & 0.048 & 0.033 & 0.112 \\
+Marital Status & 51 & 0.047 & 0.016 & 0.071 \\
+Sex & 289 & 0.046 & 0.027 & 0.101 \\
+Age at Migration & 67 & 0.045 & 0.022 & 0.067 \\
+None & 28 & 0.045 & 0.060 & 0.133 \\
+State & 275 & 0.045 & 0.025 & 0.089 \\
+Year & 267 & 0.045 & 0.026 & 0.094 \\
+Education & 216 & 0.042 & 0.017 & 0.061 \\
+Other & 278 & 0.040 & 0.038 & 0.086 \\
+Age in 2012 & 24 & 0.037 & 0.026 & 0.042 \\
+State Policy Variables & 99 & 0.037 & 0.033 & 0.108 \\
+Unemployment Rate & 128 & 0.036 & 0.033 & 0.097 \\
+Labor Force Participation Rate & 86 & 0.035 & 0.041 & 0.115 \\
+English Speaker & 82 & 0.034 & 0.046 & 0.100 \\
+Race & 106 & 0.031 & 0.032 & 0.092 \\
+\end{longtable}
+
+While the inclusion of a given common control variable does not strongly
+predict an estimated effect, in Table
+\ref{tab-effects-by-functional-form} we look at the most common
+covariates and examine whether their functional form meaningfully
+affects the estimated effect. The selection of functional form explained
+more variation in average estimated effects than the inclusion of
+covariates did, at least in this context. For both age and the
+State/Year controls, the difference between the highest-average-effect
+functional form variants and the lowest, in both cases comparing a
+linear control against a fixed effect, was greater than the difference
+between highest and lowest among covariates included.
+
+\begin{longtable}[]{@{}llrlll@{}}
+\caption{Estimated Effects by Functional Form of Control Variable
+\label{tab-effects-by-functional-form}}\tabularnewline
+\toprule\noalign{}
+Category & Control & N & Effect & Mean SE & Effect SD \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+Category & Control & N & Effect & Mean SE & Effect SD \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+AGE & Linear Age & 164 & 0.058 & 0.024 & 0.107 \\
+AGE & Age FE & 36 & 0.024 & 0.040 & 0.022 \\
+AGE & Age Quadratic & 33 & 0.035 & 0.015 & 0.089 \\
+EDUC & Linear Education & 122 & 0.040 & 0.016 & 0.066 \\
+EDUC & Education FE & 32 & 0.047 & 0.021 & 0.033 \\
+EDUC & Education Transform & 61 & 0.045 & 0.017 & 0.064 \\
+STATE/YEAR & Linear Year & 79 & 0.044 & 0.037 & 0.140 \\
+STATE/YEAR & Year FE & 103 & 0.047 & 0.026 & 0.062 \\
+STATE/YEAR & State FE & 155 & 0.046 & 0.031 & 0.102 \\
+STATE/YEAR & State FE x Year FE & 56 & 0.037 & 0.018 & 0.027 \\
+STATE/YEAR & State FE x Linear Year & 23 & 0.061 & 0.017 & 0.133 \\
+\end{longtable}
+
+These specific findings about the impact of choices on effects - that
+the inclusion of different covariates did not have a major impact on
+estimated effects, or that the choice of functional form had a greater
+impact than the selection of covariates - should not be expected to
+generalize, and is specific to this research task. However, what we can
+take from this section is that there is heavy variation across
+researchers in what they believe the appropriate set of covariates to
+be, and for a given covariate what the appropriate functional form is.
+We can also see that, in the case of this particular study, these
+decisions, while varied, did not fully explain the variation in effects
+between researchers.
+
+\hypertarget{sec-sample-limitations}{%
+\subsection{Sample Limitations}\label{sec-sample-limitations}}
+
+In this section we examine the ways in which researchers defined their
+analytic samples, as well as defined the treated group, and any
+comparison group included in the data analysis that was not treated.
+These data are derived from researcher responses to a survey about their
+work, in which they were asked to describe how they limited the size of
+their sample before downloading it from IPUMS and which variables they
+used to further drop observations from the sample before analysis. For
+example someone might say that they only kept observations for which
+HISPAN == 1 (the observation is Hispanic-Mexican), along with other
+restrictions. These two responses are combined to define the full
+analytic sample.
+
+Researchers were also asked to describe how they defined the treated
+group who was affected by DACA. For example someone might say that only
+those with CITIZEN == 3 (non-citizens) were eligible, along with other
+restrictions. These were combined with the analytic-sample restrictions
+to make the full treated group definition. Finally, researchers were
+similarly asked to describe the conditions that defined someone who
+would be included in analysis but not be treated by DACA, which were
+combined with the analytic-sample restructions to make the full
+comparison group definition.
+
+Researchers were asked to specify these conditions as precisely as
+possible to match what they did, and to use IPUMS variable names in
+their descriptions. The project organizers coded these into a set of
+boolean conditions defining the overall sample, treated group, and
+comparison group for each researcher, in some cases reviewing the code
+directly or asking researchers to clear up uncertainty where survey
+responses were unclear, but in general taking the researcher survey
+responses at their word. For these analyses, Task 3 is omitted because
+the analytic sample is defined for all researchers.
+
+Table \ref{tab-number-of-sample-limitations} looks purely at the number
+of distinct variables referenced in the sample limitations, regardless
+of what they are. In Task 1, the typical researcher used five variables
+to define their analytic sample, and an additional four to define their
+treated group. In Task 2, where inclusion criteria were shared, both of
+these numbers increased, but there was still considerable variation,
+with the 25th and 75th percentiles using 3 and 10 variables to define
+their full sample. Definition of the treated group was more shared, with
+the 25th and 75th percentiles using 9 and 12 variables, respectively.
+
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Number of Variables Referred to in Sample Limitations}\label{tab-number-of-sample-limitations}\resizebox{\textwidth}{!}{
+\begin{tabular}{lrrrrrrrr}
+\hline
+\hline
+Variable & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{Std. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Pctl. 25} & \multicolumn{1}{c}{Pctl. 50} & \multicolumn{1}{c}{Pctl. 75} & \multicolumn{1}{c}{Max} \\ 
+\hline
+\multicolumn{9}{c}{Round: Task 1} \\ 
+Whole Sample & 144 & 5.0 & 2.7 & 0.0 & 3.0 & 5.0 & 7.0 & 14.0 \\ 
+Treated Group & 144 & 8.7 & 2.1 & 3.0 & 7.0 & 9.0 & 10.0 & 17.0 \\ 
+Untreated Group & 144 & 8.0 & 2.7 & 1.0 & 7.0 & 8.0 & 10.0 & 17.0 \\ 
+ &  &  &  &  &  &  &  &  \\ 
+\multicolumn{9}{c}{Round: Task 2} \\ 
+Whole Sample & 145 & 6.8 & 3.9 & 0.0 & 3.0 & 8.0 & 10.0 & 15.0 \\ 
+Treated Group & 145 & 10.3 & 2.3 & 3.0 & 9.0 & 10.0 & 12.0 & 16.0 \\ 
+Untreated Group & 145 & 10.2 & 2.3 & 3.0 & 9.0 & 10.0 & 12.0 & 16.0\\ 
+\hline
+\hline
+\end{tabular}
+}
+\end{table}
+
+As for how those variables are actually used, Table
+\ref{tab-sample-limitations-extensive} shows how these variables were
+implemented as sample restrictions. Importantly, these reflect the
+survey responses given by researchers. Some of the ``none'' responses in
+Task 2 in particular reflect researchers who did use the variable in
+some way but did not report it in their description of
+results.\footnote{Other notes of interest for reading the table: (a)
+  ``Multistep condition'' refers to cases where the variable is
+  included, but only as a part of a complex boolean statement involving
+  many variable. These most commonly appeared in definitions for the
+  comparison group, which are not in the table, in the format of ``fails
+  any one of the following set of DACA eligibility requirements.'' and
+  (b) for Education/Veteran status, recall that the mention of this
+  eligibility requirement was omitted from the Task 1 instructions,
+  which explains why very few researchers used these variables to define
+  their samples or treated groups in Task 1.}
+
+We see a huge amount of variety in the ways these variables were used,
+including in Task 2 for the treated-group definition, where there is a
+correct answer according to the instructions (and similarly a correct
+answer for some variables in the Task 1 treated-group
+definition).\footnote{Keep in mind also that these are recoded versions
+  of the actual survey submissions sent in by researchers. The survey
+  question asked respondents to use IPUMS variable names to describe
+  their choices. So for example the individuals reporting that they used
+  only high school graduates or \emph{non-veterans,} instead of veterans
+  as per the instructions, likely did not intentionally choose to use
+  non-veterans and write ``I chose to use non-veterans in my sample'' in
+  their response but rather they wrote ``VETSTAT == 1,'' which indicates
+  ``non-veteran'', perhaps based on a misunderstanding of the IPUMS
+  documentation (veterans are VETSTAT == 2).} For each variable, the
+most-common option, listed at the top, is the ``correct'' answer for
+defining the treated group, with two exceptions: (a) for Citizenship,
+there is a second justifiable answer in ``Non-Citizen or Naturalized
+After 2012.'' These immigrants would have been eligible for DACA in
+2012, but would not be eligible for DACA as of the time they were
+surveyed, so they would have received a partial ``dose'' of DACA, which
+could justifiably be included or excluded, and (b) for Years Continuous
+in USA, where DACA guidelines require that the immigrant have lived
+\emph{continuously} in the United States for five years as of 2012. Most
+researchers used only year of immigration being before 2007 to satisfy
+this criterion, but others used the YRSUSA set of variables which
+specifically track living continuously in the country.
+
+For all other variables besides Years Continuous in USA, the ``correct''
+option was the most common, but we also see plenty of variation. We also
+see considerable variation for the columns in which there is not a clear
+``correct'' option, like the analytic sample definition. No single way
+of applying any variable was used by more than 84\% of the sample in any
+case. One interesting feature is the use of both ``\textless{} 16'' and
+``\textless= 16'' for age at migration, and ``\textless{} 2007'' and
+``\textless= 2007'' for year of migation. For year of migration, the two
+are similarly popular. Also interesting is the distinction between
+researchers using age defined in years to determine eligibility vs.~age
+defined in quarters, which makes a difference given that eligibility is
+based on age specifically in June 2012.
+
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Sample Restriction Methods}\label{tab-sample-limitations-extensive}\resizebox{.75\textwidth}{!}{
+\begin{tabular}{lrrrrrrrr}
+\hline
+\hline
+Round/Sample & \multicolumn{2}{c}{Task 1 All} & \multicolumn{2}{c}{Task 1 Treated} & \multicolumn{2}{c}{Task 2 All} & \multicolumn{2}{c}{Task 2 Treated}  \\ 
+ Variable & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} \\ 
+\hline
+Hispanic & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... Hispanic-Mexican & 92 & 64\% & 105 & 73\% & 101 & 70\% & 112 & 77\% \\ 
+... Hispanic-Any & 7 & 5\% & 8 & 6\% & 7 & 5\% & 8 & 6\% \\ 
+... Hispanic-Mex or Mex-Born & 5 & 3\% & 6 & 4\% & 0 & 0\% & 1 & 1\% \\ 
+... Multistep Condition & 2 & 1\% & 2 & 1\% & 1 & 1\% & 1 & 1\% \\ 
+... None & 38 & 26\% & 23 & 16\% & 36 & 25\% & 23 & 16\% \\ 
+Birthplace & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... Mexican-Born & 91 & 63\% & 88 & 61\% & 96 & 66\% & 95 & 66\% \\ 
+... Hispanic-Mex or Mex-Born & 4 & 3\% & 2 & 1\% & 0 & 0\% & 1 & 1\% \\ 
+... Non-US Born & 2 & 1\% & 1 & 1\% & 3 & 2\% & 0 & 0\% \\ 
+... Central America-Born & 1 & 1\% & 1 & 1\% & 1 & 1\% & 1 & 1\% \\ 
+... None & 46 & 32\% & 52 & 36\% & 45 & 31\% & 48 & 33\% \\ 
+Citizenship & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... Non-Citizen & 71 & 49\% & 108 & 75\% & 88 & 61\% & 118 & 81\% \\ 
+... Foreign-Born & 3 & 2\% & 3 & 2\% & 1 & 1\% & 0 & 0\% \\ 
+... Non-Cit or Natlzd post-2012 & 1 & 1\% & 4 & 3\% & 2 & 1\% & 5 & 3\% \\ 
+... Citizen (various) & 1 & 1\% & 3 & 2\% & 1 & 1\% & 1 & 1\% \\ 
+... Multistep Condition & 2 & 1\% & 1 & 1\% & 0 & 0\% & 0 & 0\% \\ 
+... Other & 7 & 5\% & 9 & 6\% & 3 & 2\% & 7 & 5\% \\ 
+... None & 59 & 41\% & 16 & 11\% & 50 & 34\% & 14 & 10\% \\ 
+Age at Migration & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... < 16 & 12 & 8\% & 85 & 59\% & 52 & 36\% & 99 & 68\% \\ 
+... <= 16 & 5 & 3\% & 17 & 12\% & 7 & 5\% & 14 & 10\% \\ 
+... Other & 29 & 20\% & 24 & 17\% & 12 & 8\% & 14 & 10\% \\ 
+... None & 98 & 68\% & 18 & 12\% & 74 & 51\% & 18 & 12\% \\ 
+... > 16 & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
+... Any Age & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
+... Multistep Condition & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
+Age in June 2012 & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... Year-Quarter Age & 25 & 17\% & 121 & 84\% & 78 & 54\% & 129 & 89\% \\ 
+... Year-Only Age & 13 & 9\% & 9 & 6\% & 9 & 6\% & 11 & 8\% \\ 
+... None & 106 & 74\% & 14 & 10\% & 58 & 40\% & 5 & 3\% \\ 
+Year of Immigration & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... < 2007 & 12 & 8\% & 39 & 27\% & 30 & 21\% & 45 & 31\% \\ 
+... <= 2007 & 9 & 6\% & 49 & 34\% & 24 & 17\% & 44 & 30\% \\ 
+... < 2012 & 2 & 1\% & 1 & 1\% & 0 & 0\% & 2 & 1\% \\ 
+... <= 2012 & 2 & 1\% & 2 & 1\% & 1 & 1\% & 3 & 2\% \\ 
+... >= 2007 & 1 & 1\% & 1 & 1\% & 0 & 0\% & 1 & 1\% \\ 
+... Any Year & 7 & 5\% & 3 & 2\% & 2 & 1\% & 2 & 1\% \\ 
+... Multistep Condition & 2 & 1\% & 1 & 1\% & 0 & 0\% & 2 & 1\% \\ 
+... Other & 5 & 3\% & 3 & 2\% & 2 & 1\% & 1 & 1\% \\ 
+... None & 104 & 72\% & 45 & 31\% & 86 & 59\% & 45 & 31\% \\ 
+Education/Veteran & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... HS Grad or Veteran & 0 & 0\% & 2 & 1\% & 67 & 46\% & 105 & 72\% \\ 
+... 12th Grade or Veteran & 0 & 0\% & 0 & 0\% & 2 & 1\% & 4 & 3\% \\ 
+... HS Grad & 14 & 10\% & 17 & 12\% & 3 & 2\% & 5 & 3\% \\ 
+... HS Grad or Non-Veteran & 0 & 0\% & 0 & 0\% & 4 & 3\% & 5 & 3\% \\ 
+... Other & 5 & 3\% & 11 & 8\% & 8 & 6\% & 14 & 10\% \\ 
+... None & 125 & 87\% & 114 & 79\% & 61 & 42\% & 12 & 8\% \\ 
+... HS Grad or In School & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
+Years Continuous in USA & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... Used YRSUSA & 10 & 7\% & 45 & 31\% & 18 & 12\% & 44 & 30\% \\ 
+... No YRSUSA & 134 & 93\% & 99 & 69\% & 127 & 88\% & 101 & 70\%\\ 
+\hline
+\hline
+\multicolumn{9}{l}{Multistep condition means the variable is one part of a complex boolean involving many different variables.}\\ 
+\end{tabular}
+}
+\end{table}
+
+Showing the impact of these choices on estimated effects is difficult
+since, aside from the most-common option, any specific alternative does
+not have enough people using it to make a reasonable comparison.
+However, we show estimated effects and, for analytic-sample
+restrictions, analytic sample size by sample limitation choice in
+Appendix Tables \ref{tab-task1effectsample-full} for Task 1 and Table
+\ref{tab-task2effectsample-full} for Task 2. There are large differences
+in estimated effects and sample sizes across many of these different
+sample restriction choices, but in many cases these comparisons are
+based on very small samples.
+
+The two comparisons for which an alternative was common enough to
+compare are for the YRSUSA inclusion and the use of ``\textless{} 2007''
+vs.~``\textless= 2007'' for year of migration, which are shown in
+\ref{tab-task1effectsample} for Task 1 and Table
+\ref{tab-task2effectsample} for Task 2. For both of these, the
+relationship between these choices on effects varies from negligible to
+a several percentage-point difference associated with a single sample
+restriction change, a fairly minor one in particular for ``\textless{}
+2007'' vs.~``\textless= 2007''. Effect differences are larger in Task 2.
+However, in Task 1, even though estimated effects are similar, sample
+sizes are considerably larger for the less-restrictive option, and so
+reported standard errors would be lower, and statistical significance
+more likely.
+
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 1 Effect and Samples by Sample Definitions}\label{tab-task1effectsample}\resizebox{\textwidth}{!}{
+\begin{tabular}{llllllllll}
+\hline
+\hline
+ & \multicolumn{3}{c}{Treated-Group Restriction} & \multicolumn{6}{c}{All-Sample Restriction}  \\ 
+ Variable & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Samp Size Pctl. 25 & Pctl. 50 & Pctl. 75 \\ 
+\hline
+Year of Immigration &  &  &  &  &  &  &  &  &  \\ 
+... < 2007 & 0.021 & 0.034 & 0.054 & 0.016 & 0.028 & 0.032 & 13,674 & 32,242 & 51,475 \\ 
+... <= 2007 & 0.013 & 0.030 & 0.052 & 0.016 & 0.019 & 0.041 & 35,144 & 44,503 & 205,147 \\ 
+Years Continuous in USA &  &  &  &  &  &  &  &  &  \\ 
+... Used YRSUSA & 0.017 & 0.030 & 0.052 & 0.019 & 0.026 & 0.045 & 36,523 & 83,097 & 151,054 \\ 
+... No YRSUSA & 0.013 & 0.030 & 0.048 & 0.014 & 0.030 & 0.052 & 67,068 & 192,826 & 371,244\\ 
+\hline
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 2 Effect and Samples by Sample Definitions}\label{tab-task2effectsample}\resizebox{\textwidth}{!}{
+\begin{tabular}{llllllllll}
+\hline
+\hline
+ & \multicolumn{3}{c}{Treated-Group Restriction} & \multicolumn{6}{c}{All-Sample Restriction}  \\ 
+ Variable & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Samp Size Pctl. 25 & Pctl. 50 & Pctl. 75 \\ 
+\hline
+Year of Immigration &  &  &  &  &  &  &  &  &  \\ 
+... < 2007 & 0.015 & 0.028 & 0.048 & 0.014 & 0.029 & 0.053 & 22,840 & 25,056 & 28,602 \\ 
+... <= 2007 & 0.022 & 0.036 & 0.058 & 0.028 & 0.040 & 0.068 & 20,182 & 25,588 & 28,895 \\ 
+Years Continuous in USA &  &  &  &  &  &  &  &  &  \\ 
+... Used YRSUSA & 0.008 & 0.034 & 0.058 & 0.025 & 0.034 & 0.063 & 15,424 & 22,912 & 25,529 \\ 
+... No YRSUSA & 0.018 & 0.031 & 0.057 & 0.015 & 0.031 & 0.057 & 19,489 & 25,868 & 52,379\\ 
+\hline
+\hline
+\end{tabular}
+}
+\end{table}
 
 \hypertarget{researcher-characteristics-and-effects}{%
 \subsection{Researcher Characteristics and
@@ -1241,19 +2007,19 @@ Effects}\label{researcher-characteristics-and-effects}}
 \begin{minipage}[b]{\linewidth}\raggedright
 Predictor
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-R1: F
+T1: F
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 p
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 R2
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-R2: F
+T2: F
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 p
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 R2
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-R3: F
+T3: F
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 p
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -1298,19 +2064,19 @@ Coding Language & 3.861 & 0.051 & 0.027 & 3.117 & 0.080 & 0.022 & 0.653
 \begin{minipage}[b]{\linewidth}\raggedright
 Predictor
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-R1: F
+T1: F
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 p
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 R2
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-R2: F
+T2: F
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 p
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 R2
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-R3: F
+T3: F
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 p
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
@@ -1340,481 +2106,79 @@ Coding Language & 4.369 & 0.038 & 0.030 & 4.537 & 0.035 & 0.032 & 5.022
 & 0.027 & 0.035 \\
 \end{longtable}
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-17-1.pdf}
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-29-1.pdf}
 
+\hypertarget{sec-bimodal}{%
+\subsection{Bimodality in the Task 2 Effect
+Estimates}\label{sec-bimodal}}
 
-\hypertarget{peer-review}{%
-\subsection{Peer Review}\label{peer-review}}
+One of the surprising results in Section~\ref{sec-variation} was the
+effect distribution in Task 2. In designing the study, we had expected
+that each task would show a narrower distribution of effects than the
+previous task. While we did generally see this pattern for sample sizes
+and some researcher choices, the distribution of effects in particular
+became wider going from Task 1 to Task 2. We also saw some emerging
+bimodality, where the larger part of the sample reported estimates that
+reflected the distribution of effects already seen in Task 1, while a
+smaller group of researchers reported larger effects that were more like
+those found in Task 3. In this section we explore possible explanation
+for the unexpected findings in Task 2.\footnote{This section is entirely
+  un-preregistered, as we did not anticipate this finding.}
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-18-1.pdf}
+The fact that the effect distribution is not just wider but rather
+gathers at a high and a low point makes the task of explaining it
+somewhat easier, as we can look for features that predict reporting a
+higher or lower estimate.
 
-\hypertarget{do-you-become-more-like-your-reviewer}{%
-\subsubsection{Do You Become More Like Your
-Reviewer?}\label{do-you-become-more-like-your-reviewer}}
+Several anticipated correlates did not explain the bimodal outcomes of
+Task 2. Appendix Figures Figure~\ref{fig-effect-vs-sample} and
+Figure~\ref{fig-effect-vs-se} show that the Task 2 reported sample sizes
+and standard errors do not storngly explain the effects reported.
+Recalling Section~\ref{sec-analytic}, there were not enormous
+differences in reported estimates by control variables included, and
+there were not covariates associated with large effects that increased
+in prominence in Task 2, so it is unlikely that changes in covariate
+choice or importance explain the effect distribution.
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-19-1.pdf}
+A possible expanation of the bimodality is that some researchers found
+their Task 1 analyses or results ``sticky'' and tried to match them too
+closely, while researchers who did not attempt to do this instead
+produced results like those in Task 3, since the Task 2 instructions are
+very similar to Task 3.However, Figure Figure~\ref{fig-task-1-vs-2}
+shows effectively no relationship betwen a given researcher's Task 1
+estimate and their Task 2 estimate.
 
-\begin{table}
-\centering
-\begin{tabular}[t]{lcc}
-\toprule
-  & sample: Task 1 & sample: Task 2\\
-\midrule
+\begin{figure}
 
-(Intercept) & \num{0.088}*** & \num{0.063}***\\
- & (\num{0.009}) & \vphantom{1} (\num{0.009})\\
-ComparisonNext Round & \num{-0.029}** & \num{-0.006}\\
- & (\num{0.013}) & \vphantom{2} (\num{0.013})\\
-ComparisonNext vs. This & \num{-0.018} & \num{0.001}\\
- & (\num{0.013}) & \vphantom{1} (\num{0.013})\\
-TypeUnreviewed & \num{-0.047}*** & \num{-0.001}\\
- & (\num{0.009}) & (\num{0.009})\\
-ComparisonNext Round × TypeUnreviewed & \num{0.051}*** & \num{-0.029}**\\
- & (\num{0.014}) & (\num{0.013})\\
-ComparisonNext vs. This × TypeUnreviewed & \num{0.029}** & \num{-0.016}\\
- & (\num{0.013}) & (\num{0.013})\\
-\midrule
-Num.Obs. & \num{7266} & \num{6964}\\
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-task-1-vs-2-1.pdf}
 
-\bottomrule
-\multicolumn{3}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
-\end{tabular}
-\end{table}
-
-TO DO: The same but for sample sizes and analytic choices
-
-\hypertarget{analytic-choices}{%
-\subsection{Analytic Choices}\label{analytic-choices}}
-
-\begin{table}
-
-\caption{}
-\centering
-\begin{tabular}[t]{llllll}
-\toprule
-Variable & N & Percent & Variable & N & Percent\\
-\midrule
-Method & 437 &  & S.E. Adjustment & 438 & \\
-... Linear Regression & 358 & 82\% & ... Cluster (State) & 118 & 27\%\\
-... Logit/Probit & 57 & 13\% & ... Cluster (State \& Year) & 58 & 13\%\\
-... Matching & 11 & 3\% & ... Cluster (ID/Strata/Other) & 65 & 15\%\\
-... New DID Estimator & 7 & 2\% & ... Het-Robust & 76 & 17\%\\
-\addlinespace
-... Other & 4 & 1\% & ... Other/Bootstrap & 23 & 5\%\\
-Weights & 438 &  & ... None & 98 & 22\%\\
-... No Sample Weights & 329 & 75\% &  &  & \\
-... Sample Weights & 109 & 25\% &  &  & \\
-\bottomrule
-\multicolumn{6}{l}{\textsuperscript{} This table shows details on estimation, not research design.}\\
-\multicolumn{6}{l}{"Difference-in-differences" implemented with linear regression, for example, counts}\\
-\multicolumn{6}{l}{here as linear regression.}\\
-\end{tabular}
-\end{table}
-
-\hypertarget{sample-limitations}{%
-\subsection{Sample Limitations}\label{sample-limitations}}
-
-\begin{table}
-
-\caption{Summary Statistics}
-\centering
-\begin{tabular}[t]{lllllllll}
-\toprule
-Variable & N & Mean & Std. Dev. & Min & Pctl. 25 & Pctl. 50 & Pctl. 75 & Max\\
-\midrule
-Round: Task 1 &  &  &  &  &  &  &  & \\
-Whole Sample & 146 & 4.8 & 2.8 & 0 & 3 & 5 & 6 & 14\\
-Treated Group & 146 & 8.1 & 2.7 & 1 & 7 & 8 & 10 & 15\\
-Untreated Group & 146 & 7.4 & 3.2 & 1 & 5.2 & 8 & 10 & 15\\
-Round: Task 2 &  &  &  &  &  &  &  & \\
-\addlinespace
-Whole Sample & 146 & 6.5 & 4 & 0 & 3 & 7 & 9 & 15\\
-Treated Group & 146 & 9.4 & 3.5 & 1 & 8 & 10 & 12 & 16\\
-Untreated Group & 146 & 9.5 & 3.3 & 1 & 8 & 10 & 12 & 16\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Sample Restriction Methods}\resizebox{.9\textwidth}{!}{
-\begin{tabular}{lrrrrrrrr}
-\hline
-\hline
-Round/Sample & \multicolumn{2}{c}{Task 1 All} & \multicolumn{2}{c}{Task 1 Treated} & \multicolumn{2}{c}{Task 2 All} & \multicolumn{2}{c}{Task 2 Treated}  \\ 
- Variable & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} \\ 
-\hline
-Hispanic & 142 &  & 135 &  & 137 &  & 131 &  \\ 
-... Hispanic-Mexican & 91 & 64\% & 98 & 73\% & 96 & 70\% & 101 & 77\% \\ 
-... Hispanic-Any & 7 & 5\% & 8 & 6\% & 7 & 5\% & 8 & 6\% \\ 
-... Hispanic-Mex or Mex-Born & 5 & 4\% & 6 & 4\% & 0 & 0\% & 1 & 1\% \\ 
-... Multistep Condition & 2 & 1\% & 2 & 1\% & 1 & 1\% & 1 & 1\% \\ 
-... None & 37 & 26\% & 21 & 16\% & 33 & 24\% & 20 & 15\% \\ 
-Birthplace & 142 &  & 135 &  & 137 &  & 131 &  \\ 
-... Mexican-Born & 89 & 63\% & 83 & 61\% & 91 & 66\% & 88 & 67\% \\ 
-... Hispanic-Mex or Mex-Born & 4 & 3\% & 2 & 1\% & 0 & 0\% & 1 & 1\% \\ 
-... Non-US Born & 1 & 1\% & 1 & 1\% & 3 & 2\% & 0 & 0\% \\ 
-... Central America-Born & 1 & 1\% & 1 & 1\% & 1 & 1\% & 1 & 1\% \\ 
-... None & 47 & 33\% & 48 & 36\% & 42 & 31\% & 41 & 31\% \\ 
-Citizenship & 142 &  & 135 &  & 137 &  & 131 &  \\ 
-... Non-Citizen & 70 & 49\% & 100 & 74\% & 85 & 62\% & 107 & 82\% \\ 
-... Foreign-Born & 3 & 2\% & 3 & 2\% & 1 & 1\% & 0 & 0\% \\ 
-... Non-Cit or Natlzd post-2012 & 1 & 1\% & 4 & 3\% & 2 & 1\% & 4 & 3\% \\ 
-... Citizen (various) & 1 & 1\% & 3 & 2\% & 1 & 1\% & 2 & 2\% \\ 
-... Multistep Condition & 2 & 1\% & 1 & 1\% & 0 & 0\% & 0 & 0\% \\ 
-... Other & 7 & 5\% & 9 & 7\% & 3 & 2\% & 6 & 5\% \\ 
-... None & 58 & 41\% & 15 & 11\% & 45 & 33\% & 12 & 9\% \\ 
-Age at Migration & 142 &  & 135 &  & 137 &  & 131 &  \\ 
-... < 16 & 12 & 8\% & 81 & 60\% & 50 & 36\% & 90 & 69\% \\ 
-... <= 16 & 4 & 3\% & 15 & 11\% & 7 & 5\% & 12 & 9\% \\ 
-... > 16 & 0 & 0\% & 1 & 1\% & 0 & 0\% & 0 & 0\% \\ 
-... Any Age & 1 & 1\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
-... Multistep Condition & 1 & 1\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
-... Other & 26 & 18\% & 23 & 17\% & 11 & 8\% & 13 & 10\% \\ 
-... None & 98 & 69\% & 15 & 11\% & 69 & 50\% & 16 & 12\% \\ 
-Age in June 2012 & 146 &  & 146 &  & 146 &  & 146 &  \\ 
-... Year-Quarter Age & 23 & 16\% & 114 & 78\% & 75 & 51\% & 116 & 79\% \\ 
-... Year-Only Age & 12 & 8\% & 7 & 5\% & 9 & 6\% & 10 & 7\% \\ 
-... None & 111 & 76\% & 25 & 17\% & 62 & 42\% & 20 & 14\% \\ 
-Year of Immigration & 142 &  & 135 &  & 137 &  & 131 &  \\ 
-... < 2007 & 11 & 8\% & 38 & 28\% & 30 & 22\% & 42 & 32\% \\ 
-... <= 2007 & 9 & 6\% & 46 & 34\% & 22 & 16\% & 39 & 30\% \\ 
-... < 2012 & 2 & 1\% & 0 & 0\% & 0 & 0\% & 2 & 2\% \\ 
-... <= 2012 & 2 & 1\% & 2 & 1\% & 1 & 1\% & 3 & 2\% \\ 
-... >= 2007 & 1 & 1\% & 1 & 1\% & 0 & 0\% & 0 & 0\% \\ 
-... Any Year & 7 & 5\% & 3 & 2\% & 2 & 1\% & 1 & 1\% \\ 
-... Multistep Condition & 2 & 1\% & 1 & 1\% & 0 & 0\% & 2 & 2\% \\ 
-... Other & 4 & 3\% & 2 & 1\% & 2 & 1\% & 1 & 1\% \\ 
-... None & 104 & 73\% & 42 & 31\% & 80 & 58\% & 41 & 31\% \\ 
-Education/Veteran & 146 &  & 146 &  & 146 &  & 146 &  \\ 
-... HS Grad or Veteran & 0 & 0\% & 2 & 1\% & 66 & 45\% & 96 & 66\% \\ 
-... 12th Grade or Veteran & 0 & 0\% & 0 & 0\% & 2 & 1\% & 4 & 3\% \\ 
-... HS Grad & 14 & 10\% & 14 & 10\% & 4 & 3\% & 6 & 4\% \\ 
-... HS Grad or In School & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
-... HS Grad or Non-Veteran & 0 & 0\% & 0 & 0\% & 3 & 2\% & 4 & 3\% \\ 
-... Other & 5 & 3\% & 10 & 7\% & 7 & 5\% & 12 & 8\% \\ 
-... None & 127 & 87\% & 120 & 82\% & 64 & 44\% & 24 & 16\% \\ 
-Years Continuous in USA & 146 &  & 146 &  & 146 &  & 146 &  \\ 
-... Used YRSUSA & 9 & 6\% & 40 & 27\% & 17 & 12\% & 40 & 27\% \\ 
-... No YRSUSA & 137 & 94\% & 106 & 73\% & 129 & 88\% & 106 & 73\%\\ 
-\hline
-\hline
-\end{tabular}
 }
-\end{table}
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 1 Effect and Samples by Sample Definitions}\resizebox{\textwidth}{!}{
-\begin{tabular}{llllllllll}
-\hline
-\hline
- & \multicolumn{3}{c}{Treated-Group Restriction} & \multicolumn{6}{c}{All-Sample Restriction}  \\ 
- Variable & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Samp Size Pctl. 25 & Pctl. 50 & Pctl. 75 \\ 
-\hline
-Hispanic &  &  &  &  &  &  &  &  &  \\ 
-... Hispanic-Mexican & 0.014 & 0.032 & 0.054 & 0.015 & 0.032 & 0.055 & 69,522 & 173,803 & 295,926 \\ 
-... Hispanic-Any & 0.030 & 0.037 & 0.050 & 0.030 & 0.045 & 0.054 & 24,276 & 109,759 & 166,270 \\ 
-... Hispanic-Mex or Mex-Born & 0.018 & 0.021 & 0.026 & 0.021 & 0.022 & 0.027 & 51,754 & 127,504 & 179,960 \\ 
-... Multistep Condition & -0.009 & 0.001 & 0.010 & -0.009 & 0.001 & 0.010 & 326,913 & 366,804 & 406,696 \\ 
-... None & 0.017 & 0.023 & 0.052 & 0.013 & 0.026 & 0.051 & 75,698 & 263,527 & 808,057 \\ 
-Birthplace &  &  &  &  &  &  &  &  &  \\ 
-... Mexican-Born & 0.016 & 0.030 & 0.048 & 0.016 & 0.030 & 0.050 & 61,600 & 143,738 & 277,264 \\ 
-... Hispanic-Mex or Mex-Born & 0.041 & 0.100 & 0.160 & 0.004 & 0.016 & 0.070 & 215,436 & 289,311 & 330,348 \\ 
-... Non-US Born & -0.020 & -0.020 & -0.020 & -0.020 & -0.020 & -0.020 & 110,273 & 110,273 & 110,273 \\ 
-... Central America-Born & 0.057 & 0.057 & 0.057 & 0.057 & 0.057 & 0.057 & 9,711 & 9,711 & 9,711 \\ 
-... None & 0.015 & 0.033 & 0.054 & 0.014 & 0.036 & 0.053 & 78,426 & 277,277 & 746,663 \\ 
-Citizenship &  &  &  &  &  &  &  &  &  \\ 
-... Non-Citizen & 0.018 & 0.030 & 0.052 & 0.022 & 0.035 & 0.056 & 67,068 & 142,792 & 277,274 \\ 
-... Foreign-Born & 0.026 & 0.037 & 0.180 & 0.026 & 0.037 & 0.180 & 341,338 & 586,271 & 605,241 \\ 
-... Non-Cit or Natlzd post-2012 & 0.001 & 0.022 & 0.028 & 0.017 & 0.017 & 0.017 & 13,377 & 13,377 & 13,377 \\ 
-... Citizen (various) & 0.019 & 0.023 & 0.047 & 0.015 & 0.015 & 0.015 & 268,238 & 268,238 & 268,238 \\ 
-... Multistep Condition & 0.009 & 0.009 & 0.009 & -0.034 & -0.020 & -0.005 & 899,372 & 1,694,116 & 2,488,861 \\ 
-... Other & 0.023 & 0.041 & 0.053 & 0.023 & 0.037 & 0.046 & 13,427 & 17,759 & 84,944 \\ 
-... None & 0.009 & 0.028 & 0.052 & 0.011 & 0.021 & 0.043 & 91,829 & 242,029 & 675,566 \\ 
-Age at Migration &  &  &  &  &  &  &  &  &  \\ 
-... < 16 & 0.017 & 0.030 & 0.051 & 0.018 & 0.026 & 0.046 & 28,348 & 44,288 & 119,180 \\ 
-... <= 16 & 0.011 & 0.022 & 0.049 & 0.039 & 0.042 & 0.163 & 93,442 & 162,585 & 224,645 \\ 
-... > 16 & 0.060 & 0.060 & 0.060 &  &  &  &  &  &  \\ 
-... Any Age &  &  &  & -0.019 & -0.019 & -0.019 & 287,021 & 287,021 & 287,021 \\ 
-... Multistep Condition &  &  &  & 0.009 & 0.009 & 0.009 & 104,628 & 104,628 & 104,628 \\ 
-... Other & 0.018 & 0.032 & 0.054 & 0.018 & 0.032 & 0.057 & 34,870 & 117,257 & 202,525 \\ 
-... None & 0.000 & 0.028 & 0.050 & 0.013 & 0.030 & 0.052 & 99,873 & 255,769 & 507,856 \\ 
-Age in June 2012 &  &  &  &  &  &  &  &  &  \\ 
-... Year-Quarter Age & 0.016 & 0.030 & 0.052 & 0.018 & 0.037 & 0.051 & 40,586 & 132,637 & 297,176 \\ 
-... Year-Only Age & 0.009 & 0.030 & 0.040 & 0.018 & 0.038 & 0.055 & 15,386 & 47,107 & 154,298 \\ 
-... None & 0.012 & 0.027 & 0.036 & 0.014 & 0.029 & 0.051 & 83,418 & 205,147 & 424,859 \\ 
-Year of Immigration &  &  &  &  &  &  &  &  &  \\ 
-... < 2007 & 0.020 & 0.036 & 0.054 & 0.014 & 0.028 & 0.034 & 13,586 & 31,878 & 51,571 \\ 
-... <= 2007 & 0.016 & 0.032 & 0.054 & 0.016 & 0.019 & 0.041 & 35,144 & 44,503 & 206,266 \\ 
-... < 2012 &  &  &  & 0.039 & 0.051 & 0.064 & 88,982 & 103,534 & 118,086 \\ 
-... <= 2012 & 0.042 & 0.118 & 0.194 & 0.029 & 0.092 & 0.155 & 263,220 & 471,364 & 679,507 \\ 
-... >= 2007 & 0.012 & 0.012 & 0.012 & 0.012 & 0.012 & 0.012 & 245,635 & 245,635 & 245,635 \\ 
-... Any Year & 0.018 & 0.030 & 0.040 & 0.021 & 0.034 & 0.044 & 31,170 & 116,405 & 212,998 \\ 
-... Multistep Condition & 0.014 & 0.014 & 0.014 & 0.010 & 0.012 & 0.013 & 137,786 & 170,943 & 204,100 \\ 
-... Other & 0.071 & 0.160 & 0.250 & 0.014 & 0.027 & 0.040 & 119,964 & 239,081 & 365,610 \\ 
-... None & 0.016 & 0.028 & 0.043 & 0.016 & 0.032 & 0.053 & 110,144 & 230,665 & 474,472 \\ 
-Education/Veteran &  &  &  &  &  &  &  &  &  \\ 
-... HS Grad or Veteran & 0.043 & 0.065 & 0.088 &  &  &  &  &  &  \\ 
-... HS Grad & 0.016 & 0.038 & 0.052 & 0.016 & 0.037 & 0.052 & 66,766 & 132,990 & 169,327 \\ 
-... Other & 0.019 & 0.027 & 0.061 & 0.027 & 0.057 & 0.062 & 32,606 & 74,431 & 188,802 \\ 
-... None & 0.014 & 0.030 & 0.051 & 0.014 & 0.029 & 0.051 & 63,107 & 204,239 & 397,308 \\ 
-Years Continuous in USA &  &  &  &  &  &  &  &  &  \\ 
-... Used YRSUSA & 0.017 & 0.029 & 0.053 & 0.019 & 0.025 & 0.050 & 35,144 & 118,438 & 155,898 \\ 
-... No YRSUSA & 0.013 & 0.030 & 0.049 & 0.014 & 0.030 & 0.051 & 64,614 & 194,349 & 374,548\\ 
-\hline
-\hline
-\end{tabular}
-}
-\end{table}
+\caption{\label{fig-task-1-vs-2}Estimates Effects in Task 1 vs.~Task 2}
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 2 Effect and Samples by Sample Definitions}\resizebox{\textwidth}{!}{
-\begin{tabular}{llllllllll}
-\hline
-\hline
- & \multicolumn{3}{c}{Treated-Group Restriction} & \multicolumn{6}{c}{All-Sample Restriction}  \\ 
- Variable & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Samp Size Pctl. 25 & Pctl. 50 & Pctl. 75 \\ 
-\hline
-Hispanic &  &  &  &  &  &  &  &  &  \\ 
-... Hispanic-Mexican & 0.018 & 0.033 & 0.058 & 0.017 & 0.030 & 0.057 & 18,680 & 25,056 & 38,154 \\ 
-... Hispanic-Any & 0.028 & 0.050 & 0.063 & 0.024 & 0.042 & 0.058 & 22,983 & 24,011 & 25,568 \\ 
-... Hispanic-Mex or Mex-Born & 0.048 & 0.048 & 0.048 &  &  &  &  &  &  \\ 
-... Multistep Condition & 0.025 & 0.025 & 0.025 & 0.025 & 0.025 & 0.025 & 44,805 & 44,805 & 44,805 \\ 
-... None & 0.024 & 0.043 & 0.062 & 0.026 & 0.045 & 0.074 & 19,236 & 27,531 & 61,340 \\ 
-Birthplace &  &  &  &  &  &  &  &  &  \\ 
-... Mexican-Born & 0.018 & 0.033 & 0.056 & 0.018 & 0.032 & 0.056 & 19,074 & 24,979 & 31,730 \\ 
-... Hispanic-Mex or Mex-Born & 0.070 & 0.070 & 0.070 &  &  &  &  &  &  \\ 
-... Non-US Born &  &  &  & 0.028 & 0.045 & 0.058 & 25,498 & 26,138 & 47,180 \\ 
-... Central America-Born & 0.067 & 0.067 & 0.067 & 0.067 & 0.067 & 0.067 & 25,538 & 25,538 & 25,538 \\ 
-... None & 0.018 & 0.040 & 0.074 & 0.018 & 0.040 & 0.070 & 18,750 & 25,639 & 72,235 \\ 
-Citizenship &  &  &  &  &  &  &  &  &  \\ 
-... Non-Citizen & 0.019 & 0.034 & 0.059 & 0.019 & 0.033 & 0.058 & 18,803 & 24,979 & 40,649 \\ 
-... Foreign-Born &  &  &  & 0.004 & 0.004 & 0.004 & 164,135 & 164,135 & 164,135 \\ 
-... Non-Cit or Natlzd post-2012 & 0.029 & 0.041 & 0.050 & 0.019 & 0.024 & 0.029 & 18,162 & 21,823 & 25,484 \\ 
-... Citizen (various) & 0.014 & 0.024 & 0.035 & 0.045 & 0.045 & 0.045 & 19,168 & 19,168 & 19,168 \\ 
-... Other & 0.040 & 0.054 & 0.060 & 0.031 & 0.059 & 0.059 & 21,828 & 24,011 & 90,368 \\ 
-... None & 0.004 & 0.032 & 0.049 & 0.018 & 0.037 & 0.058 & 19,733 & 27,374 & 73,027 \\ 
-Age at Migration &  &  &  &  &  &  &  &  &  \\ 
-... < 16 & 0.018 & 0.035 & 0.057 & 0.028 & 0.041 & 0.059 & 19,246 & 23,350 & 27,134 \\ 
-... <= 16 & 0.009 & 0.022 & 0.050 & 0.014 & 0.020 & 0.038 & 20,392 & 25,199 & 26,267 \\ 
-... Other & 0.019 & 0.045 & 0.077 & 0.029 & 0.037 & 0.056 & 16,308 & 23,364 & 34,586 \\ 
-... None & 0.028 & 0.045 & 0.066 & 0.015 & 0.028 & 0.057 & 19,270 & 30,416 & 97,507 \\ 
-Age in June 2012 &  &  &  &  &  &  &  &  &  \\ 
-... Year-Quarter Age & 0.021 & 0.037 & 0.058 & 0.024 & 0.037 & 0.057 & 19,562 & 25,199 & 41,156 \\ 
-... Year-Only Age & 0.006 & 0.018 & 0.050 & 0.015 & 0.019 & 0.048 & 16,542 & 26,396 & 29,146 \\ 
-... None & 0.007 & 0.016 & 0.024 & 0.006 & 0.025 & 0.059 & 18,803 & 25,414 & 86,316 \\ 
-Year of Immigration &  &  &  &  &  &  &  &  &  \\ 
-... < 2007 & 0.016 & 0.028 & 0.048 & 0.017 & 0.029 & 0.053 & 22,840 & 25,056 & 28,602 \\ 
-... <= 2007 & 0.023 & 0.045 & 0.058 & 0.030 & 0.040 & 0.067 & 19,506 & 25,588 & 28,510 \\ 
-... < 2012 & 0.038 & 0.047 & 0.055 &  &  &  &  &  &  \\ 
-... <= 2012 & -0.011 & 0.068 & 0.290 & 0.068 & 0.068 & 0.068 & 6,600 & 6,600 & 6,600 \\ 
-... Any Year & 0.059 & 0.059 & 0.059 & 0.049 & 0.052 & 0.056 & 18,409 & 20,276 & 22,144 \\ 
-... Multistep Condition & 0.000 & 0.017 & 0.035 &  &  &  &  &  &  \\ 
-... Other & 0.850 & 0.850 & 0.850 & 0.024 & 0.026 & 0.028 & 25,048 & 35,419 & 45,790 \\ 
-... None & 0.018 & 0.037 & 0.058 & 0.015 & 0.034 & 0.057 & 18,776 & 25,418 & 70,229 \\ 
-Education/Veteran &  &  &  &  &  &  &  &  &  \\ 
-... HS Grad or Veteran & 0.018 & 0.034 & 0.058 & 0.018 & 0.035 & 0.058 & 18,814 & 23,690 & 27,641 \\ 
-... 12th Grade or Veteran & 0.049 & 0.067 & 0.091 & 0.061 & 0.067 & 0.073 & 25,473 & 25,532 & 25,590 \\ 
-... HS Grad & 0.025 & 0.047 & 0.057 & 0.035 & 0.047 & 0.055 & 15,036 & 18,260 & 23,155 \\ 
-... HS Grad or Non-Veteran & 0.042 & 0.049 & 0.051 & 0.037 & 0.047 & 0.058 & 20,395 & 24,979 & 32,814 \\ 
-... Other & 0.019 & 0.030 & 0.051 & 0.029 & 0.038 & 0.063 & 21,746 & 25,538 & 43,744 \\ 
-... None & 0.005 & 0.017 & 0.051 & 0.007 & 0.025 & 0.052 & 19,750 & 37,323 & 138,560 \\ 
-Years Continuous in USA &  &  &  &  &  &  &  &  &  \\ 
-... Used YRSUSA & 0.017 & 0.038 & 0.061 & 0.029 & 0.035 & 0.064 & 15,252 & 22,833 & 25,199 \\ 
-... No YRSUSA & 0.015 & 0.028 & 0.057 & 0.015 & 0.029 & 0.057 & 19,317 & 25,868 & 54,080\\ 
-\hline
-\hline
-\end{tabular}
-}
-\end{table}
+\end{figure}
 
-\hypertarget{control-variables}{%
-\subsection{Control Variables}\label{control-variables}}
-
-\begin{longtable}[]{@{}lrlll@{}}
-\toprule\noalign{}
-Control & N & Effect & Mean SE & Effect SD \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-YRSUSA1 & 55 & 0.054 & 0.035 & 0.123 \\
-AGE & 248 & 0.048 & 0.025 & 0.094 \\
-YRIMMIG & 55 & 0.048 & 0.033 & 0.112 \\
-MARST & 51 & 0.047 & 0.016 & 0.071 \\
-SEX & 289 & 0.046 & 0.027 & 0.101 \\
-STATE & 275 & 0.045 & 0.025 & 0.089 \\
-AGE\_AT\_MIGRATION & 67 & 0.045 & 0.022 & 0.067 \\
-YEAR & 267 & 0.045 & 0.026 & 0.094 \\
-EDUC & 216 & 0.042 & 0.017 & 0.061 \\
-None & 40 & 0.041 & 0.044 & 0.114 \\
-OTHER & 278 & 0.040 & 0.038 & 0.086 \\
-AGE\_IN\_2012 & 24 & 0.037 & 0.026 & 0.042 \\
-STATEPOLICY & 99 & 0.037 & 0.033 & 0.108 \\
-UNEMP & 128 & 0.036 & 0.033 & 0.097 \\
-LFPR & 86 & 0.035 & 0.041 & 0.115 \\
-SPEAKENG & 82 & 0.034 & 0.046 & 0.100 \\
-RACE & 106 & 0.031 & 0.032 & 0.092 \\
-\end{longtable}
-
-\begin{longtable}[]{@{}llrlll@{}}
-\toprule\noalign{}
-Category & Control & N & Effect & Mean SE & Effect SD \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-AGE & Linear Age & 164 & 0.058 & 0.024 & 0.107 \\
-AGE & Age FE & 36 & 0.024 & 0.040 & 0.022 \\
-AGE & Age Quadratic & 33 & 0.035 & 0.015 & 0.089 \\
-EDUC & Linear Education & 122 & 0.040 & 0.016 & 0.066 \\
-EDUC & Education FE & 32 & 0.047 & 0.021 & 0.033 \\
-EDUC & Education Transform & 61 & 0.045 & 0.017 & 0.064 \\
-STATE/YEAR & Linear Year & 79 & 0.044 & 0.037 & 0.140 \\
-STATE/YEAR & Year FE & 103 & 0.047 & 0.026 & 0.062 \\
-STATE/YEAR & State FE & 155 & 0.046 & 0.031 & 0.102 \\
-STATE/YEAR & State FE x Year FE & 56 & 0.037 & 0.018 & 0.027 \\
-STATE/YEAR & State FE x Linear Year & 23 & 0.061 & 0.017 & 0.133 \\
-\end{longtable}
-
-\begin{longtable}[]{@{}llll@{}}
-\toprule\noalign{}
-Control & Task 1 & Task 2 & Task 3 \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-AGE & 0.59 & 0.56 & 0.52 \\
-AGE\_AT\_MIGRATION & 0.17 & 0.14 & 0.14 \\
-AGE\_IN\_2012 & 0.05 & 0.04 & 0.08 \\
-EDUC & 0.46 & 0.49 & 0.51 \\
-LFPR & 0.21 & 0.17 & 0.20 \\
-MARST & 0.10 & 0.13 & 0.12 \\
-OTHER & 0.63 & 0.61 & 0.63 \\
-RACE & 0.23 & 0.21 & 0.28 \\
-SEX & 0.60 & 0.63 & 0.72 \\
-SPEAKENG & 0.16 & 0.16 & 0.23 \\
-STATE & 0.59 & 0.63 & 0.64 \\
-STATEPOLICY & 0.24 & 0.20 & 0.23 \\
-UNEMP & 0.30 & 0.26 & 0.30 \\
-YEAR & 0.64 & 0.59 & 0.57 \\
-YRIMMIG & 0.13 & 0.13 & 0.11 \\
-YRSUSA1 & 0.12 & 0.13 & 0.12 \\
-None & 0.12 & 0.10 & 0.06 \\
-\end{longtable}
-
-
-\hypertarget{bimodality-in-round-2}{%
-\subsubsection{Bimodality in Round 2}\label{bimodality-in-round-2}}
-
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-31-1.pdf}
-
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-32-1.pdf}
-
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-33-1.pdf}
+We then look at sample limitations and definitions. Table
+\ref{tab-sample-definition-changes} uses the sample-restriction coding
+from Section~\ref{sec-sample-limitations}, and examines whether a given
+researcher changed their use of a given variable in their sample
+restrictions from Task 1 to Task 2. This could be any change, for
+example going from not using the ``Hispanic'' variable at all to using
+it, or switching from ``Hispanic-Mexican'' to ``Hispanic-Any''. The
+table shows that, with Hispanic and Birthplace as exceptions, the share
+above .05 tended to be higher among researchers who changed the way they
+used a given variable in defining their sample.
 
 \begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2208}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1299}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1299}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1299}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1299}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1299}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1299}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Control
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Task 1: N
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Above .05
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Task 2: N
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Above .05
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Task 3: N
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Above .05
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Total & 153 & 26.8\% & 149 & 32.2\% & 145 & 46.9\% \\
-AGE & 90 & 21.1\% & 82 & 28.0\% & 76 & 39.5\% \\
-AGE\_AT\_MIGRATION & 26 & 15.4\% & 20 & 35.0\% & 21 & 52.4\% \\
-AGE\_IN\_2012 & 7 & 42.9\% & 6 & 50.0\% & 11 & 45.5\% \\
-EDUC & 70 & 25.7\% & 72 & 29.2\% & 74 & 39.2\% \\
-LFPR & 32 & 21.9\% & 25 & 24.0\% & 29 & 31.0\% \\
-MARST & 15 & 26.7\% & 19 & 26.3\% & 17 & 35.3\% \\
-OTHER & 96 & 27.1\% & 90 & 30.0\% & 92 & 40.2\% \\
-RACE & 35 & 28.6\% & 31 & 32.3\% & 40 & 47.5\% \\
-SEX & 92 & 20.7\% & 92 & 30.4\% & 105 & 44.8\% \\
-SPEAKENG & 24 & 37.5\% & 24 & 25.0\% & 34 & 47.1\% \\
-STATE & 90 & 30.0\% & 92 & 33.7\% & 93 & 45.2\% \\
-STATEPOLICY & 36 & 27.8\% & 30 & 26.7\% & 33 & 42.4\% \\
-UNEMP & 46 & 23.9\% & 38 & 26.3\% & 44 & 40.9\% \\
-YEAR & 98 & 24.5\% & 86 & 29.1\% & 83 & 42.2\% \\
-YRIMMIG & 20 & 20.0\% & 19 & 26.3\% & 16 & 31.2\% \\
-YRSUSA1 & 19 & 36.8\% & 19 & 26.3\% & 17 & 41.2\% \\
-None & 18 & 16.7\% & 14 & 28.6\% & 8 & 62.5\% \\
-\end{longtable}
-
-\begin{longtable}[]{@{}llll@{}}
-\toprule\noalign{}
-Control & Added & In Both & Removed \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-AGE & 13\% & 31\% & 35\% \\
-AGE\_AT\_MIGRATION & 67\% & 29\% & 33\% \\
-AGE\_IN\_2012 & 33\% & 67\% & 0\% \\
-EDUC & 25\% & 30\% & 30\% \\
-LFPR & 50\% & 22\% & 33\% \\
-MARST & 11\% & 40\% & 60\% \\
-None & 40\% & 22\% & 60\% \\
-OTHER & 30\% & 30\% & 19\% \\
-RACE & 50\% & 31\% & 17\% \\
-SEX & 36\% & 30\% & 36\% \\
-SPEAKENG & 0\% & 27\% & 50\% \\
-STATE & 36\% & 33\% & 33\% \\
-STATEPOLICY & 50\% & 25\% & 38\% \\
-UNEMP & 60\% & 21\% & 31\% \\
-YEAR & 22\% & 30\% & 43\% \\
-YRIMMIG & 0\% & 33\% & 20\% \\
-YRSUSA1 & 25\% & 27\% & 50\% \\
-\end{longtable}
-
-\begin{verbatim}
-Key: <Control>
-             Control Added In Both Removed
-              <char> <int>   <int>   <int>
-
- 1:              AGE    15      67      23
- 2: AGE_AT_MIGRATION     3      17       9
- 3:      AGE_IN_2012     3       3       4
- 4:             EDUC    12      60      10
- 5:             LFPR     2      23       9
- 6:            MARST     9      10       5
- 7:             None     5       9       5
- 8:            OTHER    10      80      16
- 9:             RACE     2      29       6
-10:              SEX    11      81      11
-11:         SPEAKENG     2      22       2
-12:            STATE    14      78      12
-13:      STATEPOLICY     2      28       8
-14:            UNEMP     5      33      13
-15:             YEAR     9      77      21
-16:          YRIMMIG     4      15       5
-17:          YRSUSA1     4      15       4
-\end{verbatim}
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.2927}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0976}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0488}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1341}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1829}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1220}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1220}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.3077}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1026}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.0513}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1154}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1923}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1154}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 12\tabcolsep) * \real{0.1154}}@{}}
+\caption{Changes in Sample Limitations from Task 1 to 2, and Effect
+Changes \label{tab-sample-definition-changes}}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Sample Limitation
@@ -1822,53 +2186,95 @@ Sample Limitation
 Changed
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
 N
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Increase
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Standard Error
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 R2Effect
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Abovep05
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Sample Limitation
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Changed
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+N
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Increase
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Standard Error
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R2Effect
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Abovep05
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Hispanic & FALSE & 105 & -0.0154323 & 0.0140000 & 0.0385051 &
-0.3714286 \\
-Hispanic & TRUE & 30 & 0.0001866 & 0.0162000 & 0.0479408 & 0.2333333 \\
-Birthplace & FALSE & 107 & -0.0096256 & 0.0150000 & 0.0414231 &
-0.3551402 \\
-Birthplace & TRUE & 28 & -0.0208875 & 0.0140000 & 0.0374640 &
-0.2857143 \\
-Citizenship & FALSE & 101 & -0.0116018 & 0.0140000 & 0.0387001 &
-0.3168317 \\
-Citizenship & TRUE & 34 & -0.0130298 & 0.0150000 & 0.0462515 &
-0.4117647 \\
-Age at Migration & FALSE & 67 & -0.0149411 & 0.0134000 & 0.0332850 &
-0.2985075 \\
-Age at Migration & TRUE & 68 & -0.0090255 & 0.0155000 & 0.0478112 &
-0.3823529 \\
-Age in June 2012 & FALSE & 73 & 0.0010173 & 0.0144000 & 0.0521483 &
-0.3287671 \\
-Age in June 2012 & TRUE & 72 & -0.0178948 & 0.0147500 & 0.0366214 &
-0.3333333 \\
-Year of Immigration & FALSE & 80 & -0.0096743 & 0.0138000 & 0.0450447 &
-0.3125000 \\
-Year of Immigration & TRUE & 55 & -0.0152881 & 0.0165115 & 0.0341397 &
-0.3818182 \\
-Education/Veteran & FALSE & 58 & 0.0047582 & 0.0120000 & 0.0610565 &
-0.3103448 \\
-Education/Veteran & TRUE & 87 & -0.0171280 & 0.0160000 & 0.0333596 &
-0.3448276 \\
-Years Continuous in USA & FALSE & 129 & -0.0093907 & 0.0140000 &
-0.0450845 & 0.3255814 \\
-Years Continuous in USA & TRUE & 16 & -0.0001722 & 0.0166557 & 0.0392286
-& 0.3750000 \\
+Hispanic & No & 109 & -0.01 & 0.01 & 0.04 & 36.7\% \\
+Hispanic & Yes & 35 & 0.00 & 0.02 & 0.04 & 22.9\% \\
+Birthplace & No & 111 & 0.00 & 0.01 & 0.05 & 36.0\% \\
+Birthplace & Yes & 33 & -0.03 & 0.01 & 0.03 & 24.2\% \\
+Citizenship & No & 105 & 0.00 & 0.01 & 0.05 & 31.4\% \\
+Citizenship & Yes & 39 & -0.02 & 0.02 & 0.04 & 38.5\% \\
+Age at Migration & No & 74 & -0.01 & 0.01 & 0.04 & 29.7\% \\
+Age at Migration & Yes & 70 & -0.01 & 0.02 & 0.05 & 37.1\% \\
+Age in June 2012 & No & 70 & -0.01 & 0.01 & 0.04 & 31.4\% \\
+Age in June 2012 & Yes & 74 & -0.01 & 0.02 & 0.05 & 35.1\% \\
+Year of Immigration & No & 87 & -0.01 & 0.01 & 0.04 & 28.7\% \\
+Year of Immigration & Yes & 57 & 0.00 & 0.02 & 0.05 & 40.4\% \\
+Education/Veteran & No & 56 & 0.00 & 0.01 & 0.06 & 32.1\% \\
+Education/Veteran & Yes & 88 & -0.02 & 0.02 & 0.03 & 34.1\% \\
+Years Continuous in USA & No & 128 & -0.01 & 0.01 & 0.05 & 32.8\% \\
+Years Continuous in USA & Yes & 16 & 0.00 & 0.02 & 0.04 & 37.5\% \\
 \end{longtable}
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-38-1.pdf}
+Taking the explanatory power of sample restrictions, we then look at the
+treated-group definition. Task 2 gave a very precise definition of who
+should be included as a part of the treated group. We examine whether a
+given researcher followed the full set of treated-group definition
+instructions precisely or not. The mismatch could be small, such as
+using ``\textless= 16'' instead of ``\textless{} 16'' for age at
+migration, or large, such as omitting that eligible people must be
+non-citizens. In Figure Figure~\ref{fig-match-vs-mismatch} we show their
+distribution of effects against researchers who had a mismatch in their
+criteria in any way. The graph shows that the bimodality heavily driven
+by the group that precisely matched the treated-group definition. This
+implies that the bimodality in Task 2 may be explained in large part by
+a split between researchers who exactly followed the instructions, and
+so effectively matched what a typical researcher found in Task 3, and
+those who did not. This does not fully explain researcher behavior: note
+that there is also a weight of researchers with higher results who did
+not match perfectly, and also that much of the density of the
+perfect-match group is at Task 1 effect levels, but keep in mind that
+there are many other decisions in analysis to be made, and this captures
+only one angle where determining the correct decision is easiest.
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-match-vs-mismatch-1.pdf}
+
+}
+
+\caption{\label{fig-match-vs-mismatch}Task 2 Effect Distributions Among
+Those with Exact Treated-Group Definition Matchs vs.~Those with Some
+Mismatch}
+
+\end{figure}
+
+Further, Table \ref{tab-match-by-field} shows that the share of
+researchers matching exactly is fairly low, between 20-25\% by field,
+keeping in mind that even very minor mismatches are counted as
+mismatches. Further, perfect-match rates were higher among researchers
+whose work was closest to the field that the research task was in,
+immigration and labor, although this difference was not statistically
+significant at the 95\% level.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1867}}
@@ -1876,6 +2282,22 @@ Years Continuous in USA & TRUE & 16 & -0.0001722 & 0.0166557 & 0.0392286
   >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1600}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2400}}
   >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2667}}@{}}
+\caption{Share of Researchers Matching Treated-Group Definition Exactly
+by Field\label{tab-match-by-field}}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Field
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Num. Match
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Share Match
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Num Some Mismatch
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Share Some Mismatch
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Field
@@ -1893,39 +2315,9 @@ Share Some Mismatch
 \bottomrule\noalign{}
 \endlastfoot
 Immigration & 25.0\% & 1 & 75.0\% & 3 \\
-Labor & 23.2\% & 13 & 76.8\% & 43 \\
-Neither/Other & 18.7\% & 20 & 81.3\% & 87 \\
+Labor & 25.5\% & 12 & 74.5\% & 35 \\
+Neither/Other & 22.3\% & 21 & 77.7\% & 73 \\
 \end{longtable}
-
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-39-1.pdf}
-
-\begin{longtable}[]{@{}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1867}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1467}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1600}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2400}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2667}}@{}}
-\toprule\noalign{}
-\begin{minipage}[b]{\linewidth}\raggedright
-Field
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Num. Match
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Share Match
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Num Some Mismatch
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
-Share Some Mismatch
-\end{minipage} \\
-\midrule\noalign{}
-\endhead
-\bottomrule\noalign{}
-\endlastfoot
-Immigration & 25.0\% & 1 & 75.0\% & 3 \\
-Labor & 23.2\% & 13 & 76.8\% & 43 \\
-Neither/Other & 18.7\% & 20 & 81.3\% & 87 \\
-\end{longtable}
-
 
 \hypertarget{conclusion}{%
 \section{Conclusion}\label{conclusion}}
@@ -1976,6 +2368,181 @@ Practice}\label{recommendations-for-improved-practice}}
   Implications for reading empirical results
 \end{itemize}
 
+\hypertarget{appendix}{%
+\section{Appendix}\label{appendix}}
+
+\begin{table}
+\centering
+\caption{Paired Absolute Effect Differences and Peer Review \label{tab-peer-review-reg}}
+\centering
+\begin{tabular}[t]{lcc}
+\toprule
+  & Task 1 & Task 2\\
+\midrule
+Intercept & \num{0.086}*** & \num{0.063}***\\
+ & (\num{0.010}) & (\num{0.009})\\
+Comparison: Next Round & \num{-0.034}** & \num{-0.006}\\
+ & (\num{0.014}) & \vphantom{1} (\num{0.013})\\
+Comparison: Next Round vs. This Round & \num{-0.017} & \num{0.000}\\
+ & (\num{0.014}) & (\num{0.013})\\
+Unreviewed & \num{-0.045}*** & \num{0.001}\\
+ & (\num{0.010}) & (\num{0.010})\\
+Next Round x Unreviewed & \num{0.057}*** & \num{-0.030}**\\
+ & (\num{0.014}) & \vphantom{1} (\num{0.014})\\
+Next vs. This x Unreviewed & \num{0.029}** & \num{-0.017}\\
+ & (\num{0.014}) & (\num{0.014})\\
+\midrule
+Num.Obs. & \num{6809} & \num{6676}\\
+\bottomrule
+\multicolumn{3}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\end{tabular}
+\end{table}
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-vs-sample-1.pdf}
+
+}
+
+\caption{\label{fig-effect-vs-sample}Task 2 Effect Size and Sample Size}
+
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-vs-se-1.pdf}
+
+}
+
+\caption{\label{fig-effect-vs-se}Task 2 Effect Size and Standard Error}
+
+\end{figure}
+
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 1 Effect and Samples by Sample Definitions, Full View}\label{tab-task1effectsample-full}\resizebox{\textwidth}{!}{
+\begin{tabular}{llllllllll}
+\hline
+\hline
+ & \multicolumn{3}{c}{Treated-Group Restriction} & \multicolumn{6}{c}{All-Sample Restriction}  \\ 
+ Variable & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Samp Size Pctl. 25 & Pctl. 50 & Pctl. 75 \\ 
+\hline
+Hispanic &  &  &  &  &  &  &  &  &  \\ 
+... Hispanic-Mexican & 0.014 & 0.030 & 0.054 & 0.016 & 0.033 & 0.056 & 64,118 & 157,025 & 294,209 \\ 
+... Hispanic-Any & 0.030 & 0.037 & 0.050 & 0.030 & 0.045 & 0.054 & 24,276 & 109,759 & 166,270 \\ 
+... Hispanic-Mex or Mex-Born & 0.018 & 0.021 & 0.026 & 0.021 & 0.022 & 0.027 & 51,754 & 127,504 & 179,960 \\ 
+... Multistep Condition & -0.009 & 0.001 & 0.010 & -0.009 & 0.001 & 0.010 & 326,913 & 366,804 & 406,696 \\ 
+... None & 0.015 & 0.023 & 0.052 & 0.012 & 0.022 & 0.048 & 65,124 & 259,630 & 767,657 \\ 
+Birthplace &  &  &  &  &  &  &  &  &  \\ 
+... Mexican-Born & 0.016 & 0.029 & 0.046 & 0.016 & 0.030 & 0.050 & 61,412 & 141,847 & 276,683 \\ 
+... Hispanic-Mex or Mex-Born & 0.041 & 0.100 & 0.160 & 0.004 & 0.016 & 0.070 & 215,436 & 289,311 & 330,348 \\ 
+... Non-US Born & -0.020 & -0.020 & -0.020 & -0.013 & -0.007 & -0.001 & 133,992 & 157,710 & 181,428 \\ 
+... Central America-Born & 0.057 & 0.057 & 0.057 & 0.057 & 0.057 & 0.057 & 9,711 & 9,711 & 9,711 \\ 
+... None & 0.015 & 0.033 & 0.053 & 0.013 & 0.035 & 0.053 & 67,385 & 281,570 & 777,360 \\ 
+Citizenship &  &  &  &  &  &  &  &  &  \\ 
+... Non-Citizen & 0.017 & 0.030 & 0.051 & 0.022 & 0.035 & 0.056 & 62,920 & 141,847 & 277,270 \\ 
+... Foreign-Born & 0.026 & 0.037 & 0.180 & 0.026 & 0.037 & 0.180 & 341,338 & 586,271 & 605,241 \\ 
+... Non-Cit or Natlzd post-2012 & 0.001 & 0.022 & 0.028 & 0.017 & 0.017 & 0.017 & 13,377 & 13,377 & 13,377 \\ 
+... Citizen (various) & 0.019 & 0.023 & 0.047 & 0.015 & 0.015 & 0.015 & 268,238 & 268,238 & 268,238 \\ 
+... Multistep Condition & 0.009 & 0.009 & 0.009 & -0.034 & -0.020 & -0.005 & 899,372 & 1,694,116 & 2,488,861 \\ 
+... Other & 0.023 & 0.041 & 0.053 & 0.023 & 0.037 & 0.046 & 13,427 & 17,759 & 84,944 \\ 
+... None & 0.010 & 0.021 & 0.051 & 0.010 & 0.021 & 0.043 & 81,272 & 237,258 & 665,864 \\ 
+Age at Migration &  &  &  &  &  &  &  &  &  \\ 
+... < 16 & 0.016 & 0.030 & 0.050 & 0.018 & 0.026 & 0.046 & 28,348 & 44,288 & 119,180 \\ 
+... <= 16 & 0.010 & 0.022 & 0.044 & 0.034 & 0.041 & 0.044 & 120,931 & 204,239 & 205,147 \\ 
+... Other & 0.019 & 0.035 & 0.058 & 0.016 & 0.029 & 0.054 & 40,511 & 116,076 & 206,266 \\ 
+... None & 0.002 & 0.029 & 0.050 & 0.013 & 0.030 & 0.052 & 95,336 & 255,769 & 507,856 \\ 
+Age in June 2012 &  &  &  &  &  &  &  &  &  \\ 
+... Year-Quarter Age & 0.015 & 0.030 & 0.052 & 0.017 & 0.029 & 0.051 & 40,661 & 132,637 & 255,734 \\ 
+... Year-Only Age & 0.010 & 0.030 & 0.041 & 0.013 & 0.037 & 0.053 & 17,759 & 46,925 & 140,134 \\ 
+... None & 0.020 & 0.029 & 0.048 & 0.015 & 0.030 & 0.051 & 88,006 & 205,682 & 435,724 \\ 
+Year of Immigration &  &  &  &  &  &  &  &  &  \\ 
+... < 2007 & 0.021 & 0.034 & 0.054 & 0.016 & 0.028 & 0.032 & 13,674 & 32,242 & 51,475 \\ 
+... <= 2007 & 0.013 & 0.030 & 0.052 & 0.016 & 0.019 & 0.041 & 35,144 & 44,503 & 205,147 \\ 
+... < 2012 & 0.014 & 0.014 & 0.014 & 0.039 & 0.051 & 0.064 & 88,982 & 103,534 & 118,086 \\ 
+... <= 2012 & 0.042 & 0.118 & 0.194 & 0.029 & 0.092 & 0.155 & 263,220 & 471,364 & 679,507 \\ 
+... >= 2007 & 0.012 & 0.012 & 0.012 & 0.012 & 0.012 & 0.012 & 245,635 & 245,635 & 245,635 \\ 
+... Any Year & 0.018 & 0.030 & 0.040 & 0.021 & 0.034 & 0.044 & 31,170 & 116,405 & 212,998 \\ 
+... Multistep Condition & 0.014 & 0.014 & 0.014 & 0.010 & 0.012 & 0.013 & 137,786 & 170,943 & 204,100 \\ 
+... Other & -0.004 & 0.010 & 0.175 & 0.010 & 0.020 & 0.034 & 61,225 & 139,544 & 338,618 \\ 
+... None & 0.017 & 0.030 & 0.050 & 0.016 & 0.032 & 0.053 & 110,144 & 230,665 & 474,472 \\ 
+Education/Veteran &  &  &  &  &  &  &  &  &  \\ 
+... HS Grad or Veteran & 0.043 & 0.065 & 0.088 &  &  &  &  &  &  \\ 
+... HS Grad & 0.014 & 0.036 & 0.050 & 0.016 & 0.037 & 0.052 & 66,766 & 132,990 & 169,327 \\ 
+... Other & 0.020 & 0.027 & 0.059 & 0.027 & 0.057 & 0.062 & 32,606 & 74,431 & 188,802 \\ 
+... None & 0.014 & 0.030 & 0.051 & 0.014 & 0.030 & 0.051 & 61,600 & 202,451 & 391,487 \\ 
+Years Continuous in USA &  &  &  &  &  &  &  &  &  \\ 
+... Used YRSUSA & 0.017 & 0.030 & 0.052 & 0.019 & 0.026 & 0.045 & 36,523 & 83,097 & 151,054 \\ 
+... No YRSUSA & 0.013 & 0.030 & 0.048 & 0.014 & 0.030 & 0.052 & 67,068 & 192,826 & 371,244\\ 
+\hline
+\hline
+\end{tabular}
+}
+\end{table}
+
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 2 Effect and Samples by Sample Definitions, Full View}\label{tab-task2effectsample-full}\resizebox{\textwidth}{!}{
+\begin{tabular}{llllllllll}
+\hline
+\hline
+ & \multicolumn{3}{c}{Treated-Group Restriction} & \multicolumn{6}{c}{All-Sample Restriction}  \\ 
+ Variable & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Samp Size Pctl. 25 & Pctl. 50 & Pctl. 75 \\ 
+\hline
+Hispanic &  &  &  &  &  &  &  &  &  \\ 
+... Hispanic-Mexican & 0.015 & 0.029 & 0.057 & 0.014 & 0.029 & 0.057 & 18,981 & 25,199 & 43,220 \\ 
+... Hispanic-Any & 0.028 & 0.050 & 0.063 & 0.024 & 0.042 & 0.058 & 22,983 & 24,011 & 25,568 \\ 
+... Hispanic-Mex or Mex-Born & 0.048 & 0.048 & 0.048 &  &  &  &  &  &  \\ 
+... Multistep Condition & 0.025 & 0.025 & 0.025 & 0.025 & 0.025 & 0.025 & 44,805 & 44,805 & 44,805 \\ 
+... None & 0.020 & 0.040 & 0.067 & 0.023 & 0.043 & 0.075 & 19,106 & 26,396 & 63,634 \\ 
+Birthplace &  &  &  &  &  &  &  &  &  \\ 
+... Mexican-Born & 0.018 & 0.032 & 0.056 & 0.018 & 0.030 & 0.056 & 19,402 & 25,155 & 38,154 \\ 
+... Hispanic-Mex or Mex-Born & 0.070 & 0.070 & 0.070 &  &  &  &  &  &  \\ 
+... Non-US Born &  &  &  & 0.028 & 0.045 & 0.058 & 25,498 & 26,138 & 47,180 \\ 
+... Central America-Born & 0.067 & 0.067 & 0.067 & 0.067 & 0.067 & 0.067 & 25,538 & 25,538 & 25,538 \\ 
+... None & 0.014 & 0.030 & 0.058 & 0.014 & 0.035 & 0.059 & 18,680 & 27,152 & 75,755 \\ 
+Citizenship &  &  &  &  &  &  &  &  &  \\ 
+... Non-Citizen & 0.018 & 0.031 & 0.058 & 0.019 & 0.033 & 0.058 & 18,834 & 24,979 & 41,917 \\ 
+... Foreign-Born &  &  &  & 0.004 & 0.004 & 0.004 & 164,135 & 164,135 & 164,135 \\ 
+... Non-Cit or Natlzd post-2012 & 0.014 & 0.034 & 0.048 & 0.019 & 0.024 & 0.029 & 18,162 & 21,823 & 25,484 \\ 
+... Citizen (various) & 0.045 & 0.045 & 0.045 & 0.045 & 0.045 & 0.045 & 19,168 & 19,168 & 19,168 \\ 
+... Other & 0.020 & 0.049 & 0.059 & 0.031 & 0.059 & 0.059 & 21,828 & 24,011 & 90,368 \\ 
+... None & 0.007 & 0.021 & 0.045 & 0.013 & 0.028 & 0.053 & 19,855 & 28,756 & 75,402 \\ 
+Age at Migration &  &  &  &  &  &  &  &  &  \\ 
+... < 16 & 0.017 & 0.032 & 0.057 & 0.027 & 0.041 & 0.059 & 19,402 & 23,350 & 27,536 \\ 
+... <= 16 & 0.008 & 0.021 & 0.045 & 0.014 & 0.020 & 0.038 & 20,392 & 25,199 & 26,267 \\ 
+... Other & 0.019 & 0.039 & 0.072 & 0.023 & 0.036 & 0.055 & 16,365 & 24,249 & 49,067 \\ 
+... None & 0.023 & 0.037 & 0.065 & 0.013 & 0.026 & 0.053 & 19,367 & 31,458 & 94,773 \\ 
+Age in June 2012 &  &  &  &  &  &  &  &  &  \\ 
+... Year-Quarter Age & 0.019 & 0.034 & 0.058 & 0.024 & 0.036 & 0.057 & 19,864 & 25,424 & 42,427 \\ 
+... Year-Only Age & -0.002 & 0.018 & 0.042 & 0.015 & 0.019 & 0.048 & 16,542 & 26,396 & 29,146 \\ 
+... None & 0.008 & 0.018 & 0.049 & 0.007 & 0.026 & 0.059 & 18,803 & 25,414 & 86,316 \\ 
+Year of Immigration &  &  &  &  &  &  &  &  &  \\ 
+... < 2007 & 0.015 & 0.028 & 0.048 & 0.014 & 0.029 & 0.053 & 22,840 & 25,056 & 28,602 \\ 
+... <= 2007 & 0.022 & 0.036 & 0.058 & 0.028 & 0.040 & 0.068 & 20,182 & 25,588 & 28,895 \\ 
+... < 2012 & 0.038 & 0.047 & 0.055 &  &  &  &  &  &  \\ 
+... <= 2012 & -0.011 & 0.068 & 0.290 & 0.068 & 0.068 & 0.068 & 6,600 & 6,600 & 6,600 \\ 
+... >= 2007 & 0.014 & 0.014 & 0.014 &  &  &  &  &  &  \\ 
+... Any Year & 0.026 & 0.037 & 0.048 & 0.049 & 0.052 & 0.056 & 18,409 & 20,276 & 22,144 \\ 
+... Multistep Condition & 0.000 & 0.017 & 0.035 &  &  &  &  &  &  \\ 
+... Other & 0.850 & 0.850 & 0.850 & 0.024 & 0.026 & 0.028 & 25,048 & 35,419 & 45,790 \\ 
+... None & 0.013 & 0.035 & 0.057 & 0.013 & 0.028 & 0.056 & 18,803 & 26,127 & 72,235 \\ 
+Education/Veteran &  &  &  &  &  &  &  &  &  \\ 
+... HS Grad or Veteran & 0.018 & 0.031 & 0.058 & 0.018 & 0.035 & 0.058 & 18,824 & 23,567 & 27,588 \\ 
+... 12th Grade or Veteran & 0.049 & 0.067 & 0.091 & 0.061 & 0.067 & 0.073 & 25,473 & 25,532 & 25,590 \\ 
+... HS Grad & 0.020 & 0.040 & 0.058 & 0.030 & 0.040 & 0.049 & 18,260 & 21,318 & 24,992 \\ 
+... HS Grad or Non-Veteran & 0.026 & 0.047 & 0.051 & 0.023 & 0.037 & 0.052 & 22,687 & 32,814 & 42,521 \\ 
+... Other & 0.015 & 0.030 & 0.053 & 0.031 & 0.046 & 0.061 & 18,244 & 24,774 & 43,213 \\ 
+... None & 0.005 & 0.018 & 0.059 & 0.007 & 0.026 & 0.052 & 19,802 & 40,272 & 149,084 \\ 
+Years Continuous in USA &  &  &  &  &  &  &  &  &  \\ 
+... Used YRSUSA & 0.008 & 0.034 & 0.058 & 0.025 & 0.034 & 0.063 & 15,424 & 22,912 & 25,529 \\ 
+... No YRSUSA & 0.018 & 0.031 & 0.057 & 0.015 & 0.031 & 0.057 & 19,489 & 25,868 & 52,379\\ 
+\hline
+\hline
+\end{tabular}
+}
+\end{table}
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
 \hypertarget{refs}{}
 \begin{CSLReferences}{1}{0}
 \leavevmode\vadjust pre{\hypertarget{ref-amuedo2016can}{}}%
@@ -1996,8 +2563,8 @@ One Data Set" Project.''} \emph{Socius} 7: 23780231211024421.
 
 \leavevmode\vadjust pre{\hypertarget{ref-auspurg2023social}{}}%
 ---------. 2023. {``Is Social Research Really Not Better Than Alchemy?
-How Many-Analysts Studies Produce "a Hidden Universe of Uncertainty" by
-Not Following Meta-Analytical Standards.''}
+How Many-Analysts Studies Produce {`a Hidden Universe of Uncertainty'}
+by Not Following Meta-Analytical Standards.''}
 
 \leavevmode\vadjust pre{\hypertarget{ref-bastiaansen2020time}{}}%
 Bastiaansen, Jojanneke A, Yoram K Kunkels, Frank J Blaauw, Steven M
@@ -2035,6 +2602,11 @@ Bryan, Christopher J, David S Yeager, and Joseph M O'Brien. 2019.
 {``Replicator Degrees of Freedom Allow Publication of Misleading
 Failures to Replicate.''} \emph{Proceedings of the National Academy of
 Sciences} 116 (51): 25535--45.
+
+\leavevmode\vadjust pre{\hypertarget{ref-callaway2021difference}{}}%
+Callaway, Brantly, and Pedro HC Sant'Anna. 2021.
+{``Difference-in-Differences with Multiple Time Periods.''}
+\emph{Journal of Econometrics} 225 (2): 200--230.
 
 \leavevmode\vadjust pre{\hypertarget{ref-camerer2016evaluating}{}}%
 Camerer, Colin F, Anna Dreber, Eskil Forsell, Teck-Hua Ho, Jürgen Huber,
@@ -2128,7 +2700,7 @@ Study.''} \emph{Journal of the American Medical Informatics Association}
 \leavevmode\vadjust pre{\hypertarget{ref-perignon2022reproducibility}{}}%
 Pérignon, Christophe, Olivier Akmansoy, Christophe Hurlin, Anna Dreber,
 Felix Holzmeister, Juergen Huber, Michael Kirchler, Michael Razen, et
-al. n.d. {``Reproducibility of Empirical Results: Evidence from 1,000
+al. 2022. {``Reproducibility of Empirical Results: Evidence from 1,000
 Tests in Finance.''}
 
 \leavevmode\vadjust pre{\hypertarget{ref-portner_huntington-klein_2022}{}}%

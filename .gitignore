@@ -17,7 +17,6 @@
 *.DTA
 
 # Other files
-*.pdf
 *.html
 *.nb.html
 *.ZIP
@@ -26,7 +25,7 @@
 *.sav
 *.SAV
 # *.csv
-*.xlsx
+# *.xlsx
 
 # qmd/presentation generated files
 *.png
