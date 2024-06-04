@@ -18,11 +18,11 @@ preds = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Q15',
           'Language')
 label = c('Degree','Occupation', 'Research Experience','Gender','Race','LGBTQ+','Recruitment Source','Field',
           'Coding Language')
-rcats[, Round := fcase(Q2 == 'The first replication task','Round 1',
-                       Q2 == 'The second replication task','Round 2',
-                       Q2 == 'The third replication task','Round 3')]
+rcats[, Round := fcase(Q2 == 'The first replication task','Task 1',
+                       Q2 == 'The second replication task','Task 2',
+                       Q2 == 'The third replication task','Task 3')]
 # Only if round 3 completed
-rcats[, did3 := max(Round == 'Round 3'), by = Q1]
+rcats[, did3 := max(Round == 'Task 3'), by = Q1]
 rcats = rcats[did3 == TRUE]
 rcats[, deviation := abs(Revision_of_Q4-mean(Revision_of_Q4)), 
       by = Round]
@@ -51,9 +51,9 @@ res_tab = 1:length(preds) |>
   rbindlist()
 tonom = names(res_tab)[2:10]
 res_tab[, (tonom) := lapply(.SD, label_number(.001)), .SDcols = tonom]
-setnames(res_tab, c('Predictor','R1: F','p','R2',
-                    'R2: F','p','R2',
-                    'R3: F','p','R2'))
+setnames(res_tab, c('Predictor','T1: F','p','R2',
+                    'T2: F','p','R2',
+                    'T3: F','p','R2'))
 res_tab_effect = copy(res_tab)
 
 res_tab = 1:length(preds) |>
@@ -61,9 +61,9 @@ res_tab = 1:length(preds) |>
   rbindlist()
 tonom = names(res_tab)[2:10]
 res_tab[, (tonom) := lapply(.SD, label_number(.001)), .SDcols = tonom]
-setnames(res_tab, c('Predictor','R1: F','p','R2',
-                    'R2: F','p','R2',
-                    'R3: F','p','R2'))
+setnames(res_tab, c('Predictor','T1: F','p','R2',
+                    'T2: F','p','R2',
+                    'T3: F','p','R2'))
 res_tab_deviation = copy(res_tab)
 
 # By coding language
@@ -75,7 +75,7 @@ rcats[, `Abs. Deviation from Sample Mean` := factor(fcase(
 langdev = rcats[, .(N = .N), by = .(Round, Language, `Abs. Deviation from Sample Mean`)]
 # no observations
 langdev = rbind(langdev,
-                data.table(Round = 'Round 3',
+                data.table(Round = 'Task 3',
                            Language = 'R',
                            N = 0,
                            `Abs. Deviation from Sample Mean` = '.05-.1'))

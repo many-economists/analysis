@@ -24,10 +24,10 @@ titles = c('Hispanic','Birthplace','Citizenship','Age at Migration',
            'Age in June 2012','Year of Immigration','Education/Veteran','Years Continuous in USA')
 # Simplifying some of the coding
 remapper = list(
-  CITIZEN = data.table(orig = c("Citizen", "Foreign-Born", "Multistep Condition", "Natural-Born Citizen", "Naturalized Citizen", "Non-Citizen", "Non-Citizen or Naturalized", "Non-Citizen or Naturalized After 2012", "None", "Other"), new = c("Citizen (various)", "Foreign-Born", "Multistep Condition", "Citizen (various)", "Citizen (various)", "Non-Citizen", "Other", "Non-Cit or Natlzd post-2012", "None", "Other")),
-  AGE_AT_MIGRATION = data.table(orig = c("< 15", "< 16", "<= 16", "> 16", "Any", "Multistep Condition", "None", "Not 16", "Other"), new = c("Other", "< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "None", "Other", "Other")),
+  CITIZEN = data.table(orig = c("Citizen", "Foreign-Born", "Multistep Condition", "Natural-Born Citizen", "Naturalized Citizen", "Non-Citizen", "Non-Citizen or Naturalized", "Non-Citizen or Naturalized After 2012", "None", "Other",""), new = c("Citizen (various)", "Foreign-Born", "Multistep Condition", "Citizen (various)", "Citizen (various)", "Non-Citizen", "Other", "Non-Cit or Natlzd post-2012", "None", "Other","None")),
+  AGE_AT_MIGRATION = data.table(orig = c("< 15", "< 16", "<= 16", "> 16", "Any", "Multistep Condition", "None", "Not 16", "Other","", "> 16","Any Age","Multistep Condition"), new = c("Other", "< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "None", "Other", "Other","None", "Other", "Other", "Other")),
   YRIMMIG = data.table(orig = c("< 2007", "< 2012", "<= 2007", "<= 2012", "> 2012", ">= 2007", ">= 2012", "Any Year", "Multistep Condition", "None", "Not 2007", "Not 2012", "Other"), new = c("< 2007", "< 2012", "<= 2007", "<= 2012", "Other", ">= 2007", "Other", "Any Year", "Multistep Condition", "None", "Other", "Other", "Other")),
-  EDUCVET = data.table(orig = c("", "12th Grade", "12th Grade or Veteran", "HS Grad", "HS Grad and Non-Veteran", "HS Grad and Veteran", "HS Grad or In School", "HS Grad or Non-Veteran", "HS Grad or Veteran", "HS Grad or Veteran or In School", "None", "Other", "Other Education", "Other Education or Non-Veteran", "Other Education or Veteran"), new = c("None", "12th Grade or Veteran", "12th Grade or Veteran", "HS Grad", "Other", "Other", "Other", "HS Grad or Non-Veteran", "HS Grad or Veteran", "Other", "None", "Other", "Other", "Other", "Other")),
+  EDUCVET = data.table(orig = c("", "12th Grade", "12th Grade or Veteran", "HS Grad", "HS Grad and Non-Veteran", "HS Grad and Veteran", "HS Grad or In School", "HS Grad or Non-Veteran", "HS Grad or Veteran", "HS Grad or Veteran or In School", "None", "Other", "Other Education", "Other Education or Non-Veteran", "Other Education or Veteran","Multistep Condition","HS Grad or In School"), new = c("None", "12th Grade or Veteran", "12th Grade or Veteran", "HS Grad", "Other", "Other", "Other", "HS Grad or Non-Veteran", "HS Grad or Veteran", "Other", "None", "Other", "Other", "Other", "Other","Other","Other")),
   HISPAN = data.table(orig = c('Hispanic-Mex or Birthplace-Mex'),
                       new = c('Hispanic-Mex or Mex-Born')),
   BPL = data.table(orig = c('Hispanic-Mexican or Mexican-Born'),
@@ -61,7 +61,7 @@ sampdat[, limTreat_BPL := factor(limTreat_BPL, levels = c("Mexican-Born", "Hispa
 sampdat[, limAll_CITIZEN := factor(limAll_CITIZEN, levels = c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012", "Citizen (various)",  "Multistep Condition", "Other" ,  "None"))]
 sampdat[, limTreat_CITIZEN := factor(limTreat_CITIZEN, levels =c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012", "Citizen (various)",  "Multistep Condition", "Other" ,  "None"))]
 
-sampdat[, limAll_AGE_AT_MIGRATION := factor(limAll_AGE_AT_MIGRATION, levels = c("< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "Other", "None"))]
+sampdat[, limAll_AGE_AT_MIGRATION := factor(limAll_AGE_AT_MIGRATION, levels = c("< 16", "<= 16", "Other", "None"))]
 sampdat[, limTreat_AGE_AT_MIGRATION := factor(limTreat_AGE_AT_MIGRATION, levels = c("< 16", "<= 16", "> 16", "Any Age", "Multistep Condition", "Other", "None"))]
 
 sampdat[, limAll_AGE_IN_2012 := factor(limAll_AGE_IN_2012, levels = c("Year-Quarter Age", "Year-Only Age", "None"))]
@@ -70,7 +70,7 @@ sampdat[, limTreat_AGE_IN_2012 := factor(limTreat_AGE_IN_2012, levels = c("Year-
 sampdat[, limAll_YRIMMIG := factor(limAll_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012", ">= 2007", "Any Year", "Multistep Condition", "Other", "None"))]
 sampdat[, limTreat_YRIMMIG := factor(limTreat_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012", ">= 2007", "Any Year", "Multistep Condition", "Other", "None"))]
 
-sampdat[, limAll_EDUCVET := factor(limAll_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or In School", "HS Grad or Non-Veteran", "Other", "None"))]
+sampdat[, limAll_EDUCVET := factor(limAll_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or Non-Veteran",  "Other", "None"))]
 sampdat[, limTreat_EDUCVET := factor(limTreat_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or In School", "HS Grad or Non-Veteran", "Other", "None"))]
 
 sampdat[, limAll_YRSUSA := factor(limAll_YRSUSA, levels = c("Used YRSUSA", "No YRSUSA"))]
@@ -82,6 +82,7 @@ r12samp = rbind(r12samp[, .SD, .SDcols = c(
   'Round',
   paste0('limAll_',vars_to_consider),
   'Revision_of_Q4',
+  'Revision_of_Q6',
   'Revision_of_Q12',
   'Q1'
 )][, Sample := 'All'],
@@ -89,11 +90,12 @@ r12samp[, .SD, .SDcols = c(
   'Round',
   paste0('limTreat_',vars_to_consider),
   'Revision_of_Q4',
+  'Revision_of_Q6',
   'Revision_of_Q12',
   'Q1'
 )][, Sample := 'Treated'],
 use.names = FALSE)
-setnames(r12samp, c('Round',titles,'Effect','Sample Size','Q1','Sample'))
+setnames(r12samp, c('Round',titles,'Effect','SE','Sample Size','Q1','Sample'))
 r12samp[, `Round/Sample` := paste(Round,Sample)]
 r12samp_w_q1 = copy(r12samp)
 r12samp[, Q1 := NULL]
