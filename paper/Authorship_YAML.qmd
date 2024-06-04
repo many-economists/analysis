@@ -26,7 +26,7 @@ author:
     orcid: 0000-0001-8052-9462
     degrees: PhD
     attributes:
-      corresponding: False
+      corresponding: True
     affiliations:
       - id: CP1_1
         number: 1
@@ -107,24 +107,8 @@ author:
         name: Kisii University
         department: Department of Mathematics and Actuarial Sciences
         address: P.O. Box 408-40200, Kisii University
-  - id: Ahmad7
+  - id: Akbulut-Yuksel7
     number: 7
-    name: Imtiaz Ahmad
-    email: imtiaz.ahmad@s3h.nust.edu.pk
-    phone: +92 3334747147
-    fax: NONE
-    orcid: 0000-0002-6329-5964
-    degrees: PhD
-    attributes:
-      corresponding: False
-    affiliations:
-      - id: Ahmad7_1
-        number: 1
-        name: National University of Sciences and Technology
-        department: Department of Economics
-        address: NONE
-  - id: Akbulut-Yuksel8
-    number: 8
     name: Mevlude Akbulut-Yuksel
     email: mevlude@dal.ca
     phone: +1-902-499-2567
@@ -134,13 +118,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Akbulut-Yuksel8_1
+      - id: Akbulut-Yuksel7_1
         number: 1
         name: Dalhousie University; IZA
         department: Department of Economics
         address: 6214 University Avenue Halifax, Nova Scotia B3H 4R2 CANADA
-  - id: Andresen9
-    number: 9
+  - id: Andresen8
+    number: 8
     name: Martin Eckhoff Andresen
     email: m.e.andresen@econ.uio.no
     phone: +4740239166
@@ -150,13 +134,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Andresen9_1
+      - id: Andresen8_1
         number: 1
         name: University of Oslo
         department: Department of Economics
         address: Moltke Moes vei 31, 0851 Oslo, Norway
-  - id: Angenendt10
-    number: 10
+  - id: Angenendt9
+    number: 9
     name: David Angenendt
     email: david.angenendt@tum.de
     phone: +498928925394
@@ -166,18 +150,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Angenendt10_1
+      - id: Angenendt9_1
         number: 1
         name: Technical University of Munich
         department: TUM School of Management
         address: Arcisstr. 21, 80333 Munich, Germany
-      - id: Angenendt10_2
+      - id: Angenendt9_2
         number: 2
         name:  Centre for Business Research Cambridge
         department: TUM School of Management
         address: Arcisstr. 21, 80333 Munich, Germany
-  - id: Antón11
-    number: 11
+  - id: Antón10
+    number: 10
     name: José-Ignacio Antón
     email: janton@usal.es
     phone: 0034645758310
@@ -187,29 +171,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Antón11_1
+      - id: Antón10_1
         number: 1
         name: University of Salamanca
         department: Department of Applied Economics
         address: Departamento de Economía Aplicada, Facultad de Derecho, Campus Miguel de Unamuno, s/n, 37007 Salamanca (Spain)
-  - id: Arenas12
-    number: 12
-    name: Andreu Arenas
-    email: andreu.arenas@ub.edu
-    phone: +34650513478
-    fax: NONE
-    orcid: 0000-0002-0185-6017
-    degrees: PhD
-    attributes:
-      corresponding: False
-    affiliations:
-      - id: Arenas12_1
-        number: 1
-        name: NONE
-        department: Economics Department and Institut d'Economia de Barcelona
-        address: J.M. Keynes 1-11, 08034 Barcelona (Spain)
-  - id: Aslim13
-    number: 13
+  - id: Aslim11
+    number: 11
     name: Erkmen Giray Aslim
     email: aslime@gvsu.edu
     phone: 603-205-3708
@@ -219,13 +187,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Aslim13_1
+      - id: Aslim11_1
         number: 1
         name: Grand Valley State University
         department: Department of Economics
         address: 3120 L. William Seidman Center, 50 Front Avenue SW, Grand Rapids, MI 49504
-  - id: Avdeev14
-    number: 14
+  - id: Avdeev12
+    number: 12
     name: Stanislav Avdeev
     email: s.avdeev@uva.nl
     phone: +31651865403
@@ -235,13 +203,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Avdeev14_1
+      - id: Avdeev12_1
         number: 1
         name: University of Amsterdam
         department: Amsterdam School of Economics
         address: Roetersstraat 11, 1018 WB Amsterdam, the Netherlands
-  - id: Bacher-Hicks15
-    number: 15
+  - id: Bacher-Hicks13
+    number: 13
     name: Andrew Bacher-Hicks
     email: abhicks@bu.edu
     phone: 617-358-1388
@@ -251,13 +219,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bacher-Hicks15_1
+      - id: Bacher-Hicks13_1
         number: 1
         name: Boston University
         department: Wheelock College of Education and Human Development
         address: 2 Silber Way, Boston, MA 02215
-  - id: Baker16
-    number: 16
+  - id: Baker14
+    number: 14
     name: Bradley J. Baker
     email: bradley.baker@temple.edu
     phone: 215.204.6163
@@ -267,13 +235,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Baker16_1
+      - id: Baker14_1
         number: 1
         name: Temple University
         department: Department of Sport, Tourism and Hospitality Management
         address: 1810 N. 13th St. Speakman Hall 111 Philadelphia, PA 19122 USA
-  - id: Bandara17
-    number: 17
+  - id: Bandara15
+    number: 15
     name: Imesh Nuwan Bandara
     email: imeshnu1@gmail.com
     phone: 8572891428
@@ -283,13 +251,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bandara17_1
+      - id: Bandara15_1
         number: 1
         name: Independent
         department: NONE
         address: NONE
-  - id: Bansal18
-    number: 18
+  - id: Bansal16
+    number: 16
     name: Avijit Bansal
     email: avijit@iimcal.ac.in
     phone: +91 8976-37-2927
@@ -299,13 +267,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bansal18_1
+      - id: Bansal16_1
         number: 1
         name: Indian Institute of Management Calcutta
         department: Finance & Control Area
         address: Indian Institute of Management Calcutta, DH road, Kolkata, India - 700104
-  - id: Bartram19
-    number: 19
+  - id: Bartram17
+    number: 17
     name: David Bartram
     email: d.bartram@le.ac.uk
     phone: +447909734199
@@ -315,13 +283,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bartram19_1
+      - id: Bartram17_1
         number: 1
         name: University of Leicester
         department: Department of Sociology
         address: University Road, Leicester LE2 1TL, United Kingdom
-  - id: Bech-Wysocka20
-    number: 20
+  - id: Bech-Wysocka18
+    number: 18
     name: Katarzyna Bech-Wysocka
     email: kbech@sgh.waw.pl
     phone: +48 888 652 596
@@ -331,18 +299,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bech-Wysocka20_1
+      - id: Bech-Wysocka18_1
         number: 1
         name: Warsaw School of Economics
         department: NONE
         address: al. Niepodleglosci 162, 02-554 Warsaw, Poland
-      - id: Bech-Wysocka20_2
+      - id: Bech-Wysocka18_2
         number: 2
         name:  FAME|GRAPE
         department: NONE
         address: al. Niepodleglosci 162, 02-554 Warsaw, Poland
-  - id: Bennett21
-    number: 21
+  - id: Bennett19
+    number: 19
     name: Christopher Troy Bennett
     email: cbennett@rti.org
     phone: 919-949-5343
@@ -352,13 +320,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bennett21_1
+      - id: Bennett19_1
         number: 1
         name: RTI International
         department: NONE
         address: 3040 E. Cornwallis Rd, Research Triangle Park, NC 27709
-  - id: Berha22
-    number: 22
+  - id: Berha20
+    number: 20
     name: Andu N. Berha
     email: aberha@ualberta.ca
     phone: 5879262893
@@ -368,13 +336,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Berha22_1
+      - id: Berha20_1
         number: 1
         name: University of Alberta
         department: NONE
         address: Edmonton, Alberta, T6G2H1, Canada
-  - id: Berniell23
-    number: 23
+  - id: Berniell21
+    number: 21
     name: Inés Berniell
     email: ines.berniell@econo.unlp.edu.ar
     phone: +5491132959784
@@ -384,23 +352,23 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Berniell23_1
+      - id: Berniell21_1
         number: 1
         name: Universidad Nacional de La Plata
         department: Department of Economics
         address: NONE
-      - id: Berniell23_2
+      - id: Berniell21_2
         number: 2
         name:  CEDLAS
         department: Department of Economics
         address: NONE
-      - id: Berniell23_3
+      - id: Berniell21_3
         number: 3
         name:  IIE
         department: Department of Economics
         address: NONE
-  - id: Bhai24
-    number: 24
+  - id: Bhai22
+    number: 22
     name: Moiz Bhai
     email: mxbhai@ualr.edu
     phone: 501-916-6742
@@ -410,18 +378,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bhai24_1
+      - id: Bhai22_1
         number: 1
         name: University of Arkansas at Little Rock
         department: Department of Accounting, Economics, and Finance
         address: 2801 S. University Ave, Little Rock AR 72204
-      - id: Bhai24_2
+      - id: Bhai22_2
         number: 2
         name:  University of Arkansas for Medical Sciences
         department: Department of Accounting, Economics, and Finance
         address: 2801 S. University Ave, Little Rock AR 72204
-  - id: Bhattacharya25
-    number: 25
+  - id: Bhattacharya23
+    number: 23
     name: Shreya Bhattacharya
     email: sbhattacharya@wm.edu
     phone: 8323986798
@@ -431,13 +399,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bhattacharya25_1
+      - id: Bhattacharya23_1
         number: 1
         name: Digital Inclusion and Governance Lab, Global Research Institute, William & Mary
         department: NONE
         address: 427 Scotland St, Williamsburg, VA 23187
-  - id: Bjoerkheim26
-    number: 26
+  - id: Bjoerkheim24
+    number: 24
     name: Markus Bjoerkheim
     email: mbjoerkh@gmu.edu
     phone: 5404357294
@@ -447,13 +415,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bjoerkheim26_1
+      - id: Bjoerkheim24_1
         number: 1
         name: Mercatus Center at George Mason University
         department: Open Health
         address: 3434 Washington Blvd., 4th Floor Arlington, VA 22201
-  - id: Bloem27
-    number: 27
+  - id: Bloem25
+    number: 25
     name: Jeffrey R. Bloem
     email: j.r.bloem@cgiar.org
     phone: 774-242-2588
@@ -463,13 +431,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Bloem27_1
+      - id: Bloem25_1
         number: 1
         name: International Food Policy Research Institute 
         department: NONE
         address: 1201 I St NW, Washington, DC 20005
-  - id: Brehm28
-    number: 28
+  - id: Brehm26
+    number: 26
     name: Margaret E Brehm
     email: mbrehm@oberlin.edu
     phone: 440-775-8449
@@ -479,13 +447,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Brehm28_1
+      - id: Brehm26_1
         number: 1
         name: Oberlin College
         department: Department of Economics
         address: 110 N. Professor Street, Oberlin, OH 44074
-  - id: Brun29
-    number: 29
+  - id: Brun27
+    number: 27
     name: Martín Brun
     email: martin.brun@uab.cat
     phone: +34935811680
@@ -495,13 +463,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Brun29_1
+      - id: Brun27_1
         number: 1
         name: Universitat Autónoma de Barcelona
         department: Department of Applied Economics
         address: NONE
-  - id: Buisson30
-    number: 30
+  - id: Buisson28
+    number: 28
     name: Florent Buisson
     email: fbuisson@cars.com
     phone: 9452437867
@@ -511,13 +479,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Buisson30_1
+      - id: Buisson28_1
         number: 1
         name: Independent
         department: NONE
         address: 18800 Lina Street, #1010, Dallas, TX 75287
-  - id: Burli31
-    number: 31
+  - id: Burli29
+    number: 29
     name: Pralhad Burli
     email: pralhad.burli@inl.gov
     phone: 7328958736
@@ -527,13 +495,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Burli31_1
+      - id: Burli29_1
         number: 1
         name: Idaho National Laboratory
         department: NONE
         address: 546 William Street Piscataway New Jersey 08854
-  - id: Camp32
-    number: 32
+  - id: Camp30
+    number: 30
     name: Andrew M. Camp
     email: ac103@uark.edu
     phone: 402-213-6333
@@ -543,13 +511,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Camp32_1
+      - id: Camp30_1
         number: 1
         name: University of Arkansas
         department: Department of Education Reform
         address: Room 201, Graduate Education Building; University of Arkansas; Fayetteville, AR 72701
-  - id: Cerutti33
-    number: 33
+  - id: Cerutti31
+    number: 31
     name: Nicola Cerutti
     email: nc@nicores.de
     phone: +44 (0) 7774 689143
@@ -559,13 +527,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Cerutti33_1
+      - id: Cerutti31_1
         number: 1
         name: Mercator Research Institute on Global Commons and Climate Change
         department: NONE
         address: NONE
-  - id: Chen34
-    number: 34
+  - id: Chen32
+    number: 32
     name: Weiwei Chen
     email: wchen30@kennesaw.edu
     phone: 470-578-3136
@@ -575,13 +543,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Chen34_1
+      - id: Chen32_1
         number: 1
         name: Kennesaw State University
         department: Department of Economics, Finance and Quantitative Analysis
         address: 560 Parliament Garden Way NW, Kennesaw, GA 30144
-  - id: Clement35
-    number: 35
+  - id: Clement33
+    number: 33
     name: Jeffrey Clement
     email: clement@augsburg.edu
     phone: 2023686186
@@ -591,13 +559,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Clement35_1
+      - id: Clement33_1
         number: 1
         name: Augsburg University
         department: Department of Business Administration
         address: 2211 Riverside Ave, CB315, Minneapolis, MN 55454
-  - id: Collins36
-    number: 36
+  - id: Collins34
+    number: 34
     name: Matthew Collins
     email: matthew.collins@universityofgalway.ie
     phone: +353(0)91493109
@@ -607,13 +575,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Collins36_1
+      - id: Collins34_1
         number: 1
         name: University of Galway
         department: J.E. Cairnes School of Business and Economics
         address: University of Galway, University Road, Galway, Ireland H91 TK33
-  - id: Crawfurd37
-    number: 37
+  - id: Crawfurd35
+    number: 35
     name: Lee Crawfurd
     email: lcrawfurd@cgdev.org
     phone: +447869613735
@@ -623,13 +591,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Crawfurd37_1
+      - id: Crawfurd35_1
         number: 1
         name: Center for Global Development
         department: NONE
         address: Great College St, London SW1P 3SE
-  - id: Cullinan38
-    number: 38
+  - id: Cullinan36
+    number: 36
     name: John Cullinan
     email: john.cullinan@universityofgalway.ie
     phone: 091 493996
@@ -639,13 +607,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Cullinan38_1
+      - id: Cullinan36_1
         number: 1
         name: University of Galway
         department: School of Business & Economics
         address: University Road, Galway, H91 TK33, Ireland
-  - id: Deer39
-    number: 39
+  - id: Deer37
+    number: 37
     name: Lachlan Deer
     email: l.k.deer@tilburguniversity.edu
     phone: NONE
@@ -655,13 +623,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Deer39_1
+      - id: Deer37_1
         number: 1
         name: Tilburg University
         department: Department of Marketing
         address: Warandelaan 2, 5037 AB, Tilburg The Netherlands
-  - id: Dorsey-Palmateer40
-    number: 40
+  - id: Dorsey-Palmateer38
+    number: 38
     name: Reid Dorsey-Palmateer
     email: dorseyr2@wwu.edu
     phone: 360 650 2676
@@ -671,13 +639,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Dorsey-Palmateer40_1
+      - id: Dorsey-Palmateer38_1
         number: 1
         name: Western Washington University
         department: Department of Economics
         address: 516 High Street MS 9074, Bellingham WA 98225
-  - id: Duquette41
-    number: 41
+  - id: Duquette39
+    number: 39
     name: Nicolas J. Duquette
     email: nduquett@usc.edu
     phone: 213-821-2236
@@ -687,13 +655,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Duquette41_1
+      - id: Duquette39_1
         number: 1
         name: University of Southern California
         department: Sol Price School of Public Policy
         address: 650 Childs Way, Los Angeles, CA 90089
-  - id: Fages42
-    number: 42
+  - id: Fages40
+    number: 40
     name: Diego Marino Fages
     email: diego.r.marino-fages@durham.ac.uk
     phone: NONE
@@ -703,13 +671,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Fages42_1
+      - id: Fages40_1
         number: 1
         name: Durham University
         department: NONE
         address: Durham University, Mill Hill Lane, Durham, DH1 3LB, UK
-  - id: Falken43
-    number: 43
+  - id: Falken41
+    number: 41
     name: Grace Falken
     email: gfalken@uw.edu
     phone: NONE
@@ -719,13 +687,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Falken43_1
+      - id: Falken41_1
         number: 1
         name: University of Washington
         department: School of Social Work
         address: 3876 Bridge Way N., Suite 201  Seattle, WA 98103
-  - id: Farquharson44
-    number: 44
+  - id: Farquharson42
+    number: 42
     name: Christine Farquharson
     email: christine_f@ifs.org.uk
     phone: 020 7291 4800
@@ -735,13 +703,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Farquharson44_1
+      - id: Farquharson42_1
         number: 1
         name: Institute for Fiscal Studies
         department: NONE
         address: 7 Ridgmount Street, London UK, WC1E 7AE
-  - id: Feld45
-    number: 45
+  - id: Feld43
+    number: 43
     name: Jan Feld
     email: jan.feld@vuw.ac.nz
     phone: +6444639678 
@@ -751,13 +719,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Feld45_1
+      - id: Feld43_1
         number: 1
         name: Victoria University of Wellington
         department: School of Economics and Finance
         address: 22 Bunny Street, Pipitea, Wellington 6011, New Zealand
-  - id: Feyman46
-    number: 46
+  - id: Feyman44
+    number: 44
     name: Yevgeniy Feyman
     email: yfeyman@gmail.com
     phone: 646-831-5988
@@ -767,13 +735,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Feyman46_1
+      - id: Feyman44_1
         number: 1
         name: Department of Health and Human Services
         department: NONE
         address: 200 Independence Ave SW, Washington, DC 20201
-  - id: Fiala47
-    number: 47
+  - id: Fiala45
+    number: 45
     name: Nathan Fiala
     email: nathan.fiala@uconn.edu
     phone: 2526268400
@@ -783,13 +751,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Fiala47_1
+      - id: Fiala45_1
         number: 1
         name: University of Connecticut
         department: Agricultural and Resource Economics
         address: NONE
-  - id: Fitzpatrick48
-    number: 48
+  - id: Fitzpatrick46
+    number: 46
     name: Anne Fitzpatrick
     email: fitzpatrick.88@osu.edu
     phone: (607)339-9261
@@ -799,13 +767,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Fitzpatrick48_1
+      - id: Fitzpatrick46_1
         number: 1
         name: The Ohio State University
         department: Department of Agricultural, Environmental, and Development Economics
         address: Agricultural Administration Building, 2120 Fyffe Road, Columbus, OH 43210
-  - id: Fradkin49
-    number: 49
+  - id: Fradkin47
+    number: 47
     name: Andrey Fradkin
     email: fradkin@bu.edu
     phone: 2019216279
@@ -815,13 +783,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Fradkin49_1
+      - id: Fradkin47_1
         number: 1
         name: Boston University, Questrom School of Business
         department: Marketing
         address: 595 Commonwealth Ave, Boston MA 02215
-  - id: French50
-    number: 50
+  - id: French48
+    number: 48
     name: Evaewero French
     email: frenceva@oregonstate.edu
     phone: 9739146938
@@ -831,13 +799,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: French50_1
+      - id: French48_1
         number: 1
         name: Oregon State University
         department: School of Public Policy
         address: 300 Bexell Hall 2251 SW Campus Way Corvallis, OR  97331
-  - id: Fu51
-    number: 51
+  - id: Fu49
+    number: 49
     name: Wei Fu
     email: wei.fu@louisville.edu
     phone: 484-767-7515
@@ -847,13 +815,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Fu51_1
+      - id: Fu49_1
         number: 1
         name: University of Louisville 
         department: Health Management and Systems Sciences Department 
         address: Room 105, School of Public Health and Information Sciences  485 E Gray St., Louisville, KY, 40202
-  - id: Fumarco52
-    number: 52
+  - id: Fumarco50
+    number: 50
     name: Luca Fumarco
     email: luca.fumarco@econ.muni.cz
     phone: +393534263696
@@ -863,23 +831,23 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Fumarco52_1
+      - id: Fumarco50_1
         number: 1
         name: Masaryk University
         department: Department of Economics
         address: NONE
-      - id: Fumarco52_2
+      - id: Fumarco50_2
         number: 2
         name:  IZA
         department: Department of Economics
         address: NONE
-      - id: Fumarco52_3
+      - id: Fumarco50_3
         number: 3
         name:  GLO
         department: Department of Economics
         address: NONE
-  - id: Gallegos53
-    number: 53
+  - id: Gallegos51
+    number: 51
     name: Sebastian Gallegos
     email: sebastian.gallegos@uai.cl
     phone: +56982876954
@@ -889,13 +857,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Gallegos53_1
+      - id: Gallegos51_1
         number: 1
         name: Universidad Adolfo Ibanez
         department: Business School
         address: Av. Padre Alberto Hurtado 750, Vina del Mar, Chile.
-  - id: Galárraga54
-    number: 54
+  - id: Galárraga52
+    number: 52
     name: Julio Galárraga
     email: julio.galarraga.bonilla@udla.edu.ec
     phone: +593 2 3981000 ext. 7891
@@ -905,13 +873,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Galárraga54_1
+      - id: Galárraga52_1
         number: 1
         name: Universidad de las Américas Ecuador
         department: Department of Economics
         address: Redondel del Ciclista, Antigua Vía a Nayón, Quito, Ecuador
-  - id: Gamino55
-    number: 55
+  - id: Gamino53
+    number: 53
     name: Aaron M. Gamino
     email: aaron.gamino@mtsu.edu
     phone: 3092363734
@@ -921,13 +889,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Gamino55_1
+      - id: Gamino53_1
         number: 1
         name: Middle Tennessee State University
         department: Department of Economics and Finance
         address: MTSU Box 27, 1301 E. Main St, Murfreesboro, TN 37132
-  - id: Gauriot56
-    number: 56
+  - id: Gauriot54
+    number: 54
     name: Romain Gauriot
     email: romain.gauriot@deakin.edu.au
     phone: +61403700344
@@ -937,13 +905,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Gauriot56_1
+      - id: Gauriot54_1
         number: 1
         name: Deakin University
         department: Department of Economics
         address: 221 Burwood Hwy, Burwood VIC 3125, Australia
-  - id: Gay57
-    number: 57
+  - id: Gay55
+    number: 55
     name: Victor Gay
     email: victor.gay@tse-fr.eu
     phone: +33622225170
@@ -953,13 +921,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Gay57_1
+      - id: Gay55_1
         number: 1
         name: Toulouse School of Economics
         department: Department of Social and Behavioral Sciences
         address: 1 Esplanade de l'Université, 31000, Toulouse, France
-  - id: Gayaker58
-    number: 58
+  - id: Gayaker56
+    number: 56
     name: Savas Gayaker
     email: savas.gayaker@hbv.edu.tr
     phone: +905412504036
@@ -969,13 +937,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Gayaker58_1
+      - id: Gayaker56_1
         number: 1
         name: Ankara Hacı Bayram Veli University
         department: Department of Econometrics
         address: Emniyet Mahallesi  Gazeteci Yazar Muammer Yaşar Bostancı Caddesi  No:4 06500 Beşevler/Ankara
-  - id: Gazeaud59
-    number: 59
+  - id: Gazeaud57
+    number: 57
     name: Jules Gazeaud
     email: jules.gazeaud@gmail.com
     phone: NONE
@@ -985,18 +953,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Gazeaud59_1
+      - id: Gazeaud57_1
         number: 1
         name: CNRS
         department: NONE
         address: NONE
-      - id: Gazeaud59_2
+      - id: Gazeaud57_2
         number: 2
         name:  Université Clermont Auvergne
         department: NONE
         address: NONE
-  - id: Gendre60
-    number: 60
+  - id: Gendre58
+    number: 58
     name: Alexandra de Gendre
     email: a.degendre@unimelb.edu.au
     phone: +61432493139
@@ -1006,13 +974,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Gendre60_1
+      - id: Gendre58_1
         number: 1
         name: The University of Melbourne
         department: Department of Economics
         address: Level 4 Department of Economics, Faculty of Business and Economics Building, The University of Melbourne, 111 Barry Street, Carlton VIC 3010 Australia
-  - id: Gilpin61
-    number: 61
+  - id: Gilpin59
+    number: 59
     name: Gregory Gilpin
     email: gregory.gilpin@montana.edu
     phone: (406)-994-5628
@@ -1022,13 +990,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Gilpin61_1
+      - id: Gilpin59_1
         number: 1
         name: Montana State University
         department: Department of Agricultural Economics and Economics
         address: 306 Linfield Hall, Bozeman, MT 59717
-  - id: Girardi62
-    number: 62
+  - id: Girardi60
+    number: 60
     name: Daniele Girardi
     email: daniele.girardi@kcl.ac.uk
     phone: NONE
@@ -1038,18 +1006,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Girardi62_1
+      - id: Girardi60_1
         number: 1
         name: King's College London
         department: Department of Political Economy
         address: Bush House, North East Wing, 30 Aldwych, London, WC2B 4BG, United Kingdom
-      - id: Girardi62_2
+      - id: Girardi60_2
         number: 2
         name:  University of Massachusetts Amherst
         department: Department of Economics
         address: Bush House, North East Wing, 30 Aldwych, London, WC2B 4BG, United Kingdom
-  - id: Goldhaber63
-    number: 63
+  - id: Goldhaber61
+    number: 61
     name: Dan Goldhaber
     email: dgoldhab@uw.edu
     phone: 2066791867
@@ -1059,13 +1027,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Goldhaber63_1
+      - id: Goldhaber61_1
         number: 1
         name: University of Washington, American Institutes for Research
         department: Center for Education Data and Research (U. of WA), National Center for Analysis of Longitudinal Data in Education Research (AIR)
         address: 3876 Bridge Way N., Suite 201 Seattle, WA 98103
-  - id: Harris64
-    number: 64
+  - id: Harris62
+    number: 62
     name: Mark N. Harris
     email: mark.harris@curtin.edu.au
     phone: +61407575126
@@ -1075,13 +1043,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Harris64_1
+      - id: Harris62_1
         number: 1
         name: Curtin University
         department: School of Accounting, Econmics and Finance
         address: Perth, Western Australia, Australia
-  - id: Heller65
-    number: 65
+  - id: Heller63
+    number: 63
     name: Blake H. Heller
     email: bhheller@uh.edu
     phone: 8184583096
@@ -1091,13 +1059,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Heller65_1
+      - id: Heller63_1
         number: 1
         name: University of Houston
         department: Hobby School of Public Affairs
         address: Bates Building; 4104 Martin Luther King Boulevard, Room 118; Houston, Texas 77204-5021
-  - id: Henderson66
-    number: 66
+  - id: Henderson64
+    number: 64
     name: Daniel J. Henderson
     email: daniel.henderson@ua.edu
     phone: 205-348-8991
@@ -1107,13 +1075,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Henderson66_1
+      - id: Henderson64_1
         number: 1
         name: University of Alabama
         department: Department of Economics, Finance and Legal Studies
         address: Box 870224, University of Alabama, Tuscaloosa, AL 35487-0224
-  - id: Henningsen67
-    number: 67
+  - id: Henningsen65
+    number: 65
     name: Arne Henningsen
     email: arne@ifro.ku.dk
     phone: +45-51439618
@@ -1123,13 +1091,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Henningsen67_1
+      - id: Henningsen65_1
         number: 1
         name: University of Copenhagen
         department: Department of Food and Resource Economics
         address: Rolighedsvej 23, 1958 Frederiksberg C, Denmark
-  - id: Henry68
-    number: 68
+  - id: Henry66
+    number: 66
     name: Junita Henry
     email: Junitahenry@g.harvard.edu
     phone: 6176062044
@@ -1139,13 +1107,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Henry68_1
+      - id: Henry66_1
         number: 1
         name: Harvard University
         department: Department of Global Health
         address: 677 Huntington Ave, Boston, MA 02115
-  - id: Herman69
-    number: 69
+  - id: Herman67
+    number: 67
     name: Clément Herman
     email: cherman@princeton.edu
     phone: 6099339278
@@ -1155,13 +1123,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Herman69_1
+      - id: Herman67_1
         number: 1
         name: Princeton University
         department: Department of Economics
         address: 20 Washington Rd, Princeton, NJ 08540
-  - id: Hernæs70
-    number: 70
+  - id: Hernæs68
+    number: 68
     name: Øystein Hernæs
     email: o.m.hernas@frisch.uio.no
     phone: 004793652406
@@ -1171,13 +1139,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Hernæs70_1
+      - id: Hernæs68_1
         number: 1
         name: The Ragnar Frisch Centre for Economic Research
         department: NONE
         address: Gaustadalleen 21, 0349 Oslo, Norway
-  - id: Hill71
-    number: 71
+  - id: Hill69
+    number: 69
     name: Andrew J. Hill
     email: andrew.hill6@montana.edu
     phone: 4069943701
@@ -1187,13 +1155,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Hill71_1
+      - id: Hill69_1
         number: 1
         name: Montana State University
         department: Department of Agricultural Economics and Economics
         address: P.O. Box 172920, Bozeman, MT 59717-2920
-  - id: Holzmeister72
-    number: 72
+  - id: Holzmeister70
+    number: 70
     name: Felix Holzmeister
     email: felix.holzmeister@uibk.ac.at
     phone: +4351250771040
@@ -1203,13 +1171,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Holzmeister72_1
+      - id: Holzmeister70_1
         number: 1
         name: University of Innsbruck
         department: Department of Economics
         address: Universitätsstraße 15, 6020 Innsbruck, Austria
-  - id: Huysmans73
-    number: 73
+  - id: Huysmans71
+    number: 71
     name: Martijn Huysmans
     email: m.huysmans@uu.nl
     phone: +31613077883
@@ -1219,13 +1187,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Huysmans73_1
+      - id: Huysmans71_1
         number: 1
         name: Utrecht University
         department: School of Economics
         address: PO Box 80125, 3508 TC Utrecht, NL
-  - id: Imtiaz74
-    number: 74
+  - id: Imtiaz72
+    number: 72
     name: M. Saad Imtiaz
     email: saad.imtiaz@lums.edu.pk
     phone: +12029147170
@@ -1235,13 +1203,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Imtiaz74_1
+      - id: Imtiaz72_1
         number: 1
         name: Lahore University of Management Sciences
         department: Department of Humanities and Social Sciences
         address: Khayaban-e-Jinnah, opposite Sector U،, Phase 5 D.H.A, Lahore, Punjab 54792
-  - id: Jain75
-    number: 75
+  - id: Jain73
+    number: 73
     name: Anil K. Jain
     email: anil.k.jain@frb.gov
     phone: 857 756 8499
@@ -1251,13 +1219,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Jain75_1
+      - id: Jain73_1
         number: 1
         name: Federal Reserve Board of Governors
         department: International Finance
         address: 2010 N Taylor St, Arlington, VA, 22207
-  - id: Jakobsson76
-    number: 76
+  - id: Jakobsson74
+    number: 74
     name: Niklas Jakobsson
     email: niklas.jakobsson@kau.se
     phone: 0046703939009
@@ -1267,13 +1235,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Jakobsson76_1
+      - id: Jakobsson74_1
         number: 1
         name: Karlstad University
         department: Karlstad Business School
         address: Karlstad Business School, Karlstad University, 651 88 Karlstad
-  - id: Kaire77
-    number: 77
+  - id: Kaire75
+    number: 75
     name: José Kaire
     email: kaire@asu.edu
     phone: 7654449960
@@ -1283,13 +1251,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Kaire77_1
+      - id: Kaire75_1
         number: 1
         name: Arizona State University
         department: School of Politics and Global Studies
         address: Lattie F. Coor Hall, 975 S Myrtle Ave, Tempe, AZ 85287
-  - id: Kameshwara78
-    number: 78
+  - id: Kameshwara76
+    number: 76
     name: Kalyan Kumar Kameshwara
     email: K.Kameshwara@westminster.ac.uk
     phone: +44 07979682728
@@ -1299,13 +1267,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Kameshwara78_1
+      - id: Kameshwara76_1
         number: 1
         name: University of Westminster
         department: Westminster Business School 
         address: Centre for Employment Research, 35 Marylebone Rd, London NW1 5LS, United Kingdom
-  - id: Karney79
-    number: 79
+  - id: Karney77
+    number: 77
     name: Daniel H Karney
     email: karney@ohio.edu
     phone: 740-597-1254
@@ -1315,13 +1283,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Karney79_1
+      - id: Karney77_1
         number: 1
         name: Ohio University
         department: Department of Economics
         address: NONE
-  - id: Kim80
-    number: 80
+  - id: Kim78
+    number: 78
     name: Sie Won Kim
     email: siewon.kim@ttu.edu
     phone: 806-834-8226
@@ -1331,13 +1299,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Kim80_1
+      - id: Kim78_1
         number: 1
         name: Texas Tech University
         department: Department of Economics
         address: PO Box 41014, Lubbock, TX 79409
-  - id: Klotzbücher81
-    number: 81
+  - id: Klotzbücher79
+    number: 79
     name: Valentin Klotzbücher
     email: valentin.klotzbuecher@econ.uni-freiburg.de
     phone: +49 761 203 676 52
@@ -1347,13 +1315,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Klotzbücher81_1
+      - id: Klotzbücher79_1
         number: 1
         name: University of Freiburg
         department: Department of Economics
         address: Wilhelmstraße 1b, D-79085 Freiburg im Breisgau 
-  - id: Kronenberg82
-    number: 82
+  - id: Kronenberg80
+    number: 80
     name: Christoph Kronenberg
     email: christoph.kronenberg@uni-due.de
     phone: +4920118-36460
@@ -1363,13 +1331,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Kronenberg82_1
+      - id: Kronenberg80_1
         number: 1
         name: University Duisburg-Essen
         department: CINCH
         address: Berliner Platz 6-8, 45127 Essen, Germany
-  - id: LaFave83
-    number: 83
+  - id: LaFave81
+    number: 81
     name: Daniel LaFave
     email: drlafave@colby.edu
     phone: 207 859 5243
@@ -1379,13 +1347,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: LaFave83_1
+      - id: LaFave81_1
         number: 1
         name: Colby College
         department: Department of Economics
         address: 5243 Mayflower Hill, Waterville, ME, USA 04901
-  - id: Lang84
-    number: 84
+  - id: Lang82
+    number: 82
     name: David Lang
     email: dnlang.ucla@gmail.com
     phone: 8186459877
@@ -1395,13 +1363,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Lang84_1
+      - id: Lang82_1
         number: 1
         name: Stanford University
         department: Department of Political Science
         address: NONE
-  - id: Lee85
-    number: 85
+  - id: Lee83
+    number: 83
     name: Ryan Lee
     email: RLEE2@laverne.edu
     phone: 909-448-1490
@@ -1411,13 +1379,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Lee85_1
+      - id: Lee83_1
         number: 1
         name: University of La Verne
         department: College of Business
         address: 1950 3rd St, La Verne, CA 91750
-  - id: Liégey86
-    number: 86
+  - id: Liégey84
+    number: 84
     name: Maxime Liégey
     email: mliegey@unistra.fr
     phone: +33 6 48 07 74 90
@@ -1427,13 +1395,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Liégey86_1
+      - id: Liégey84_1
         number: 1
         name: Strasbourg University
         department: FSEG
         address: 61 Avenue de la Forêt Noire, 67085 STRASBOURG CEDEX
-  - id: Long87
-    number: 87
+  - id: Long85
+    number: 85
     name: Dede Long
     email: dlong@hmc.edu
     phone: 5037209537
@@ -1443,13 +1411,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Long87_1
+      - id: Long85_1
         number: 1
         name: Harvey Mudd College
         department: Department of Humanities, Social Sciences, and the Arts
         address: 301 Platt Blvd, Claremont, CA, 91711
-  - id: Marcus88
-    number: 88
+  - id: Marcus86
+    number: 86
     name: Jan Marcus
     email: jan.marcus@fu-berlin.de
     phone: +49 30 838 58549
@@ -1459,13 +1427,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Marcus88_1
+      - id: Marcus86_1
         number: 1
         name: Freie Universität Berlin
         department: School of Business and Economics
         address: Garystraße 21, 14195 Berlin, Germany
-  - id: Mari89
-    number: 89
+  - id: Mari87
+    number: 87
     name: Gabriele Mari
     email: mari@essb.eur.nl
     phone: NONE
@@ -1475,13 +1443,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Mari89_1
+      - id: Mari87_1
         number: 1
         name: Erasmus University Rotterdam
         department: Department of Public Administration and Sociology
         address: NONE
-  - id: McCarthy90
-    number: 90
+  - id: McCarthy88
+    number: 88
     name: Ian McCarthy
     email: ian.mccarthy@emory.edu
     phone: 404-727-8808
@@ -1491,18 +1459,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: McCarthy90_1
+      - id: McCarthy88_1
         number: 1
         name: Emory University
         department: Department of Economics
         address: 1602 Fishburne Drive, Rich Memorial Building, Room 306, Atlanta, GA 30322
-      - id: McCarthy90_2
+      - id: McCarthy88_2
         number: 2
         name:  NBER
         department: Department of Economics
         address: 1602 Fishburne Drive, Rich Memorial Building, Room 306, Atlanta, GA 30322
-  - id: Meinzen-Dick91
-    number: 91
+  - id: Meinzen-Dick89
+    number: 89
     name: Laura Meinzen-Dick
     email: laura.meinzen-dick@villanova.edu
     phone: 636-675-2557
@@ -1512,13 +1480,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Meinzen-Dick91_1
+      - id: Meinzen-Dick89_1
         number: 1
         name: Villanova University 
         department: Department of Economics 
         address: 800 E Lancaster Ave, Villanova PA 19085
-  - id: Merkus92
-    number: 92
+  - id: Merkus90
+    number: 90
     name: Erik Merkus
     email: e_merkus@me.com
     phone: 0046701609700
@@ -1528,13 +1496,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Merkus92_1
+      - id: Merkus90_1
         number: 1
         name: Independent
         department: NONE
         address: NONE
-  - id: Miller93
-    number: 93
+  - id: Miller91
+    number: 91
     name: Klaus M. Miller
     email: millerk@hec.fr
     phone: +33 1 39 67 70 88
@@ -1544,13 +1512,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Miller93_1
+      - id: Miller91_1
         number: 1
         name: HEC Paris
         department: Department of Marketing
         address: 1 Rue de la Libération, 78350 Jouy-en-Josas, France
-  - id: Mogge94
-    number: 94
+  - id: Mogge92
+    number: 92
     name: Lukas Mogge
     email: lukas.mogge@rwi-essen.de
     phone: +4930202159821
@@ -1560,13 +1528,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Mogge94_1
+      - id: Mogge92_1
         number: 1
         name: RWI – Leibniz Institute for Economic Research
         department: Economic Policy Lab Climate, Migration and Development
         address: Hohenzollernstrasse 1-3, 45128 Essen, Germany.
-  - id: Murad95
-    number: 95
+  - id: Murad93
+    number: 93
     name: S. M. Woahid Murad
     email: s.murad@curtin.edu.au
     phone: +61468583603
@@ -1576,18 +1544,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Murad95_1
+      - id: Murad93_1
         number: 1
         name: Curtin University
         department: School of Accounting, Economics and Finance
         address: NONE
-      - id: Murad95_2
+      - id: Murad93_2
         number: 2
         name:  Noakhali Science and Technology University
         department: Department of Economics
         address: NONE
-  - id: Najam96
-    number: 96
+  - id: Najam94
+    number: 94
     name: Rafiuddin Najam
     email: najamr@oregonstate.edu
     phone: 9717199957
@@ -1597,13 +1565,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Najam96_1
+      - id: Najam94_1
         number: 1
         name: Oregon State University
         department: Public Policy
         address: Corvallis, OR
-  - id: Naumann97
-    number: 97
+  - id: Naumann95
+    number: 95
     name: Elias Naumann
     email: elias.naumann@gesis.org
     phone: +496211246442
@@ -1613,13 +1581,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Naumann97_1
+      - id: Naumann95_1
         number: 1
         name: GESIS Leibniz Institute for the Social Sciences
         department: NONE
         address: B6 4-5, 68159 Mannheim, Germany
-  - id: Nmadu98
-    number: 98
+  - id: Nmadu96
+    number: 96
     name: Job Nda Nmadu
     email: job_nmadu@futminna.edu.ng
     phone: 08035861170
@@ -1629,13 +1597,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Nmadu98_1
+      - id: Nmadu96_1
         number: 1
         name: Federal University of Technology, Minna, Nigeria 
         department: Department of Agricultural Economics and Farm Management 
         address: PMB 65, Minna
-  - id: Ozer99
-    number: 99
+  - id: Ozer97
+    number: 97
     name: Gorkem Turgut Ozer
     email: GT.Ozer@unh.edu
     phone: (603) 862-2709
@@ -1645,13 +1613,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Ozer99_1
+      - id: Ozer97_1
         number: 1
         name: University of New Hampshire
         department: Paul College of Business and Economics
         address: 10 Garrison Ave, Durham, NH 03824
-  - id: Paudel100
-    number: 100
+  - id: Paudel98
+    number: 98
     name: Jayash Paudel
     email: jayash.paudel@ou.edu
     phone: 12089198931
@@ -1661,13 +1629,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Paudel100_1
+      - id: Paudel98_1
         number: 1
         name: University of Oklahoma
         department: Department of Economics
         address: 308 Cate Center Drive Norman, OK 73019
-  - id: Petroulakis101
-    number: 101
+  - id: Petroulakis99
+    number: 99
     name: Filippos Petroulakis
     email: fpetroulakis@bankofgreece.gr
     phone: +306944821586
@@ -1677,13 +1645,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Petroulakis101_1
+      - id: Petroulakis99_1
         number: 1
         name: Bank of Greece
         department: NONE
         address: 21 El. Venizelou Street, 102 50, Athens, Greece
-  - id: Peukert102
-    number: 102
+  - id: Peukert100
+    number: 100
     name: Christian Peukert
     email: christian.peukert@unil.ch
     phone: +41446324671
@@ -1693,13 +1661,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Peukert102_1
+      - id: Peukert100_1
         number: 1
         name: University of Lausanne, Faculty of Business and Economics (HEC)
         department: Department of Strategy, Globalization and Society
         address: Quartier Chamberonne, CH-1015 Lausanne
-  - id: Pitkänen103
-    number: 103
+  - id: Pitkänen101
+    number: 101
     name: Visa Pitkänen
     email: visa.pitkanen@kkv.fi
     phone: +358504098397
@@ -1709,13 +1677,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Pitkänen103_1
+      - id: Pitkänen101_1
         number: 1
         name: Finnish Competition and Consumer Authority
         department: NONE
         address: Lintulahdenkuja 2 A, 00530 Helsinki, Finland
-  - id: Porcher104
-    number: 104
+  - id: Porcher102
+    number: 102
     name: Simon Porcher
     email: simon.porcher@u-paris2.fr
     phone: +33617154415
@@ -1725,13 +1693,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Porcher104_1
+      - id: Porcher102_1
         number: 1
         name: Université Paris Panthéon-Assas
         department: Department of Management 
         address: 1 rue Guy de la Brosse 75005 Paris France
-  - id: Prakash105
-    number: 105
+  - id: Prakash103
+    number: 103
     name: Manab Prakash
     email: manab.prakash@giis.edu.np
     phone: +9779840276721
@@ -1741,13 +1709,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Prakash105_1
+      - id: Prakash103_1
         number: 1
         name: Tribhuvan University
         department: Central Department of Economics
         address: CENTRAL DEPARTMENT OF ECONOMICS, TRIBHUVAN UNIVERSITY GPO Box 3821, Kathmandu, Nepal
-  - id: Pua106
-    number: 106
+  - id: Pua104
+    number: 104
     name: Andrew Adrian Yu Pua
     email: andrewypua@outlook.com
     phone: NONE
@@ -1757,13 +1725,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Pua106_1
+      - id: Pua104_1
         number: 1
         name: Independent
         department: NONE
         address: NONE
-  - id: Pugatch107
-    number: 107
+  - id: Pugatch105
+    number: 105
     name: Todd Pugatch
     email: todd.pugatch@oregonstate.edu
     phone: 5417376628
@@ -1773,13 +1741,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Pugatch107_1
+      - id: Pugatch105_1
         number: 1
         name: Oregon State University
         department: Department of Economics, School of Public Policy
         address: 300 Bexell Hall, Corvallis OR 97331
-  - id: Putman108
-    number: 108
+  - id: Putman106
+    number: 106
     name: Daniel S. Putman
     email: putmands@sas.upenn.edu
     phone: 530-564-9082
@@ -1789,13 +1757,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Putman108_1
+      - id: Putman106_1
         number: 1
         name: University of Pennsylvania
         department: Center for Social Norms and Behavioral Dynamics
         address: 3718 Locust Walk, Philadelphia, PA 19104
-  - id: Rayamajhee109
-    number: 109
+  - id: Rayamajhee107
+    number: 107
     name: Veeshan Rayamajhee
     email: veeshan.rayamajhee@ndsu.edu
     phone: (267)-629-9642
@@ -1805,13 +1773,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Rayamajhee109_1
+      - id: Rayamajhee107_1
         number: 1
         name: North Dakota State University
         department: Department of Agribusiness and Applied Economics
         address: Richard H. Barry Hall (Office:400A), Fargo, ND 58102
-  - id: Rehman110
-    number: 110
+  - id: Rehman108
+    number: 108
     name: Obeid Ur Rehman
     email: obeid@torontomu.ca
     phone: +16478640359
@@ -1821,13 +1789,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Rehman110_1
+      - id: Rehman108_1
         number: 1
         name: Toronto Metropolitan University
         department: Department of Economics
         address: 350 Victoria Street, Toronto, ON, M5B 2K3, Canada
-  - id: Reimão111
-    number: 111
+  - id: Reimão109
+    number: 109
     name: Maira Emy Reimão
     email: maira.reimao@villanova.edu
     phone: 2023683654
@@ -1837,13 +1805,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Reimão111_1
+      - id: Reimão109_1
         number: 1
         name: Villanova University
         department: Department of Economics
         address: 800 E Lancaster Ave, Villanova PA, 19085
-  - id: Reuter112
-    number: 112
+  - id: Reuter110
+    number: 110
     name: Anna Reuter
     email: anna.reuter@uni-heidelberg.de
     phone: NONE
@@ -1853,13 +1821,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Reuter112_1
+      - id: Reuter110_1
         number: 1
         name: Heidelberg University
         department: Heidelberg Institute of Global Health
         address: Im Neuenheimer Feld 130.3, 69120 Heidelberg, Germany
-  - id: Ricks113
-    number: 113
+  - id: Ricks111
+    number: 111
     name: Michael David Ricks
     email: mricks4@unl.edu
     phone: 8015027270
@@ -1869,13 +1837,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Ricks113_1
+      - id: Ricks111_1
         number: 1
         name: University of Nebraska - Lincoln
         department: Department of Economics
         address: 730 N. 14th Street P.O. Box 880405 Lincoln, NE 68588-0405
-  - id: Rios-Avila114
-    number: 114
+  - id: Rios-Avila112
+    number: 112
     name: Fernando Rios-Avila
     email: friosavi@levy.org
     phone: 4049245176
@@ -1885,45 +1853,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Rios-Avila114_1
+      - id: Rios-Avila112_1
         number: 1
         name: Levy Economics Institute
         department: NONE
         address: 30 Campus Rd, Annandale-On-Hudson, NY 12504
-  - id: Rodriguez115
-    number: 115
-    name: Abel Rodriguez
-    email: a01595062@tec.mx
-    phone: +525530261539
-    fax: NONE
-    orcid: 0000-0001-9208-6224
-    degrees: Master's Degree
-    attributes:
-      corresponding: False
-    affiliations:
-      - id: Rodriguez115_1
-        number: 1
-        name: Tecnológico de Monterrey 
-        department: Escuela de Gobierno y Transformación Pública 
-        address: NONE
-  - id: Roeckert116
-    number: 116
-    name: Julian Roeckert
-    email: julian.roeckert@rwi-essen.de
-    phone: +4930202159812
-    fax: NONE
-    orcid: 0009-0003-7373-4232
-    degrees: PhD
-    attributes:
-      corresponding: False
-    affiliations:
-      - id: Roeckert116_1
-        number: 1
-        name: RWI - Leibniz Institute for Economic Research
-        department: Policy Lab - Climate Change, Development and Migration
-        address: Zinnowitzer Str. 1, 10115 Berlin, Germany
-  - id: Ropovik117
-    number: 117
+  - id: Ropovik113
+    number: 113
     name: Ivan Ropovik
     email: ivan.ropovik@gmail.com
     phone: +421907607829
@@ -1933,23 +1869,23 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Ropovik117_1
+      - id: Ropovik113_1
         number: 1
         name: Charles University
         department: Faculty of Education
         address: Institute for Research and Development of Education, Myslikova 7, 110 00, Praha 1
-      - id: Ropovik117_2
+      - id: Ropovik113_2
         number: 2
         name:  University of Presov
         department: Faculty of Education
         address: Institute for Research and Development of Education, Myslikova 7, 110 00, Praha 1
-      - id: Ropovik117_3
+      - id: Ropovik113_3
         number: 3
         name:  Czech Academy of Sciences
         department: Institute of Psychology
         address: Institute for Research and Development of Education, Myslikova 7, 110 00, Praha 1
-  - id: Roy118
-    number: 118
+  - id: Roy114
+    number: 114
     name: Jayjit Roy
     email: royj@appstate.edu
     phone: 8282626242
@@ -1959,13 +1895,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Roy118_1
+      - id: Roy114_1
         number: 1
         name: Appalachian State University
         department: Department of Economics
         address: Department of Economics, 416 Howard Street Room 3101B, Peacock Hall, Boone, NC 28608
-  - id: Salamanca119
-    number: 119
+  - id: Salamanca115
+    number: 115
     name: Nicolas Salamanca
     email: n.salamanca@unimelb.edu.au
     phone: +61 (3) 8344 2863
@@ -1975,13 +1911,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Salamanca119_1
+      - id: Salamanca115_1
         number: 1
         name: The University of Melbourne
         department: Melbourne Institute, Applied Economic & Social Research
         address: Level 5, 111 Barry street, 3053 Calrton, Victoria (Australia)
-  - id: Samahita120
-    number: 120
+  - id: Samahita116
+    number: 116
     name: Margaret Samahita
     email: margaret.samahita@ucd.ie
     phone: +35317164621
@@ -1991,13 +1927,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Samahita120_1
+      - id: Samahita116_1
         number: 1
         name: University College Dublin
         department: School of Economics
         address: University College Dublin, Belfield Dublin 4, Ireland
-  - id: Samudra121
-    number: 121
+  - id: Samudra117
+    number: 117
     name: Aparna Samudra
     email: acsamudra@gmail.com
     phone: +919823460210
@@ -2007,13 +1943,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Samudra121_1
+      - id: Samudra117_1
         number: 1
         name:  RTM Nagpur University 
         department: Department of Economics 
         address: Humanities Building, University Campus, Amravati Road, Nagpur, Maharashtra, India 
-  - id: Sanogo122
-    number: 122
+  - id: Sanogo118
+    number: 118
     name: Vassiki Sanogo
     email: vassikisanogo@gmail.com
     phone: 18503390885
@@ -2023,13 +1959,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Sanogo122_1
+      - id: Sanogo118_1
         number: 1
         name: Otsuka Pharmaceutical Development & Commercialization, Inc.
         department: Contract Worker, Pharmacoevidence
         address: 700 SW 62nd Blvd, Gainesville Florida 32607
-  - id: Sariyev123
-    number: 123
+  - id: Sariyev119
+    number: 119
     name: Orkhan Sariyev
     email: o.sariyev@uni-hohenheim.de
     phone: +4917643231585
@@ -2039,13 +1975,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Sariyev123_1
+      - id: Sariyev119_1
         number: 1
         name: University of Hohenheim
         department: Department of Rural Development Theory and Policy
         address: Wollgrasweg 43, 70599 Stuttgart, Germany
-  - id: Schaak124
-    number: 124
+  - id: Schaak120
+    number: 120
     name: Henning Schaak
     email: henning.schaak@boku.ac.at
     phone: NONE
@@ -2055,13 +1991,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Schaak124_1
+      - id: Schaak120_1
         number: 1
         name: University of Natural Resources and Life Sciences, Vienna
         department: Department of Economics and Social Sciences
         address: Feistmantelstr. 4., 1180 Vienna, Austria
-  - id: Segel125
-    number: 125
+  - id: Segel121
+    number: 121
     name: Joel E. Segel
     email: jes87@psu.edu
     phone: 814-863-8786
@@ -2071,13 +2007,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Segel125_1
+      - id: Segel121_1
         number: 1
         name: Penn State University
         department: Department of Health Policy and Administration
         address: 504 Ford Building, University Park, PA 16802
-  - id: Sievertsen126
-    number: 126
+  - id: Sievertsen122
+    number: 122
     name: Hans Henrik Sievertsen
     email: h.h.sievertsen@bristol.ac.uk
     phone: +4529658475
@@ -2087,18 +2023,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Sievertsen126_1
+      - id: Sievertsen122_1
         number: 1
         name: University of Bristol
         department: School of Economics
         address: Priory Road Complex, Priory Road, Bristol, BS8 1TU, United Kingdom
-      - id: Sievertsen126_2
+      - id: Sievertsen122_2
         number: 2
         name:   VIVE - The Danish Center for Social Science Research
         department: School of Economics
         address: Priory Road Complex, Priory Road, Bristol, BS8 1TU, United Kingdom
-  - id: Smet127
-    number: 127
+  - id: Smet123
+    number: 123
     name: Mike Smet
     email: mike.smet@kuleuven.be
     phone: +32 3 201 18 79
@@ -2108,13 +2044,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Smet127_1
+      - id: Smet123_1
         number: 1
         name: KU Leuven
         department: Department of Work and Organisation Studies
         address: Hendrik Conscienceplein 8; BE-2000 Antwerpen; Belgium
-  - id: Smith128
-    number: 128
+  - id: Smith124
+    number: 124
     name: Brock Smith
     email: brock.smith1@montana.edu
     phone: 406-589-7210
@@ -2124,13 +2060,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Smith128_1
+      - id: Smith124_1
         number: 1
         name: Montana State University
         department: Department of Agricultural Economics and Economics
         address: Montana State University, P.O. Box 172920, Bozeman, MT 59717-2920
-  - id: Sorensen129
-    number: 129
+  - id: Sorensen125
+    number: 125
     name: Lucy C. Sorensen
     email: lsorensen@albany.edu
     phone: 5184425235
@@ -2140,13 +2076,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Sorensen129_1
+      - id: Sorensen125_1
         number: 1
         name: University at Albany, SUNY
         department: Department of Public Administration and Policy
         address: Milne Hall, 135 Western Avenue, Albany, NY 12203
-  - id: Spantig130
-    number: 130
+  - id: Spantig126
+    number: 126
     name: Lisa Spantig
     email: lisa.spantig@rwth-aachen.de
     phone: +49 241 80 99402
@@ -2156,18 +2092,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Spantig130_1
+      - id: Spantig126_1
         number: 1
         name: RWTH Aachen University
         department: School of Business and Economics
         address: Templergraben 64, 52062 Aachen, Germany
-      - id: Spantig130_2
+      - id: Spantig126_2
         number: 2
         name:  University of Essex
         department: School of Business and Economics
         address: Templergraben 64, 52062 Aachen, Germany
-  - id: Szczygielski131
-    number: 131
+  - id: Szczygielski127
+    number: 127
     name: Krzysztof Szczygielski
     email: kszczygielski@wne.uw.edu.pl
     phone: +48501248601
@@ -2177,13 +2113,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Szczygielski131_1
+      - id: Szczygielski127_1
         number: 1
         name: University of Warsaw
         department: Faculty of Economics Sciences
         address: Dluga st. 44/50, 00-241 Warsaw, POLAND
-  - id: Tagat132
-    number: 132
+  - id: Tagat128
+    number: 128
     name: Anirudh Tagat
     email: at@monkprayogshala.in
     phone: +91 9619814988
@@ -2193,13 +2129,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Tagat132_1
+      - id: Tagat128_1
         number: 1
         name: Monk Prayogshala
         department: Department of Economics
         address: 4114, Oberoi Garden Estates C Wing 4th Floor, Off Saki Vihar Rd., Andheri (East), Mumbai, India
-  - id: Tastan133
-    number: 133
+  - id: Tastan129
+    number: 129
     name: Huseyin Tastan
     email: tastan@yildiz.edu.tr
     phone: NONE
@@ -2209,13 +2145,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Tastan133_1
+      - id: Tastan129_1
         number: 1
         name: Yildiz Technical University
         department: Department of Economics
         address: Davutpasa Campus, Istanbul, Turkey
-  - id: Trombetta134
-    number: 134
+  - id: Trombetta130
+    number: 130
     name: Martin Trombetta
     email: martintrombetta@gmail.com
     phone: 5491166068372
@@ -2225,18 +2161,18 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Trombetta134_1
+      - id: Trombetta130_1
         number: 1
         name: Universidad Nacional de General Sarmiento
         department: Área de Economía
         address: Juan María Gutiérrez 1150, Los Polvorines, Buenos Aires, Argentina
-      - id: Trombetta134_2
+      - id: Trombetta130_2
         number: 2
         name:  Consejo Nacional de Investigaciones Científicas y Técnicas
         department: Área de Economía
         address: Juan María Gutiérrez 1150, Los Polvorines, Buenos Aires, Argentina
-  - id: Venkatesan135
-    number: 135
+  - id: Venkatesan131
+    number: 131
     name: Madhavi Venkatesan
     email: m.venkatesan@northeastern.edu
     phone: 917-496-0440
@@ -2246,13 +2182,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Venkatesan135_1
+      - id: Venkatesan131_1
         number: 1
         name: Northeastern University
         department: Department of Economics
         address: 360 Huntington Avenue, Boston, MA 02115
-  - id: Vernet136
-    number: 136
+  - id: Vernet132
+    number: 132
     name: Antoine Vernet
     email: a.vernet@ucl.ac.uk
     phone: 00447733223263
@@ -2262,13 +2198,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Vernet136_1
+      - id: Vernet132_1
         number: 1
         name: University College London
         department: The Bartlett School of Sustainable Construction
         address: Gower Street, London WC1E 6BT
-  - id: Volkov137
-    number: 137
+  - id: Volkov133
+    number: 133
     name: Eden Volkov
     email: eden.volkov@hhs.gov
     phone: 9173916184
@@ -2278,13 +2214,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Volkov137_1
+      - id: Volkov133_1
         number: 1
         name: Department of Health and Human Services
         department: Office of the Assistant Secretary for Policy and Evaluation
         address: 200 Independence Ave SW, Washington, DC 20201
-  - id: Wagner138
-    number: 138
+  - id: Wagner134
+    number: 134
     name: Gary A. Wagner
     email: gary.wagner@louisiana.edu
     phone: 337-482-5381
@@ -2294,13 +2230,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Wagner138_1
+      - id: Wagner134_1
         number: 1
         name: University of Louisiana at Lafayette
         department: Department of Economics & Finance
         address: 104 E. University Ave, Lafayette, LA 70504
-  - id: Wang139
-    number: 139
+  - id: Wang135
+    number: 135
     name: Yue Wang
     email: april.wang@pg.canterbury.ac.nz
     phone: 0278660008
@@ -2310,13 +2246,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Wang139_1
+      - id: Wang135_1
         number: 1
         name: University of Canterbury
         department: Department of Economics and Finance
         address: UC Business School, University of Canterbury, 22 Kirkwood Avenue, Ilam, Christchurch 8140, New Zealand
-  - id: Ward140
-    number: 140
+  - id: Ward136
+    number: 136
     name: Zachary Ward
     email: Zachary_Ward@baylor.edu
     phone: 2542142694
@@ -2326,13 +2262,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Ward140_1
+      - id: Ward136_1
         number: 1
         name: Baylor University
         department: Department of Economics
         address: 1621 S 3rd St, Waco TX, 76706
-  - id: Waters141
-    number: 141
+  - id: Waters137
+    number: 137
     name: Tom Waters
     email: tom_w@ifs.org.uk
     phone: 020 7291 4800
@@ -2342,13 +2278,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Waters141_1
+      - id: Waters137_1
         number: 1
         name: Institute for Fiscal Studies, University College London
         department: NONE
         address: 7 Ridgmount Street, London, WC1E 7AE
-  - id: Weber142
-    number: 142
+  - id: Weber138
+    number: 138
     name: Ellerie Weber
     email: ellerie.weber@mountsinai.org
     phone: NONE
@@ -2358,13 +2294,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Weber142_1
+      - id: Weber138_1
         number: 1
         name: Icahn School of Medicine at Mount Sinai
         department: Department of Population Health Science and Policy
         address: One Gustave L. Levy Place Box 1077 New York, NY 10029
-  - id: Weinberg143
-    number: 143
+  - id: Weinberg139
+    number: 139
     name: Stephen E Weinberg
     email: stephen.weinberg2@health.ny.gov
     phone: 19014855145
@@ -2374,13 +2310,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Weinberg143_1
+      - id: Weinberg139_1
         number: 1
         name: Health Research, Inc
         department: NONE
         address: NONE
-  - id: Weißmüller144
-    number: 144
+  - id: Weißmüller140
+    number: 140
     name: Kristina S. Weißmüller
     email: k.s.weissmueller@vu.nl
     phone: +31205988398
@@ -2390,13 +2326,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Weißmüller144_1
+      - id: Weißmüller140_1
         number: 1
         name: Vrije Universiteit Amsterdam
         department: Department of Political Science and Public Administration
         address: De Boelelaan 1105, 1081 HV Amsterdam
-  - id: Westheide145
-    number: 145
+  - id: Westheide141
+    number: 141
     name: Christian Westheide
     email: christian.westheide@univie.ac.at
     phone: +43-1-4277-37505
@@ -2406,13 +2342,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Westheide145_1
+      - id: Westheide141_1
         number: 1
         name: University of Vienna
         department: Department of Finance
         address: Department of Finance, Faculty of Business, Economics and Statistics, University of Vienna, Oskar-Morgenstern-Platz 1, 1090 Vienna, Austria
-  - id: Williams146
-    number: 146
+  - id: Williams142
+    number: 142
     name: Kevin M. Williams
     email: KevinW@oxy.edu
     phone: 5107103947
@@ -2422,13 +2358,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Williams146_1
+      - id: Williams142_1
         number: 1
         name: Occidental College
         department: Department of Economics
         address: 1600 Campus Road, Los Angeles CA 90041
-  - id: Ye147
-    number: 147
+  - id: Ye143
+    number: 143
     name: Xiaoyang Ye
     email: xiaoyang.ye@brown.edu
     phone: 4257535168
@@ -2438,13 +2374,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Ye147_1
+      - id: Ye143_1
         number: 1
         name: Brown University
         department: Annenberg Institute for School Reform
         address: Box 1985, Providence, RI 02912
-  - id: Yu148
-    number: 148
+  - id: Yu144
+    number: 144
     name: Jisang Yu
     email: jisangyu@ksu.edu
     phone: 5309023610
@@ -2454,13 +2390,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Yu148_1
+      - id: Yu144_1
         number: 1
         name: Kansas State University
         department: Department of Agricultural Economics
         address: 342 Waters Hall 1603 Old Claflin Pl Kansas State University Manhattan, KS 66506
-  - id: Zahid149
-    number: 149
+  - id: Zahid145
+    number: 145
     name: Muhammad Umer Zahid
     email: umerzahid@uconn.edu
     phone: NONE
@@ -2470,13 +2406,13 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Zahid149_1
+      - id: Zahid145_1
         number: 1
         name: University of Connecticut
         department: Agricultural and Resource Economics
         address: NONE
-  - id: Zanoli150
-    number: 150
+  - id: Zanoli146
+    number: 146
     name: Raffaele Zanoli
     email: r.zanoli@univpm.it
     phone: +390712204929
@@ -2486,7 +2422,7 @@ author:
     attributes:
       corresponding: False
     affiliations:
-      - id: Zanoli150_1
+      - id: Zanoli146_1
         number: 1
         name: Università Politecnica delle Marche (Marche Polytechnic University)
         department: Department of Agricultural, Food & Environmental Sciences
@@ -2507,4 +2443,23 @@ include-in-header:
     \usepackage{longtable}
 ---
 
-## 
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of code (only output is displayed).
