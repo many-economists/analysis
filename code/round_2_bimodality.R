@@ -118,4 +118,4 @@ rfield = rfield[, .(N = N, Share = N/sum(N),
 rfield[, Share_Match := percent(Share_Match, .1)]
 rfield[, `Share_Some Mismatch` := percent(`Share_Some Mismatch`,.1)]
 setcolorder(rfield, c('Field', 'Share_Match', 'N_Match', 'Share_Some Mismatch', 'N_Some Mismatch'))
-setnames(rfield, c('Field', 'Num. Match','Share Match','Num Some Mismatch','Share Some Mismatch'))
+setnames(rfield, c('Field', 'Share Match','Num. Match','Share Some Mismatch','Num Some Mismatch'))

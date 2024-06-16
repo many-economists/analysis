@@ -155,7 +155,7 @@ p_more_like_reviewer = ggplot(changediff, aes(x = diff, color = Type,
   theme(axis.text.x = element_text(size = 10)) +
   facet_grid(rows = vars(Round),
              cols = vars(Comparison)) + 
-  labs(caption = str_wrap('Original is this round vs. this round. Next round is next round vs. next round. Next vs. This is your next round vs. partner\'s this round. Values beyond .1 omitted for visibility. No weights applied.', 100),
+  labs(caption = str_wrap('Original is this round vs. this round. Next round is next round vs. next round. Next vs. This is your next round vs. partner\'s this round. Values beyond .1 omitted for visibility. No weights applied.', 110),
 
        x = 'Absolute effect difference',
        y = 'Density')

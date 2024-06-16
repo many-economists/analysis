@@ -41,7 +41,7 @@
 \makeatother
 \usepackage{xcolor}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
@@ -125,7 +125,7 @@
     table-align-text-post=false
   ]}
   
-\usepackage{booktabs} \usepackage{longtable}
+\usepackage{booktabs} \usepackage{longtable} \usepackage{placeins}
 \KOMAoption{captions}{tableheading}
 \makeatletter
 \makeatother
@@ -202,7 +202,22 @@
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[sharp corners, frame hidden, breakable, boxrule=0pt, enhanced, interior hidden, borderline west={3pt}{0pt}{shadecolor}]}{\end{tcolorbox}}\fi
+\begin{abstract}
+We have 146 research teams of economists independently use the same data
+source to answer the same question about the causal effect of a policy.
+Each team performs the task three times, first allowing free choice of
+how to answer the question, second requiring all researchers to use a
+shared research design, and third providing pre-cleaned data. We find
+considerable variation across researchers in reported sample sizes,
+sample definitions, and modeling choices, although actual estimated
+effects show muted variation. Levels of researcher variation were most
+heavily influenced by data preparation and cleaning, with much smaller
+roles for researcher background, modeling and estimation decisions, and
+peer review. This implies that data preparation and cleaning should
+receive considerably more attention in researcher training and the
+evaluation of research.
+\end{abstract}
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, sharp corners, frame hidden, interior hidden, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, enhanced]}{\end{tcolorbox}}\fi
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -210,25 +225,24 @@
 The social and behavioral sciences produce a staggeringly large flow of
 empirical results. A responsible reader of this literature should wonder
 how much they can trust a given study, given the potential for errors,
-fluke results, or intentional attempts to produce a specific result. Any
-responsible producer of this literature, however, is well aware that
-even a researcher doing their best to avoid these problems must make
-hundreds of choices in the process of collecting and cleaning data,
-planning their estimation, and coding their analysis, in other words
-``researcher degrees of freedom'' (Simmons, Nelson, and Simonsohn 2011).
-Even if Researcher A's choices would stand up to scrutiny and argument
-from a reviewer or reader, Researcher B with the same goal, data, and
-skills might have reasonably chosen in a different way that would also
-stand up to scrutiny. If A and B's choices lead to different results,
-but only one of them performs the study, then this is a source of
-largely arbitrary variation in the collection of published results.
-Estimates in one context suggest this variation might outweigh the
-population variation we typically consider when estimating standard
-errors (Holzmeister et al. 2023).
+fluke results, or intentional manipulation. Any responsible producer of
+this literature, however, is well aware that even a researcher doing
+their best to avoid these problems must make hundreds of choices in the
+process of collecting and cleaning data, planning their estimation, and
+coding their analysis, in other words ``researcher degrees of freedom''
+(Simmons, Nelson, and Simonsohn 2011). Even if Researcher A's choices
+would stand up to scrutiny and argument from a reviewer or reader,
+Researcher B with the same goal, data, and skills might have reasonably
+chosen in a different way that would also stand up to scrutiny. If A and
+B's choices lead to different results, but only one of them performs the
+study, then this is a source of largely arbitrary variation in the
+collection of published results. Estimates in one context suggest this
+variation might outweigh the population variation we typically consider
+when estimating standard errors (Holzmeister et al. 2023).
 
 This study looks at the impact of researcher degrees of freedom on
 results, and also attempts to isolate researcher degrees of freedom at
-different stages of the research process to try to isolate where
+different stages of the research process to try to determine where
 researcher choice is most varied, and most strongly influences results.
 We do this using a ``many-analysts'' design where multiple researchers
 attempt the same research task, specifically a task that is common
@@ -243,25 +257,24 @@ researchers can make and so reducing researcher degrees of freedom. This
 allows us to observe the overall amount of variation in estimates
 between researchers, as is common in many-analysts designs, and also to
 separately evaluate the influence of choice in research design and in
-data cleaning, as well as the impact of peer review.
+data cleaning, and the impact of peer review.
 
 We find meaningful differences in the ways that different researchers
-approach the same research task. Some of these differences come from
-decisions that would receive a typical and expected amount of scrutiny
-from a reader, like the research design, and choice of control
-variables. Other differences came from sources where researchers did
-choose differently but a reader might not recognize that a consequential
-decision had been made, like in the functional form of the control
-variables or on a number of data cleaning or sample limitation
-decisions. When researchers were forced to all use the same research
-design, results became more similar, especially among the researchers
-most familiar with the subfield of the research task. Researcher
-agreement increased sharply when pre-cleaned data was provided to
-researchers, implying that data cleaning decisions are a major source of
-variation between researchers. Development of more mature and
-standardized data cleaning procedures, and increased visibility for data
-cleaning, may have a meaningful impact on the consistency and
-believability of results in applied microeconomics.
+approach the same task. Some of these differences come from decisions
+that would receive scrutiny from a reader, like the research design and
+choice of control variables. Other differences came from sources where
+researchers did choose differently but a reader might not recognize that
+a consequential decision had been made, like in the functional form of
+the control variables or on a number of data cleaning or sample
+limitation decisions. When researchers were forced to all use the same
+research design, results became more similar, especially among the
+researchers most familiar with the subfield of the research task.
+Researcher agreement increased sharply when pre-cleaned data was
+provided to researchers, implying that data cleaning decisions are a
+major source of variation between researchers. Development of more
+mature and standardized data cleaning procedures, and increased
+visibility for data cleaning, may have a meaningful impact on the
+consistency and believability of results in applied microeconomics.
 
 \hypertarget{previous-work-on-research-reliability-and-researcher-degrees-of-freedom}{%
 \subsection{Previous Work on Research Reliability and Researcher Degrees
@@ -269,13 +282,14 @@ of
 Freedom}\label{previous-work-on-research-reliability-and-researcher-degrees-of-freedom}}
 
 In economics, suspicion about empirical results is not new (Leamer
-1983). The most recent wave of concern inspired by discussions,
-originating in the field of psychology, of the ``replication crisis'',
-which shows that a high percentage of studies cannot be replicated when
-tested using new data Camerer et al. (2016), that study code and data is
-not available or does not reproduce the published results (Herbert et
-al. 2021), or that ``policing replications'' that test sensitivity of
-published results are rare (Ankel-Peters, Fiala, and Neubauer 2023).
+1983). The most recent wave of concern is inspired by discussions,
+originating in the field of psychology, of the ``replication crisis.''
+Studies on the replication crisis show that a high percentage of studies
+cannot be replicated when tested using new data Camerer et al. (2016),
+that study code and data is not available or does not reproduce the
+published results (Herbert et al. 2021), or that ``policing
+replications'' that test sensitivity of published results are rare
+(Ankel-Peters, Fiala, and Neubauer 2023).
 
 However, this greater body of replication work takes an existing study
 as a baseline and asks whether it is robust to re-evaluation in some
@@ -283,9 +297,9 @@ way. Questions about researcher degrees of freedom are not about whether
 a given study can be challenged, but whether a different researcher
 performing the same study would have done it differently if they had
 been the person to perform it, without taking the original as a
-baseline.\footnote{Notably these two fields intersect, and some failures
-  to replicate in replication studies may be due to researcher degrees
-  of freedom, where both the original study and the replication made
+baseline.\footnote{These two fields intersect, and some failures to
+  replicate in replication studies may be due to researcher degrees of
+  freedom, where both the original study and the replication made
   reasonable choices but found different results (Bryan, Yeager, and
   O'Brien 2019). The difference in framing here is that the replication
   literature views the differing choices as a challenge to the validity
@@ -294,13 +308,13 @@ baseline.\footnote{Notably these two fields intersect, and some failures
   assuming both analyses are defensible.} There is some research on this
 topic in regards to researcher identity or political orientation, as in
 Jelveh, Kogut, and Naidu (2024), or personality characteristics, as in
-Sulik et al. (n.d.). But a common way to empirically study researcher
+Sulik et al. (2023). But a common way to empirically study researcher
 degrees of freedom is using a many-analysts design.
 
 The many-analysts design,\footnote{Many-analysts designs are sometimes
   referred to as ``crowdsourced'' science.} popularized by Silberzahn et
 al. (2018), gives the same data set to multiple teams of researchers and
-have them independently try to answer the same research question.
+has them independently try to answer the same research question.
 
 Many-analysts studies have now been carried out in many fields,
 including microeconomics (Huntington-Klein et al. 2021), finance
@@ -330,8 +344,8 @@ outlier estimates (Auspurg and Brüderl 2023).
 
 The ability to explain variation between researchers, rather than just
 show that variation exists, is limited by the size of these many-analyst
-studies. As will be explored in Section~\ref{sec-target-sample}, this
-study pursued a sample of at least 90 researchers so as to have
+studies. As will be explored in Section Section~\ref{sec-target-sample},
+this study pursued a sample of at least 90 researchers so as to have
 acceptable power to explain differences in variation. Pérignon et al.
 (2022), in looking at the sources of reproducibility variation using
 many teams, used a design with 1,000 tests to replicate in order to
@@ -346,11 +360,11 @@ sample than showing the existence of meaningful variation or showing a
 difference in rates of making a particular research decision.
 Many-analyst studies that aim to explain the sources of variation
 between researchers either do so despite the low-power issue, gather
-larger samples of researchers, or select analyses which produce adequate
+larger samples of researchers, or select analyses that produce adequate
 power despite small samples.
 
-Among studies that do attempt to explain researcher variation, there are
-three common sources of explanation. The first of these is in the
+Among studies that attempt to explain researcher variation, there are
+three common explanations explored. The first of these is in the
 difficulty of the research task, with some studies showing less
 researcher agreement in more complex or difficult-to-analyze scenarios
 (Menkveld et al. 2021; Ortloff et al. 2023). A second source is
@@ -384,16 +398,16 @@ consider ahead of time (which constrains the universe of possible
 decisions but also makes interpretation of the results far more clear),
 and typically consider all combinations of decisions equally, rather
 than favoring combinations an actual researcher would choose. Of these
-studies, the closest to the present study is Klau et al. (2023), a study
-which evaluates the sensitivity of results in an observational
-psychological data set to different data preprocessing and modeling
-choices. They try multiple combinations of reasonably preprocessing and
-modeling choices using simulation to iterate through the universe of
-potential choices, and find significant variation in effects over
-reasonable preprocessing and modeling choices. A similar attempt to
-separate researcher variation into modeling and preprocessing components
-is also done in a many-analysts design in Huntington-Klein et al.
-(2021), although in a limited way.
+studies, the closest to the present study is Klau et al. (2023), which
+evaluates the sensitivity of results in an observational psychological
+data set to different data preprocessing and modeling choices. They try
+multiple combinations of reasonable preprocessing and modeling choices,
+using simulation to iterate through the universe of potential choices,
+and find significant variation in effects over reasonable preprocessing
+and modeling choices. A similar attempt to separate researcher variation
+into modeling and preprocessing components is also done in a
+many-analysts design in Huntington-Klein et al. (2021), although in a
+limited way.
 
 This study's design attempts to evaluate multiple of these sources of
 variation using a staged design, similar to Pérignon et al. (2022). The
@@ -419,20 +433,19 @@ opportunity to revise work.
 
 Task 1 gives each researcher a large amount of freedom in terms of how
 they plan to complete the research task. Each successive task removes a
-degree of freedom from the researcher and specifies a specific way that
-the analysis is to be performed. The intuition behind this design is
-that if the removal of a specific kind of researcher freedom
-meaningfully reduces the variation in results between researchees, then
-that degree of freedom is a meaningful contributor to researcher
-variation.
+degree of freedom from the researcher and further specifies how the
+analysis is to be performed. The intuition behind this design is that if
+the removal of a specific kind of researcher freedom meaningfully
+reduces the variation in results between researchees, then that degree
+of freedom is a meaningful contributor to researcher variation.
 
 The following goals and instructions are shared across all tasks:
 
 \begin{itemize}
 \item
   Estimate the causal effect of a policy on a specified outcome, among
-  the group affected by that policy (see Section~\ref{sec-focaltask}
-  below for more details).
+  the group affected by that policy (see Section
+  Section~\ref{sec-focaltask} below for more details).
 \item
   Use American Community Survey (ACS) data to estimate the effect, using
   data no older than 2006 and no newer than 2016.
@@ -456,7 +469,7 @@ researchers, or asking the project organizers how they would like the
 analysis to be performed.
 
 These instructions comprise the entirety of the limitations on
-researchers in Task 2. Tasks 2 and 3 specified the task further and
+researchers in Task 1. Tasks 2 and 3 specified the task further and
 removed researcher degrees of freedom.
 
 \begin{itemize}
@@ -465,19 +478,20 @@ removed researcher degrees of freedom.
   allowing any research design to identify the causal effect of
   interest, Task 2 gave specific definitions for which individuals
   comprised a ``treated'' group and which comprised an ``untreated''
-  group.\footnote{Although eligibility criteria for the policy were
-    explicitly given in Task 1, Task 2 further limits the treated group
-    by narrowing the acceptable age range. The limitation was more
-    impactful for defining the untreated comparison group, though. Many
-    researchers did use a treated/untreated group approach in Task 1
-    before it was specified in Task 2, but different individuals defined
-    the untreated group in highly diverse ways, as will be shown in the
-    Results section.} Then, it instructed researchers to estimate the
-  effect by comparing how outcomes for the ``treated'' group changed
-  from before policy implementation to afterwards against how outcome
-  for the ``untreated'' group changed. This can be thought of as a
-  difference-in-differences style design, although the phrase
-  ``difference-in-differences'' was not used in the instructions.
+  comparison group.\footnote{Although eligibility criteria for the
+    policy were explicitly given in Task 1, Task 2 further limits the
+    treated group by narrowing the acceptable age range. The limitation
+    was more impactful for defining the untreated comparison group,
+    though. Many researchers did use a treated/untreated group approach
+    in Task 1 before it was specified in Task 2, but different
+    researchers defined the untreated group in highly diverse ways, as
+    will be shown in the Results section.} Then, it instructed
+  researchers to estimate the effect by comparing how outcomes for the
+  ``treated'' group changed from before policy implementation to
+  afterwards against how outcome for the ``untreated'' group changed.
+  This can be thought of as a difference-in-differences style design,
+  although the phrase ``difference-in-differences'' was not used in the
+  instructions.
 \item
   Task 3 uses the same research design limitations of Task 2, but also
   provides a pre-cleaned data set, prepared by the organizers. The data
@@ -493,7 +507,7 @@ removed researcher degrees of freedom.
 Comparison of the researcher output between Task 1 and Task 2 is
 intended to show the researcher variation introduced by either an
 imprecise statement of the research question, as in Auspurg and Brüderl
-(2023), or due to differences in research design choices.
+(2021), or due to differences in research design choices.
 
 Comparison of the researcher output between Task 2 and Task 3 is
 intended to show the researcher variation introduced by decisions made
@@ -504,9 +518,11 @@ Task 3, as well as the same definition for the outcome
 variable.\footnote{The Task 2 instructions do leave some leeway for
   definition of some variables, in particular control variables like
   education or race, which have a specific recoded version available in
-  Task 3 that are not specified in the Task 2 instructions.} Differences
-in the data set and in the results between Task 2 and Task 3 should be a
-result of differences in the data cleaning and preparation process.
+  Task 3 that are not specified in the Task 2 instructions. However, the
+  definitions of the treated and untreated comparison groups should be
+  the same between Task 2 and Task 3.} Differences in the data set and
+in the results between Task 2 and Task 3 should be a result of
+differences in the data cleaning and preparation process.
 
 Following each of the research tasks, researchers engage in a round of
 peer review. 2/3 of researchers are randomly assigned to peer review,
@@ -521,7 +537,7 @@ work was of high quality.''
 Following peer review, all researchers have an opportunity to revise
 their work in light of the peer review (or for any other reason).
 Importantly, revision is not mandatory, nor is satisfying one's peer
-reviewer, and the majority researchers did not choose to submit
+reviewer, and the majority of researchers did not choose to submit
 revisions.
 
 Notably, this form of peer review does not exactly match what is
@@ -536,104 +552,6 @@ small subset of the researchers, and the paired nature of the reviews
 means we cannot separate the effect of being reviewed from the effect of
 reviewing someone else.
 
-Task 1 gives each researcher a large amount of freedom in terms of how
-they plan to complete the research task. Each successive task removes a
-degree of freedom from the researcher and specifies a specific way that
-the analysis is to be performed. The intuition behind this design is
-that if the removal of a specific kind of researcher freedom
-meaningfully reduces the variation in results between researchees, then
-that degree of freedom is a meaningful contributor to researcher
-variation.
-
-The following goals and instructions are shared across all tasks:
-
-\begin{itemize}
-\item
-  Estimate the causal effect of a policy on a specified outcome, among
-  the group affected by that policy (see Section~\ref{sec-focaltask}
-  below for more details).
-\item
-  Use American Community Survey (ACS) data to estimate the effect, using
-  data no older than 2006 and no newer than 2016.
-\item
-  Procure ACS data from IPUMS (Ruggles et al. 2024), selecting only
-  one-year files and using harmonized variables.
-\item
-  Optionally, combine the ACS data with a data set on the presence or
-  absence of other relevant policies, provided by the organizers.
-\item
-  Use a statistics package or language that allows results to be
-  immediately replicated.
-\end{itemize}
-
-Researchers were also given background information on the policy itself
-and its eligibility criteria, guidance on how to use the IPUMS website,
-instructed to use assistants for any work they would normally use
-assistants for, and to complete their analysis as though it had been
-their own idea, rather than attempting to match or not-match other
-researchers, or asking the project organizers how they would like the
-analysis to be performed.
-
-These instructions comprise the entirety of the limitations on
-researchers in Task 2. Tasks 2 and 3 specified the task further and
-removed researcher degrees of freedom.
-
-\begin{itemize}
-\item
-  Task 2 specified the research design more precisely. Instead of
-  allowing any research design to identify the causal effect of
-  interest, Task 2 gave specific definitions for which individuals
-  comprised a ``treated'' group and which comprised an ``untreated''
-  group. Then, it instructed researchers to estimate the effect by
-  comparing how outcomes for the ``treated'' group changed from before
-  policy implementation to afterwards against how outcome for the
-  ``untreated'' group changed. This can be thought of as a
-  difference-in-differences style design, although the phrase
-  ``difference-in-differences'' was not used in the instructions.
-\item
-  Task 3 uses the same research design limitations of Task 2, but also
-  provides a pre-cleaned data set, prepared by the organizers. The data
-  set offered a pre-prepared treated/untreated-group indicator as
-  specified in Task 2, limited the data set only to the treated and
-  untreated group, prepared and cleaned all variables in the data set
-  that did not already come pre-cleaned, handled missing-data flags,
-  merged in state policy data, and offered standardized simplified
-  recodings of demographic variables. Researchers were instructed to not
-  further clean the data or limit the sample.
-\end{itemize}
-
-Comparison of the researcher output between Task 1 and Task 2 is
-intended to show the researcher variation introduced by either an
-imprecise statement of the research question, as in Auspurg and Brüderl
-(2023), or due to differences in research design choices.
-
-Comparison of the researcher output between Task 2 and Task 3 is
-intended to show the researcher variation introduced by decisions made
-in the data cleaning and variable definition process. A researcher
-following the Task 2 instructions should arrive at the same sample size,
-number of treated individuals, and number of untreated individuals as in
-Task 3, as well as the same definition for the outcome variable.
-Differences in the data set and in the results between Task 2 and Task 3
-should be a result of differences in the data cleaning and preparation
-process.
-
-Following each of the research tasks, researchers engage in a round of
-peer review. 2/3 of researchers are randomly assigned to peer review,
-and 1/3 do not engage in peer review. Those in peer review are randomly
-assigned in pairs. Those pairs performed a blind review of each others'
-work, and provided a written assessment of that work. Reviewers were
-instructed to produce a review ``as though (they) were the reviewer of a
-journal article,'' and to judge the work as though they were reviewing
-for a journal where a study of this kind ``could be published if the
-work was of high quality.''
-
-Following peer review, all researchers have an opportunity to revise
-their work in light of the peer review (or for any other reason).
-Importantly, revision is not mandatory, nor is satisfying one's peer
-reviewer, and the majority researchers did not choose to submit
-revisions. The non-mandatory nature of revision will impact the
-interpretation of peer review results.
-
 Following each research task and revision, researchers filled out a
 survey about their work.\footnote{Note that the design of this study,
   and this survey, predates Sarafoglou et al. (2024) and so does not
@@ -645,15 +563,15 @@ Researchers were also asked to justify why they had made these choices.
 
 This research design and analysis plan has been preregistered (Portner
 and Huntington-Klein 2022). Analyses that were not preregistered will be
-noted in the results section as they are performed. XXX DO THIS Full
-instructions for each task, as well as post-task survey text and the
-peer-reviewing instructions, are available in the online appendix.
+noted in the results section as they are performed. Full instructions
+for each task, as well as post-task survey text and the peer-reviewing
+instructions, are available in the online appendix.
 
 \hypertarget{data}{%
 \section{Data}\label{data}}
 
 \hypertarget{sec-focaltask}{%
-\subsubsection{The Focal Research Task}\label{sec-focaltask}}
+\subsection{The Focal Research Task}\label{sec-focaltask}}
 
 In all research tasks, the specific goal given to researchers
 was:\footnote{Full instructions are available in the online appendix.}
@@ -672,17 +590,17 @@ employment in the years 2013-2016.
 In simple terms, this asks researchers to estimate the impact of the
 DACA program on the probability that those eligible for the program
 usually work 35 hours per week or more in the years
-2013-2016.\footnote{Notably, there are several existing papers that use
-  the same ACS data set to identify the effect of DACA on various
-  outcomes. The design used in Tasks 2 and 3 was most directly inspired
-  by Amuedo-Dorantes and Antman (2016), although the designs do not
-  match exactly, and the outcomes of interest are not the same.
-  Researchers are informed that such previous studies exist and that
-  they can optionally look into previous studies for background as they
-  would normally do when performing research, although no specific
-  previous study is listed. The instructions emphasize that any previous
-  study should not be understood to be a ``right answer'' that
-  researchers should be trying to match.}
+2013-2016.\footnote{There are several existing papers that use the same
+  ACS data set to identify the effect of DACA on various outcomes. The
+  design used in Tasks 2 and 3 was most directly inspired by
+  Amuedo-Dorantes and Antman (2016), although the designs do not match
+  exactly, and the outcomes of interest are not the same. Researchers
+  are informed that such previous studies exist and that they can
+  optionally look into previous studies for background as they would
+  normally do when performing research, although no specific previous
+  study is listed. The instructions emphasize that any previous study
+  does not constitute a ``right answer'' that researchers should be
+  trying to match.}
 
 Researchers, many of whom are not from the United States and so may not
 be familiar with DACA, are given further background information about
@@ -714,8 +632,6 @@ not to all undocumented immigrants. Eligible people must:
 \begin{itemize}
 \item
   Have arrived in the United States before their 16th birthday.
-\item
-  Describe the research task
 \item
   Not have had their 31st birthday as of June 15, 2012.
 \item
@@ -768,7 +684,7 @@ some details on usage of the data:
 \item
   Researchers were not told which specific variables to use to determine
   eligibility status, but they were given guidance onto how to find
-  relevant vairables (like looking at the Person \(\rightarrow\) Race,
+  relevant variables (like looking at the Person \(\rightarrow\) Race,
   Ethnicity, and Nativity page to find variables relevant to ethnicity,
   birthplace, citizenship, and year of immigration).
 \item
@@ -844,15 +760,15 @@ extensive data cleaning.\footnote{There were three observations in the
   thus drops these individuals.}
 
 \hypertarget{recruitment-and-attrition}{%
-\subsubsection{Recruitment and
-Attrition}\label{recruitment-and-attrition}}
+\subsection{Recruitment and Attrition}\label{recruitment-and-attrition}}
 
 In a many-analysts study, researchers who carry out the research task
 make up both the bulk of the author list and are the subject of inquiry,
 so their recruitment is a key feature of the study.
 
 \hypertarget{researcher-qualifications}{%
-\paragraph{Researcher Qualifications}\label{researcher-qualifications}}
+\subsubsection{Researcher
+Qualifications}\label{researcher-qualifications}}
 
 The goal of the project organizers was to make the set of researchers
 representative of the set of people who are producing the applied
@@ -881,9 +797,7 @@ Participation was not limited on the basis of country, career stage, or
 demographics such as sex, race, or sexual or gender identity.
 
 \hypertarget{sec-target-sample}{%
-\paragraph{Target Sample Size}\label{sec-target-sample}}
-
-\label{sec-target-sample}
+\subsubsection{Target Sample Size}\label{sec-target-sample}}
 
 An initial simulation-based power analysis assumed that each research
 task would have 5\% less between-researcher variation in observed
@@ -903,7 +817,7 @@ potentially being optimistic. Project organizers obtained funding to
 support payments to 200 researchers (see below).
 
 \hypertarget{recruitment-and-incentives}{%
-\paragraph{Recruitment and
+\subsubsection{Recruitment and
 Incentives}\label{recruitment-and-incentives}}
 
 Recruitment was advertised to potential researchers through three
@@ -912,27 +826,36 @@ professional organizations including the Institute for Replication and
 the Committee on the Status of Women in the Economics Profession, and
 (3) emails to United States economics department chairs. For emails to
 departments heads, we gathered the list of all 286 economics departments
-listed in the U.S. News and World Report. We could locate emails for a
-front desk or (preferably) department chair for 264 of those
-departments. We emailed those 264 departments, asking for the message to
-be passed on to all faculty or just all microeconomics faculty.
+listed in the U.S. News and World Report. We could locate email
+addresses for a front desk or (preferably) department chair for 264 of
+those departments. We emailed those 264 departments, asking for the
+message to be passed on to all faculty or just all microeconomics
+faculty.
 
 The recruitment message described the project and its goals, and
 provided a link to a website that included further detail on project
 expectations and incentives for participation.\footnote{\url{https://nickch-k.github.io/ManyEconomists/}}
-Researchers were told that if they completed all stages of the project,
-they would be offered authorship on the eventual paper and a \$2,000
-payment for up to 200 of the participants. The website included a link
-to a survey that asked questions related to eligibility for the project.
+Researchers were told that if they completed all three tasks of the
+project, they would be offered a \$2,000 payment for up to 200 of the
+participants, and authorship on the eventual paper. The website included
+a link to a survey that asked questions related to eligibility for the
+project.
 
 \hypertarget{participation-and-attrition}{%
-\paragraph{Participation and
+\subsubsection{Participation and
 Attrition}\label{participation-and-attrition}}
 
 Overall participation and attrition values are in Table
 \ref{tbl-attrition}. 362 people submitted applications for the project.
-18.51\% of these were found to be ineligible for the project. Most of
-these were graduate students who did not yet have a forthcoming paper.
+18.51\% of these were found to be ineligible for the project. Most
+ineligible people were graduate students who did not yet have a
+forthcoming paper.\footnote{Data processing and analysis as well as
+  table and figure creation for this paper were performed using the R
+  packages \textbf{data.table}, \textbf{tidyverse}, \textbf{rio},
+  \textbf{fixest}, \textbf{car}, \textbf{modelsummary}, and
+  \textbf{vtable} (Barrett et al. 2024; Wickham et al. 2019; Becker et
+  al. 2023; Bergé 2018; Fox and Weisberg 2019; Arel-Bundock 2022;
+  Huntington-Klein 2021).}
 
 \begin{longtable}[]{@{}lrl@{}}
 \caption{Participation and
@@ -956,21 +879,19 @@ The third replication task & 146 & \\
 
 This left 295 eligible participants. This is more than the 200 for which
 budget was available to pay the offered \$2,000 incentive. The 282 of
-these participants who had signed up by the original cutoff date were
-put into a random order, and then the 13 late signups were put at the
-end of this order. Participants were given their place in the order, and
-informed that, among people completing all stages of the project, the
-first 200 in the order would be paid.
+these participants who had signed up by the original signup due date
+were put into a random order, and then the 13 late signups were put at
+the end of this order. Participants were given their place in the order,
+and informed that, among people completing all stages of the project,
+the first 200 in the order would be paid.
 
 Initial assumptions from the power analysis that attrition rates would
 be near 50\% were almost exactly correct, with 49.49\% of these initial
 295 eligible researchers completing all three stages. Nearly all of the
-attrition occurred by the completion of Task 1. After
-\texttt{r\textasciigrave{}\textasciigrave{}justcount{[}2,Participants{]}-\textasciigrave{}\textasciigrave{}justcount{[}3,Participants{]}}
-eligible researchers failed to complete Task 1, only a further
-\texttt{r\ justcount{[}3,Participants{]}-\textasciigrave{}\textasciigrave{}justcount{[}5,Participants{]}}
-failed to complete Task 3. This means we have 146 researchers who
-completed all three research tasks, well above the goal of 90.
+attrition occurred by the completion of Task 1. After 141 eligible
+researchers failed to complete Task 1, only a further 8 failed to
+complete Task 3. This means we have 146 researchers who completed all
+three research tasks, well above the goal of 90.
 
 The high recruitment numbers and the fact that nearly all attrition
 occurs before Task 1 is complete allows us to evaluate the impact of the
@@ -994,21 +915,22 @@ Task 1 Completion}
 
 \end{figure}
 
-Figure Figure~\ref{fig-rdd} shows no meaningful effect of being
-guaranteed payment on the probability of completing Task 1. In
-additional results in the appendix, using a linear regression
-specification of the regression discontinuity design and the full range
-of the data (not including the late sign-ups) to maximize statistical
-power,\footnote{Use of the full range, rather than a bandwidth, is
-  justified given that the running variable is randomly assigned aside
-  from the late sign-ups. We also find no effect if we drop the late
-  sign-ups from the regression discontinuity analysis.} we again find no
-statistically significant effect of being guaranteed treatment. This is
-suggestive that participants were not simply signing up in an attempt to
-get a \$2,000 payment for little effort.
+Figure~\ref{fig-rdd} shows no meaningful effect of being guaranteed
+payment on the probability of completing Task 1. In additional results
+in the appendix, using a linear regression specification of the
+regression discontinuity design and the full range of the data (not
+including the late sign-ups) to maximize statistical power,\footnote{Use
+  of the full range, rather than a bandwidth, is justified given that
+  the running variable is randomly assigned aside from the late
+  sign-ups. We also find no effect if we drop the late sign-ups from the
+  regression discontinuity analysis.} we again find no statistically
+significant effect of being guaranteed treatment. This is suggestive
+that participants were not simply signing up in an attempt to get a
+\$2,000 payment for little effort.
 
-\hypertarget{sample-characteristics}{%
-\paragraph{Sample Characteristics}\label{sample-characteristics}}
+\hypertarget{sec-sample-characteristics}{%
+\subsubsection{Sample
+Characteristics}\label{sec-sample-characteristics}}
 
 Tables \ref{tab-samp1} to \ref{tab-samp3} show the characteristics of
 the recruited sample, and how those characteristics changed with
@@ -1051,18 +973,18 @@ Certainty to Finish Task 3 & 355 & 89 & 12 & 292 & 89 & 12 & 153 & 91 & 9.9 & 14
 
 Table \ref{tab-samp1} shows the professional experience of enrollees.
 While graduate students were considered eligible for the project as long
-as they had a published or forthcoming paper, the great majority of
-eligible researchers (83\%) had PhDs. PhD holders were also more likely
-than other eligible researchers to complete all three tasks.
+as they had a published or forthcoming paper, the majority of eligible
+researchers (83\%) had PhDs. PhD holders were also more likely than
+other eligible researchers to complete all three tasks.
 
 These PhDs are split across faculty (62\%) and other non-faculty
 researchers (22\%), both of which were more likely than graduate
 students to finish all three rounds. Note that the researchers in these
 categories who do not hold PhDs were either people who had been hired to
-faculty roles without holding PhDs (such as ABDs, or people in countries
-where a faculty position requires only a Master's degree), or people
-with Master's degrees in non-faculty research positions who had
-published academic papers (some of whom were still graduate students).
+faculty roles without holding PhDs (such as ABDs, or people in a faculty
+position requiring only a Master's degree), or people with Master's
+degrees in non-faculty research positions who had published academic
+papers (some of whom were still graduate students).
 
 Most of the researchers had at least one published paper, and
 researchers with 6+ papers were more likely than others to complete all
@@ -1115,9 +1037,15 @@ Field & 333 &  & 270 &  & 145 &  & 138 &  \\
 }
 \end{table}
 
+While the research tools used are not listed in Table \ref{tab-samp2},
+we did check the programming languages used by researchers. The most
+common language was Stata, with 109 researchers performing their work
+solely in Stata. 33 used R, and one researcher used both R and Stata.
+Less common were Python and SPSS, with one researcher each.
+
 Table \ref{tab-samp3} shows the demographics of the researcher sample.
 The eligible sample was just under 80\% male and more than 55\% white,
-and both percentages grew by the conclusion of task 3, with the white
+and both percentages grew by the conclusion of Task 3, with the white
 share growing significantly to 66\%. The 80\% male figure is similar to
 the share male found for faculty at a selected set of top economics
 departments in 2017 by Lundberg and Stearns (2019), and among all
@@ -1171,15 +1099,15 @@ follow in the rest of the paper, as due to a misunderstanding of the
 instructions, their work did not attempt to estimate the effect of DACA
 on the probability of employment.
 
-As a whole, the goal of constructing a sample that largely reflects the
-group of people who publish work in applied microeconomics. The sample
-is skewed towards the United States, which is partially driven by the
-emails sent to US economics departments, the fact that the project was
-advertised and carried out in English, and the fact that the project
-organizers are in the United States and advertised the project using
-their own social media. Given that caveat, the makeup of the sample
-appears to be fairly similar to the makeup of the profession itself,
-although this is difficult to verify for some demographics.
+As a whole, the sample largely reflects the group of people who publish
+work in applied microeconomics. The sample is skewed towards the United
+States, which is partially driven by the emails sent to US economics
+departments, the fact that the project was advertised and carried out in
+English, and the fact that the project organizers are in the United
+States and advertised the project using their own social media. Given
+that caveat, the makeup of the sample appears to be fairly similar to
+the makeup of the profession itself, although this is difficult to
+verify for some demographics.
 
 \hypertarget{results}{%
 \section{Results}\label{results}}
@@ -1205,10 +1133,10 @@ investigation.
 \hypertarget{sec-variation}{%
 \subsection{Variation in Effects and Sample Sizes}\label{sec-variation}}
 
-Figure Figure~\ref{fig-effect-distributions} and Table
-\ref{tab-effectdist} show the distribution of estimated effects across
-all researchers. The effect distributions are shown in two ways:
-unweighted and using inverse-standard-error weights.\footnote{The use of
+Figure~\ref{fig-effect-distributions} and Table \ref{tab-effectdist}
+show the distribution of estimated effects across all researchers. The
+effect distributions are shown in two ways: unweighted and using
+inverse-standard-error weights.\footnote{The use of
   inverse-standard-error weights is not preregistered but follows
   meta-analytic standards, reducing the influence of estimates that may
   be outliers due to being estimated with a highly-noisy method, under
@@ -1225,15 +1153,24 @@ In Task 1, the mean estimated effect of DACA eligibility on the
 probability of working full-time was .053 unweighted or .044 weighted.
 In both cases these means are pulled upwards by high top-end estimates
 and are above the 75th percentiles. Median estimates were .030
-unweighted or .026 weighted. Even in Task 1 with a large amount of
+unweighted or .026 weighted. Even in Task 1, with a large amount of
 freedom afforded, researchers found a reasonable amount of agreement in
 the effect sizes outside of the tails, with the 25th to 75th percentile
-ranges of effect being .014 to .051 unweighted, an inter-quartile range
-(IQR) of .037, or 3.7 percentage points in the effect, or .012 to .043
-weighted, an IQR of .031. The use of weights narrows the distribution of
-effects: researchers reporting smaller standard errors also reported
-estimates that were more similar to each other, which was also the case
-in Tasks 2 and 3.
+ranges of the effect being .014 to .051 unweighted, an inter-quartile
+range (IQR) of .037, or 3.7 percentage points in the effect, or .012 to
+.043 weighted, an IQR of .031. The use of weights narrows the
+distribution of effects: researchers reporting smaller standard errors
+also reported estimates that were more similar to each other, which was
+also the case in Tasks 2 and 3.
+
+Our preregistration plan details that we planned to give descriptive
+characteristics of the results, as we do here, and also implement a
+Levene test on whether the variance between researchers declined. We do
+not reject at the 95\% level the null of no change in variance from any
+stage to any later stage (including a comparison of each task to its
+revision stage, and comparing each main task to later main tasks), with
+the lowest p-value of XXX coming from the comparison of Task 1 to Task
+3. XXX
 
 Task 2 is somewhat odd in that it shows less agreement than Task 1
 despite giving researchers less freedom. The IQRs increase to .043
@@ -1258,7 +1195,7 @@ mean that providing pre-cleaned data, as in Task 3, led to a strong
 increase in researcher agreement. Specifying further the research
 question and design, however, as in Task 2, led to somewhat less
 agreement. The odd result for Task 2 and its proper interpretation will
-be investigated further in Section~\ref{sec-bimodal}.
+be investigated further in Section Section~\ref{sec-bimodal}.
 
 \begin{figure}
 
@@ -1275,14 +1212,14 @@ Table \ref{tab-effectdist} also shows the reported standard errors.
 Reported standard errors increase significantly from round to round,
 driven largely by the specification of the research design, which for
 many researchers considerably narrowed the sample they were supposed to
-use. This can also be seen in Figure
-Figure~\ref{fig-full-effect-distribution}, where the distribution of
-effects narrows across rounds, but confidence intervals increase
-considerably. Throughout, while there is general agreement on effect
-size in the middle of the distribution, researchers vary in whether the
-reported effect is statistically significant, with 78\%, 60\%, and 64\%
-reporting results that were statistically significantly different from 0
-in Tasks 1, 2, and 3, respectively.
+use. This can also be seen in Figure~\ref{fig-full-effect-distribution},
+where the distribution of effects narrows a little across rounds, but
+confidence intervals increase considerably. Throughout, while there is
+general agreement on effect size in the middle of the distribution,
+researchers vary in whether the reported effect is statistically
+significant, with 78\%, 60\%, and 64\% reporting results that were
+statistically significantly different from 0 in Tasks 1, 2, and 3,
+respectively.
 
 We can compare average standard errors against the variation in effects
 between researchers to get a sense of how much effect variability is
@@ -1348,14 +1285,14 @@ Reported Estimates}
 
 Table \ref{tab-effectdist} also shows summary statistics for reported
 standard errors, both overall and for the treated group. These
-distributions are also shown in Figures
+distributions are also shown in
 Figure~\ref{fig-sample-size-distributions} and
 Figure~\ref{fig-treated-group-distributions}.
 
 In Figure~\ref{fig-sample-size-distributions} we see a huge amount of
 variation in the reported sample size used in Task 1, noting that the
 x-axis is on a log scale. The 25th and 75th percentiles of reported
-sample sizes ranging from 61,600 to 356,787, and some researchers using
+sample sizes ranging from 61,600 to 356,787, with some researchers using
 millions of observations.\footnote{Keep in mind that for Task 1, there
   was not a specified control group, so a researcher may decide to use
   the entire ACS sample in the analysis, including people very unlike
@@ -1372,7 +1309,7 @@ observations. Task 3 is not shown in the graph because the sample is
 pre-specified, with the only meaningful variation being whether or not
 the researcher dropped three rows of data with missing education values,
 and a few outliers reporting lower numbers. The lower sample sizes for
-this question is due to researchers who skipped it because they assumed
+this question are due to researchers who skipped it because they assumed
 the answer was obvious.
 
 \begin{figure}
@@ -1386,7 +1323,7 @@ Sample Sizes}
 
 \end{figure}
 
-Variation in the reported size of the treated group in Figure
+Variation in the reported size of the treated group in
 Figure~\ref{fig-treated-group-distributions} is affected somewhat by
 researcher confusion in responding to the survey question. The survey
 question about treated-group size instructed researchers not to count
@@ -1413,7 +1350,7 @@ for the trated group reduced the IQR for the size of the group from
 was a shared definition of the treated group in Task 2, there should be
 no more variation in this variable in Task 2 than in Task 3. This
 indicates that not all instructions were implemented in the same way
-across researchers, which will be explored further in
+across researchers, which will be explored further in Section
 Section~\ref{sec-sample-limitations}. Despite a shared understanding of
 who was eligible for DACA and who should be in the treated group, only a
 shared data preparation that implemented these rules for people led to
@@ -1427,8 +1364,8 @@ performed by a researcher. The structure of peer review in this study is
 that, following each main task, 2/3 of the researchers are randomized
 into pairs that produce a peer review report of the other's work, while
 the remaining 1/3 do not receive or perform peer review. Then,
-researchers have an opportunity to revise their work. Notably, revision
-is optional, and relatively few researchers (about 30 per task) chose to
+researchers have an opportunity to revise their work. Revision is
+optional, and relatively few researchers (about 30 per task) chose to
 revise their work after receiving peer review. As such, we mostly look
 at the impact of peer review on the work performed in subsequent main
 tasks.
@@ -1440,13 +1377,13 @@ them into their work, and that researchers are required by the journal
 submission process to incorporate most reviewer comments. In this study,
 our peer review process can only capture the first of these mechanisms.
 
-Figure Figure~\ref{fig-peer-review-effect-distributions} shows the
-distribution of effect sizes estimated by those who did, and did not,
-engage in peer review in each round. The left column of graphs show the
-effects reported in each task before researchers were assigned to peer
-review, and the right column shows the effects reported in the follow-up
-task, comparing those either assigned or not assigned to peer review in
-the previous task. As we might expect given random assignment, effect
+Figure~\ref{fig-peer-review-effect-distributions} shows the distribution
+of effect sizes estimated by those who did, and did not, engage in peer
+review in each round. The left column of graphs shows the effects
+reported in each task before researchers were assigned to peer review,
+and the right column shows the effects reported in the follow-up task,
+comparing those either assigned or not assigned to peer review in the
+previous task. As we might expect given random assignment, effect
 distributions are fairly similar pre-review between the review and
 non-review groups, with a slightly narrower distribution of effects for
 researchers about to be reviewed.
@@ -1468,34 +1405,33 @@ Reported Effect Sizes}
 
 \end{figure}
 
-Figure Figure~\ref{fig-like-your-reviewer} explores the possibility that
-peer review might not make the peer-reviewed group as a whole more
-similar, but rather just make someone more similar to their specific
-reviewer. We calculate the absolute difference in effects between each
-reviewer pair, in the task they perform before reviewing (left column),
-in the follow-up task (middle column) and comparing your follow-up task
-against your reviewer's result this round (right column), with the right
-column representing the possibility that a researcher may select an
-analysis so as to produce a result more similar to the one they saw in
-the previous round. The distributions of absolute differences for
-non-reviewed researchers are generated as a null distribution by
-matching every non-reviewed researcher to every other non-reviewed
-researcher and calculating all absolute differences.\footnote{This null
-  distribution represents the distribution of absolute differences among
-  people who did not actually experience peer review. Notably, each
-  non-reviewer is matched multiple times in this approach, instead of
-  just once for reviewers. However, matching the non-reviewers only once
-  to a single random pair just produces a noisier version of this
-  all-matches null distribution. Averaging the single-random-match
-  approach over many random single matches produces the same null
-  distribution.}
+Figure~\ref{fig-like-your-reviewer} explores the possibility that peer
+review might not make the peer-reviewed group as a whole more similar,
+but rather just make someone more similar to their specific reviewer. We
+calculate the absolute difference in effects between each reviewer pair,
+in the task they perform before reviewing (left column), in the
+follow-up task (middle column) and comparing your follow-up task against
+your reviewer's result this round (right column), with the right column
+representing the possibility that a researcher may select an analysis so
+as to produce a result more similar to the one they saw in the previous
+round. The distributions of absolute differences for non-reviewed
+researchers are generated as a null distribution by matching every
+non-reviewed researcher to every other non-reviewed researcher and
+calculating all absolute differences.\footnote{This null distribution
+  represents the distribution of absolute differences among people who
+  did not actually experience peer review. Notably, each non-reviewer is
+  matched multiple times in this approach, instead of just once for
+  reviewers. However, matching the non-reviewers only once to a single
+  random pair just produces a noisier version of this all-matches null
+  distribution. Averaging the single-random-match approach over many
+  random single matches produces the same null distribution.}
 
-In Figure Figure~\ref{fig-like-your-reviewer} we see some of the
-anticipated effect of peer review for Task 1. Before review (left
-column), absolute differences between review pairs were more likely to
-be large than differences between non-review pairs. But by the follow-up
-in Task 2, both groups were similar, potentially suggesting that peer
-review reduced the large absolute differences. In the right column, the
+In Figure~\ref{fig-like-your-reviewer} we see some of the anticipated
+effect of peer review for Task 1. Before review (left column), absolute
+differences between review pairs were more likely to be large than
+differences between non-review pairs. But by the follow-up in Task 2,
+both groups were similar, potentially suggesting that peer review
+reduced the large absolute differences. In the right column, the
 unreviewed group still shows lower differences, but to a smaller degree.
 However, none of this holds up in Task 2. Again the actual review pairs
 started out with larger differences, and those differences shrank for
@@ -1572,7 +1508,7 @@ Weights & 438 &  & ... None & 98 & 22\% \\
 ... Sample Weights & 109 & 25\% &  &  & \\ 
 \hline
 \hline
-\multicolumn{6}{l}{This table shows details on estimation, not research design. "Difference-in-differences"\newline implemented with linear regression, for example, counts here as linear regression.}\\ 
+\multicolumn{6}{l}{\begin{tabular}[x]{@{}r@{}}This table shows details on estimation, not research design. "Difference-in-differences" \\ implemented with linear regression, for example, counts here as linear regression.\end{tabular}}\\ 
 \end{tabular}
 }
 \end{table}
@@ -1729,9 +1665,9 @@ estimated effects, or that the choice of functional form had a greater
 impact than the selection of covariates - should not be expected to
 generalize, and is specific to this research task. However, what we can
 take from this section is that there is heavy variation across
-researchers in what they believe the appropriate set of covariates to
-be, and for a given covariate what the appropriate functional form is.
-We can also see that, in the case of this particular study, these
+researchers in what they believe the appropriate set of covariates to be
+and, for a given covariate, what the appropriate functional form is. We
+can also see that, in the case of this particular study, these
 decisions, while varied, did not fully explain the variation in effects
 between researchers.
 
@@ -1787,9 +1723,9 @@ the 25th and 75th percentiles using 9 and 12 variables, respectively.
 Variable & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Mean} & \multicolumn{1}{c}{Std. Dev.} & \multicolumn{1}{c}{Min} & \multicolumn{1}{c}{Pctl. 25} & \multicolumn{1}{c}{Pctl. 50} & \multicolumn{1}{c}{Pctl. 75} & \multicolumn{1}{c}{Max} \\ 
 \hline
 \multicolumn{9}{c}{Round: Task 1} \\ 
-Whole Sample & 144 & 5.0 & 2.7 & 0.0 & 3.0 & 5.0 & 7.0 & 14.0 \\ 
-Treated Group & 144 & 8.7 & 2.1 & 3.0 & 7.0 & 9.0 & 10.0 & 17.0 \\ 
-Untreated Group & 144 & 8.0 & 2.7 & 1.0 & 7.0 & 8.0 & 10.0 & 17.0 \\ 
+Whole Sample & 145 & 5.0 & 2.7 & 0.0 & 3.0 & 5.0 & 7.0 & 14.0 \\ 
+Treated Group & 145 & 8.6 & 2.1 & 3.0 & 7.0 & 9.0 & 10.0 & 17.0 \\ 
+Untreated Group & 145 & 8.0 & 2.7 & 1.0 & 7.0 & 8.0 & 10.0 & 17.0 \\ 
  &  &  &  &  &  &  &  &  \\ 
 \multicolumn{9}{c}{Round: Task 2} \\ 
 Whole Sample & 145 & 6.8 & 3.9 & 0.0 & 3.0 & 8.0 & 10.0 & 15.0 \\ 
@@ -1810,7 +1746,7 @@ some way but did not report it in their description of
 results.\footnote{Other notes of interest for reading the table: (a)
   ``Multistep condition'' refers to cases where the variable is
   included, but only as a part of a complex boolean statement involving
-  many variable. These most commonly appeared in definitions for the
+  many variables. These most commonly appeared in definitions for the
   comparison group, which are not in the table, in the format of ``fails
   any one of the following set of DACA eligibility requirements.'' and
   (b) for Education/Veteran status, recall that the mention of this
@@ -1845,18 +1781,19 @@ researchers used only year of immigration being before 2007 to satisfy
 this criterion, but others used the YRSUSA set of variables which
 specifically track living continuously in the country.
 
-For all other variables besides Years Continuous in USA, the ``correct''
-option was the most common, but we also see plenty of variation. We also
-see considerable variation for the columns in which there is not a clear
-``correct'' option, like the analytic sample definition. No single way
-of applying any variable was used by more than 84\% of the sample in any
-case. One interesting feature is the use of both ``\textless{} 16'' and
-``\textless= 16'' for age at migration, and ``\textless{} 2007'' and
-``\textless= 2007'' for year of migation. For year of migration, the two
-are similarly popular. Also interesting is the distinction between
-researchers using age defined in years to determine eligibility vs.~age
-defined in quarters, which makes a difference given that eligibility is
-based on age specifically in June 2012.
+For all other variables besides Years Continuous in USA, the option
+matching the instructions was the most common, but we also see plenty of
+variation. We also see considerable variation for the columns in which
+there is not a clear ``correct'' option, like the analytic sample
+definition. No single way of applying any variable was used by more than
+84\% of the sample in any case. One interesting feature is the use of
+both ``\textless{} 16'' and ``\textless= 16'' for age at migration, and
+``\textless{} 2007'' and ``\textless= 2007'' for year of migation. For
+year of migration, the two are similarly popular. Also interesting is
+the distinction between researchers using age defined in years to
+determine eligibility vs.~age defined in quarters, which makes a
+difference given that eligibility is based on age specifically in June
+2012.
 
 \begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Sample Restriction Methods}\label{tab-sample-limitations-extensive}\resizebox{.75\textwidth}{!}{
 \begin{tabular}{lrrrrrrrr}
@@ -1865,41 +1802,41 @@ based on age specifically in June 2012.
 Round/Sample & \multicolumn{2}{c}{Task 1 All} & \multicolumn{2}{c}{Task 1 Treated} & \multicolumn{2}{c}{Task 2 All} & \multicolumn{2}{c}{Task 2 Treated}  \\ 
  Variable & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} & \multicolumn{1}{c}{N} & \multicolumn{1}{c}{Percent} \\ 
 \hline
-Hispanic & 144 &  & 144 &  & 145 &  & 145 &  \\ 
-... Hispanic-Mexican & 92 & 64\% & 105 & 73\% & 101 & 70\% & 112 & 77\% \\ 
+Hispanic & 145 &  & 145 &  & 145 &  & 145 &  \\ 
+... Hispanic-Mexican & 93 & 64\% & 106 & 73\% & 101 & 70\% & 112 & 77\% \\ 
 ... Hispanic-Any & 7 & 5\% & 8 & 6\% & 7 & 5\% & 8 & 6\% \\ 
 ... Hispanic-Mex or Mex-Born & 5 & 3\% & 6 & 4\% & 0 & 0\% & 1 & 1\% \\ 
 ... Multistep Condition & 2 & 1\% & 2 & 1\% & 1 & 1\% & 1 & 1\% \\ 
 ... None & 38 & 26\% & 23 & 16\% & 36 & 25\% & 23 & 16\% \\ 
-Birthplace & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+Birthplace & 145 &  & 145 &  & 145 &  & 145 &  \\ 
 ... Mexican-Born & 91 & 63\% & 88 & 61\% & 96 & 66\% & 95 & 66\% \\ 
 ... Hispanic-Mex or Mex-Born & 4 & 3\% & 2 & 1\% & 0 & 0\% & 1 & 1\% \\ 
 ... Non-US Born & 2 & 1\% & 1 & 1\% & 3 & 2\% & 0 & 0\% \\ 
 ... Central America-Born & 1 & 1\% & 1 & 1\% & 1 & 1\% & 1 & 1\% \\ 
-... None & 46 & 32\% & 52 & 36\% & 45 & 31\% & 48 & 33\% \\ 
-Citizenship & 144 &  & 144 &  & 145 &  & 145 &  \\ 
-... Non-Citizen & 71 & 49\% & 108 & 75\% & 88 & 61\% & 118 & 81\% \\ 
+... None & 47 & 32\% & 53 & 37\% & 45 & 31\% & 48 & 33\% \\ 
+Citizenship & 145 &  & 145 &  & 145 &  & 145 &  \\ 
+... Non-Citizen & 71 & 49\% & 109 & 75\% & 88 & 61\% & 118 & 81\% \\ 
 ... Foreign-Born & 3 & 2\% & 3 & 2\% & 1 & 1\% & 0 & 0\% \\ 
 ... Non-Cit or Natlzd post-2012 & 1 & 1\% & 4 & 3\% & 2 & 1\% & 5 & 3\% \\ 
 ... Citizen (various) & 1 & 1\% & 3 & 2\% & 1 & 1\% & 1 & 1\% \\ 
 ... Multistep Condition & 2 & 1\% & 1 & 1\% & 0 & 0\% & 0 & 0\% \\ 
 ... Other & 7 & 5\% & 9 & 6\% & 3 & 2\% & 7 & 5\% \\ 
-... None & 59 & 41\% & 16 & 11\% & 50 & 34\% & 14 & 10\% \\ 
-Age at Migration & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... None & 60 & 41\% & 16 & 11\% & 50 & 34\% & 14 & 10\% \\ 
+Age at Migration & 145 &  & 144 &  & 145 &  & 145 &  \\ 
 ... < 16 & 12 & 8\% & 85 & 59\% & 52 & 36\% & 99 & 68\% \\ 
 ... <= 16 & 5 & 3\% & 17 & 12\% & 7 & 5\% & 14 & 10\% \\ 
-... Other & 29 & 20\% & 24 & 17\% & 12 & 8\% & 14 & 10\% \\ 
+... Other & 30 & 21\% & 24 & 17\% & 12 & 8\% & 14 & 10\% \\ 
 ... None & 98 & 68\% & 18 & 12\% & 74 & 51\% & 18 & 12\% \\ 
 ... > 16 & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
 ... Any Age & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
 ... Multistep Condition & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
-Age in June 2012 & 144 &  & 144 &  & 145 &  & 145 &  \\ 
-... Year-Quarter Age & 25 & 17\% & 121 & 84\% & 78 & 54\% & 129 & 89\% \\ 
+Age in June 2012 & 145 &  & 145 &  & 145 &  & 145 &  \\ 
+... Year-Quarter Age & 25 & 17\% & 122 & 84\% & 78 & 54\% & 129 & 89\% \\ 
 ... Year-Only Age & 13 & 9\% & 9 & 6\% & 9 & 6\% & 11 & 8\% \\ 
-... None & 106 & 74\% & 14 & 10\% & 58 & 40\% & 5 & 3\% \\ 
-Year of Immigration & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+... None & 107 & 74\% & 14 & 10\% & 58 & 40\% & 5 & 3\% \\ 
+Year of Immigration & 145 &  & 145 &  & 145 &  & 145 &  \\ 
 ... < 2007 & 12 & 8\% & 39 & 27\% & 30 & 21\% & 45 & 31\% \\ 
-... <= 2007 & 9 & 6\% & 49 & 34\% & 24 & 17\% & 44 & 30\% \\ 
+... <= 2007 & 10 & 7\% & 50 & 34\% & 24 & 17\% & 44 & 30\% \\ 
 ... < 2012 & 2 & 1\% & 1 & 1\% & 0 & 0\% & 2 & 1\% \\ 
 ... <= 2012 & 2 & 1\% & 2 & 1\% & 1 & 1\% & 3 & 2\% \\ 
 ... >= 2007 & 1 & 1\% & 1 & 1\% & 0 & 0\% & 1 & 1\% \\ 
@@ -1907,17 +1844,17 @@ Year of Immigration & 144 &  & 144 &  & 145 &  & 145 &  \\
 ... Multistep Condition & 2 & 1\% & 1 & 1\% & 0 & 0\% & 2 & 1\% \\ 
 ... Other & 5 & 3\% & 3 & 2\% & 2 & 1\% & 1 & 1\% \\ 
 ... None & 104 & 72\% & 45 & 31\% & 86 & 59\% & 45 & 31\% \\ 
-Education/Veteran & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+Education/Veteran & 145 &  & 145 &  & 145 &  & 145 &  \\ 
 ... HS Grad or Veteran & 0 & 0\% & 2 & 1\% & 67 & 46\% & 105 & 72\% \\ 
 ... 12th Grade or Veteran & 0 & 0\% & 0 & 0\% & 2 & 1\% & 4 & 3\% \\ 
 ... HS Grad & 14 & 10\% & 17 & 12\% & 3 & 2\% & 5 & 3\% \\ 
 ... HS Grad or Non-Veteran & 0 & 0\% & 0 & 0\% & 4 & 3\% & 5 & 3\% \\ 
 ... Other & 5 & 3\% & 11 & 8\% & 8 & 6\% & 14 & 10\% \\ 
-... None & 125 & 87\% & 114 & 79\% & 61 & 42\% & 12 & 8\% \\ 
+... None & 126 & 87\% & 115 & 79\% & 61 & 42\% & 12 & 8\% \\ 
 ... HS Grad or In School & 0 & 0\% & 0 & 0\% & 0 & 0\% & 0 & 0\% \\ 
-Years Continuous in USA & 144 &  & 144 &  & 145 &  & 145 &  \\ 
+Years Continuous in USA & 145 &  & 145 &  & 145 &  & 145 &  \\ 
 ... Used YRSUSA & 10 & 7\% & 45 & 31\% & 18 & 12\% & 44 & 30\% \\ 
-... No YRSUSA & 134 & 93\% & 99 & 69\% & 127 & 88\% & 101 & 70\%\\ 
+... No YRSUSA & 135 & 93\% & 100 & 69\% & 127 & 88\% & 101 & 70\%\\ 
 \hline
 \hline
 \multicolumn{9}{l}{Multistep condition means the variable is one part of a complex boolean involving many different variables.}\\ 
@@ -1959,10 +1896,10 @@ more likely.
 \hline
 Year of Immigration &  &  &  &  &  &  &  &  &  \\ 
 ... < 2007 & 0.021 & 0.034 & 0.054 & 0.016 & 0.028 & 0.032 & 13,674 & 32,242 & 51,475 \\ 
-... <= 2007 & 0.013 & 0.030 & 0.052 & 0.016 & 0.019 & 0.041 & 35,144 & 44,503 & 205,147 \\ 
+... <= 2007 & 0.013 & 0.028 & 0.052 & 0.012 & 0.019 & 0.036 & 37,376 & 82,717 & 205,986 \\ 
 Years Continuous in USA &  &  &  &  &  &  &  &  &  \\ 
 ... Used YRSUSA & 0.017 & 0.030 & 0.052 & 0.019 & 0.026 & 0.045 & 36,523 & 83,097 & 151,054 \\ 
-... No YRSUSA & 0.013 & 0.030 & 0.048 & 0.014 & 0.030 & 0.052 & 67,068 & 192,826 & 371,244\\ 
+... No YRSUSA & 0.012 & 0.030 & 0.047 & 0.014 & 0.030 & 0.051 & 69,522 & 194,349 & 367,941\\ 
 \hline
 \hline
 \end{tabular}
@@ -1988,9 +1925,34 @@ Years Continuous in USA &  &  &  &  &  &  &  &  &  \\
 }
 \end{table}
 
-\hypertarget{researcher-characteristics-and-effects}{%
+\hypertarget{sec-researcher-chars}{%
 \subsection{Researcher Characteristics and
-Effects}\label{researcher-characteristics-and-effects}}
+Effects}\label{sec-researcher-chars}}
+
+In this section we evaluate the relationship between researcher
+characteristics and the effects they reported. As in our
+preregistration, analysis in this section is performed in a
+muliple-analysts style, with the two project organizers taking the same
+data and research question and performing independent analyses.
+
+\hypertarget{analysis-by-project-organizer-a}{%
+\subsubsection{Analysis by Project Organizer
+A}\label{analysis-by-project-organizer-a}}
+
+For each categorical researcher characteristic specified in
+Section~\ref{sec-sample-characteristics}, as well as an indicator for
+the use of R or Stata as a programming language. In each case,
+categories with 5 or fewer researchers in them were omitted before
+performing the analysis. Table \ref{tab-orga-effects} shows the
+F-statistic from a regression of the reported effect estimate on a set
+of indicators for that characteristic, as well as the associated
+\(p\)-value and \(R^2\) from that regression. This table allows us to
+see whether researchers with different characteristics reported
+different effect levels. Table \ref{tab-orga-deviation} does the same,
+but uses absolute deviation from the sample mean as the dependent
+variable. This table allows us to see whether researchers with different
+characteristics showed greater agreement on effect levels with the group
+as a whole.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.2703}}
@@ -2003,6 +1965,32 @@ Effects}\label{researcher-characteristics-and-effects}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0811}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0811}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0811}}@{}}
+\caption{Predicting Effect Level with Researcher
+Characteristics\label{tab-orga-effects}}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Predictor
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+T1: F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+p
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+T2: F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+p
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+T3: F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+p
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R2
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Predictor
@@ -2060,6 +2048,32 @@ Coding Language & 3.861 & 0.051 & 0.027 & 3.117 & 0.080 & 0.022 & 0.653
   >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0811}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0811}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 18\tabcolsep) * \real{0.0811}}@{}}
+\caption{Predicting Effect Deviation with Researcher
+Characteristics\label{tab-orga-deviation}}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Predictor
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+T1: F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+p
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+T2: F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+p
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R2
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+T3: F
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+p
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+R2
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Predictor
@@ -2106,7 +2120,54 @@ Coding Language & 4.369 & 0.038 & 0.030 & 4.537 & 0.035 & 0.032 & 5.022
 & 0.027 & 0.035 \\
 \end{longtable}
 
-\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/unnamed-chunk-29-1.pdf}
+Tables \ref{tab-orga-effects} and \ref{tab-orga-deviation} show that
+researcher characteristics hold basically no explanatory power for
+estimated effects either in level or deviation from the mean. Nearly all
+\(p\)-values are well above .05. In \ref{tab-orga-deviation}, the
+\(p\)-value for race as an explanatory variable in Task 1 had a
+\(p\)-value below .1, but given how many comparisons there are here,
+this is likely to just be noise.
+
+The only researcher characteristic that did seem to matter was the
+choice of programming language, which only weakly predicted effect
+level, but was a statistically significant predictor of being close to
+the mean effect in all three rounds.
+
+\begin{figure}
+
+{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-deviations-by-language-1.pdf}
+
+}
+
+\caption{\label{fig-deviations-by-language}Deviation from Sample Mean of
+Reported Effect by Language}
+
+\end{figure}
+
+Figure~\ref{fig-deviations-by-language} goes further into the split by
+language. We see that, of the two languages, Stata users were more
+likely to report effect estimates near the sample mean. 6.4\%, 1.8\%,
+and 0.9\% of Stata users were more than .1 in absolute distance from the
+sample mean in Tasks 1, 2, and 3, respectively, while for R those values
+are 15.6\%, 9.4\%, and 12.5\%. The number of R users is relatively low
+at 32,\footnote{This is one lower than the value reported in
+  Section~\ref{sec-sample-characteristics} because the researcher who
+  was dropped from analysis, mentioned later in
+  Section~\ref{sec-sample-characteristics}, was an R user.} and so these
+numbers are sensitive to any researchers who were consistently outliers.
+There were two R users who had an absolute deviation from the mean of .1
+or more every round, while all other R researchers with deviations of .1
+or more only had deviations that large in a single round. If we omit
+those two consistently-high-deviation R users, the percentages are 10\%,
+3.3\%, and 6.7\% for R users, which are still higher than the
+percentages for Stata users.
+
+Overall, there is little role for researcher professional or demographic
+characteristics in predicting either the level of the effects they
+reported, or the deviation of those effects from the mean. There is some
+explanatory power for the choice of programming language. R users were
+more likely than Stata users to report estimates far from average of
+what other users reported.
 
 \hypertarget{sec-bimodal}{%
 \subsection{Bimodality in the Task 2 Effect
@@ -2131,22 +2192,22 @@ somewhat easier, as we can look for features that predict reporting a
 higher or lower estimate.
 
 Several anticipated correlates did not explain the bimodal outcomes of
-Task 2. Appendix Figures Figure~\ref{fig-effect-vs-sample} and
-Figure~\ref{fig-effect-vs-se} show that the Task 2 reported sample sizes
-and standard errors do not storngly explain the effects reported.
-Recalling Section~\ref{sec-analytic}, there were not enormous
-differences in reported estimates by control variables included, and
-there were not covariates associated with large effects that increased
-in prominence in Task 2, so it is unlikely that changes in covariate
-choice or importance explain the effect distribution.
+Task 2. Figure~\ref{fig-effect-vs-sample} and
+Figure~\ref{fig-effect-vs-se} in the Appendix show that the Task 2
+reported sample sizes and standard errors do not strongly explain the
+effects reported. Recalling Section~\ref{sec-analytic}, there were not
+enormous differences in reported estimates by control variables
+included, and there were not covariates associated with large effects
+that increased in prominence in Task 2, so it is unlikely that changes
+in covariate choice or importance explain the effect distribution.
 
 A possible expanation of the bimodality is that some researchers found
 their Task 1 analyses or results ``sticky'' and tried to match them too
 closely, while researchers who did not attempt to do this instead
 produced results like those in Task 3, since the Task 2 instructions are
-very similar to Task 3.However, Figure Figure~\ref{fig-task-1-vs-2}
-shows effectively no relationship betwen a given researcher's Task 1
-estimate and their Task 2 estimate.
+very similar to Task 3. However, Figure~\ref{fig-task-1-vs-2} shows
+effectively no relationship betwen a given researcher's Task 1 estimate
+and their Task 2 estimate.
 
 \begin{figure}
 
@@ -2160,8 +2221,8 @@ estimate and their Task 2 estimate.
 
 We then look at sample limitations and definitions. Table
 \ref{tab-sample-definition-changes} uses the sample-restriction coding
-from Section~\ref{sec-sample-limitations}, and examines whether a given
-researcher changed their use of a given variable in their sample
+from Section Section~\ref{sec-sample-limitations}, and examines whether
+a given researcher changed their use of a given variable in their sample
 restrictions from Task 1 to Task 2. This could be any change, for
 example going from not using the ``Hispanic'' variable at all to using
 it, or switching from ``Hispanic-Mexican'' to ``Hispanic-Any''. The
@@ -2217,21 +2278,21 @@ Abovep05
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Hispanic & No & 109 & -0.01 & 0.01 & 0.04 & 36.7\% \\
+Hispanic & No & 110 & -0.01 & 0.01 & 0.04 & 36.4\% \\
 Hispanic & Yes & 35 & 0.00 & 0.02 & 0.04 & 22.9\% \\
-Birthplace & No & 111 & 0.00 & 0.01 & 0.05 & 36.0\% \\
+Birthplace & No & 112 & 0.00 & 0.01 & 0.05 & 35.7\% \\
 Birthplace & Yes & 33 & -0.03 & 0.01 & 0.03 & 24.2\% \\
-Citizenship & No & 105 & 0.00 & 0.01 & 0.05 & 31.4\% \\
+Citizenship & No & 106 & 0.00 & 0.01 & 0.05 & 31.1\% \\
 Citizenship & Yes & 39 & -0.02 & 0.02 & 0.04 & 38.5\% \\
-Age at Migration & No & 74 & -0.01 & 0.01 & 0.04 & 29.7\% \\
+Age at Migration & No & 75 & -0.01 & 0.01 & 0.04 & 29.3\% \\
 Age at Migration & Yes & 70 & -0.01 & 0.02 & 0.05 & 37.1\% \\
-Age in June 2012 & No & 70 & -0.01 & 0.01 & 0.04 & 31.4\% \\
+Age in June 2012 & No & 71 & -0.01 & 0.01 & 0.04 & 31.0\% \\
 Age in June 2012 & Yes & 74 & -0.01 & 0.02 & 0.05 & 35.1\% \\
-Year of Immigration & No & 87 & -0.01 & 0.01 & 0.04 & 28.7\% \\
+Year of Immigration & No & 88 & -0.01 & 0.01 & 0.04 & 28.4\% \\
 Year of Immigration & Yes & 57 & 0.00 & 0.02 & 0.05 & 40.4\% \\
-Education/Veteran & No & 56 & 0.00 & 0.01 & 0.06 & 32.1\% \\
+Education/Veteran & No & 57 & 0.00 & 0.01 & 0.06 & 31.6\% \\
 Education/Veteran & Yes & 88 & -0.02 & 0.02 & 0.03 & 34.1\% \\
-Years Continuous in USA & No & 128 & -0.01 & 0.01 & 0.05 & 32.8\% \\
+Years Continuous in USA & No & 129 & -0.01 & 0.01 & 0.05 & 32.6\% \\
 Years Continuous in USA & Yes & 16 & 0.00 & 0.02 & 0.04 & 37.5\% \\
 \end{longtable}
 
@@ -2242,7 +2303,7 @@ given researcher followed the full set of treated-group definition
 instructions precisely or not. The mismatch could be small, such as
 using ``\textless= 16'' instead of ``\textless{} 16'' for age at
 migration, or large, such as omitting that eligible people must be
-non-citizens. In Figure Figure~\ref{fig-match-vs-mismatch} we show their
+non-citizens. In Figure~\ref{fig-match-vs-mismatch} we show their
 distribution of effects against researchers who had a mismatch in their
 criteria in any way. The graph shows that the bimodality heavily driven
 by the group that precisely matched the treated-group definition. This
@@ -2271,30 +2332,30 @@ Mismatch}
 Further, Table \ref{tab-match-by-field} shows that the share of
 researchers matching exactly is fairly low, between 20-25\% by field,
 keeping in mind that even very minor mismatches are counted as
-mismatches. Further, perfect-match rates were higher among researchers
-whose work was closest to the field that the research task was in,
-immigration and labor, although this difference was not statistically
-significant at the 95\% level.
+mismatches. Further, perfect-match rates were slightly higher among
+researchers whose work was closest to the field that the research task
+was in, immigration and labor, although this difference was not
+statistically significant at the 95\% level.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1867}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1467}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1600}}
-  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2400}}
-  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2667}}@{}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1600}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.1467}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2667}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2400}}@{}}
 \caption{Share of Researchers Matching Treated-Group Definition Exactly
 by Field\label{tab-match-by-field}}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
 Field
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Num. Match
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
 Share Match
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Num Some Mismatch
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Num. Match
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Share Some Mismatch
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Num Some Mismatch
 \end{minipage} \\
 \midrule\noalign{}
 \endfirsthead
@@ -2302,13 +2363,13 @@ Share Some Mismatch
 \begin{minipage}[b]{\linewidth}\raggedright
 Field
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Num. Match
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
 Share Match
-\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
-Num Some Mismatch
 \end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Num. Match
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
 Share Some Mismatch
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Num Some Mismatch
 \end{minipage} \\
 \midrule\noalign{}
 \endhead
@@ -2326,50 +2387,475 @@ Neither/Other & 22.3\% & 21 & 77.7\% & 73 \\
 \subsection{Recommendations for Improved
 Practice}\label{recommendations-for-improved-practice}}
 
-\begin{itemize}
-\item
-  How we think this means people should change their research processes
-\item
-  Possibilities:
+What do these results imply should change about the practice of applied
+microeconomic research?
 
-  \begin{itemize}
-  \item
-    Data cleaning best practices
-  \item
-    Transparency about the data cleaning and preparation process in
-    publications
-  \item
-    Inclusion of data cleaning and preparation code in replication
-    practices
-  \item
-    Treatment of sample selection in a similar robustness- or multiverse
-    analysis-style way to how analytic choices are treated
-  \end{itemize}
-\end{itemize}
+To some degree, the findings of this paper do not reflect a problem to
+be solved. The fact that different researchers approach a problem
+differently is not in itself a problem, as long as any points of
+disagreement are visible to the reader and subject to scrutiny and
+disagreement, and the reader understands that a given study or set of
+research decisions is not the last word.
+
+However, there is a problem to be solved to the extent that researcher
+variation reflects either (a) error, or (b) choices that are unexamined
+or invisible while also being something that researchers would choose
+differently.
+
+In this study, we found considerable variation across researchers in the
+approaches taken to answering the main question in Task 1, which most
+closely reflects actual practice. While the distribution of effects did
+not considerably narrow from Task 1 to Task 2, the sample sizes did, as
+did the treated and comparison group definitions. There was, in both
+rounds, a lot of variation in the set of covariates included, as well.
+
+To the extent that these choices reflect research design and modeling
+choices, the problem is somewhat already addressed. Researchers are used
+to critiquing research design and modeling choices in public work.
+Because of this, we would expect that all of these choices would be
+reported in a writeup of research, where they could be critiqued. What
+would not typically occur is someone actually testing whether many of
+these alternate choices actually lead to different results, especially
+for seemingly more innocuous choices like covariate functional form,
+which was found in this study to be more consequential than the set of
+covariates included.
+
+On the part of researcher practice, this set of results suggests the use
+of multiverse analysis (Steegen et al. 2016), where the researcher
+considers every combination of reasonable modeling decisions and
+demonstrates their effects on estimated effects, or even many-analysts
+approaches to producing original work, as we did in Section
+Section~\ref{sec-researcher-chars}. On the part of journals, this
+suggests that journals should consider accepting work that is a
+variation in the approach to a published work, even if that variation is
+not framed as a replication or rejection of the original study,
+currently a barrier to the publication of replications (Galiani,
+Gertler, and Romero 2017).
+
+However, this study did not find that research design and modeling
+choices were the majority of explained researcher variation. Instead,
+this came in the form of data cleaning and preprocessing, including the
+selection a sample and the creation of variables indicating the treated
+group. Some of this variation could be classified as error, for example
+researchers in Section Section~\ref{sec-bimodal} whose treated-group
+definition in Task 2 did not match the instructions. Other parts of this
+variation could be reasonable disagreement.
+
+That much of the relevant variation seems to come along the lines of
+data cleaning and preprocessing is possibly unsurprising, given how this
+task is currently handled in economics. Relative to modeling and
+research design, data cleaning and preprocessing receive little
+attention. It is common for minor, or even important, details of data
+processing to be left of the description of methods in published papers.
+Data cleaning is also not formally taught in most graduate programs. A
+professor who would never allow a research assistant to decide their
+research design or model might be happy passing along the data cleaning
+task to an assistant, even though, as this paper shows, the task may be
+just as relevant to the results and just as prone to arbitrary
+choice-making.
+
+Because data cleaning gets so little attention, it is perhaps to be
+expected that we saw the most variation here. Without formal training in
+PhD programs, or a culture of reviewing and critiquing data cleaning and
+preprocessing in research papers, there is little opportunity for
+researchers to \emph{learn to do the same thing}, and so we see heavy
+variation. Contrast this to the popular use of linear probability models
+in Table \ref{tab-estimation-methods}, for example, which is common in
+applied microeconomics, especially in difference-in-differences designs.
+Because its use is very visible, researchers can see that it is the
+standard in the field. Whether or not it is actually the best method to
+use here, it is a method that researchers know has been agreed upon in
+the field. We see a similar story play out with standard error
+adjustments in the same table. The standard method by which economists
+learn data processing is on a much narrower scale, often from one's
+advisor or from others on a small research team.
+
+This problem implies several possible policy solutions. Among broader
+system-wide changes, the introduction of data cleaning and preprocessing
+classes teaching methods and best practices in the standard PhD applied
+economics curriculum would likely improve the quality of economics
+research as well as reduce researcher variability. This presumes the
+existence of a set of best practices, or at least standard practices.
+So, an attempt should be made to codify and popularize a set of
+data-cleaning best practices, similar to how applied economists
+routinely learn about modeling best practices (for example any number of
+econometrics textbooks, or in the applied literature papers like Abadie
+et al. (2023)). Other fields have already made strides in this direction
+(e.g. Osborne 2012; Jafari 2022) so this effort would not need to start
+from scratch, but would be improved by designing recommendations most
+relevant to an applied microeconomics context.
+
+Those recommendations may not be in the control of any one researcher,
+though. The policy that this paper implies for individual researchers
+and journal editors or reviewers is that economics as a field should
+consider data cleaning and preprocessing to be just as much a part of
+the methods as the choice of model. Researchers should fully describe
+their data cleaning processes in their papers to the same level of
+detail that they describe their modeling choices. They should also
+perhaps subject any arbitrary data-cleaning decisions to multiverse
+analysis as well (note that this is also a suggestion of Steegen et al.
+(2016)). Further, an increasingly common requirement of journal
+submissions is to provide a replication package of the code used to
+perform a paper's analyses (for example American Economic Association
+(2024)). However, these replication packages often begin from an
+already-prepared data set, and only include the code necessary to run
+models. It would be advisable to include data preprocessing code in
+these replication packages.
 
 \hypertarget{discussion}{%
 \subsection{Discussion}\label{discussion}}
 
-\begin{itemize}
-\item
-  Clearly a lot of different choices are made
-\item
-  But we actually get a fair amount of agreement here, and the effects
-  themselves don't vary \emph{that} much
-\item
-  Note this suggests a fairly standard design that lots of
-  microeconomists would be familiar with
-\item
-  Differences in peer review findings
-\item
-  THe things on which we have standards and common practice, we use
-  them. On the things we don't, we don't. This should be recognized.
-\item
-  Implications for reading empirical results
-\end{itemize}
+This paper describes the results of a large many-analysts project in
+applied microeconomics. In this project we found large amounts of
+variation in the choices made by researchers, especially in regards to
+data cleaning and processing, research design, the definition of treated
+and comparison groups, and the selection and functional form of
+controls. Some of this variation appears to be from researcher data
+cleaning processes that do not match the instructions, derived from
+policy realities, for constructing the treated group. Variation was not
+strongly constrained by the influence of peer review or a shared
+research design, but there was a (descriptive if not statistically
+significant) reduction of variation when researchers were provided with
+pre-cleaned data.
+
+Interestingly, we do not find huge amounts of variation in actual
+estimated effects of the policy. There were some outliers, and
+statistical significance varied between researchers. However, the
+central range of estimated effects of DACA on the probability of working
+full time effects generally was not very wide, with the difference
+between the 25th and 75th percentiles typically only 2-3 percentage
+points. However, the fact that widely different sample definitions and
+modeling choices led to a narrow range of effects is not guaranteed to
+generalize to other contexts.
+
+There were also parts where researchers behaved very similarly. The use
+of linear regression modeling was very popular, and very few researchers
+used unadjusted standard errors, although the specific adjustment or
+clustering level varied.
+
+What we might understand from this study, and perhaps the wider world of
+studies on researcher variation, is perhaps obvious: in cases where
+there were well-acknowledged ``standard'' ways of doing something, like
+using linear modeling in a difference-in-differences-type setting with a
+binary outcome, or adjusting one's standard errors, researchers tended
+to do that thing. And where there was no well-acknowledged standard,
+like in the choice of clustering level, the selection of covariates in
+this particular setting, or in data cleaning, researchers behaved
+differently, sometimes to consequence and sometimes without it mattering
+much.
+
+While researcher error also plays a part, the impact of the absence of
+standards is an emergent result from this study. Readers and
+practitioners of research should expect arbitrary variation in parts of
+research, like data cleaning, that do not have standards.
+
+The development of best-practice standards in areas where we currently
+do not acknowledge them would be likely to improve applied
+microeconomics towards being a more mature, sophisticated, and
+believable field than it is today. We have highlighted data-cleaning
+practices as being an especially fruitful place to develop these
+standards, but the same applies in other areas as well like the level of
+clustering (an example of a place where development of consensus
+guidance is already underway in Abadie et al. (2023)). The optimal level
+of researcher variation is not zero, as individual researchers often
+have good reasons not to match the methods and practices used by others.
+But when this occurs, it should be because there \emph{is} a good reason
+to deviate from the template, rather than because we have no template to
+begin with.
+
+\hypertarget{references}{%
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\vadjust pre{\hypertarget{ref-abadie2023should}{}}%
+Abadie, Alberto, Susan Athey, Guido W Imbens, and Jeffrey M Wooldridge.
+2023. {``When Should You Adjust Standard Errors for Clustering?''}
+\emph{The Quarterly Journal of Economics} 138 (1): 1--35.
+
+\leavevmode\vadjust pre{\hypertarget{ref-aeaguidelines}{}}%
+American Economic Association. 2024. {``Data and Code Availability
+Policy.''} AEA.
+\url{https://www.aeaweb.org/journals/data/data-code-policy}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-amuedo2016can}{}}%
+Amuedo-Dorantes, Catalina, and Francisca Antman. 2016. {``Can
+Authorization Reduce Poverty Among Undocumented Immigrants? Evidence
+from the Deferred Action for Childhood Arrivals Program.''}
+\emph{Economics Letters} 147: 1--4.
+
+\leavevmode\vadjust pre{\hypertarget{ref-ankel2023economists}{}}%
+Ankel-Peters, Jörg, Nathan Fiala, and Florian Neubauer. 2023. {``Do
+Economists Replicate?''} \emph{Journal of Economic Behavior \&
+Organization} 212: 219--32.
+
+\leavevmode\vadjust pre{\hypertarget{ref-modelsummary2022}{}}%
+Arel-Bundock, Vincent. 2022. {``{modelsummary}: Data and Model Summaries
+in {R}.''} \emph{Journal of Statistical Software} 103 (1): 1--23.
+\url{https://doi.org/10.18637/jss.v103.i01}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-auspurg2021has}{}}%
+Auspurg, Katrin, and Josef Brüderl. 2021. {``Has the Credibility of the
+Social Sciences Been Credibly Destroyed? Reanalyzing the "Many Analysts,
+One Data Set" Project.''} \emph{Socius} 7: 23780231211024421.
+
+\leavevmode\vadjust pre{\hypertarget{ref-auspurg2023social}{}}%
+---------. 2023. {``Is Social Research Really Not Better Than Alchemy?
+How Many-Analysts Studies Produce {`a Hidden Universe of Uncertainty'}
+by Not Following Meta-Analytical Standards.''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-data-table}{}}%
+Barrett, Tyson, Matt Dowle, Arun Srinivasan, Jan Gorecki, Michael
+Chirico, and Toby Hocking. 2024. \emph{Data.table: Extension of
+{data.frame}}. \url{https://r-datatable.com}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-bastiaansen2020time}{}}%
+Bastiaansen, Jojanneke A, Yoram K Kunkels, Frank J Blaauw, Steven M
+Boker, Eva Ceulemans, Meng Chen, Sy-Miin Chow, et al. 2020. {``Time to
+Get Personal? The Impact of Researchers Choices on the Selection of
+Treatment Targets Using the Experience Sampling Msethodology.''}
+\emph{Journal of Psychosomatic Research} 137: 110211.
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-rio}{}}%
+Becker, Jason, Chung-hong Chan, David Schoch, and Thomas J. Leeper.
+2023. \emph{Rio: A Swiss-Army Knife for Data i/o}.
+\url{https://github.com/gesistsa/rio}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-fixest2018}{}}%
+Bergé, Laurent. 2018. {``Efficient Estimation of Maximum Likelihood
+Models with Multiple Fixed-Effects: The {R} Package {FENmlm}.''}
+\emph{CREA Discussion Papers}, no. 13.
+
+\leavevmode\vadjust pre{\hypertarget{ref-boehm2018estimating}{}}%
+Boehm, Udo, Jeffrey Annis, Michael J Frank, Guy E Hawkins, Andrew
+Heathcote, David Kellen, Angelos-Miltiadis Krypotos, et al. 2018.
+{``Estimating Across-Trial Variability Parameters of the Diffusion
+Decision Model: Expert Advice and Recommendations.''} \emph{Journal of
+Mathematical Psychology} 87: 46--75.
+
+\leavevmode\vadjust pre{\hypertarget{ref-botvinik2020variability}{}}%
+Botvinik-Nezer, Rotem, Felix Holzmeister, Colin F Camerer, Anna Dreber,
+Juergen Huber, Magnus Johannesson, Michael Kirchler, et al. 2020.
+{``Variability in the Analysis of a Single Neuroimaging Dataset by Many
+Teams.''} \emph{Nature} 582 (7810): 84--88.
+
+\leavevmode\vadjust pre{\hypertarget{ref-breznau2021observing}{}}%
+Breznau, Nate, Eike Mark Rinke, Alexander Wuttke, Muna Adem, Jule
+Adriaans, Amalia Alvarez-Benjumea, Henrik Kenneth Andersen, et al. 2021.
+{``Observing Many Researchers Using the Same Data and Hypothesis Reveals
+a Hidden Universe of Data Analysis.''} \emph{MetaArXiv Preprints}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-broderick2020automatic}{}}%
+Broderick, Tamara, Ryan Giordano, and Rachael Meager. 2020. {``An
+Automatic Finite-Sample Robustness Metric: When Can Dropping a Little
+Data Make a Big Difference?''} \emph{arXiv Preprint arXiv:2011.14999}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-bryan2019replicator}{}}%
+Bryan, Christopher J, David S Yeager, and Joseph M O'Brien. 2019.
+{``Replicator Degrees of Freedom Allow Publication of Misleading
+Failures to Replicate.''} \emph{Proceedings of the National Academy of
+Sciences} 116 (51): 25535--45.
+
+\leavevmode\vadjust pre{\hypertarget{ref-callaway2021difference}{}}%
+Callaway, Brantly, and Pedro HC Sant'Anna. 2021.
+{``Difference-in-Differences with Multiple Time Periods.''}
+\emph{Journal of Econometrics} 225 (2): 200--230.
+
+\leavevmode\vadjust pre{\hypertarget{ref-camerer2016evaluating}{}}%
+Camerer, Colin F, Anna Dreber, Eskil Forsell, Teck-Hua Ho, Jürgen Huber,
+Magnus Johannesson, Michael Kirchler, et al. 2016. {``Evaluating
+Replicability of Laboratory Experiments in Economics.''} \emph{Science}
+351 (6280): 1433--36.
+
+\leavevmode\vadjust pre{\hypertarget{ref-card2022gender}{}}%
+Card, David, Stefano DellaVigna, Patricia Funk, and Nagore Iriberri.
+2022. {``Gender Differences in Peer Recognition by Economists.''}
+\emph{Econometrica} 90 (5): 1937--71.
+
+\leavevmode\vadjust pre{\hypertarget{ref-chen2024subjectivity}{}}%
+Chen, Wanyi, and Mary Cummings. 2024. {``Subjectivity in Unsupervised
+Machine Learning Model Selection.''} In \emph{Proceedings of the AAAI
+Symposium Series}, 3:22--29. 1.
+
+\leavevmode\vadjust pre{\hypertarget{ref-car2019}{}}%
+Fox, John, and Sanford Weisberg. 2019. \emph{An {R} Companion to Applied
+Regression}. Third. Thousand Oaks {CA}: Sage.
+\url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-galiani2017incentives}{}}%
+Galiani, Sebastian, Paul Gertler, and Mauricio Romero. 2017.
+{``Incentives for Replication in Economics.''} National Bureau of
+Economic Research.
+
+\leavevmode\vadjust pre{\hypertarget{ref-gould2023same}{}}%
+Gould, Elliot, Hannah S Fraser, Timothy H Parker, Shinichi Nakagawa,
+Simon C Griffith, Peter A Vesk, Fiona Fidler, et al. 2023. {``Same Data,
+Different Analysts: Variation in Effect Sizes Due to Analytical
+Decisions in Ecology and Evolutionary Biology.''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-herbert2021reproducibility}{}}%
+Herbert, Sylvérie, Hautahi Kingi, Flavio Stanchi, and Lars Vilhuber.
+2021. {``The Reproducibility of Economics Research: A Case Study.''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-holzmeister2023heterogeneity}{}}%
+Holzmeister, Felix, Magnus Johannesson, Robert Böhm, Anna Dreber, Jürgen
+Huber, and Michael Kirchler. 2023. {``Heterogeneity in Effect Size
+Estimates: Empirical Evidence and Practical Implications.''} Working
+Papers in Economics; Statistics.
+
+\leavevmode\vadjust pre{\hypertarget{ref-hoogeveen2023many}{}}%
+Hoogeveen, Suzanne, Alexandra Sarafoglou, Balazs Aczel, Yonathan Aditya,
+Alexandra J Alayan, Peter J Allen, Sacha Altay, et al. 2023. {``A
+Many-Analysts Approach to the Relation Between Religiosity and
+Well-Being.''} \emph{Religion, Brain \& Behavior} 13 (3): 237--83.
+
+\leavevmode\vadjust pre{\hypertarget{ref-R-vtable}{}}%
+Huntington-Klein, Nick. 2021. \emph{Vtable: Variable Table for Variable
+Documentation}. \url{https://nickch-k.github.io/vtable/}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-huntington2021influence}{}}%
+Huntington-Klein, Nick, Andreu Arenas, Emily Beam, Marco Bertoni,
+Jeffrey R Bloem, Pralhad Burli, Naibin Chen, et al. 2021. {``The
+Influence of Hidden Researcher Decisions in Applied Microeconomics.''}
+\emph{Economic Inquiry} 59 (3): 944--60.
+
+\leavevmode\vadjust pre{\hypertarget{ref-jafari2022hands}{}}%
+Jafari, Roy. 2022. \emph{Hands-on Data Preprocessing in Python: Learn
+How to Effectively Prepare Data for Successful Data Analytics}. Packt
+Publishing Ltd.
+
+\leavevmode\vadjust pre{\hypertarget{ref-jelveh2024political}{}}%
+Jelveh, Zubin, Bruce Kogut, and Suresh Naidu. 2024. {``Political
+Language in Economics.''} \emph{The Economic Journal}, ueae026.
+
+\leavevmode\vadjust pre{\hypertarget{ref-klau2023comparing}{}}%
+Klau, Simon, Chirag J Patel, John PA Ioannidis, Anne-Laure Boulesteix,
+Sabine Hoffmann, et al. 2023. {``Comparing the Vibration of Effects Due
+to Model, Data Pre-Processing and Sampling Uncertainty on a Large Data
+Set in Personality Psychology.''} \emph{Meta-Psychology} 7.
+
+\leavevmode\vadjust pre{\hypertarget{ref-leamer1983let}{}}%
+Leamer, Edward E. 1983. {``Let's Take the Con Out of Econometrics.''}
+\emph{The American Economic Review} 73 (1): 31--43.
+
+\leavevmode\vadjust pre{\hypertarget{ref-lundberg2019women}{}}%
+Lundberg, Shelly, and Jenna Stearns. 2019. {``Women in Economics:
+Stalled Progress.''} \emph{Journal of Economic Perspectives} 33 (1):
+3--22.
+
+\leavevmode\vadjust pre{\hypertarget{ref-menkveld2021non}{}}%
+Menkveld, Albert J, Anna Dreber, Felix Holzmeister, Juergen Huber,
+Magnus Johannesson, Michael Kirchler, Sebastian Neusüss, Michael Razen,
+and Utz Weitzel. 2021. {``Non-Standard Errors.''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-open2015estimating}{}}%
+Open Science Collaboration. 2015. {``Estimating the Reproducibility of
+Psychological Science.''} \emph{Science} 349 (6251): aac4716.
+
+\leavevmode\vadjust pre{\hypertarget{ref-ortloff2023different}{}}%
+Ortloff, Anna-Marie, Matthias Fassl, Alexander Ponticello, Florin
+Martius, Anne Mertens, Katharina Krombholz, and Matthew Smith. 2023.
+{``Different Researchers, Different Results? Analyzing the Influence of
+Researcher Experience and Data Type During Qualitative Analysis of an
+Interview and Survey Study on Security Advice.''} In \emph{Proceedings
+of the 2023 CHI Conference on Human Factors in Computing Systems},
+1--21.
+
+\leavevmode\vadjust pre{\hypertarget{ref-osborne2012best}{}}%
+Osborne, Jason W. 2012. \emph{Best Practices in Data Cleaning: A
+Complete Guide to Everything You Need to Do Before and After Collecting
+Your Data}. Sage Publications.
+
+\leavevmode\vadjust pre{\hypertarget{ref-ostropolets2023reproducible}{}}%
+Ostropolets, Anna, Yasser Albogami, Mitchell Conover, Juan M Banda,
+William A Baumgartner Jr, Clair Blacketer, Priyamvada Desai, et al.
+2023. {``Reproducible Variability: Assessing Investigator Discordance
+Across 9 Research Teams Attempting to Reproduce the Same Observational
+Study.''} \emph{Journal of the American Medical Informatics Association}
+30 (5): 859--68.
+
+\leavevmode\vadjust pre{\hypertarget{ref-perignon2022reproducibility}{}}%
+Pérignon, Christophe, Olivier Akmansoy, Christophe Hurlin, Anna Dreber,
+Felix Holzmeister, Juergen Huber, Michael Kirchler, Michael Razen, et
+al. 2022. {``Reproducibility of Empirical Results: Evidence from 1,000
+Tests in Finance.''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-portner_huntington-klein_2022}{}}%
+Portner, Claus C, and Nick Huntington-Klein. 2022. {``Many
+Economists.''} OSF. \url{https://doi.org/10.17605/OSF.IO/CJ9YX}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-ruggles2024ipums}{}}%
+Ruggles, Steven, Sarah Flood, Matthew Sobek, Daniel Backman, Annie Chen,
+Grace Cooper, Stephanie Richards, Renae Rodgers, and Megan Schouweiler.
+2024. {``IPUMS USA: Version 15.0 {[}Dataset{]}. Minneapolis, MN:
+IPUMS.''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-sarafoglou2024subjective}{}}%
+Sarafoglou, Alexandra, Suzanne Hoogeveen, Don Van Den Bergh, Balázs
+Aczél, Casper J Albers, Tim Althoff, Rotem Botvinik-Nezer, et al. 2024.
+{``Subjective Evidence Evaluation Survey for Multi-Analyst Studies.''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-schweinsberg2021same}{}}%
+Schweinsberg, Martin, Michael Feldman, Nicola Staub, Olmo R van den
+Akker, Robbie CM van Aert, Marcel ALM Van Assen, Yang Liu, et al. 2021.
+{``Same Data, Different Conclusions: Radical Dispersion in Empirical
+Results When Independent Analysts Operationalize and Test the Same
+Hypothesis.''} \emph{Organizational Behavior and Human Decision
+Processes} 165: 228--49.
+
+\leavevmode\vadjust pre{\hypertarget{ref-silberzahn2018many}{}}%
+Silberzahn, Raphael, Eric L Uhlmann, Daniel P Martin, Pasquale Anselmi,
+Frederik Aust, Eli Awtrey, Štěpán Bahnı́k, et al. 2018. {``Many Analysts,
+One Data Set: Making Transparent How Variations in Analytic Choices
+Affect Results.''} \emph{Advances in Methods and Practices in
+Psychological Science} 1 (3): 337--56.
+
+\leavevmode\vadjust pre{\hypertarget{ref-simmons2011false}{}}%
+Simmons, Joseph P, Leif D Nelson, and Uri Simonsohn. 2011.
+{``False-Positive Psychology: Undisclosed Flexibility in Data Collection
+and Analysis Allows Presenting Anything as Significant.''}
+\emph{Psychological Science} 22 (11): 1359--66.
+
+\leavevmode\vadjust pre{\hypertarget{ref-stansbury2023economics}{}}%
+Stansbury, Anna, and Robert Schultz. 2023. {``The Economics Profession's
+Socioeconomic Diversity Problem.''} \emph{Journal of Economic
+Perspectives} 37 (4): 207--30.
+
+\leavevmode\vadjust pre{\hypertarget{ref-steegen2016increasing}{}}%
+Steegen, Sara, Francis Tuerlinckx, Andrew Gelman, and Wolf Vanpaemel.
+2016. {``Increasing Transparency Through a Multiverse Analysis.''}
+\emph{Perspectives on Psychological Science} 11 (5): 702--12.
+
+\leavevmode\vadjust pre{\hypertarget{ref-sulik2023scientists}{}}%
+Sulik, Justin, Nakwon Rim, Elizabeth Pontikes, James Evans, and Gary
+Lupyan. 2023. {``Why Do Scientists Disagree?''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-urbaninstdata}{}}%
+Urban Institute. 2022. {``State Immigration Policy Resource.''}
+\url{https://www.urban.org/data-tools/state-immigration-policy-resource}.
+
+\leavevmode\vadjust pre{\hypertarget{ref-citservices2016}{}}%
+U.S. Citizenship and Immigration Services. 2016. {``Number of
+i-821D,consideration of Deferred Action for Childhood Arrivals by Fiscal
+Year, Quarter, Intake, Biometrics and Case Status: 2012-2016 (June
+30).''}
+
+\leavevmode\vadjust pre{\hypertarget{ref-tidyverse2019}{}}%
+Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
+D'Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
+{``Welcome to the {tidyverse}.''} \emph{Journal of Open Source Software}
+4 (43): 1686. \url{https://doi.org/10.21105/joss.01686}.
+
+\end{CSLReferences}
+
+\FloatBarrier
+
+\appendix
 
 \hypertarget{appendix}{%
-\section{Appendix}\label{appendix}}
+\section*{Appendix}\label{appendix}}
+\addcontentsline{toc}{section}{Appendix}
 
 \begin{table}
 \centering
@@ -2426,7 +2912,7 @@ Num.Obs. & \num{6809} & \num{6676}\\
  Variable & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Effect Pctl. 25 & Pctl. 50 & Pctl. 75 & Samp Size Pctl. 25 & Pctl. 50 & Pctl. 75 \\ 
 \hline
 Hispanic &  &  &  &  &  &  &  &  &  \\ 
-... Hispanic-Mexican & 0.014 & 0.030 & 0.054 & 0.016 & 0.033 & 0.056 & 64,118 & 157,025 & 294,209 \\ 
+... Hispanic-Mexican & 0.013 & 0.030 & 0.053 & 0.015 & 0.032 & 0.056 & 64,614 & 158,152 & 292,492 \\ 
 ... Hispanic-Any & 0.030 & 0.037 & 0.050 & 0.030 & 0.045 & 0.054 & 24,276 & 109,759 & 166,270 \\ 
 ... Hispanic-Mex or Mex-Born & 0.018 & 0.021 & 0.026 & 0.021 & 0.022 & 0.027 & 51,754 & 127,504 & 179,960 \\ 
 ... Multistep Condition & -0.009 & 0.001 & 0.010 & -0.009 & 0.001 & 0.010 & 326,913 & 366,804 & 406,696 \\ 
@@ -2436,7 +2922,7 @@ Birthplace &  &  &  &  &  &  &  &  &  \\
 ... Hispanic-Mex or Mex-Born & 0.041 & 0.100 & 0.160 & 0.004 & 0.016 & 0.070 & 215,436 & 289,311 & 330,348 \\ 
 ... Non-US Born & -0.020 & -0.020 & -0.020 & -0.013 & -0.007 & -0.001 & 133,992 & 157,710 & 181,428 \\ 
 ... Central America-Born & 0.057 & 0.057 & 0.057 & 0.057 & 0.057 & 0.057 & 9,711 & 9,711 & 9,711 \\ 
-... None & 0.015 & 0.033 & 0.053 & 0.013 & 0.035 & 0.053 & 67,385 & 281,570 & 777,360 \\ 
+... None & 0.012 & 0.032 & 0.053 & 0.011 & 0.034 & 0.052 & 70,156 & 277,277 & 746,663 \\ 
 Citizenship &  &  &  &  &  &  &  &  &  \\ 
 ... Non-Citizen & 0.017 & 0.030 & 0.051 & 0.022 & 0.035 & 0.056 & 62,920 & 141,847 & 277,270 \\ 
 ... Foreign-Born & 0.026 & 0.037 & 0.180 & 0.026 & 0.037 & 0.180 & 341,338 & 586,271 & 605,241 \\ 
@@ -2444,19 +2930,19 @@ Citizenship &  &  &  &  &  &  &  &  &  \\
 ... Citizen (various) & 0.019 & 0.023 & 0.047 & 0.015 & 0.015 & 0.015 & 268,238 & 268,238 & 268,238 \\ 
 ... Multistep Condition & 0.009 & 0.009 & 0.009 & -0.034 & -0.020 & -0.005 & 899,372 & 1,694,116 & 2,488,861 \\ 
 ... Other & 0.023 & 0.041 & 0.053 & 0.023 & 0.037 & 0.046 & 13,427 & 17,759 & 84,944 \\ 
-... None & 0.010 & 0.021 & 0.051 & 0.010 & 0.021 & 0.043 & 81,272 & 237,258 & 665,864 \\ 
+... None & 0.010 & 0.021 & 0.051 & 0.010 & 0.020 & 0.043 & 83,476 & 225,894 & 656,161 \\ 
 Age at Migration &  &  &  &  &  &  &  &  &  \\ 
 ... < 16 & 0.016 & 0.030 & 0.050 & 0.018 & 0.026 & 0.046 & 28,348 & 44,288 & 119,180 \\ 
 ... <= 16 & 0.010 & 0.022 & 0.044 & 0.034 & 0.041 & 0.044 & 120,931 & 204,239 & 205,147 \\ 
-... Other & 0.019 & 0.035 & 0.058 & 0.016 & 0.029 & 0.054 & 40,511 & 116,076 & 206,266 \\ 
+... Other & 0.019 & 0.035 & 0.058 & 0.012 & 0.028 & 0.054 & 40,548 & 117,257 & 208,712 \\ 
 ... None & 0.002 & 0.029 & 0.050 & 0.013 & 0.030 & 0.052 & 95,336 & 255,769 & 507,856 \\ 
 Age in June 2012 &  &  &  &  &  &  &  &  &  \\ 
 ... Year-Quarter Age & 0.015 & 0.030 & 0.052 & 0.017 & 0.029 & 0.051 & 40,661 & 132,637 & 255,734 \\ 
 ... Year-Only Age & 0.010 & 0.030 & 0.041 & 0.013 & 0.037 & 0.053 & 17,759 & 46,925 & 140,134 \\ 
-... None & 0.020 & 0.029 & 0.048 & 0.015 & 0.030 & 0.051 & 88,006 & 205,682 & 435,724 \\ 
+... None & 0.020 & 0.029 & 0.048 & 0.015 & 0.030 & 0.051 & 90,330 & 206,266 & 424,859 \\ 
 Year of Immigration &  &  &  &  &  &  &  &  &  \\ 
 ... < 2007 & 0.021 & 0.034 & 0.054 & 0.016 & 0.028 & 0.032 & 13,674 & 32,242 & 51,475 \\ 
-... <= 2007 & 0.013 & 0.030 & 0.052 & 0.016 & 0.019 & 0.041 & 35,144 & 44,503 & 205,147 \\ 
+... <= 2007 & 0.013 & 0.028 & 0.052 & 0.012 & 0.019 & 0.036 & 37,376 & 82,717 & 205,986 \\ 
 ... < 2012 & 0.014 & 0.014 & 0.014 & 0.039 & 0.051 & 0.064 & 88,982 & 103,534 & 118,086 \\ 
 ... <= 2012 & 0.042 & 0.118 & 0.194 & 0.029 & 0.092 & 0.155 & 263,220 & 471,364 & 679,507 \\ 
 ... >= 2007 & 0.012 & 0.012 & 0.012 & 0.012 & 0.012 & 0.012 & 245,635 & 245,635 & 245,635 \\ 
@@ -2468,10 +2954,10 @@ Education/Veteran &  &  &  &  &  &  &  &  &  \\
 ... HS Grad or Veteran & 0.043 & 0.065 & 0.088 &  &  &  &  &  &  \\ 
 ... HS Grad & 0.014 & 0.036 & 0.050 & 0.016 & 0.037 & 0.052 & 66,766 & 132,990 & 169,327 \\ 
 ... Other & 0.020 & 0.027 & 0.059 & 0.027 & 0.057 & 0.062 & 32,606 & 74,431 & 188,802 \\ 
-... None & 0.014 & 0.030 & 0.051 & 0.014 & 0.030 & 0.051 & 61,600 & 202,451 & 391,487 \\ 
+... None & 0.014 & 0.030 & 0.051 & 0.014 & 0.030 & 0.051 & 62,354 & 203,345 & 387,252 \\ 
 Years Continuous in USA &  &  &  &  &  &  &  &  &  \\ 
 ... Used YRSUSA & 0.017 & 0.030 & 0.052 & 0.019 & 0.026 & 0.045 & 36,523 & 83,097 & 151,054 \\ 
-... No YRSUSA & 0.013 & 0.030 & 0.048 & 0.014 & 0.030 & 0.052 & 67,068 & 192,826 & 371,244\\ 
+... No YRSUSA & 0.012 & 0.030 & 0.047 & 0.014 & 0.030 & 0.051 & 69,522 & 194,349 & 367,941\\ 
 \hline
 \hline
 \end{tabular}
@@ -2538,227 +3024,6 @@ Years Continuous in USA &  &  &  &  &  &  &  &  &  \\
 \end{tabular}
 }
 \end{table}
-
-\hypertarget{references}{%
-\section*{References}\label{references}}
-\addcontentsline{toc}{section}{References}
-
-\hypertarget{refs}{}
-\begin{CSLReferences}{1}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-amuedo2016can}{}}%
-Amuedo-Dorantes, Catalina, and Francisca Antman. 2016. {``Can
-Authorization Reduce Poverty Among Undocumented Immigrants? Evidence
-from the Deferred Action for Childhood Arrivals Program.''}
-\emph{Economics Letters} 147: 1--4.
-
-\leavevmode\vadjust pre{\hypertarget{ref-ankel2023economists}{}}%
-Ankel-Peters, Jörg, Nathan Fiala, and Florian Neubauer. 2023. {``Do
-Economists Replicate?''} \emph{Journal of Economic Behavior \&
-Organization} 212: 219--32.
-
-\leavevmode\vadjust pre{\hypertarget{ref-auspurg2021has}{}}%
-Auspurg, Katrin, and Josef Brüderl. 2021. {``Has the Credibility of the
-Social Sciences Been Credibly Destroyed? Reanalyzing the "Many Analysts,
-One Data Set" Project.''} \emph{Socius} 7: 23780231211024421.
-
-\leavevmode\vadjust pre{\hypertarget{ref-auspurg2023social}{}}%
----------. 2023. {``Is Social Research Really Not Better Than Alchemy?
-How Many-Analysts Studies Produce {`a Hidden Universe of Uncertainty'}
-by Not Following Meta-Analytical Standards.''}
-
-\leavevmode\vadjust pre{\hypertarget{ref-bastiaansen2020time}{}}%
-Bastiaansen, Jojanneke A, Yoram K Kunkels, Frank J Blaauw, Steven M
-Boker, Eva Ceulemans, Meng Chen, Sy-Miin Chow, et al. 2020. {``Time to
-Get Personal? The Impact of Researchers Choices on the Selection of
-Treatment Targets Using the Experience Sampling Msethodology.''}
-\emph{Journal of Psychosomatic Research} 137: 110211.
-
-\leavevmode\vadjust pre{\hypertarget{ref-boehm2018estimating}{}}%
-Boehm, Udo, Jeffrey Annis, Michael J Frank, Guy E Hawkins, Andrew
-Heathcote, David Kellen, Angelos-Miltiadis Krypotos, et al. 2018.
-{``Estimating Across-Trial Variability Parameters of the Diffusion
-Decision Model: Expert Advice and Recommendations.''} \emph{Journal of
-Mathematical Psychology} 87: 46--75.
-
-\leavevmode\vadjust pre{\hypertarget{ref-botvinik2020variability}{}}%
-Botvinik-Nezer, Rotem, Felix Holzmeister, Colin F Camerer, Anna Dreber,
-Juergen Huber, Magnus Johannesson, Michael Kirchler, et al. 2020.
-{``Variability in the Analysis of a Single Neuroimaging Dataset by Many
-Teams.''} \emph{Nature} 582 (7810): 84--88.
-
-\leavevmode\vadjust pre{\hypertarget{ref-breznau2021observing}{}}%
-Breznau, Nate, Eike Mark Rinke, Alexander Wuttke, Muna Adem, Jule
-Adriaans, Amalia Alvarez-Benjumea, Henrik Kenneth Andersen, et al. 2021.
-{``Observing Many Researchers Using the Same Data and Hypothesis Reveals
-a Hidden Universe of Data Analysis.''} \emph{MetaArXiv Preprints}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-broderick2020automatic}{}}%
-Broderick, Tamara, Ryan Giordano, and Rachael Meager. 2020. {``An
-Automatic Finite-Sample Robustness Metric: When Can Dropping a Little
-Data Make a Big Difference?''} \emph{arXiv Preprint arXiv:2011.14999}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-bryan2019replicator}{}}%
-Bryan, Christopher J, David S Yeager, and Joseph M O'Brien. 2019.
-{``Replicator Degrees of Freedom Allow Publication of Misleading
-Failures to Replicate.''} \emph{Proceedings of the National Academy of
-Sciences} 116 (51): 25535--45.
-
-\leavevmode\vadjust pre{\hypertarget{ref-callaway2021difference}{}}%
-Callaway, Brantly, and Pedro HC Sant'Anna. 2021.
-{``Difference-in-Differences with Multiple Time Periods.''}
-\emph{Journal of Econometrics} 225 (2): 200--230.
-
-\leavevmode\vadjust pre{\hypertarget{ref-camerer2016evaluating}{}}%
-Camerer, Colin F, Anna Dreber, Eskil Forsell, Teck-Hua Ho, Jürgen Huber,
-Magnus Johannesson, Michael Kirchler, et al. 2016. {``Evaluating
-Replicability of Laboratory Experiments in Economics.''} \emph{Science}
-351 (6280): 1433--36.
-
-\leavevmode\vadjust pre{\hypertarget{ref-card2022gender}{}}%
-Card, David, Stefano DellaVigna, Patricia Funk, and Nagore Iriberri.
-2022. {``Gender Differences in Peer Recognition by Economists.''}
-\emph{Econometrica} 90 (5): 1937--71.
-
-\leavevmode\vadjust pre{\hypertarget{ref-chen2024subjectivity}{}}%
-Chen, Wanyi, and Mary Cummings. 2024. {``Subjectivity in Unsupervised
-Machine Learning Model Selection.''} In \emph{Proceedings of the AAAI
-Symposium Series}, 3:22--29. 1.
-
-\leavevmode\vadjust pre{\hypertarget{ref-open2015estimating}{}}%
-Collaboration, Open Science. 2015. {``Estimating the Reproducibility of
-Psychological Science.''} \emph{Science} 349 (6251): aac4716.
-
-\leavevmode\vadjust pre{\hypertarget{ref-gould2023same}{}}%
-Gould, Elliot, Hannah S Fraser, Timothy H Parker, Shinichi Nakagawa,
-Simon C Griffith, Peter A Vesk, Fiona Fidler, et al. 2023. {``Same Data,
-Different Analysts: Variation in Effect Sizes Due to Analytical
-Decisions in Ecology and Evolutionary Biology.''}
-
-\leavevmode\vadjust pre{\hypertarget{ref-herbert2021reproducibility}{}}%
-Herbert, Sylvérie, Hautahi Kingi, Flavio Stanchi, and Lars Vilhuber.
-2021. {``The Reproducibility of Economics Research: A Case Study.''}
-
-\leavevmode\vadjust pre{\hypertarget{ref-holzmeister2023heterogeneity}{}}%
-Holzmeister, Felix, Magnus Johannesson, Robert Böhm, Anna Dreber, Jürgen
-Huber, and Michael Kirchler. 2023. {``Heterogeneity in Effect Size
-Estimates: Empirical Evidence and Practical Implications.''} Working
-Papers in Economics; Statistics.
-
-\leavevmode\vadjust pre{\hypertarget{ref-hoogeveen2023many}{}}%
-Hoogeveen, Suzanne, Alexandra Sarafoglou, Balazs Aczel, Yonathan Aditya,
-Alexandra J Alayan, Peter J Allen, Sacha Altay, et al. 2023. {``A
-Many-Analysts Approach to the Relation Between Religiosity and
-Well-Being.''} \emph{Religion, Brain \& Behavior} 13 (3): 237--83.
-
-\leavevmode\vadjust pre{\hypertarget{ref-huntington2021influence}{}}%
-Huntington-Klein, Nick, Andreu Arenas, Emily Beam, Marco Bertoni,
-Jeffrey R Bloem, Pralhad Burli, Naibin Chen, et al. 2021. {``The
-Influence of Hidden Researcher Decisions in Applied Microeconomics.''}
-\emph{Economic Inquiry} 59 (3): 944--60.
-
-\leavevmode\vadjust pre{\hypertarget{ref-jelveh2024political}{}}%
-Jelveh, Zubin, Bruce Kogut, and Suresh Naidu. 2024. {``Political
-Language in Economics.''} \emph{The Economic Journal}, ueae026.
-
-\leavevmode\vadjust pre{\hypertarget{ref-klau2023comparing}{}}%
-Klau, Simon, Chirag J Patel, John PA Ioannidis, Anne-Laure Boulesteix,
-Sabine Hoffmann, et al. 2023. {``Comparing the Vibration of Effects Due
-to Model, Data Pre-Processing and Sampling Uncertainty on a Large Data
-Set in Personality Psychology.''} \emph{Meta-Psychology} 7.
-
-\leavevmode\vadjust pre{\hypertarget{ref-leamer1983let}{}}%
-Leamer, Edward E. 1983. {``Let's Take the Con Out of Econometrics.''}
-\emph{The American Economic Review} 73 (1): 31--43.
-
-\leavevmode\vadjust pre{\hypertarget{ref-lundberg2019women}{}}%
-Lundberg, Shelly, and Jenna Stearns. 2019. {``Women in Economics:
-Stalled Progress.''} \emph{Journal of Economic Perspectives} 33 (1):
-3--22.
-
-\leavevmode\vadjust pre{\hypertarget{ref-menkveld2021non}{}}%
-Menkveld, Albert J, Anna Dreber, Felix Holzmeister, Juergen Huber,
-Magnus Johannesson, Michael Kirchler, Sebastian Neusüss, Michael Razen,
-and Utz Weitzel. 2021. {``Non-Standard Errors.''}
-
-\leavevmode\vadjust pre{\hypertarget{ref-ortloff2023different}{}}%
-Ortloff, Anna-Marie, Matthias Fassl, Alexander Ponticello, Florin
-Martius, Anne Mertens, Katharina Krombholz, and Matthew Smith. 2023.
-{``Different Researchers, Different Results? Analyzing the Influence of
-Researcher Experience and Data Type During Qualitative Analysis of an
-Interview and Survey Study on Security Advice.''} In \emph{Proceedings
-of the 2023 CHI Conference on Human Factors in Computing Systems},
-1--21.
-
-\leavevmode\vadjust pre{\hypertarget{ref-ostropolets2023reproducible}{}}%
-Ostropolets, Anna, Yasser Albogami, Mitchell Conover, Juan M Banda,
-William A Baumgartner Jr, Clair Blacketer, Priyamvada Desai, et al.
-2023. {``Reproducible Variability: Assessing Investigator Discordance
-Across 9 Research Teams Attempting to Reproduce the Same Observational
-Study.''} \emph{Journal of the American Medical Informatics Association}
-30 (5): 859--68.
-
-\leavevmode\vadjust pre{\hypertarget{ref-perignon2022reproducibility}{}}%
-Pérignon, Christophe, Olivier Akmansoy, Christophe Hurlin, Anna Dreber,
-Felix Holzmeister, Juergen Huber, Michael Kirchler, Michael Razen, et
-al. 2022. {``Reproducibility of Empirical Results: Evidence from 1,000
-Tests in Finance.''}
-
-\leavevmode\vadjust pre{\hypertarget{ref-portner_huntington-klein_2022}{}}%
-Portner, Claus C, and Nick Huntington-Klein. 2022. {``Many
-Economists.''} OSF. \url{https://doi.org/10.17605/OSF.IO/CJ9YX}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-ruggles2024ipums}{}}%
-Ruggles, Steven, Sarah Flood, Matthew Sobek, Daniel Backman, Annie Chen,
-Grace Cooper, Stephanie Richards, Renae Rodgers, and Megan Schouweiler.
-2024. {``IPUMS USA: Version 15.0 {[}Dataset{]}. Minneapolis, MN:
-IPUMS.''}
-
-\leavevmode\vadjust pre{\hypertarget{ref-sarafoglou2024subjective}{}}%
-Sarafoglou, Alexandra, Suzanne Hoogeveen, Don Van Den Bergh, Balázs
-Aczél, Casper J Albers, Tim Althoff, Rotem Botvinik-Nezer, et al. 2024.
-{``Subjective Evidence Evaluation Survey for Multi-Analyst Studies.''}
-
-\leavevmode\vadjust pre{\hypertarget{ref-schweinsberg2021same}{}}%
-Schweinsberg, Martin, Michael Feldman, Nicola Staub, Olmo R van den
-Akker, Robbie CM van Aert, Marcel ALM Van Assen, Yang Liu, et al. 2021.
-{``Same Data, Different Conclusions: Radical Dispersion in Empirical
-Results When Independent Analysts Operationalize and Test the Same
-Hypothesis.''} \emph{Organizational Behavior and Human Decision
-Processes} 165: 228--49.
-
-\leavevmode\vadjust pre{\hypertarget{ref-silberzahn2018many}{}}%
-Silberzahn, Raphael, Eric L Uhlmann, Daniel P Martin, Pasquale Anselmi,
-Frederik Aust, Eli Awtrey, Štěpán Bahnı́k, et al. 2018. {``Many Analysts,
-One Data Set: Making Transparent How Variations in Analytic Choices
-Affect Results.''} \emph{Advances in Methods and Practices in
-Psychological Science} 1 (3): 337--56.
-
-\leavevmode\vadjust pre{\hypertarget{ref-simmons2011false}{}}%
-Simmons, Joseph P, Leif D Nelson, and Uri Simonsohn. 2011.
-{``False-Positive Psychology: Undisclosed Flexibility in Data Collection
-and Analysis Allows Presenting Anything as Significant.''}
-\emph{Psychological Science} 22 (11): 1359--66.
-
-\leavevmode\vadjust pre{\hypertarget{ref-stansbury2023economics}{}}%
-Stansbury, Anna, and Robert Schultz. 2023. {``The Economics Profession's
-Socioeconomic Diversity Problem.''} \emph{Journal of Economic
-Perspectives} 37 (4): 207--30.
-
-\leavevmode\vadjust pre{\hypertarget{ref-sulik2023scientists}{}}%
-Sulik, Justin, Nakwon Rim, Elizabeth Pontikes, James Evans, and Gary
-Lupyan. n.d. {``Why Do Scientists Disagree?''}
-
-\leavevmode\vadjust pre{\hypertarget{ref-urbaninstdata}{}}%
-Urban Institute. 2022. {``State Immigration Policy Resource.''}
-\url{https://www.urban.org/data-tools/state-immigration-policy-resource}.
-
-\leavevmode\vadjust pre{\hypertarget{ref-citservices2016}{}}%
-U.S. Citizenship and Immigration Services. 2016. {``Number of
-i-821D,consideration of Deferred Action for Childhood Arrivals by Fiscal
-Year, Quarter, Intake, Biometrics and Case Status: 2012-2016 (June
-30).''}
-
-\end{CSLReferences}
 
 
 
