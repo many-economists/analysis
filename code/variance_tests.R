@@ -36,7 +36,7 @@ efdat[, Round := factor(Round, levels = c('Task 1',
                                           'Task 3 Revision'))]
 efdat[Revision_of_Q6 < 0, Revision_of_Q6 := abs(Revision_of_Q6)]
 
-export(efdat, here("data", "test.csv"))
+# export(efdat, here("data", "test.csv"))
 
 # Function to perform Levene test for each pair of rounds
 perform_levene_test <- function(round1, round2) {
@@ -44,6 +44,9 @@ perform_levene_test <- function(round1, round2) {
   levene_test_result <- leveneTest(Revision_of_Q4 ~ Round, data = subset_data)
   return(levene_test_result)
 }
+
+
+# Hypotheses 3a-3e (stage comparison) ----
 
 # List of round pairs
 round_pairs <- list(c("Task 1", "Task 1 Revision"),
@@ -61,4 +64,71 @@ for (pair in round_pairs) {
   print(perform_levene_test(pair[1], pair[2]))
   cat("\n")
 }
+
+
+# Hypothesis 4 (Peer review comparisons) ----
+
+# Function to perform the comparison and print results
+compare_tasks <- function(task, revision_task) {
+  rev <- efdat %>%
+    filter(Round == revision_task) %>%
+    select(Q1, Revision_of_Q4, Round)
+  
+  task_data <- efdat %>%
+    filter(Round == task) %>%
+    anti_join(rev, by = "Q1") %>%
+    select(Q1, Revision_of_Q4, Round) %>%
+    rbind(rev)
+  
+  # Calculate variances
+  var_task <- var(task_data %>% filter(Round == task) %>% pull(Revision_of_Q4))
+  var_revision <- var(task_data %>% filter(Round == revision_task) %>% pull(Revision_of_Q4))
+  
+  # Print variances
+  print(paste("Variance for", task, ":", var_task))
+  print(paste("Variance for", revision_task, ":", var_revision))
+  
+  print(paste("Comparing", task, "vs", revision_task))
+  print(leveneTest(Revision_of_Q4 ~ Round, data = task_data))
+}
+
+# Perform comparisons
+compare_tasks("Task 1", "Task 1 Revision")
+compare_tasks("Task 2", "Task 2 Revision")
+compare_tasks("Task 3", "Task 3 Revision")
+
+# Pooled version (drop within each round)
+# Combine all tasks and revisions into a single dataset
+all_tasks <- efdat %>%
+  filter(Round %in% c("Task 1", "Task 2", "Task 3"))
+
+# Exclude revisions from original tasks
+filtered_tasks <- all_tasks %>%
+  filter(!(Q1 %in% (efdat %>% filter(Round == "Task 1 Revision") %>% pull(Q1))) & Round == "Task 1") %>%
+  bind_rows(all_tasks %>% filter(!(Q1 %in% (efdat %>% filter(Round == "Task 2 Revision") %>% pull(Q1))) & Round == "Task 2")) %>%
+  bind_rows(all_tasks %>% filter(!(Q1 %in% (efdat %>% filter(Round == "Task 3 Revision") %>% pull(Q1))) & Round == "Task 3"))
+
+all_revisions <- efdat %>%
+  filter(Round %in% c("Task 1 Revision", "Task 2 Revision", "Task 3 Revision"))
+
+combined_data <- bind_rows(filtered_tasks, all_revisions)
+
+# Update Round to indicate pooled groups
+combined_data <- combined_data %>%
+  mutate(Pooled_Round = ifelse(Round %in% c("Task 1", "Task 2", "Task 3"), "All Tasks", "All Revisions"))
+
+# Calculate variances for pooled data
+var_all_tasks <- var(combined_data %>% filter(Pooled_Round == "All Tasks") %>% pull(Revision_of_Q4))
+var_all_revisions <- var(combined_data %>% filter(Pooled_Round == "All Revisions") %>% pull(Revision_of_Q4))
+
+# Print variances
+print(paste("Variance for All Tasks:", var_all_tasks))
+print(paste("Variance for All Revisions:", var_all_revisions))
+
+# Perform two-sided Levene's test on pooled data
+levene_result_pooled <- leveneTest(Revision_of_Q4 ~ Pooled_Round, data = combined_data)
+print("Two-sided Levene's test result for All Tasks vs All Revisions")
+print(levene_result_pooled)
+
+  
 
