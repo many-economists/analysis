@@ -160,5 +160,48 @@ compare_future <- function(task, revision_task) {
 compare_future("Task 2", "Task 1 Revision")
 compare_future("Task 3", "Task 2 Revision")
 
-  
+
+# Pooled version (drop within each round)
+
+rev_1 <- efdat %>%
+  filter(Round == "Task 1 Revision") %>%
+  select(Q1) %>% 
+  mutate(revised = TRUE)
+
+rev_2 <- efdat %>%
+  filter(Round == "Task 2 Revision") %>%
+  select(Q1) %>% 
+  mutate(revised = TRUE)
+
+task_2 <- efdat %>%
+  filter(Round == "Task 2") %>%
+  left_join(rev_1, by = "Q1") %>%
+  mutate(revised = ifelse(is.na(revised), FALSE, TRUE)) %>% 
+  select(Q1, Revision_of_Q4, revised) 
+
+task_3 <- efdat %>%
+  filter(Round == "Task 3") %>%
+  left_join(rev_2, by = "Q1") %>%
+  mutate(revised = ifelse(is.na(revised), FALSE, TRUE)) %>% 
+  select(Q1, Revision_of_Q4, revised) 
+
+
+# Combine all into a single dataset
+combined_data <- rbind(task_2, task_3)
+
+# Calculate variances for pooled data
+var_all_tasks <- var(combined_data %>% filter(revised == FALSE) %>% pull(Revision_of_Q4))
+var_all_revisions <- var(combined_data %>% filter(revised == TRUE) %>% pull(Revision_of_Q4))
+
+# Print variances
+print(paste("Variance for All Tasks:", var_all_tasks))
+print(paste("Variance for All Revisions:", var_all_revisions))
+
+# Perform two-sided Levene's test on pooled data
+levene_result_pooled <- leveneTest(Revision_of_Q4 ~ factor(revised), data = combined_data)
+print("Two-sided Levene's test result for All Tasks vs All Revisions")
+print(levene_result_pooled)
+
+
+
 
