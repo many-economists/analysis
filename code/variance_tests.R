@@ -92,7 +92,7 @@ compare_tasks <- function(task, revision_task) {
   print(leveneTest(Revision_of_Q4 ~ Round, data = task_data))
 }
 
-# Perform comparisons
+# Perform comparisons for hypothesis 4
 compare_tasks("Task 1", "Task 1 Revision")
 compare_tasks("Task 2", "Task 2 Revision")
 compare_tasks("Task 3", "Task 3 Revision")
@@ -102,7 +102,7 @@ compare_tasks("Task 3", "Task 3 Revision")
 all_tasks <- efdat %>%
   filter(Round %in% c("Task 1", "Task 2", "Task 3"))
 
-# Exclude revisions from original tasks
+# Exclude respondents with revisions from original tasks
 filtered_tasks <- all_tasks %>%
   filter(!(Q1 %in% (efdat %>% filter(Round == "Task 1 Revision") %>% pull(Q1))) & Round == "Task 1") %>%
   bind_rows(all_tasks %>% filter(!(Q1 %in% (efdat %>% filter(Round == "Task 2 Revision") %>% pull(Q1))) & Round == "Task 2")) %>%
@@ -126,9 +126,39 @@ print(paste("Variance for All Tasks:", var_all_tasks))
 print(paste("Variance for All Revisions:", var_all_revisions))
 
 # Perform two-sided Levene's test on pooled data
-levene_result_pooled <- leveneTest(Revision_of_Q4 ~ Pooled_Round, data = combined_data)
+levene_result_pooled <- leveneTest(Revision_of_Q4 ~ factor(Pooled_Round), data = combined_data)
 print("Two-sided Levene's test result for All Tasks vs All Revisions")
 print(levene_result_pooled)
+
+
+# Hypothesis 5 ("future" effects of review) ----
+
+compare_future <- function(task, revision_task) {
+  rev <- efdat %>%
+    filter(Round == revision_task) %>%
+    select(Q1) %>% 
+    mutate(revised = TRUE)
+  
+  task_data <- efdat %>%
+    filter(Round == task) %>%
+    left_join(rev, by = "Q1") %>%
+    mutate(revised = ifelse(is.na(revised), FALSE, TRUE)) %>% 
+    select(Q1, Revision_of_Q4, revised) 
+  
+  # Calculate variances
+  var_task <- var(task_data %>% filter(revised == FALSE) %>% pull(Revision_of_Q4))
+  var_revision <- var(task_data %>% filter(revised == TRUE) %>% pull(Revision_of_Q4))
+  
+  # Print variances
+  print(paste("Variance in", task, "if no", revision_task, ":", var_task))
+  print(paste("Variance in", task, "if", revision_task, ":", var_revision))
+  
+  print(paste("Comparing", task, "with and without", revision_task))
+  print(leveneTest(Revision_of_Q4 ~ factor(revised), data = task_data))
+}
+
+compare_future("Task 2", "Task 1 Revision")
+compare_future("Task 3", "Task 2 Revision")
 
   
 
