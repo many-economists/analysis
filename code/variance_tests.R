@@ -53,7 +53,7 @@ round_pairs <- list(c("Task 1", "Task 1 Revision"),
                     c("Task 3", "Task 3 Revision"),
                     c("Task 1", "Task 2"),
                     c("Task 2", "Task 3"),
-                    c("Task 1", "Task 3 Revision"))
+                    c("Task 1", "Task 3"))
 
 # Perform Levene test for each pair and print results
 for (pair in round_pairs) {
