@@ -27,6 +27,9 @@
 # *.csv
 # *.xlsx
 
+# Override for raw data files
+!raw_data/*.xlsx
+
 # qmd/presentation generated files
 *.png
 *.js
@@ -43,6 +46,7 @@
 *.map
 *.yml
 LICENSE
+*.pdf
 
 
 

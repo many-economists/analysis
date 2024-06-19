@@ -10,7 +10,7 @@ justcount[, Attrition := percent(1-shift(Participants,-1)/Participants, .01)]
 justcount[.N, Attrition := '']
 
 # Payment ordering RDD
-eo = import('../data/email_order.xlsx')
+eo = import('../raw_data/email_order.xlsx')
 moneyatt = dat[Q1 != 0]
 moneyatt = moneyatt[, .(Finished = max(!is.na(Q2))), by = Q1]
 setnames(moneyatt, "Q1",'respondent_id')
@@ -91,7 +91,7 @@ alldemog[, Researcher_Q11 := factor(Researcher_Q11,
 alldemog[, Researcher_Q17 := factor(Researcher_Q17, 
                                     levels = c('Yes','No','Prefer not to say'))]
 # Coding languages
-lang = import('../data/Replication Coding Language.xlsx', setclass = 'data.table')
+lang = import('../raw_data/replication-coding-language.xlsx', setclass = 'data.table')
 setnames(lang, c('Researcher ID','Language Used'),c('Q1','Language'))
 lang = lang[Q1 != 322]
 lang[, `Replication Task` := NULL]
