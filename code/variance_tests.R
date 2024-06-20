@@ -6,6 +6,7 @@ library(rio)
 library(car)
 library(here)
 library(nicksshorts)
+library(janitor)
 
 dat = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
 dat[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
@@ -122,84 +123,98 @@ var_all_tasks <- var(combined_data %>% filter(Pooled_Round == "All Tasks") %>% p
 var_all_revisions <- var(combined_data %>% filter(Pooled_Round == "All Revisions") %>% pull(Revision_of_Q4))
 
 # Print variances
-print(paste("Variance for All Tasks:", var_all_tasks))
-print(paste("Variance for All Revisions:", var_all_revisions))
+print(paste("Variance for pooled no revision:", var_all_tasks))
+print(paste("Variance for pooled revisions:", var_all_revisions))
 
 # Perform two-sided Levene's test on pooled data
 levene_result_pooled <- leveneTest(Revision_of_Q4 ~ factor(Pooled_Round), data = combined_data)
-print("Two-sided Levene's test result for All Tasks vs All Revisions")
+print("Two-sided Levene's test result for pooled no revision vs revisions")
 print(levene_result_pooled)
 
 
 # Hypothesis 5 ("future" effects of review) ----
 
-compare_future <- function(task, revision_task) {
-  rev <- efdat %>%
-    filter(Round == revision_task) %>%
-    select(Q1) %>% 
-    mutate(revised = TRUE)
-  
-  task_data <- efdat %>%
-    filter(Round == task) %>%
-    left_join(rev, by = "Q1") %>%
-    mutate(revised = ifelse(is.na(revised), FALSE, TRUE)) %>% 
-    select(Q1, Revision_of_Q4, revised) 
-  
-  # Calculate variances
-  var_task <- var(task_data %>% filter(revised == FALSE) %>% pull(Revision_of_Q4))
-  var_revision <- var(task_data %>% filter(revised == TRUE) %>% pull(Revision_of_Q4))
-  
-  # Print variances
-  print(paste("Variance in", task, "if no", revision_task, ":", var_task))
-  print(paste("Variance in", task, "if", revision_task, ":", var_revision))
-  
-  print(paste("Comparing", task, "with and without", revision_task))
-  print(leveneTest(Revision_of_Q4 ~ factor(revised), data = task_data))
+# Get peer review assignment by round
+efdat = efdat %>%
+  mutate(peer_review = FALSE)
+
+for (r in 1:3) {
+  peer_rev = import(here("data", paste0('task_', r, '_peer_review_pairs.csv'))) %>%
+    filter(!(dont_send)) %>%
+    filter(!is.na(pairID))
+  efdat = efdat %>%
+    mutate(peer_review = ifelse(Round == paste0('Task ',r) & Q1 %in% peer_rev$id2, TRUE, peer_review))
 }
 
-compare_future("Task 2", "Task 1 Revision")
-compare_future("Task 3", "Task 2 Revision")
+
+compare_future <- function(task_num) {
+  # Review before round
+  prior <- efdat %>% 
+    filter(Round == paste0("Task ", as.numeric(str_extract(task_num, "\\d")) - 1)) %>%
+    select(Q1, peer_review)
+  
+  # Task data
+  task_data <- efdat %>%
+    filter(Round == paste0("Task ", as.numeric(str_extract(task_num, "\\d")))) %>%
+    select(Q1, Revision_of_Q4) %>% 
+    left_join(prior, by = "Q1")
+  
+  # Calculate variances
+  var_no_peer <- var(task_data %>% filter(peer_review == FALSE) %>% pull(Revision_of_Q4))
+  var_peer <- var(task_data %>% filter(peer_review == TRUE) %>% pull(Revision_of_Q4))
+  
+  # Print variances
+  print(paste("Variance in", task_num, "if not in peer reivew:", var_no_peer))
+  print(paste("Variance in", task_num, "if in peer review:", var_peer))
+  
+  print(paste("Comparing", task_num, "with and without peer review"))
+  print(leveneTest(Revision_of_Q4 ~ factor(peer_review), data = task_data))
+}
+
+compare_future(2)
+compare_future(3)
 
 
 # Pooled version (drop within each round)
 
-rev_1 <- efdat %>%
-  filter(Round == "Task 1 Revision") %>%
-  select(Q1) %>% 
-  mutate(revised = TRUE)
 
-rev_2 <- efdat %>%
-  filter(Round == "Task 2 Revision") %>%
-  select(Q1) %>% 
-  mutate(revised = TRUE)
+# Review before round
+prior_2 <- efdat %>% 
+  filter(Round == "Task 1") %>%
+  select(Q1, peer_review)
 
+# Task data
 task_2 <- efdat %>%
   filter(Round == "Task 2") %>%
-  left_join(rev_1, by = "Q1") %>%
-  mutate(revised = ifelse(is.na(revised), FALSE, TRUE)) %>% 
-  select(Q1, Revision_of_Q4, revised) 
+  select(Q1, Revision_of_Q4) %>% 
+  left_join(prior_2, by = "Q1")
 
+# Review before round
+prior_3 <- efdat %>% 
+  filter(Round == "Task 2") %>%
+  select(Q1, peer_review)
+
+# Task data
 task_3 <- efdat %>%
   filter(Round == "Task 3") %>%
-  left_join(rev_2, by = "Q1") %>%
-  mutate(revised = ifelse(is.na(revised), FALSE, TRUE)) %>% 
-  select(Q1, Revision_of_Q4, revised) 
+  select(Q1, Revision_of_Q4) %>% 
+  left_join(prior_3, by = "Q1")
 
 
 # Combine all into a single dataset
 combined_data <- rbind(task_2, task_3)
 
 # Calculate variances for pooled data
-var_all_tasks <- var(combined_data %>% filter(revised == FALSE) %>% pull(Revision_of_Q4))
-var_all_revisions <- var(combined_data %>% filter(revised == TRUE) %>% pull(Revision_of_Q4))
+var_all_no_peer <- var(combined_data %>% filter(peer_review == FALSE) %>% pull(Revision_of_Q4))
+var_all_peer <- var(combined_data %>% filter(peer_review == TRUE) %>% pull(Revision_of_Q4))
 
 # Print variances
-print(paste("Variance for All Tasks:", var_all_tasks))
-print(paste("Variance for All Revisions:", var_all_revisions))
+print(paste("Variance for not in peer review:", var_all_no_peer))
+print(paste("Variance for in peer review:", var_all_peer))
 
 # Perform two-sided Levene's test on pooled data
-levene_result_pooled <- leveneTest(Revision_of_Q4 ~ factor(revised), data = combined_data)
-print("Two-sided Levene's test result for All Tasks vs All Revisions")
+levene_result_pooled <- leveneTest(Revision_of_Q4 ~ factor(peer_review), data = combined_data)
+print("Two-sided Levene's test result for pooled no peer review vs peer review")
 print(levene_result_pooled)
 
 
