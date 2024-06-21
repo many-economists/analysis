@@ -3,10 +3,9 @@ title: "The Sources of Researcher Variation in Economics"
 author:
   - id: HK1
     number: 1
-    name: Nick Huntington-Klein
+    name: Nick Huntington-Klein\thanks{Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th ave., Seattle, WA, 98122. Huntington-Klein and Pörtner are the project organizers. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. The Seattle University IRB determined this study to be exempt from IRB review in accordance with federal regulation criteria. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the project.}
     email: nhuntington-klein@seattleu.edu
     phone: 1-206-296-5815
-    acknowledgements: Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th ave., Seattle, WA, 98122. Huntington-Klein and Pörtner are the project organizers. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the project.
     fax: NONE
     orcid: 0000-0002-7352-3991
     degrees: PhD
@@ -393,13 +392,18 @@ Importantly, these results are derived from the survey responses that researcher
 
 ## Variation in Effects and Sample Sizes {#sec-variation}
 
+```{r}
+source('../code/variation_in_effects_and_sample_sizes.R')
+source('../code/variance_tests.R')
+```
+
 @fig-effect-distributions and Table \ref{tab-effectdist} show the distribution of estimated effects across all researchers. The effect distributions are shown in two ways: unweighted and using inverse-standard-error weights.[^15] Several data points are dropped from the weighted analysis for researchers who did not report standard errors or reported 0. Other missing values are researchers who did not repond to a given question.
 
 [^15]: The use of inverse-standard-error weights is not preregistered but follows meta-analytic standards, reducing the influence of estimates that may be outliers due to being estimated with a highly-noisy method, under the suggestion of @auspurg2023social. Weights are truncated at the 95th percentile (200, or a standard error of .005) so as to avoid any single researcher having too much influence on results. Skipping the truncation shows more agreement because a few researchers with very small standard errors make up a significant share of the weighted sample.
 
 In Task 1, the mean estimated effect of DACA eligibility on the probability of working full-time was .053 unweighted or .044 weighted. In both cases these means are pulled upwards by high top-end estimates and are above the 75th percentiles. Median estimates were .030 unweighted or .026 weighted. Even in Task 1, with a large amount of freedom afforded, researchers found a reasonable amount of agreement in the effect sizes outside of the tails, with the 25th to 75th percentile ranges of the effect being .014 to .051 unweighted, an inter-quartile range (IQR) of .037, or 3.7 percentage points in the effect, or .012 to .043 weighted, an IQR of .031. The use of weights narrows the distribution of effects: researchers reporting smaller standard errors also reported estimates that were more similar to each other, which was also the case in Tasks 2 and 3.
 
-Our preregistration plan details that we planned to give descriptive characteristics of the results, as we do here, and also implement a Levene test on whether the variance between researchers declined. We do not reject at the 95% level the null of no change in variance from any stage to any later stage (including a comparison of each task to its revision stage, and comparing each main task to later main tasks), with the lowest p-value of XXX coming from the comparison of Task 1 to Task 3. XXX
+Our preregistration plan details that we planned to give descriptive characteristics of the results, as we do here, and also implement a Levene test on whether the variance between researchers declined. We do not reject at the 95% level the null of no change in variance from any stage to any later stage (including a comparison of each task to its revision stage, and comparing each main task to later main tasks), with the lowest p-value of `r number(levene_test_results$pval[1],.001)` coming from the comparison of `r levene_test_results$TaskA[1]` to `r levene_test_results$TaskB[1]`.
 
 Task 2 is somewhat odd in that it shows less agreement than Task 1 despite giving researchers less freedom. The IQRs increase to .043 unweighted or .040 weighted. Further, the effect distributions are somewhat bimodal, especially when weighted. One of these modes appears to be researchers reporting effect estimates of a similar level to those in Task 1, and others reporting effect estimates similar to what would later be found in Task 3.
 
@@ -412,8 +416,6 @@ Taking only the effect distributions as a baseline, we see that, at least in thi
 #| fig-height: 5
 #| label: fig-effect-distributions
 #| fig-cap: Distributions of Reported Effect Sizes
-source('../code/variation_in_effects_and_sample_sizes.R')
-
 p_effect_distribution
 ```
 
@@ -463,17 +465,26 @@ Aside from this issue, we see that the imposition of a shared definition for the
 ```{r}
 # this section used to be here,
 source('../code/researcher_characteristics_and_effects.R')
+source('../code/researcher_characteristics_and_effects_b.R')
 ```
 
 ## Peer Review
 
-This section evaluates the impact of peer review on the later work performed by a researcher. The structure of peer review in this study is that, following each main task, 2/3 of the researchers are randomized into pairs that produce a peer review report of the other's work, while the remaining 1/3 do not receive or perform peer review. Then, researchers have an opportunity to revise their work. Revision is optional, and relatively few researchers (about 30 per task) chose to revise their work after receiving peer review. As such, we mostly look at the impact of peer review on the work performed in subsequent main tasks.
+This section evaluates the impact of peer review on the later work performed by a researcher. The structure of peer review in this study is that, following each main task, 2/3 of the researchers are randomized into pairs that produce a peer review report of the other's work, while the remaining 1/3 do not receive or perform peer review. Then, researchers have an opportunity to revise their work. 
+
+Revision is optional, and relatively few researchers (about 30 per task) chose to revise their work after receiving peer review. As such, we mostly look at the impact of peer review on the work performed in subsequent main tasks. However, we can check if revision tended to lead towards more agreement overall. In Table \ref{tab-variance-after-revision}, we show the variance of the entire sample of reported effects post-revision, replacing each researcher's reported task effect with its revision, if they revised their work, and compare variance among the peer-reviewed group to the non-peer-reviewed group. At no point is this difference statistically significant, and it is inconsistent which group had the lower post-revision variance. Taking only the subgroup of actually-revised estimates, we see that these tended to agree with each other more than the group as a whole did in Tasks 1 and 2, but this is also inconsistent, with greater variance than the whole group in Task 3 and when pooling over all tasks (after subtracting by-task means).
+
+```{r}
+peer_review_levene |>
+  knitr::kable(booktabs = TRUE, 
+               caption = 'Post-Revision Variance by Peer Review \\label{tab-variance-after-revision}')
+```
 
 In general, the mechanisms by which peer review might be expected to change a researcher's work in normal journal submissions include both that researchers might find peer review comments helpful and incorporate them into their work, and that researchers are required by the journal submission process to incorporate most reviewer comments. In this study, our peer review process can only capture the first of these mechanisms.
 
 @fig-peer-review-effect-distributions shows the distribution of effect sizes estimated by those who did, and did not, engage in peer review in each round. The left column of graphs shows the effects reported in each task before researchers were assigned to peer review, and the right column shows the effects reported in the follow-up task, comparing those either assigned or not assigned to peer review in the previous task. As we might expect given random assignment, effect distributions are fairly similar pre-review between the review and non-review groups, with a slightly narrower distribution of effects for researchers about to be reviewed.
 
-We also see that these groups have very similar effect distributions in their follow-up task. Neither group has a considerably narrower distribution than the other. This is not strong evidence in favor of the idea that peer review might drive agreement between researchers due to the receipt of feedback.
+We also see that these groups have very similar effect distributions in their follow-up task. Neither group has a considerably narrower distribution than the other. Levene tests for differences in follow-up round effect variance between the peer-reviewed and non-peer-reviewed groups show p-values of `r number(levene_peer_vs_next_round$levene_p[1], .001)` and `r number(levene_peer_vs_next_round$levene_p[2], .001)` in Tasks 2 and 3, respectively, or `r number(levene_result_pooled[['Pr(>F)']][1], .001)` when pooling the two tasks. This is not strong evidence in favor of the idea that peer review might drive agreement between researchers due to the receipt of feedback.
 
 ```{r}
 #| label: fig-peer-review-effect-distributions
@@ -679,6 +690,43 @@ p_deviations_by_language
 
 Overall, there is little role for researcher professional or demographic characteristics in predicting either the level of the effects they reported, or the deviation of those effects from the mean. There is some explanatory power for the choice of programming language. R users were more likely than Stata users to report estimates far from average of what other users reported.
 
+### Analysis By Project Organizer B
+
+Table \ref{tab-researcher-characteristics-regs-b} looks at within-researcher variation in effect estimates across tasks. In the first three columns, the dependent variable is the absolute difference in effects for a given researcher across two tasks, while in the fourth column, the dependent variable is a researcher's maximum estimated effect minus their minimum.
+
+```{r}
+modelsummary(researcher_characteristics_models_b, 
+             coef_map = c(
+               '(Intercept)' = 'Intercept',
+               'factor(position)Faculty' = 'Faculty',
+               'factor(position)Grad student' = 'Grad student',
+               'factor(position)Uni researcher' = 'Uni researcher',
+               'factor(position)Other' = 'Other',
+               'factor(position)Private researcher' = 'Private researcher',
+               'factor(position)Public researcher' = 'Public researcher',
+               'factor(degree)PhD' = 'PhD',
+               'factor(degree)Not PhD' = 'Not PhD',
+               'factor(experience)6+ papers' = '6+ papers',
+               'factor(experience)1-5 papers' = '1-5 papers',
+               'factor(experience)0 papers' = '0 papers'
+             ),
+             stars = TRUE,
+             output = 'kableExtra',
+             title = "Model Coefficients and Standard Errors for Task Comparisons\\label{tab-researcher-characteristics-regs-b}",
+             gof_omit = '^(?!R2|Num.Obs)',
+             escape = FALSE
+)
+```
+
+Most researcher characteristics do not predict absolute within-researcher variation. Career stage, occupation, and number of published papers do not predict absolute differences in estimates across tasks to a statistically significant degree, with few exceptions. 
+
+One exception is that private researchers saw larger absolute changes between Task 1 and Task 3, and also more absolute variation overall, although the latter is only significant at the $\alpha = .1$ level. Probably the most interesting is that inexperience was related to smaller changes from Task 1 to Task 3: those who do not have a PhD showed a smaller change between Task 1 and Task 3 (significant at $\alpha = .1$), and those with fewer papers also showed smaller absolute changes than those with 6+ papers (insignificant).
+
+### Two-Analyst Results for Researcher Characteristics
+
+Both project organizers used the same data to answer the same research question. From the preregistration: "Both primary authors will, independently, analyze the relationship between (a) researcher characteristics and reported research results in earlier stages, and (b) attrition from the study and reported research results in later stages." Because there was so little attrition from the study after Task 1, part b was dropped from the analysis. While this question is much more open-ended than the main causal inference question in this paper, it is notable how different the two approaches were. The dependent variable of interest differed, as did the analytic method and selection of relevant predictors. Both organizers found, however, that researcher characterisics were not strong predictors of what the researchers did.
+
+
 ## Bimodality in the Task 2 Effect Estimates {#sec-bimodal}
 
 One of the surprising results in @sec-variation was the effect distribution in Task 2. In designing the study, we had expected that each task would show a narrower distribution of effects than the previous task. While we did generally see this pattern for sample sizes and some researcher choices, the distribution of effects in particular became wider going from Task 1 to Task 2. We also saw some emerging bimodality, where the larger part of the sample reported estimates that reflected the distribution of effects already seen in Task 1, while a smaller group of researchers reported larger effects that were more like those found in Task 3. In this section we explore possible explanation for the unexpected findings in Task 2.[^22]
@@ -754,7 +802,7 @@ To some degree, the findings of this paper do not reflect a problem to be solved
 
 However, there is a problem to be solved to the extent that researcher variation reflects either (a) error, or (b) choices that are unexamined or invisible while also being something that researchers would choose differently.
 
-In this study, we found considerable variation across researchers in the approaches taken to answering the main question in Task 1, which most closely reflects actual practice. While the distribution of effects did not considerably narrow from Task 1 to Task 2, the sample sizes did, as did the treated and comparison group definitions. There was, in both rounds, a lot of variation in the set of covariates included, as well.
+In this study, we found considerable variation across researchers in the approaches taken to answering the main question in Task 1, which most closely reflects actual practice. While the distribution of effects did not considerably narrow from Task 1 to Task 2, the sample sizes did, as did the treated and comparison group definitions. Although we generally did not reject Levene tests of equal variance across rounds, descriptively there was an obvious narrowing of the distribution of effects. There was, in both rounds, a lot of variation in the set of covariates included, as well.
 
 To the extent that these choices reflect research design and modeling choices, the problem is somewhat already addressed. Researchers are used to critiquing research design and modeling choices in public work. Because of this, we would expect that all of these choices would be reported in a writeup of research, where they could be critiqued. What would not typically occur is someone actually testing whether many of these alternate choices actually lead to different results, especially for seemingly more innocuous choices like covariate functional form, which was found in this study to be more consequential than the set of covariates included.
 
