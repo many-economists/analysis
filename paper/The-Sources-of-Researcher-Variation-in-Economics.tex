@@ -197,7 +197,9 @@
   pdfcreator={LaTeX via pandoc}}
 
 \title{The Sources of Researcher Variation in Economics}
-\author{Nick Huntington-Klein \and Claus Pörtner}
+\author{Nick
+Huntington-Klein\thanks{Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th ave., Seattle, WA, 98122. Huntington-Klein and Pörtner are the project organizers. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. The Seattle University IRB determined this study to be exempt from IRB review in accordance with federal regulation criteria. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the project.} \and Claus
+Pörtner}
 \date{}
 
 \begin{document}
@@ -217,7 +219,7 @@ peer review. This implies that data preparation and cleaning should
 receive considerably more attention in researcher training and the
 evaluation of research.
 \end{abstract}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, sharp corners, frame hidden, interior hidden, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, boxrule=0pt, sharp corners, interior hidden, frame hidden, breakable, borderline west={3pt}{0pt}{shadecolor}]}{\end{tcolorbox}}\fi
 
 \hypertarget{introduction}{%
 \section{Introduction}\label{introduction}}
@@ -1169,8 +1171,8 @@ Levene test on whether the variance between researchers declined. We do
 not reject at the 95\% level the null of no change in variance from any
 stage to any later stage (including a comparison of each task to its
 revision stage, and comparing each main task to later main tasks), with
-the lowest p-value of XXX coming from the comparison of Task 1 to Task
-3. XXX
+the lowest p-value of 0.197 coming from the comparison of Task 1 to Task
+1 Revision.
 
 Task 2 is somewhat odd in that it shows less agreement than Task 1
 despite giving researchers less freedom. The IQRs increase to .043
@@ -1364,11 +1366,68 @@ performed by a researcher. The structure of peer review in this study is
 that, following each main task, 2/3 of the researchers are randomized
 into pairs that produce a peer review report of the other's work, while
 the remaining 1/3 do not receive or perform peer review. Then,
-researchers have an opportunity to revise their work. Revision is
-optional, and relatively few researchers (about 30 per task) chose to
-revise their work after receiving peer review. As such, we mostly look
-at the impact of peer review on the work performed in subsequent main
-tasks.
+researchers have an opportunity to revise their work.
+
+Revision is optional, and relatively few researchers (about 30 per task)
+chose to revise their work after receiving peer review. As such, we
+mostly look at the impact of peer review on the work performed in
+subsequent main tasks. However, we can check if revision tended to lead
+towards more agreement overall. In Table
+\ref{tab-variance-after-revision}, we show the variance of the entire
+sample of reported effects post-revision, replacing each researcher's
+reported task effect with its revision, if they revised their work, and
+compare variance among the peer-reviewed group to the non-peer-reviewed
+group. At no point is this difference statistically significant, and it
+is inconsistent which group had the lower post-revision variance. Taking
+only the subgroup of actually-revised estimates, we see that these
+tended to agree with each other more than the group as a whole did in
+Tasks 1 and 2, but this is also inconsistent, with greater variance than
+the whole group in Task 3 and when pooling over all tasks (after
+subtracting by-task means).
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0854}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2439}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2195}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2439}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2073}}@{}}
+\caption{Post-Revision Variance by Peer Review
+\label{tab-variance-after-revision}}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Task
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Unreviewed Variance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reviewed Variance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Levene Test p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Revised Variance
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Task
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Unreviewed Variance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Reviewed Variance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Levene Test p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Revised Variance
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Task 1 & 0.002 & 0.012 & 0.173 & 0.001 \\
+Task 2 & 0.009 & 0.004 & 0.571 & 0.002 \\
+Task 3 & 0.001 & 0.008 & 0.210 & 0.015 \\
+Pooled & 0.004 & 0.008 & 0.219 & 0.005 \\
+\end{longtable}
 
 In general, the mechanisms by which peer review might be expected to
 change a researcher's work in normal journal submissions include both
@@ -1390,9 +1449,12 @@ researchers about to be reviewed.
 
 We also see that these groups have very similar effect distributions in
 their follow-up task. Neither group has a considerably narrower
-distribution than the other. This is not strong evidence in favor of the
-idea that peer review might drive agreement between researchers due to
-the receipt of feedback.
+distribution than the other. Levene tests for differences in follow-up
+round effect variance between the peer-reviewed and non-peer-reviewed
+groups show p-values of 0.846 and 0.788 in Tasks 2 and 3, respectively,
+or 0.999 when pooling the two tasks. This is not strong evidence in
+favor of the idea that peer review might drive agreement between
+researchers due to the receipt of feedback.
 
 \begin{figure}
 
@@ -2169,6 +2231,84 @@ explanatory power for the choice of programming language. R users were
 more likely than Stata users to report estimates far from average of
 what other users reported.
 
+\hypertarget{analysis-by-project-organizer-b}{%
+\subsubsection{Analysis By Project Organizer
+B}\label{analysis-by-project-organizer-b}}
+
+Table \ref{tab-researcher-characteristics-regs-b} looks at
+within-researcher variation in effect estimates across tasks. In the
+first three columns, the dependent variable is the absolute difference
+in effects for a given researcher across two tasks, while in the fourth
+column, the dependent variable is a researcher's maximum estimated
+effect minus their minimum.
+
+\begin{table}
+\centering
+\caption{Model Coefficients and Standard Errors for Task Comparisons\label{tab-researcher-characteristics-regs-b}}
+\centering
+\begin{tabular}[t]{lcccc}
+\toprule
+  & Task 1 vs Task 2 & Task 2 vs Task 3 & Task 1 vs Task 3 & Absolute Range\\
+\midrule
+Intercept & \num{0.053}*** & \num{0.068}*** & \num{0.053}** & \num{0.087}***\\
+ & (\num{0.015}) & (\num{0.018}) & (\num{0.017}) & (\num{0.022})\\
+Grad student & \num{0.090}+ & \num{-0.015} & \num{0.099}+ & \num{0.086}\\
+ & (\num{0.047}) & (\num{0.054}) & (\num{0.051}) & (\num{0.066})\\
+Uni researcher & \num{-0.001} & \num{-0.014} & \num{0.016} & \num{0.000}\\
+ & (\num{0.033}) & (\num{0.038}) & (\num{0.036}) & (\num{0.047})\\
+Other & \num{0.004} & \num{-0.013} & \num{0.032} & \num{0.011}\\
+ & (\num{0.070}) & (\num{0.081}) & (\num{0.077}) & (\num{0.099})\\
+Private researcher & \num{0.021} & \num{0.065} & \num{0.134}** & \num{0.110}+\\
+ & (\num{0.042}) & (\num{0.049}) & (\num{0.046}) & (\num{0.059})\\
+Public researcher & \num{0.047} & \num{-0.013} & \num{0.044} & \num{0.039}\\
+ & (\num{0.035}) & (\num{0.041}) & (\num{0.039}) & (\num{0.050})\\
+Not PhD & \num{-0.070}+ & \num{0.003} & \num{-0.081}+ & \num{-0.074}\\
+ & (\num{0.040}) & (\num{0.047}) & (\num{0.044}) & (\num{0.057})\\
+1-5 papers & \num{-0.007} & \num{-0.037} & \num{-0.011} & \num{-0.027}\\
+ & (\num{0.021}) & (\num{0.025}) & (\num{0.024}) & (\num{0.030})\\
+0 papers & \num{0.012} & \num{-0.047} & \num{-0.017} & \num{-0.026}\\
+ & (\num{0.032}) & (\num{0.037}) & (\num{0.035}) & (\num{0.045})\\
+\midrule
+Num.Obs. & \num{145} & \num{145} & \num{145} & \num{145}\\
+R2 & \num{0.046} & \num{0.040} & \num{0.088} & \num{0.047}\\
+R2 Adj. & \num{-0.010} & \num{-0.017} & \num{0.034} & \num{-0.009}\\
+\bottomrule
+\multicolumn{5}{l}{\rule{0pt}{1em}+ p $<$ 0.1, * p $<$ 0.05, ** p $<$ 0.01, *** p $<$ 0.001}\\
+\end{tabular}
+\end{table}
+
+Most researcher characteristics do not predict absolute
+within-researcher variation. Career stage, occupation, and number of
+published papers do not predict absolute differences in estimates across
+tasks to a statistically significant degree, with few exceptions.
+
+One exception is that private researchers saw larger absolute changes
+between Task 1 and Task 3, and also more absolute variation overall,
+although the latter is only significant at the \(\alpha = .1\) level.
+Probably the most interesting is that inexperience was related to
+smaller changes from Task 1 to Task 3: those who do not have a PhD
+showed a smaller change between Task 1 and Task 3 (significant at
+\(\alpha = .1\)), and those with fewer papers also showed smaller
+absolute changes than those with 6+ papers (insignificant).
+
+\hypertarget{two-analyst-results-for-researcher-characteristics}{%
+\subsubsection{Two-Analyst Results for Researcher
+Characteristics}\label{two-analyst-results-for-researcher-characteristics}}
+
+Both project organizers used the same data to answer the same research
+question. From the preregistration: ``Both primary authors will,
+independently, analyze the relationship between (a) researcher
+characteristics and reported research results in earlier stages, and (b)
+attrition from the study and reported research results in later
+stages.'' Because there was so little attrition from the study after
+Task 1, part b was dropped from the analysis. While this question is
+much more open-ended than the main causal inference question in this
+paper, it is notable how different the two approaches were. The
+dependent variable of interest differed, as did the analytic method and
+selection of relevant predictors. Both organizers found, however, that
+researcher characterisics were not strong predictors of what the
+researchers did.
+
 \hypertarget{sec-bimodal}{%
 \subsection{Bimodality in the Task 2 Effect
 Estimates}\label{sec-bimodal}}
@@ -2406,8 +2546,11 @@ In this study, we found considerable variation across researchers in the
 approaches taken to answering the main question in Task 1, which most
 closely reflects actual practice. While the distribution of effects did
 not considerably narrow from Task 1 to Task 2, the sample sizes did, as
-did the treated and comparison group definitions. There was, in both
-rounds, a lot of variation in the set of covariates included, as well.
+did the treated and comparison group definitions. Although we generally
+did not reject Levene tests of equal variance across rounds,
+descriptively there was an obvious narrowing of the distribution of
+effects. There was, in both rounds, a lot of variation in the set of
+covariates included, as well.
 
 To the extent that these choices reflect research design and modeling
 choices, the problem is somewhat already addressed. Researchers are used
