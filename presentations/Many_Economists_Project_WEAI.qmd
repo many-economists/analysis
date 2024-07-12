@@ -1,0 +1,254 @@
+---
+title: "The Sources of Researcher Variation in Economics"
+author: |-
+  Nick Huntington-Klein, Claus Pörtner, and 150 others
+  
+  Seattle University
+format: 
+  revealjs:
+    theme: serif
+    smaller: true
+editor: visual
+execute:
+  warning: false
+  message: false
+  echo: false
+---
+
+```{r}
+{
+  library(rio)
+  library(data.table)
+  library(ggplot2)
+  library(nicksshorts) # remotes::install_github('NickCH-K/nicksshorts')
+  library(stringr)
+  library(scales)
+  library(vtable)
+  library(fixest)
+  library(modelsummary)
+  library(here)
+}
+
+{
+  library(rio)
+  library(data.table)
+  library(ggplot2)
+  library(nicksshorts) # remotes::install_github('NickCH-K/nicksshorts')
+  library(stringr)
+  library(scales)
+  library(vtable)
+  library(fixest)
+  library(modelsummary)
+  library(here)
+}
+
+dat = import("../data/cleaned_survey_post_corrections.parquet", setclass = 'data.table')
+dat[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
+dat[, Revision_of_Q17 := str_replace_all(Revision_of_Q17, '‚Äì','-')]
+dat[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
+
+theme_slides <- theme_nick() + 
+  theme(#panel.background = element_rect(fill='transparent'),
+        legend.background = element_rect(fill = 'transparent'), #transparent panel bg
+    plot.background = element_rect(fill='transparent', color=NA)) #transparent plot bg)
+
+# CHANGE THIS COLOR PALETTE TO CHANGE ALL GRAPHS
+colorpal = palette.colors(palette = 'Paired')
+```
+
+## Researcher Degrees of Freedom
+
+-   As we all know, when you do empirical work there are a million decisions to make.
+
+    -   Research design, data sourcing, sample selection, data cleaning, modeling, estimation, algorithm options, interpretation, writing, and so on.
+
+-   Of these decisions, all of them affect results. But only some are included in the paper.
+
+-   Results are at least somewhat determined by idiosyncratic decision-making related to *who is doing the research*. Even if these choices are not *wrong* they may be different.
+
+-   How bad is this problem, and why does it occur?
+
+## Many-Analyst Studies
+
+-   Since Silberzahn et al. (2018), one way of studying these topics has been the *many-analyst study.*
+
+-   In these studies, many teams of researchers attempt to answer the same research question. Unlike replication studies, they all use the same data, and encourage researchers to answer a given research question based on their own best judgment, rather than trying to copy an original "baseline" study.
+
+-   So far, most of these studies focus on *finding* variation between results across researchers in different fields (and they *do*, a lot) rather than *explaining* it.
+
+-   Some studies additionally try to isolate the differences in choices made (e.g. Botvinik-Nezer et al., 2020) , the influence of those choices on effects (e.g. Huntington-Klein et al., 2021), coding skills (Perignon et al., 2022), or the cohesion-building effects of peer review (e.g. Menkveld et al., 2023).
+
+## The Many-Economists Study
+
+-   This paper covers a many-analysts study in applied microeconomics, in application to estimation of a causal effect.
+
+-   The sample size is large enough to have some amount of power to study correlates of agreement.
+
+-   Approach: We iterate the same research task three times, each time *removing some amount of researcher control*, attempting to see *when* agreement starts to emerge, hoping to figure out how different kinds of degrees of freedom contribute to differences, and quantify those contributions.
+
+## The Replication Task
+
+-   DACA (Deferred Action for Childhood Arrivals) was implemented in the US on June 15, 2012, to relax work and education restrictions on undocumented immigrants who had arrived before their 16th birthday, turned 31 after June 15, 2012, lived in the US since June 15, 2007, and did not yet have lawful status.
+
+-   Among ethnically Hispanic-Mexican Mexican-born people living in the United States, what was the causal impact of eligibility for the Deferred Action for Childhood Arrivals (DACA) program (treatment) on the probability that the eligible person is employed full-time (outcome), defined as usually working 35 hours per week or more? Examine the effects in 2013-2016.
+
+-   Instructions for accessing ACS data via IPUMS (Ruggles et al., 2023), and a file of related state-level policy information, was given.
+
+## The Replication Task
+
+-   Rounds 2+3: Proceed on this question by assuming that eligible people who were ages 26-30 at the time when the policy went into place comprise the treated group. Estimate the effect of the policy by comparing these individuals to an untreated group made up of people who were ages 31-35 at the time the policy went into place, but otherwise would have been eligible if not for their age. Estimate the effect of treatment by seeing how the 26-30 group changed from before treatment to after relative to how the 31-35 group changed.
+
+-   This task, and this research design for rounds 2+3, is inspired by Amuedo-Dorantes and Antman (2016, 2017) but is not designed to exactly match any published study.
+
+```{r}
+# Ensure the proper analytic sample for all following code
+source('../code/participation_and_attrition.R')
+dat = dat[Q1 != 972]
+dat = dat[Q1 %in% Q1[Q2 == "The third replication task"]]
+```
+
+## Effect Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+source('../code/variation_in_effects_and_sample_sizes.R')
+p_effect_distribution + theme_slides
+```
+
+## What's With Round 2?
+
+```{r}
+# just run everything to keep it consistent
+source('../code/variance_tests.R')
+source('../code/researcher_characteristics_and_effects.R')
+source('../code/researcher_characteristics_and_effects_b.R')
+source('../code/peer_review.R')
+source('../code/analytic_choices.R')
+source('../code/clean_controls.R')
+source('../code/sample_limitations.R')
+source('../code/round_2_bimodality.R')
+```
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+p_match_vs_mismatch_distribution + theme_slides
+```
+
+## Sample Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+p_sample_size_distributions + theme_slides
+```
+
+## Treated-Group Sample Sizes
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+p_treated_group_sample_size + theme_slides
+```
+
+## Peer Review
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+source('../code/peer_review.R')
+p_peer_review_effect_distributions + theme_slides
+```
+
+## Do You Become More Like Your Reviewer?
+
+```{r, dev="png", dev.args=list(bg="transparent")}
+p_more_like_reviewer + theme_slides
+```
+
+## Method Distribution
+
+```{r}
+source('../code/analytic_choices.R')
+source('../code/clean_controls.R')
+base %>%
+  mutate(se_adjustment = factor(se_adjustment, levels = c(
+    'Cluster (State)',
+    'Cluster (State & Year)',
+    'Cluster (ID/Strata/Other)',
+    'Het-Robust',
+    'Other/Bootstrap',
+    'None'
+  ))) %>%
+  filter(!(round %like% 'Revision')) %>%
+  sumtable(vars = c('method','Weights','se_adjustment'), 
+         labels = c("Method",'Weights','S.E. Adjustment'),
+         title = "Estimation Methods",
+         col.breaks = 2,
+         anchor = 'tab-estimation-methods')
+```
+
+## Controls
+
+```{r}
+tablefsize = 20
+effects_by_controls |>
+  knitr::kable() |>
+  kableExtra::kable_styling(font_size = tablefsize)
+```
+
+## Control-Variable Functional Form
+
+```{r}
+trans_con[, .(N = uniqueN(paste0(Q1,Round)),
+                Effect = number(mean(Effect, na.rm = TRUE), .001),
+                `Mean SE` = number(mean(SE, na.rm = TRUE), .001),
+                `Effect SD` = number(sd(Effect, na.rm = TRUE), .001)),
+            by = .(Category = category, Control = Relabel)][order(Control)] |>
+  knitr::kable() |>
+  kableExtra::kable_styling(font_size = tablefsize)
+```
+
+<!-- Not really powered! -->
+
+<!-- Calculate absolute difference from mean (median?) of effect size and also sample size. Regress abs difference on different researcher characteristics one at a time -->
+
+## Sample Limitations
+
+```{r}
+source('../code/sample_limitations.R')
+sumtable(r12samp, c('Birthplace'), group = 'Round/Sample',
+         fit.page = '.75\\textwidth',
+         anchor = 'tab-sample-limitations-extensive',
+         title = 'Sample Restriction Methods') |>
+  kableExtra::kable_styling(font_size = tablefsize)
+```
+
+## Sample Limitations
+
+```{r}
+sumtable(r12samp, c('Age at Migration'), group = 'Round/Sample',
+         fit.page = '.75\\textwidth',
+         anchor = 'tab-sample-limitations-extensive',
+         title = 'Sample Restriction Methods') |>
+  kableExtra::kable_styling(font_size = tablefsize)
+```
+
+## Sample Limitations
+
+```{r}
+sumtable(r12samp, c('Year of Immigration'), group = 'Round/Sample',
+         fit.page = '.75\\textwidth',
+         anchor = 'tab-sample-limitations-extensive',
+         title = 'Sample Restriction Methods') |>
+  kableExtra::kable_styling(font_size = tablefsize)
+```
+
+## Summary
+
+-   Replicators largely agreed on the direction of the effect, although not always on its statistical significance.
+
+-   Specifying the research design without also cleaning/preparing the data did something to constrict variation but this differed along the tendency to actually clean the data to match
+
+-   Peer review had surprisingly little effect, although keep in mind this is a somewhat unusual peer review situation. If revisions were required, we may have seen more movement.
+
+-   Cleaning the data had a large effect and seems to be a big blind spot in research critique attention
+
+## Conclusion
+
+-   Data cleaning procedures were highly variable and seemed to be a driver of disagreement, in line with Huntington-Klein et al. (2021).
+
+-   We don't talk too much about data cleaning! This seems like an area that clearly receives too little attention in studies, relative to modeling etc.
+
+-   We can disagree on how much we *want* all studies to be consistent - there are reasons to do things different ways. But making a norm where reporting on data cleaning procedures receives as much attention as reporting on modeling choices seems like a clear positive recommendation.
