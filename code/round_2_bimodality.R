@@ -19,17 +19,57 @@ p_standard_error_scatter = dat[Round == 'Task 2'] |>
   scale_x_log10() + 
   coord_cartesian(xlim = c(0.001, .5))
 
-r12 = dat[Round %in% c('Task 1','Task 2') & Q1 %in% dat[Round == 'Task 3', Q1], .(Round, Effect = Revision_of_Q4, Q1)] |>
+rvs = dat[Round %in% c('Task 1','Task 2','Task 3') & Q1 %in% dat[Round == 'Task 3', Q1], .(Round, Effect = Revision_of_Q4, Q1)] |>
   dcast(Q1 ~ Round, value.var ='Effect')
-p_task1_vs_task2 = r12 |>
+get_cor = function(ta,tb) {
+  x = rvs[[ta]]
+  y = rvs[[tb]]
+  correl = cor(x,y)
+  pval = cor.test(x,y)$p.value
+  nstars = (pval < .1) + (pval < .05) + (pval < .01)
+  paste0('Corr. ', number(correl,.001),rep('*',nstars))
+}
+p_task1_vs_task2 = rvs |>
   ggplot(aes(x = `Task 1`, y = `Task 2`)) + 
+  geom_abline(intercept = 0, slope = 1, linetype = 'dashed') +
   geom_smooth(color = 'black', se = FALSE) +
   geom_point() + 
   theme_nick() + 
+  annotate(geom = 'text', x = .075, y = .01,
+           label = get_cor('Task 1','Task 2'),
+           family = 'serif', size = 13/.pt) +
   labs(x = 'Task 1 Effect', y = 'Task\n2\nEffect',
-       caption = 'Analysis range limited to effects from 0 to .1') + 
+       caption = ' ') + 
   scale_y_continuous(limits = c(0, .1)) +
   scale_x_continuous(limits = c(0, .1))
+p_task2_vs_task3 = rvs |>
+  ggplot(aes(x = `Task 2`, y = `Task 3`)) + 
+  geom_abline(intercept = 0, slope = 1, linetype = 'dashed') +
+  geom_smooth(color = 'black', se = FALSE) +
+  geom_point() + 
+  theme_nick() + 
+  annotate(geom = 'text', x = .075, y = .01,
+           label = get_cor('Task 2','Task 3'),
+           family = 'serif', size = 13/.pt) +
+  labs(x = 'Task 2 Effect', y = 'Task\n3\nEffect',
+       caption = 'Visible range limited to effects from 0 to .1.') + 
+  scale_y_continuous(limits = c(0, .1)) +
+  scale_x_continuous(limits = c(0, .1))
+p_task1_vs_task3 = rvs |>
+  ggplot(aes(x = `Task 1`, y = `Task 3`)) + 
+  geom_abline(intercept = 0, slope = 1, linetype = 'dashed') +
+  geom_smooth(color = 'black', se = FALSE) +
+  geom_point() + 
+  theme_nick() + 
+  annotate(geom = 'text', x = .075, y = .01,
+           label = get_cor('Task 1','Task 3'),
+           family = 'serif', size = 13/.pt) +
+  labs(x = 'Task 1 Effect', y = 'Task\n3\nEffect',
+       caption = '*/**/***: p < .1/.05/.01.') + 
+  scale_y_continuous(limits = c(0, .1)) +
+  scale_x_continuous(limits = c(0, .1))
+
+p_compare_rounds = p_task1_vs_task2+p_task2_vs_task3+p_task1_vs_task3
 
 # Share above .05 by controls
 shtask = allcontrols[Q1 %in% Q1[Round == 'Task 3'], .(Q1, Effect, Round, Control = as.character(Control))] |>
