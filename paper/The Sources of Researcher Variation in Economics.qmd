@@ -2771,12 +2771,16 @@ Table \ref{tab-samp2} shows the professional experience of enrollees. While grad
 
 [^14]: We also checked the programming languages used by researchers in the work they submitted. The most common language was Stata, with 109 researchers performing their work solely in Stata. 33 used R, and one researcher used both R and Stata. Less common were Python and SPSS, with one researcher each.
 
-These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Faculty')),1)]`) and other non-faculty researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Other Researcher')),1)]`), both of which were more likely than graduate students to finish all three rounds. Most of the researchers had at least one published paper.[^15] About a third of researchers had done work in either immigration or labor economics, the fields closest to the research task at hand, although all of them had done work in applied microeconomics generally.
+These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Faculty')),1)]`) and other non-faculty researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Other Researcher')),1)]`), both of which were more likely than graduate students to finish all three rounds. Most of the researchers had at least one published paper.[^15] About a third of initial researchers, and 40% of the final set of researchers, had done work in either immigration or labor economics, the fields closest to the research task at hand, with 5% having done work in both, although all researchers had done work in applied microeconomics generally.
 
 [^15]: Researchers in the "faculty" or "non-faculty researchers" categories who do not hold PhDs were either people who had been hired to faculty roles without holding PhDs (such as ABDs, or people in a faculty position requiring only a Master's degree), or people with Master's degrees in non-faculty research positions who had published academic papers (some of whom were still graduate students). Researchers with "No Academic Papers" are non-academic researchers who produce work not intended for academic journal publication. Those with "No Published Academic Papers" have papers that are forthcoming, or are faculty who only have working papers and no publications.
 
 ```{r}
 #| output: asis
+# Fix an error
+alldemog[Researcher_Q13 %like% 'Labor', Researcher_Cats := 'Labor']
+alldemog[Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration']
+alldemog[Researcher_Q13 %like% 'Labor' & Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration & Labor']
 sumtable(alldemog, vars = c('Researcher_Q10','Researcher_Q6', 'Q8Recode','Researcher_Cats'), 
          labels = c('Degree','Occupation', 'Research Experience','Field'), group = 'Round',
          out = 'latex', fit.page = '\\textwidth',
@@ -2842,7 +2846,9 @@ source('../code/researcher_characteristics_and_effects_b.R')
 source('../code/peer_review.R')
 source('../code/analytic_choices.R')
 source('../code/clean_controls.R')
-source('../code/sample_limitations.R')
+# This code generated the sample_restrictions_handcoded file that was then corrected by hand
+#source('../code/sample_limitations.R')
+source('../code/post_handcoding_sample_limitations.R')
 source('../code/round_2_bimodality.R')
 # Generate ordering for spot checks
 
@@ -2883,9 +2889,9 @@ Increasing agreement is necessarily driven by individual researchers changing th
 
 ```{r}
 #| fig-width: 9
-#| fig-height: 4
+#| fig-height: 3
 #| label: fig-effects-compare-rounds
-#| fig-cap: Same-Researcher Effet Sizes Across Tasks
+#| fig-cap: Same-Researcher Effect Sizes Across Tasks
 p_compare_rounds
 ```
 
@@ -3066,13 +3072,9 @@ These specific findings about the impact of choices on effects - that the inclus
 
 ## Sample Limitations {#sec-sample-limitations}
 
-In this section we examine the ways in which researchers defined their analytic samples, as well as defined the treated group, and any comparison group included in the data analysis that was not treated. These data are derived from researcher responses to a survey about their work, in which they were asked to describe how they limited the size of their sample before downloading it from IPUMS and which variables they used to further drop observations from the sample before analysis. For example someone might say that they only kept observations for which HISPAN == 1 (the observation is Hispanic-Mexican), along with other restrictions. These two responses are combined to define the full analytic sample.
+In this section we examine the ways in which researchers defined their analytic samples, as well as how they defined the treated group. For these analyses, Task 3 is omitted because the analytic sample and treated group are defined for all researchers. 
 
-Researchers were also asked to describe how they defined the treated group who was affected by DACA. For example someone might say that only those with CITIZEN == 3 (non-citizens) were eligible, along with other restrictions. These were combined with the analytic-sample restrictions to make the full treated group definition. Finally, researchers were similarly asked to describe the conditions that defined someone who would be included in analysis but not be treated by DACA, which were combined with the analytic-sample restructions to make the full comparison group definition.
-
-Researchers were asked to specify these conditions as precisely as possible to match what they did, and to use IPUMS variable names in their descriptions. The project organizers coded these into a set of boolean conditions defining the overall sample, treated group, and comparison group for each researcher, in some cases reviewing the code directly or asking researchers to clear up uncertainty where survey responses were unclear, but in general taking the researcher survey responses at their word. For these analyses, Task 3 is omitted because the analytic sample and treated group are defined for all researchers.
-
-Table \ref{tab-number-of-sample-limitations} looks purely at the number of distinct variables referenced in the sample limitations, regardless of what they are. In Task 1, the typical researcher used five variables to define their analytic sample, and an additional four to define their treated group. In Task 2, where inclusion criteria were shared, both of these numbers increased, but there was still considerable variation, with the 25th and 75th percentiles using 3 and 10 variables to define their full sample. Definition of the treated group was more shared, with the 25th and 75th percentiles using 9 and 12 variables, respectively.
+Table \ref{tab-number-of-sample-limitations} uses researcher survey responses about their sample definitions and looks purely at the number of distinct variables referenced in the sample limitations, regardless of what they are. In Task 1, the typical researcher used five variables to define their analytic sample, and an additional four to define their treated group. In Task 2, where inclusion criteria were shared, both of these numbers increased, but there was still considerable variation, with the 25th and 75th percentiles using 3 and 10 variables to define their full sample. Definition of the treated group was more shared, with the 25th and 75th percentiles using 9 and 12 variables, respectively.
 
 ```{r}
 #| output: asis
@@ -3081,13 +3083,17 @@ sumtable(basic_samp_limitations, vars = c('Whole Sample','Treated Group','Untrea
          out = 'latex', numformat = formatfunc(digits=2, nsmall = 1))
 ```
 
-As for how those variables are actually used, Table \ref{tab-sample-limitations-extensive} shows how these variables were implemented as sample restrictions. Importantly, these reflect the survey responses given by researchers. Some of the "none" responses in Task 2 in particular reflect researchers who did use the variable in some way but did not report it in their description of results.[^21]
+Table \ref{tab-sample-limitations-extensive} shows how these variables were implemented as sample restrictions, based on actual researcher code. This is the only section of the paper where the data do not rely on researcher responses to the survey. For each researcher's Task 1 and Task 2 code, organizers read the code directly and recorded some aspects of the sample definitions used for the overall analytic sample and for the definition of the treated group, including definitions that appeared to be the result of coding errors.[^21] 
 
-[^21]: Other notes of interest for reading the table: (a) "Multistep condition" refers to cases where the variable is included, but only as a part of a complex boolean statement involving many variables. These most commonly appeared in definitions for the comparison group, which are not in the table, in the format of "fails any one of the following set of DACA eligibility requirements." and (b) for Education/Veteran status, recall that the mention of this eligibility requirement was omitted from the Task 1 instructions, which explains why very few researchers used these variables to define their samples or treated groups in Task 1.
+XXX NOTE FOR CLAUS: SHOULD WE DROP MULTISTEP CONDITION ALTOGETHER AND JUST GROUP THEM IN WITH OTHER?
 
-We see a huge amount of variety in the ways these variables were used, including in Task 2 for the treated-group definition, where there is a correct answer according to the instructions (and similarly a correct answer for some variables in the Task 1 treated-group definition).[^22] For each variable, the most-common option, listed at the top, is the "correct" answer for defining the treated group, with two exceptions: (a) for Citizenship, there is a second justifiable answer in "Non-Citizen or Naturalized After 2012." These immigrants would have been eligible for DACA in 2012, but would not be eligible for DACA as of the time they were surveyed, so they would have received a partial "dose" of DACA, which could justifiably be included or excluded, and (b) for Years Continuous in USA, where DACA guidelines require that the immigrant have lived *continuously* in the United States for five years as of 2012. Most researchers used only year of immigration being before 2007 to satisfy this criterion, but others used the YRSUSA set of variables which specifically track living continuously in the country.
+[^21]: Other notes of interest for reading the table: (a) "Multistep condition" refers to cases where the variable is included, but only as a part of a complex boolean statement involving many variables. These most commonly appeared in definitions for the comparison group, which are not in the table, in the format of "fails any one of the following set of DACA eligibility requirements," (b) for Education/Veteran status, recall that the mention of this eligibility requirement was omitted from the Task 1 instructions, which explains why very few researchers used these variables to define their samples or treated groups in Task 1, and (c) all categories listed in the table refer to filtering the data in the exact same way with the exceptions of "Other" and "Multistep Condition" which both refer to a wide range of unique conditions, Year-Quarter Age and Year-Only Age, where any usage of year-quarter or year-only age in 2012 are grouped together, Used YRSUSA, where any usage of YRSUSA is grouped together, and "Hispanic-Any", which groups together the IPUMS conditions "HISPAN > 0" (which allows for someone to be both Hispanic and another race) and "RACHSING == 5" (which does not).
 
-[^22]: Keep in mind also that these are recoded versions of the actual survey submissions sent in by researchers. The survey question asked respondents to use IPUMS variable names to describe their choices. So for example the individuals reporting that they used only high school graduates or *non-veterans,* instead of veterans as per the instructions, likely did not intentionally choose to use non-veterans and write "I chose to use non-veterans in my sample" in their response but rather they wrote "VETSTAT == 1," which indicates "non-veteran", perhaps based on a misunderstanding of the IPUMS documentation (veterans are VETSTAT == 2).
+The coding does not cover the full set of possible variables used to define samples, which vary beyond the list presented in the table. Some common limitations used by some researchers and not others include filtering out people living in group quarters or those out of the labor force, or dropping anyone with a recorded year of immigration before their recorded year of birth. Many researchers also chose to limit the sample based on current age as of the year of their inclusion in the ACS (as opposed to their age in 2012, which is shown), choosing many different acceptable age ranges. Table \ref{tab-sample-limitations-extensive} looks only at limitations based on variables for which there is a ``right answer'' in the Task 2 instructions. 
+
+We see a huge amount of variety in the ways these variables were used, including in Task 2, where there is a correct answer according to the instructions (and similarly a correct answer for some variables in the Task 1 treated-group definition).[^22] For each variable, the most-common option, listed at the top, is the "correct" answer for defining the treated group, with two exceptions: (a) for Citizenship, there is a second justifiable answer in "Non-Citizen or Naturalized After 2012." These immigrants would have been eligible for DACA in 2012, but would not be eligible for DACA as of the time they were surveyed, so they would have received a partial "dose" of DACA, which could justifiably be included or excluded, and (b) for Years Continuous in USA, where DACA guidelines require that the immigrant have lived *continuously* in the United States for five years as of 2012. Most researchers used only year of immigration being before 2007 to satisfy this criterion, but others used the YRSUSA set of variables which specifically track living continuously in the country.
+
+[^22]: Keep in mind that the table allows for coding errors. For example the individuals reporting that they used only high school graduates or *non-veterans,* instead of veterans as per the instructions, likely did not intentionally choose to use non-veterans but rather coded "VETSTAT == 1," which indicates "non-veteran", perhaps based on a misunderstanding of the IPUMS documentation (veterans are VETSTAT == 2). However, an earlier version of this paper relied on researcher self-reports of sample limitations in the survey, and found similar rates at which Task 2 choices did not match the "correct answer", so coding errors alone do not account for these results.
 
 For all other variables besides Years Continuous in USA, the option matching the instructions was the most common, but we also see plenty of variation. We also see considerable variation for the columns in which there is not a clear "correct" option, like the analytic sample definition. No single way of applying any variable was used by more than 84% of the sample in any case. One interesting feature is the use of both "\< 16" and "\<= 16" for age at migration, and "\< 2007" and "\<= 2007" for year of migation. For year of migration, the two are similarly popular. Also interesting is the distinction between researchers using age defined in years to determine eligibility vs. age defined in quarters, which makes a difference given that eligibility is based on age specifically in June 2012.
 

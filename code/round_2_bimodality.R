@@ -29,6 +29,9 @@ get_cor = function(ta,tb) {
   nstars = (pval < .1) + (pval < .05) + (pval < .01)
   paste0('Corr. ', number(correl,.001),rep('*',nstars))
 }
+dropLeadingZero <- function(l){
+  str_replace(l, '0(?=.)', '')
+}
 p_task1_vs_task2 = rvs |>
   ggplot(aes(x = `Task 1`, y = `Task 2`)) + 
   geom_abline(intercept = 0, slope = 1, linetype = 'dashed') +
@@ -40,8 +43,10 @@ p_task1_vs_task2 = rvs |>
            family = 'serif', size = 13/.pt) +
   labs(x = 'Task 1 Effect', y = 'Task\n2\nEffect',
        caption = ' ') + 
-  scale_y_continuous(limits = c(0, .1)) +
-  scale_x_continuous(limits = c(0, .1))
+  scale_y_continuous(limits = c(0, .1),
+                     labels = dropLeadingZero) +
+  scale_x_continuous(limits = c(0, .1),
+                     labels = dropLeadingZero)
 p_task2_vs_task3 = rvs |>
   ggplot(aes(x = `Task 2`, y = `Task 3`)) + 
   geom_abline(intercept = 0, slope = 1, linetype = 'dashed') +
@@ -53,8 +58,10 @@ p_task2_vs_task3 = rvs |>
            family = 'serif', size = 13/.pt) +
   labs(x = 'Task 2 Effect', y = 'Task\n3\nEffect',
        caption = 'Visible range limited to effects from 0 to .1.') + 
-  scale_y_continuous(limits = c(0, .1)) +
-  scale_x_continuous(limits = c(0, .1))
+  scale_y_continuous(limits = c(0, .1),
+                     labels = dropLeadingZero) +
+  scale_x_continuous(limits = c(0, .1),
+                     labels = dropLeadingZero)
 p_task1_vs_task3 = rvs |>
   ggplot(aes(x = `Task 1`, y = `Task 3`)) + 
   geom_abline(intercept = 0, slope = 1, linetype = 'dashed') +
@@ -66,8 +73,10 @@ p_task1_vs_task3 = rvs |>
            family = 'serif', size = 13/.pt) +
   labs(x = 'Task 1 Effect', y = 'Task\n3\nEffect',
        caption = '*/**/***: p < .1/.05/.01.') + 
-  scale_y_continuous(limits = c(0, .1)) +
-  scale_x_continuous(limits = c(0, .1))
+  scale_y_continuous(limits = c(0, .1),
+                     labels = dropLeadingZero) +
+  scale_x_continuous(limits = c(0, .1),
+                     labels = dropLeadingZero)
 
 p_compare_rounds = p_task1_vs_task2+p_task2_vs_task3+p_task1_vs_task3
 
@@ -147,7 +156,10 @@ p_match_vs_mismatch_distribution = ggplot(unique(r12samp_w_q1[`Round/Sample` == 
   theme_nick()
 
 # Matching the instructions
-rfield = unique(dat[Q1 %in% dat[Round == 'Task 3', Q1], .(Researcher_Cats, Q1)])
+rfield = unique(dat[Q1 %in% dat[Round == 'Task 3', Q1], .(Researcher_Cats, Q1, Researcher_Q13)])
+rfield[Researcher_Q13 %like% 'Labor', Researcher_Cats := 'Labor']
+rfield[Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration']
+rfield[Researcher_Q13 %like% 'Labor' & Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration & Labor']
 rfield = merge(unique(r12samp_w_q1[`Round/Sample` == 'Task 2 Treated' & Q1 %in% dat[Round == 'Task 3', Q1], .(Q1, Correct)]), rfield, by = 'Q1')
 rfield[is.na(Researcher_Cats), Researcher_Cats := 'Neither']
 rfield[Researcher_Cats == 'Neither', Researcher_Cats := 'Neither/Other']
@@ -159,3 +171,7 @@ rfield[, Share_Match := percent(Share_Match, .1)]
 rfield[, `Share_Some Mismatch` := percent(`Share_Some Mismatch`,.1)]
 setcolorder(rfield, c('Field', 'Share_Match', 'N_Match', 'Share_Some Mismatch', 'N_Some Mismatch'))
 setnames(rfield, c('Field', 'Share Match','Num. Match','Share Some Mismatch','Num Some Mismatch'))
+rfield[is.na(`Share Match`), `Share Match` := '0.0%']
+rfield[is.na(`Share Some Mismatch`), `Share Some Mismatch` := '0.0%']
+rfield[is.na(`Num. Match`), `Num. Match` := '0']
+rfield[is.na(`Num Some Mismatch`), `Num Some Mismatch` := 0]

@@ -14,7 +14,7 @@ library(knitr)
 library(modelsummary)
 
 
-efdat_rb = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
+efdat_rb = import("../data/cleaned_survey_post_corrections.parquet", setclass = 'data.table')
 efdat_rb[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
 efdat_rb[, Revision_of_Q17 := str_replace_all(Revision_of_Q17, '‚Äì','-')]
 efdat_rb[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
@@ -48,7 +48,7 @@ efdat_rb[Revision_of_Q6 < 0, Revision_of_Q6 := abs(Revision_of_Q6)]
 
 # Load in payment status -- the order column indicates payment order. Values of
 # 200 or less are guaranteed payment. Merges on respondent_id = Q1
-payment_status <- import(here("data","email_order.xlsx")) %>% 
+payment_status <- import("../data/email_order.xlsx") %>% 
   mutate(
     paid_guaranteed = case_when(
       order <= 200 ~ TRUE,
