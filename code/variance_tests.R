@@ -4,11 +4,10 @@ library(tidyverse)
 library(data.table)
 library(rio)
 library(car)
-library(here)
 library(nicksshorts)
 library(janitor)
 
-dat_vt = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
+dat_vt = import("../data/cleaned_survey_post_corrections.parquet", setclass = 'data.table')
 dat_vt[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
 dat_vt[, Revision_of_Q17 := str_replace_all(Revision_of_Q17, '‚Äì','-')]
 dat_vt[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
@@ -90,7 +89,7 @@ compare_tasks <- function(task, revision_task, title = task) {
     mutate(Revision_of_Q4 = Revision_of_Q4 - mean(Revision_of_Q4, na.rm = TRUE))
   
   for (r in 1:3) {
-    peer_rev = import(here("data", paste0('task_', r, '_peer_review_pairs.csv'))) %>%
+    peer_rev = import(paste0('../data/task_', r, '_peer_review_pairs.csv')) %>%
       filter(!(dont_send)) %>%
       filter(!is.na(pairID))
     task_data = task_data %>%
@@ -158,7 +157,7 @@ efdat_vt = efdat_vt %>%
   mutate(peer_review = FALSE)
 
 for (r in 1:3) {
-  peer_rev = import(here("data", paste0('task_', r, '_peer_review_pairs.csv'))) %>%
+  peer_rev = import(paste0('../data/task_', r, '_peer_review_pairs.csv')) %>%
     filter(!(dont_send)) %>%
     filter(!is.na(pairID))
   efdat_vt = efdat_vt %>%

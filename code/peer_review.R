@@ -63,10 +63,14 @@ dist_compare = rbindlist(list(
 dist_compare[, Observed := factor(Observed, levels = c('Pre-Review','Next Round'))]
 dist_compare[, Reviewed := fifelse(Reviewed == 1, 'Not Peer-Reviewed','Peer Reviewed')]
 # Effect distributions for those peer reviewed vs. not
+dropLeadingZero <- function(l){
+  str_replace(l, '0(?=.)', '')
+}
 p_peer_review_effect_distributions = ggplot(dist_compare, aes(x = Effect, weight = weight, color = Reviewed, fill = Reviewed)) + 
   geom_density(alpha = .4) + 
   scale_color_manual(values = colorpal) +
   scale_fill_manual(values = colorpal) +
+  scale_x_continuous(labels = dropLeadingZero) +
   coord_cartesian(xlim = c(-.05, .15)) + 
   facet_grid(cols = vars(Observed), rows = vars(Round)) + 
   theme_nick() + 

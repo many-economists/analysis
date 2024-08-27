@@ -120,7 +120,7 @@ p_full_effect_distribution_individual = ggplot(viol[Type == 'Unweighted'], aes(x
   facet_wrap(~Round, nrow = 3) + 
   guides(color = 'none') +
   labs(y = 'Effect Size\n(95% CI)',
-       x = NULL, caption = '95% CI reconstructed from effect size and SE,\neven if asymmetric CI was reported. Visible range limited to (-.05, .15).') + 
+       x = NULL, caption = '95% CI reconstructed from effect size and SE, even if asymmetric\nCI was reported. Visible range limited to (-.05, .15).') + 
   theme_nick() + 
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank())
