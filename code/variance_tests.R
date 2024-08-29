@@ -6,8 +6,9 @@ library(rio)
 library(car)
 library(nicksshorts)
 library(janitor)
+library(here)
 
-dat_vt = import("../data/cleaned_survey_post_corrections.parquet", setclass = 'data.table')
+dat_vt = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
 dat_vt[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
 dat_vt[, Revision_of_Q17 := str_replace_all(Revision_of_Q17, '‚Äì','-')]
 dat_vt[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
