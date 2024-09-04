@@ -257,17 +257,129 @@ round_pairs <- list(c("Task 1", "Task 1 Revision"),
 # List of variables
 variables <- c("Revision_of_Q12", "Revision_of_Q18", "Revision_of_Q21")
 
-# Perform Levene test for each pair of rounds and each variable, then combine results into a single data frame
-levene_test_results_sample <- do.call(rbind, lapply(variables, function(variable) {
-  tibble(Variable = variable,
-         TaskA = sapply(round_pairs, \(x) x[1]),
-         TaskB = sapply(round_pairs, \(x) x[2]),
-         pval = sapply(round_pairs, \(x) perform_levene_test_sample(x[1], x[2], variable)$`Pr(>F)`[1]))
-}))
+# Initialize an empty tibble to store results
+levene_test_results_sample <- tibble(TaskA = sapply(round_pairs, \(x) x[1]),
+                              TaskB = sapply(round_pairs, \(x) x[2]))
 
-# Arrange results by p-value
-levene_test_results_sample <- levene_test_results %>% arrange(pval)
+# Perform Levene test for each pair of rounds and each variable, then add results as new columns
+for (variable in variables) {
+  levene_test_results_sample[[variable]] <- sapply(round_pairs, \(x) perform_levene_test_sample(x[1], x[2], variable)$`Pr(>F)`[1])
+}
 
 # View results
 levene_test_results_sample
+
+# Hypothesis 4 (Peer review comparisons) ----
+
+# Function to perform the comparison and print results for a specific variable
+compare_tasks_sample <- function(task, revision_task, variable, title = task) {
+  rev <- efdat_vt %>%
+    filter(Round %in% revision_task) %>%
+    select(Q1, all_of(variable), Round) %>%
+    mutate(Round = str_replace(Round,' Revision',''))
+  
+  task_data <- efdat_vt %>%
+    filter(Round %in% task) %>%
+    anti_join(rev, by = c("Q1","Round")) %>%
+    select(Q1, all_of(variable), Round) %>%
+    rbind(rev) %>%
+    mutate(peer_review = FALSE) %>%
+    group_by(Round) %>%
+    mutate(!!sym(variable) := !!sym(variable) - mean(!!sym(variable), na.rm = TRUE))
+  
+  rev <- rev %>%
+    group_by(Round) %>%
+    mutate(!!sym(variable) := !!sym(variable) - mean(!!sym(variable), na.rm = TRUE))
+  
+  for (r in 1:3) {
+    peer_rev = import(here("data", paste0('task_', r, '_peer_review_pairs.csv'))) %>%
+      filter(!(dont_send)) %>%
+      filter(!is.na(pairID))
+    task_data = task_data %>%
+      mutate(peer_review = ifelse(Round == paste0('Task ',r) & Q1 %in% peer_rev$id2, TRUE, peer_review))
+  }
+  
+  # Calculate variances (as numeric)
+  var_task <- var(task_data %>% filter(!peer_review) %>% pull(!!sym(variable)), na.rm = TRUE)
+  var_revision <- var(task_data %>% filter(peer_review) %>% pull(!!sym(variable)), na.rm = TRUE)
+  var_revised <- var(rev %>% pull(!!sym(variable)), na.rm = TRUE)
+  
+  # Return a tibble without human-readable formatting
+  tibble(Task = title,
+         Variable = variable,
+         `Unreviewed Variance` = var_task,
+         `Reviewed Variance` = var_revision,
+         `Levene Test p-value` = leveneTest(!!sym(variable) ~ factor(peer_review), data = task_data)$`Pr(>F)`[1],
+         `Revised Variance` = var_revised)
+}
+
+# List of variables to analyze
+variables <- c("Revision_of_Q12", "Revision_of_Q18", "Revision_of_Q21")
+
+# Perform comparisons for hypothesis 4 for each variable
+peer_review_levene_sample <- do.call(bind_rows, lapply(variables, function(variable) {
+  compare_tasks_sample("Task 1", "Task 1 Revision", variable) %>%
+    bind_rows(compare_tasks_sample("Task 2", "Task 2 Revision", variable)) %>%
+    bind_rows(compare_tasks_sample(c("Task 1", "Task 2"),
+                            c("Task 1 Revision", "Task 2 Revision"),
+                            variable, "Pooled"))
+}))
+
+# View the combined results
+peer_review_levene_sample
+
+
+# Hypothesis 5 ("future" effects of review) ----
+
+# Get peer review assignment by round
+efdat_vt = efdat_vt %>%
+  mutate(peer_review = FALSE)
+
+for (r in 1:3) {
+  peer_rev = import(here("data", paste0('task_', r, '_peer_review_pairs.csv'))) %>%
+    filter(!(dont_send)) %>%
+    filter(!is.na(pairID))
+  efdat_vt = efdat_vt %>%
+    mutate(peer_review = ifelse(Round == paste0('Task ',r) & Q1 %in% peer_rev$id2, TRUE, peer_review))
+}
+
+# Function to compare future round effects for a given variable
+compare_future_sample <- function(task_num, variable) {
+  # Review before round
+  prior <- efdat_vt %>% 
+    filter(Round == paste0("Task ", as.numeric(str_extract(task_num, "\\d")) - 1)) %>%
+    select(Q1, peer_review)
+  
+  # Task data
+  task_data <- efdat_vt %>%
+    filter(Round == paste0("Task ", as.numeric(str_extract(task_num, "\\d")))) %>%
+    select(Q1, all_of(variable)) %>% 
+    left_join(prior, by = "Q1")
+  
+  # Calculate variances
+  var_no_peer <- var(task_data %>% filter(peer_review == FALSE) %>% pull(!!sym(variable)), na.rm = TRUE)
+  var_peer <- var(task_data %>% filter(peer_review == TRUE) %>% pull(!!sym(variable)), na.rm = TRUE)
+  
+  tibble(Round = task_num,
+         Variable = variable,
+         `Variance (No Peer Review)` = var_no_peer, 
+         `Variance (Peer Review)` = var_peer,
+         `Levene Test p-value` = leveneTest(!!sym(variable) ~ factor(peer_review), data = task_data)$`Pr(>F)`[1])
+}
+
+# List of variables to analyze
+variables <- c("Revision_of_Q12", "Revision_of_Q18", "Revision_of_Q21")
+
+# Perform comparisons for hypothesis 5 for each variable
+levene_peer_vs_next_round_sample <- do.call(bind_rows, lapply(variables, function(variable) {
+  compare_future_sample(2, variable)  # Task number 2 can be changed to another round as needed
+}))
+
+# View the combined results
+levene_peer_vs_next_round_sample
+
+# Pooled version (drop within each round) does not apply to samples sizes since
+# they are provided in Round 3
+
+
 
