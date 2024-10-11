@@ -21,6 +21,9 @@ least standardized across researchers, whether standardization of research
 methods is desirable, and what tools might be most effective in standardizing 
 research decisions, if that is desirable.
 
+The pre-registration for the study design and analysis plan is available through
+[OSF](https://doi.org/10.17605/OSF.IO/CJ9YX). 
+
 ## Directory structure
 
 You need the following directories for the code to run:
@@ -33,8 +36,8 @@ You need the following directories for the code to run:
 
 In addition, the following directories has writing in them:
 
-- paper: the paper itself, together with snippets and notes
-- presentations: various presentations, each its own tex file
+- paper: the paper itself in qmd format, which produces a pdf and a tex file
+- presentations: various presentations, each its own qmd file
 
 
 ##  Generating files
