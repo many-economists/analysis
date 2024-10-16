@@ -2914,7 +2914,12 @@ p_full_effect_distribution_individual
 
 Table \ref{tab-effectdist} also shows summary statistics for reported standard errors, both overall and for the treated group. These distributions are also shown in @fig-sample-size-distributions and @fig-treated-group-distributions.
 
-In @fig-sample-size-distributions we see a huge amount of variation in the reported sample size used in Task 1, noting that the x-axis is on a log scale. The 25th and 75th percentiles of reported sample sizes ranging from 61,600 to 356,787, with some researchers using millions of observations.[^17] For Task 2, which specified in the instructions the treated and comparison groups to use, variation reduces considerably, although the 75th percentile (48,125) is still double the 25th (18,981), and there are still some researchers using millions of observations. Task 3 is not shown in the graph because the sample is pre-specified, with the only meaningful variation being whether or not the researcher dropped three rows of data with missing education values, and a few outliers reporting lower numbers. The lower sample sizes for this question are due to researchers who skipped it because they assumed the answer was obvious.
+In @fig-sample-size-distributions we see a huge amount of variation in the reported sample size used in Task 1, noting that the x-axis is on a log scale.[^task-3]
+The 25th and 75th percentiles of reported sample sizes ranging from 61,600 to 356,787, with some researchers using millions of observations.[^17] 
+For Task 2, which specified in the instructions the treated and comparison groups to use, variation reduces considerably, although the 75th percentile (48,125) is still double the 25th (18,981), and there are still some researchers using millions of observations.
+Consistent with the reduction when we specify the treated and comparison groups, a Levene test on the variance in sample size rejects the null hypothesis of equal variance across Task 1 and Task 2 at the 0.05 level.
+
+[^task-3]: Task 3 is not shown in the graph because the sample is pre-specified, with the only meaningful variation being whether or not the researcher dropped three rows of data with missing education values, and a few outliers reporting lower numbers. The lower sample sizes for this question are due to researchers who skipped it because they assumed the answer was obvious. [Nick: I do not follow the last sentence; what question does this refer to?]
 
 [^17]: Keep in mind that for Task 1, there was not a specified control group, so a researcher may decide to use the entire ACS sample in the analysis, including people very unlike the eligible group in the sample. In Task 2, the instructions specified a treated and comparison group, but some researchers may have different samples than in Task 3 either due to error, or because they included people other than the treated and comparison group in their sample to improve precision, and used their model to compare those groups more directly.
 
@@ -2972,16 +2977,37 @@ This section evaluates the impact of peer review on the later work performed by 
 
 Revision is optional, and relatively few researchers (fewer than 30 per task) chose to revise their work after receiving peer review. As such, we mostly look at the impact of peer review on the work performed in subsequent main tasks. The mechanisms by which peer review might be expected to change a researcher's work in normal journal submissions include both that researchers might find peer review comments helpful and incorporate them into their work, and that researchers are required by the journal submission process to incorporate most reviewer comments. In this study, our peer review process can only capture the first of these mechanisms, and in effect may be closer to comments received, for example, during seminar presentations.
 
-In Table \ref{tab-variance-after-revision}, we incorporate revisions and show the variance of the entire sample of reported effects post-revision, replacing each researcher's reported task effect with its revision, if they revised their work. There is no statistically significant difference in variance between the reviewed and non-reviewed groups, nor is there a consistent effect in one direction.
+In Table \ref{tab-variance-after-revision}, we incorporate revisions and show the variance of the entire sample of reported effects post-revision, replacing each researcher's reported task effect with its revision, if they revised their work. 
+There is no statistically significant difference in variance between the reviewed and non-reviewed groups, nor is there a consistent effect in one direction.
+Similarly, as shown in Table \ref{tab-variance-after-revision-sample} there are no statistically significant differences in the variance of sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks. 
+
 
 ```{r}
+#| label: Levene test - effect size
+# variance_tests.R - effect size tests
 peer_review_levene |>
   knitr::kable(booktabs = TRUE, 
-               caption = 'Post-Revision Variance by Peer Review \\label{tab-variance-after-revision}')
+               caption = 'Post-Revision Variance in Effect Sizes by Peer Review \\label{tab-variance-after-revision}')
 ```
 
 
-@fig-peer-review-effect-distributions shows the distribution of effect sizes estimated by those who did, and did not, engage in peer review in each round. The left column of graphs shows the effects reported in each task before researchers were assigned to peer review, and the right column shows the effects reported in the follow-up task. As is expected given randomization, effect distributions are fairly similar pre-review between the review and non-review groups. No differences emerge between these groups in the follow-up task. Levene test p-values comparing variance of peer-reviewed and non-peer-reviewed groups in follow-up tasks show p-values of `r number(levene_peer_vs_next_round$levene_p[1], .001)` and `r number(levene_peer_vs_next_round$levene_p[2], .001)` in Tasks 2 and 3, respectively, or `r number(levene_result_pooled[['Pr(>F)']][1], .001)` when pooling the two tasks. This is not strong evidence in favor of the idea that peer review might drive agreement between researchers due to the receipt of feedback.
+```{r}
+#| label: Levene test - sample size
+# variance_test.R - sample size tests
+peer_review_levene_sample |>
+  knitr::kable(booktabs = TRUE, 
+               caption = 'Post-Revision Variance in Sample Sizes by Peer Review \\label{tab-variance-after-revision-sample}') 
+```
+
+
+@fig-peer-review-effect-distributions shows the distribution of effect sizes estimated by those who did, and did not, engage in peer review in each round. 
+The left column of graphs shows the effects reported in each task before researchers were assigned to peer review, and the right column shows the effects reported in the follow-up task. 
+As is expected given randomization, effect distributions are fairly similar pre-review between the review and non-review groups. 
+No differences emerge between these groups in the follow-up task. 
+Levene test p-values comparing effect size variance of peer-reviewed and non-peer-reviewed groups in follow-up tasks show p-values of `r number(levene_peer_vs_next_round$levene_p[1], .001)` and `r number(levene_peer_vs_next_round$levene_p[2], .001)` in Tasks 2 and 3, respectively, or `r number(levene_result_pooled[['Pr(>F)']][1], .001)` when pooling the two tasks. 
+This is not strong evidence in favor of the idea that peer review might drive agreement between researchers due to the receipt of feedback.
+Similar results are found when comparing the variance of analytic, treatment, or control sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks.
+
 
 ```{r}
 #| label: fig-peer-review-effect-distributions
