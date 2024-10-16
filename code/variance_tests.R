@@ -1,5 +1,9 @@
 # Levene tests for homogeneity of variances
 
+# This file covers Hypotheses 3a-3e, which compare the homogeneity of variances
+# across stages of the replication process; Hypothesis 4 (effect of peer
+# review on revisions); and Hypothesis 5 (effect of peer review on future).
+
 library(tidyverse)
 library(data.table)
 library(rio)
@@ -39,6 +43,8 @@ efdat_vt[, Round := factor(Round, levels = c('Task 1',
                                           'Task 3 Revision'))]
 efdat_vt[Revision_of_Q6 < 0, Revision_of_Q6 := abs(Revision_of_Q6)]
 
+
+# Effect size comparisons ----
 
 # Hypotheses 3a-3e (stage comparison) ----
 
