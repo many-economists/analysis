@@ -43,14 +43,28 @@
 \setlength{\emergencystretch}{3em} % prevent overfull lines
 \setcounter{secnumdepth}{5}
 % Make \paragraph and \subparagraph free-standing
+\makeatletter
 \ifx\paragraph\undefined\else
   \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+  \renewcommand{\paragraph}{
+    \@ifstar
+      \xxxParagraphStar
+      \xxxParagraphNoStar
+  }
+  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
+  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
 \fi
 \ifx\subparagraph\undefined\else
   \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+  \renewcommand{\subparagraph}{
+    \@ifstar
+      \xxxSubParagraphStar
+      \xxxSubParagraphNoStar
+  }
+  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
+  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
 \fi
+\makeatother
 
 
 \providecommand{\tightlist}{%
@@ -77,28 +91,38 @@
 \makeatletter
 \def\fps@figure{htbp}
 \makeatother
+% definitions for citeproc citations
+\NewDocumentCommand\citeproctext{}{}
+\NewDocumentCommand\citeproc{mm}{%
+  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
+\makeatletter
+ % allow citations to break across lines
+ \let\@cite@ofmt\@firstofone
+ % avoid brackets around text for \cite:
+ \def\@biblabel#1{}
+ \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
+\makeatother
 \newlength{\cslhangindent}
 \setlength{\cslhangindent}{1.5em}
 \newlength{\csllabelwidth}
 \setlength{\csllabelwidth}{3em}
-\newlength{\cslentryspacingunit} % times entry-spacing
-\setlength{\cslentryspacingunit}{\parskip}
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
- {% don't indent paragraphs
-  \setlength{\parindent}{0pt}
+\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
+ {\begin{list}{}{%
+  \setlength{\itemindent}{0pt}
+  \setlength{\leftmargin}{0pt}
+  \setlength{\parsep}{0pt}
   % turn on hanging indent if param 1 is 1
   \ifodd #1
-  \let\oldpar\par
-  \def\par{\hangindent=\cslhangindent\oldpar}
+   \setlength{\leftmargin}{\cslhangindent}
+   \setlength{\itemindent}{-1\cslhangindent}
   \fi
   % set entry spacing
-  \setlength{\parskip}{#2\cslentryspacingunit}
- }%
- {}
+  \setlength{\itemsep}{#2\baselineskip}}}
+ {\end{list}}
 \usepackage{calc}
-\newcommand{\CSLBlock}[1]{#1\hfill\break}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \usepackage{booktabs}
@@ -127,10 +151,6 @@
   
 \usepackage{booktabs} \usepackage{longtable} \usepackage{placeins}
 \KOMAoption{captions}{tableheading}
-\makeatletter
-\makeatother
-\makeatletter
-\makeatother
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -167,23 +187,17 @@
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
+\makeatother
+\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-\makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\makeatother
-\makeatletter
-\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
-\makeatother
+
 \ifLuaTeX
   \usepackage{selnolig}  % disable illegal ligatures
 \fi
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\usepackage{bookmark}
+
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
@@ -195,6 +209,7 @@
   citecolor={Blue},
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
+
 
 \title{The Sources of Researcher Variation in Economics}
 \author{Nick
@@ -268,10 +283,9 @@ modeling and estimation decisions, and exposure to peer review. This
 implies that data preparation and cleaning should receive considerably
 more attention in researcher training and the evaluation of research.
 \end{abstract}
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[enhanced, boxrule=0pt, interior hidden, frame hidden, borderline west={3pt}{0pt}{shadecolor}, sharp corners, breakable]}{\end{tcolorbox}}\fi
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+
+\section{Introduction}\label{introduction}
 
 The social and behavioral sciences produce a staggering amount of
 empirical results. A responsible reader of this literature should wonder
@@ -328,10 +342,9 @@ procedures, and increased visibility for data cleaning and the sharing
 of data cleaning code, may have a meaningful impact on the consistency
 and believability of results in applied microeconomics.
 
-\hypertarget{previous-work-on-research-reliability-and-researcher-degrees-of-freedom}{%
 \subsection{Previous Work on Research Reliability and Researcher Degrees
 of
-Freedom}\label{previous-work-on-research-reliability-and-researcher-degrees-of-freedom}}
+Freedom}\label{previous-work-on-research-reliability-and-researcher-degrees-of-freedom}
 
 In economics, suspicion about empirical results is not new (Leamer
 1983). The most recent wave of concern is inspired by discussions,
@@ -465,8 +478,7 @@ researcher-characteristics source of researcher variation, although not
 in a controlled way. We do not address the difficulty of the research
 task as a potential source of researcher variation in this study.
 
-\hypertarget{design}{%
-\section{Design}\label{design}}
+\section{Design}\label{design}
 
 In this study, we aim to isolate the influence of several different
 potential sources of researcher variation by having the same set of
@@ -613,11 +625,9 @@ noted in the results section as they are performed. Full instructions
 for each task, as well as post-task survey text and the peer-reviewing
 instructions, are available in the online appendix.
 
-\hypertarget{data}{%
-\section{Data}\label{data}}
+\section{Data}\label{data}
 
-\hypertarget{sec-focaltask}{%
-\subsection{The Focal Research Task}\label{sec-focaltask}}
+\subsection{The Focal Research Task}\label{sec-focaltask}
 
 In all research tasks, the specific goal given to researchers
 was:\footnote{Full instructions are available in the online appendix.}
@@ -805,16 +815,14 @@ extensive data cleaning.\footnote{There were three observations in the
   across researchers, based on whether the analysis uses education and
   thus drops these individuals.}
 
-\hypertarget{recruitment-and-attrition}{%
-\subsection{Recruitment and Attrition}\label{recruitment-and-attrition}}
+\subsection{Recruitment and Attrition}\label{recruitment-and-attrition}
 
 In a many-analysts study, researchers who carry out the research task
 make up both the bulk of the author list and are the subject of inquiry,
 so their recruitment is a key feature of the study.
 
-\hypertarget{researcher-qualifications}{%
 \subsubsection{Researcher
-Qualifications}\label{researcher-qualifications}}
+Qualifications}\label{researcher-qualifications}
 
 The goal of the project organizers was to make the set of researchers
 representative of the set of people who produce the applied
@@ -842,8 +850,7 @@ one of the following criteria:
 Participation was not limited on the basis of country, career stage, or
 demographics such as sex, race, or sexual or gender identity.
 
-\hypertarget{sec-target-sample}{%
-\subsubsection{Target Sample Size}\label{sec-target-sample}}
+\subsubsection{Target Sample Size}\label{sec-target-sample}
 
 An initial simulation-based power analysis assumed that each research
 task would have 5\% less between-researcher variation in observed
@@ -862,9 +869,8 @@ power. We revised that goal to 200 to account for our assumptions
 potentially being optimistic. Project organizers obtained funding to
 support payments to 200 researchers (see below).
 
-\hypertarget{recruitment-and-incentives}{%
 \subsubsection{Recruitment and
-Incentives}\label{recruitment-and-incentives}}
+Incentives}\label{recruitment-and-incentives}
 
 Recruitment was advertised to potential researchers through three
 avenues: (1) social media posts on Twitter and LinkedIn, (2) emails to
@@ -887,9 +893,8 @@ participants, and authorship on the eventual paper. The website included
 a link to a survey that asked questions related to eligibility for the
 project.
 
-\hypertarget{participation-and-attrition}{%
 \subsubsection{Participation and
-Attrition}\label{participation-and-attrition}}
+Attrition}\label{participation-and-attrition}
 
 Overall participation and attrition values are in Table
 \ref{tbl-attrition}. 362 people submitted applications for the project
@@ -970,9 +975,7 @@ statistical power shows an insignificant and small result of
 strong evidence that participants were simply signing up in an attempt
 to get a \$2,000 payment for little effort.
 
-\hypertarget{sec-sample-characteristics}{%
-\subsubsection{Sample
-Characteristics}\label{sec-sample-characteristics}}
+\subsubsection{Sample Characteristics}\label{sec-sample-characteristics}
 
 Tables \ref{tab-samp1} to \ref{tab-samp3} show the characteristics of
 the recruited sample, and how those characteristics changed with
@@ -987,7 +990,7 @@ three tasks. More-confident researchers were slightly more likely to
 actually finish, and average confidence rates of those who did finish
 were about 92\% instead of 90\%.
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Researcher Recruitment Source and Completion Confidence}\label{tab-samp1}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Researcher Recruitment Source and Completion Confidence}\resizebox{\textwidth}{!}{
 \begin{tabular}{lrrrrrrrrrrrr}
 \hline
 \hline
@@ -1037,7 +1040,7 @@ either immigration or labor economics, the fields closest to the
 research task at hand, with 5\% having done work in both, although all
 researchers had done work in applied microeconomics generally.
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Researcher Professional Experience}\label{tab-samp2}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Researcher Professional Experience}\resizebox{\textwidth}{!}{
 \begin{tabular}{lrrrrrrrr}
 \hline
 \hline
@@ -1084,7 +1087,7 @@ would be low if the entire sample were from the United States (Stansbury
 and Schultz 2023), but it is unclear what the population rate is in a
 50\% US/50\% other location sample.
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Researcher Demographics}\label{tab-samp3}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Researcher Demographics}\resizebox{\textwidth}{!}{
 \begin{tabular}{lrrrrrrrr}
 \hline
 \hline
@@ -1126,8 +1129,7 @@ carried out in English, and the fact that the project organizers are in
 the United States and advertised the project using their own social
 media.
 
-\hypertarget{results}{%
-\section{Results}\label{results}}
+\section{Results}\label{results}
 
 This section examines the variation in effects and methods across
 researchers and conditions, demonstrating that variation exists and
@@ -1147,8 +1149,7 @@ a research report that misrepresents what a researcher actually did will
 not be reflected here, but could be the subject of a future
 investigation.
 
-\hypertarget{sec-variation}{%
-\subsection{Variation in Effects and Sample Sizes}\label{sec-variation}}
+\subsection{Variation in Effects and Sample Sizes}\label{sec-variation}
 
 Figure~\ref{fig-effect-distributions} and Table \ref{tab-effectdist}
 show the distribution of estimated effects across all researchers. The
@@ -1216,14 +1217,16 @@ be investigated further in Section~\ref{sec-bimodal}.
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-distributions-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-distributions-1.pdf}
 
 }
 
 \caption{\label{fig-effect-distributions}Distributions of Reported
 Effect Sizes}
 
-\end{figure}
+\end{figure}%
 
 Table \ref{tab-effectdist} also shows the reported standard errors.
 Reported standard errors increase significantly from round to round,
@@ -1247,14 +1250,16 @@ reported effect in one task and their effect in the next task.
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effects-compare-rounds-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effects-compare-rounds-1.pdf}
 
 }
 
 \caption{\label{fig-effects-compare-rounds}Same-Researcher Effect Sizes
 Across Tasks}
 
-\end{figure}
+\end{figure}%
 
 We can compare average standard errors against the variation in effects
 between researchers to get a sense of how much effect variability is
@@ -1285,7 +1290,7 @@ So this ratio will tend to be higher for research tasks with bigger
 samples than smaller samples, even if the level of researcher variation
 is the same.
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Distribution of Reported Effects and Sample Sizes}\label{tab-effectdist}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Distribution of Reported Effects and Sample Sizes}\resizebox{\textwidth}{!}{
 \begin{tabular}{lllllllll}
 \hline
 \hline
@@ -1317,14 +1322,16 @@ Treated-Group Size & 129 & 9,433 & 3,008 & 11 & 5,149 & 11,382 & 11,382 & 17,383
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-full-effect-distribution-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-full-effect-distribution-1.pdf}
 
 }
 
 \caption{\label{fig-full-effect-distribution}Specification Curve for All
 Reported Estimates}
 
-\end{figure}
+\end{figure}%
 
 Table \ref{tab-effectdist} also shows summary statistics for reported
 standard errors, both overall and for the treated group. These
@@ -1357,14 +1364,16 @@ the answer was obvious.
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-sample-size-distributions-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-sample-size-distributions-1.pdf}
 
 }
 
 \caption{\label{fig-sample-size-distributions}Distributions of Reported
 Sample Sizes}
 
-\end{figure}
+\end{figure}%
 
 Variation in the reported size of the treated group in
 Figure~\ref{fig-treated-group-distributions} is affected somewhat by
@@ -1378,14 +1387,16 @@ working with the same eligibility indicator.
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-treated-group-distributions-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-treated-group-distributions-1.pdf}
 
 }
 
 \caption{\label{fig-treated-group-distributions}Distributions of
 Reported Treated-Group Sizes}
 
-\end{figure}
+\end{figure}%
 
 Aside from this issue, we see that the imposition of a shared definition
 for the trated group reduced the IQR for the size of the group from
@@ -1399,9 +1410,8 @@ who was eligible for DACA and who should be in the treated group, only a
 shared data preparation that implemented these rules for people led to
 sharp agreement in the size of the treated-groups sample.
 
-\hypertarget{sec-bimodal}{%
 \subsection{Bimodality in the Task 2 Effect
-Estimates}\label{sec-bimodal}}
+Estimates}\label{sec-bimodal}
 
 One of the surprising results in Section~\ref{sec-variation} was the
 effect distribution in Task 2. In designing the study, we had expected
@@ -1444,7 +1454,9 @@ not.
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-match-vs-mismatch-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-match-vs-mismatch-1.pdf}
 
 }
 
@@ -1452,7 +1464,7 @@ not.
 Those with Exact Treated-Group Definition Matchs vs.~Those with Some
 Mismatch}
 
-\end{figure}
+\end{figure}%
 
 This does not fully explain researcher behavior: note that there is also
 a weight of researchers with higher results who did not match perfectly,
@@ -1513,8 +1525,7 @@ Labor & 31.9\% & 15 & 68.1\% & 32 \\
 Neither/Other & 32.6\% & 28 & 67.4\% & 58 \\
 \end{longtable}
 
-\hypertarget{peer-review}{%
-\subsection{Peer Review}\label{peer-review}}
+\subsection{Peer Review}\label{peer-review}
 
 This section evaluates the impact of peer review on the later work
 performed by a researcher. The structure of peer review in this study is
@@ -1540,7 +1551,11 @@ show the variance of the entire sample of reported effects
 post-revision, replacing each researcher's reported task effect with its
 revision, if they revised their work. There is no statistically
 significant difference in variance between the reviewed and non-reviewed
-groups, nor is there a consistent effect in one direction.
+groups, nor is there a consistent effect in one direction. Similarly, as
+shown in Table \ref{tab-variance-after-revision-sample} there are no
+statistically significant differences in the variance of sample sizes
+between the peer-reviewed and non-peer-reviewed groups in the follow-up
+tasks.
 
 \begin{longtable}[]{@{}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.0854}}
@@ -1548,7 +1563,7 @@ groups, nor is there a consistent effect in one direction.
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2195}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2439}}
   >{\raggedright\arraybackslash}p{(\columnwidth - 8\tabcolsep) * \real{0.2073}}@{}}
-\caption{Post-Revision Variance by Peer Review
+\caption{Post-Revision Variance in Effect Sizes by Peer Review
 \label{tab-variance-after-revision}}\tabularnewline
 \toprule\noalign{}
 \begin{minipage}[b]{\linewidth}\raggedright
@@ -1586,6 +1601,69 @@ Task 3 & 0.001 & 0.008 & 0.210 & 0.015 \\
 Pooled & 0.004 & 0.008 & 0.219 & 0.005 \\
 \end{longtable}
 
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.0714}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1633}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2041}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1837}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2041}}
+  >{\raggedleft\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1735}}@{}}
+\caption{Post-Revision Variance in Sample Sizes by Peer Review
+\label{tab-variance-after-revision-sample}}\tabularnewline
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Task
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Unreviewed Variance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Reviewed Variance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Levene Test p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Revised Variance
+\end{minipage} \\
+\midrule\noalign{}
+\endfirsthead
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+Task
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Variable
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Unreviewed Variance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Reviewed Variance
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Levene Test p-value
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedleft
+Revised Variance
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+Task 1 & Revision\_of\_Q12 & 1.635321e+12 & 1.092997e+13 & 0.4786146 &
+2.141136e+12 \\
+Task 2 & Revision\_of\_Q12 & 2.178534e+09 & 1.636383e+12 & 0.4766579 &
+1.648693e+09 \\
+Pooled & Revision\_of\_Q12 & 8.143549e+11 & 6.251650e+12 & 0.3189842 &
+9.479288e+11 \\
+Task 1 & Revision\_of\_Q18 & 7.785414e+08 & 6.236244e+11 & 0.4423303 &
+3.402099e+09 \\
+Task 2 & Revision\_of\_Q18 & 9.849572e+07 & 7.995043e+10 & 0.3803012 &
+2.761379e+10 \\
+Pooled & Revision\_of\_Q18 & 6.867221e+08 & 3.499851e+11 & 0.3078506 &
+1.612899e+10 \\
+Task 1 & Revision\_of\_Q21 & 3.529556e+11 & 6.166209e+12 & 0.2936067 &
+2.852302e+12 \\
+Task 2 & Revision\_of\_Q21 & 3.348237e+12 & 8.966412e+11 & 0.4368802 &
+1.592183e+09 \\
+Pooled & Revision\_of\_Q21 & 1.900129e+12 & 3.576866e+12 & 0.6029009 &
+1.343071e+12 \\
+\end{longtable}
+
 Figure~\ref{fig-peer-review-effect-distributions} shows the distribution
 of effect sizes estimated by those who did, and did not, engage in peer
 review in each round. The left column of graphs shows the effects
@@ -1602,14 +1680,16 @@ agreement between researchers due to the receipt of feedback.
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-peer-review-effect-distributions-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-peer-review-effect-distributions-1.pdf}
 
 }
 
 \caption{\label{fig-peer-review-effect-distributions}Distributions of
 Reported Effect Sizes}
 
-\end{figure}
+\end{figure}%
 
 Figure~\ref{fig-like-your-reviewer} explores the possibility that peer
 review might not make the peer-reviewed group as a whole more similar,
@@ -1646,17 +1726,18 @@ making a researcher more like their reviewer as the result of feedback.
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-like-your-reviewer-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-like-your-reviewer-1.pdf}
 
 }
 
 \caption{\label{fig-like-your-reviewer}Comparisons of Effect Sizes
 vs.~One's Reviewer}
 
-\end{figure}
+\end{figure}%
 
-\hypertarget{sec-analytic}{%
-\subsection{Analytic Choices}\label{sec-analytic}}
+\subsection{Analytic Choices}\label{sec-analytic}
 
 The next two sections examine the different choices that researchers
 made, both to demonstrate the variation in ways that different
@@ -1692,7 +1773,7 @@ levels: state, state/year, or according to a survey clustering indicator
 like Strata or some other variable. A further 17\% of submissions used
 heteroskedasticity-robust but not cluster-robust standard errors.
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Estimation Methods}\label{tab-estimation-methods}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Estimation Methods}\resizebox{\textwidth}{!}{
 \begin{tabular}{lrr@{\hskip .1in}lrr}
 \hline
 \hline
@@ -1877,8 +1958,7 @@ can also see that, in the case of this particular study, these
 decisions, while varied, did not fully explain the variation in effects
 between researchers.
 
-\hypertarget{sec-sample-limitations}{%
-\subsection{Sample Limitations}\label{sec-sample-limitations}}
+\subsection{Sample Limitations}\label{sec-sample-limitations}
 
 In this section we examine the ways in which researchers defined their
 analytic samples, as well as how they defined the treated group. For
@@ -1896,7 +1976,7 @@ with the 25th and 75th percentiles using 3 and 10 variables to define
 their full sample. Definition of the treated group was more shared, with
 the 25th and 75th percentiles using 9 and 12 variables, respectively.
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Number of Variables Referred to in Sample Limitations}\label{tab-number-of-sample-limitations}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Number of Variables Referred to in Sample Limitations}\resizebox{\textwidth}{!}{
 \begin{tabular}{lrrrrrrrr}
 \hline
 \hline
@@ -2001,7 +2081,7 @@ determine eligibility vs.~age defined in quarters, which makes a
 difference given that eligibility is based on age specifically in June
 2012.
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Sample Restriction Methods}\label{tab-sample-limitations-extensive}\resizebox{.75\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Sample Restriction Methods}\resizebox{.75\textwidth}{!}{
 \begin{tabular}{lrrrrrrrr}
 \hline
 \hline
@@ -2087,7 +2167,7 @@ sizes are considerably larger for the less-restrictive option, and so
 reported standard errors would be lower, and statistical significance
 more likely.
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 1 Effect and Samples by Sample Definitions}\label{tab-task1effectsample}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 1 Effect and Samples by Sample Definitions}\resizebox{\textwidth}{!}{
 \begin{tabular}{llllllllll}
 \hline
 \hline
@@ -2114,9 +2194,8 @@ Years Continuous in USA &  &  &  &  &  &  &  &  &  \\
 }
 \end{table}
 
-\hypertarget{sec-researcher-chars}{%
 \subsection{Researcher Characteristics and
-Effects}\label{sec-researcher-chars}}
+Effects}\label{sec-researcher-chars}
 
 In this section we evaluate the relationship between researcher
 characteristics and the effects they reported. As in our
@@ -2147,12 +2226,10 @@ difference we found is that the minority of researchers who used the R
 programming language were more likely to report outlier estimates than
 researchers who used Stata.
 
-\hypertarget{conclusion}{%
-\section{Conclusion}\label{conclusion}}
+\section{Conclusion}\label{conclusion}
 
-\hypertarget{recommendations-for-improved-practice}{%
 \subsection{Recommendations for Improved
-Practice}\label{recommendations-for-improved-practice}}
+Practice}\label{recommendations-for-improved-practice}
 
 What do these results imply should change about the practice of applied
 microeconomic research?
@@ -2272,8 +2349,7 @@ already-prepared data set, and only include the code necessary to run
 models. It would be advisable to include data preprocessing code in
 these replication packages.
 
-\hypertarget{discussion}{%
-\subsection{Discussion}\label{discussion}}
+\subsection{Discussion}\label{discussion}
 
 This paper describes the results of a large many-analysts project in
 applied microeconomics. We found large amounts of variation in the
@@ -2332,197 +2408,196 @@ But when this occurs, it should be because there \emph{is} a good reason
 to deviate from the template, rather than because we have no template to
 begin with.
 
-\hypertarget{references}{%
-\section*{References}\label{references}}
+\section*{References}\label{references}
 \addcontentsline{toc}{section}{References}
 
-\hypertarget{refs}{}
+\phantomsection\label{refs}
 \begin{CSLReferences}{1}{0}
-\leavevmode\vadjust pre{\hypertarget{ref-abadie2023should}{}}%
+\bibitem[\citeproctext]{ref-abadie2023should}
 Abadie, Alberto, Susan Athey, Guido W Imbens, and Jeffrey M Wooldridge.
 2023. {``When Should You Adjust Standard Errors for Clustering?''}
 \emph{The Quarterly Journal of Economics} 138 (1): 1--35.
 
-\leavevmode\vadjust pre{\hypertarget{ref-aeaguidelines}{}}%
+\bibitem[\citeproctext]{ref-aeaguidelines}
 American Economic Association. 2024. {``Data and Code Availability
 Policy.''} AEA.
 \url{https://www.aeaweb.org/journals/data/data-code-policy}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-amuedo2016can}{}}%
+\bibitem[\citeproctext]{ref-amuedo2016can}
 Amuedo-Dorantes, Catalina, and Francisca Antman. 2016. {``Can
 Authorization Reduce Poverty Among Undocumented Immigrants? Evidence
 from the Deferred Action for Childhood Arrivals Program.''}
 \emph{Economics Letters} 147: 1--4.
 
-\leavevmode\vadjust pre{\hypertarget{ref-ankel2023economists}{}}%
+\bibitem[\citeproctext]{ref-ankel2023economists}
 Ankel-Peters, Jörg, Nathan Fiala, and Florian Neubauer. 2023. {``Do
 Economists Replicate?''} \emph{Journal of Economic Behavior \&
 Organization} 212: 219--32.
 
-\leavevmode\vadjust pre{\hypertarget{ref-modelsummary2022}{}}%
+\bibitem[\citeproctext]{ref-modelsummary2022}
 Arel-Bundock, Vincent. 2022. {``{modelsummary}: Data and Model Summaries
 in {R}.''} \emph{Journal of Statistical Software} 103 (1): 1--23.
 \url{https://doi.org/10.18637/jss.v103.i01}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-auspurg2021has}{}}%
+\bibitem[\citeproctext]{ref-auspurg2021has}
 Auspurg, Katrin, and Josef Brüderl. 2021. {``Has the Credibility of the
 Social Sciences Been Credibly Destroyed? Reanalyzing the "Many Analysts,
 One Data Set" Project.''} \emph{Socius} 7: 23780231211024421.
 
-\leavevmode\vadjust pre{\hypertarget{ref-auspurg2023social}{}}%
+\bibitem[\citeproctext]{ref-auspurg2023social}
 ---------. 2023. {``Is Social Research Really Not Better Than Alchemy?
 How Many-Analysts Studies Produce {`a Hidden Universe of Uncertainty'}
 by Not Following Meta-Analytical Standards.''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-R-data-table}{}}%
+\bibitem[\citeproctext]{ref-R-data-table}
 Barrett, Tyson, Matt Dowle, Arun Srinivasan, Jan Gorecki, Michael
 Chirico, and Toby Hocking. 2024. \emph{Data.table: Extension of
 {data.frame}}. \url{https://r-datatable.com}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-bastiaansen2020time}{}}%
+\bibitem[\citeproctext]{ref-bastiaansen2020time}
 Bastiaansen, Jojanneke A, Yoram K Kunkels, Frank J Blaauw, Steven M
 Boker, Eva Ceulemans, Meng Chen, Sy-Miin Chow, et al. 2020. {``Time to
 Get Personal? The Impact of Researchers Choices on the Selection of
 Treatment Targets Using the Experience Sampling Msethodology.''}
 \emph{Journal of Psychosomatic Research} 137: 110211.
 
-\leavevmode\vadjust pre{\hypertarget{ref-R-rio}{}}%
+\bibitem[\citeproctext]{ref-R-rio}
 Becker, Jason, Chung-hong Chan, David Schoch, and Thomas J. Leeper.
 2023. \emph{Rio: A Swiss-Army Knife for Data i/o}.
 \url{https://github.com/gesistsa/rio}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-fixest2018}{}}%
+\bibitem[\citeproctext]{ref-fixest2018}
 Bergé, Laurent. 2018. {``Efficient Estimation of Maximum Likelihood
 Models with Multiple Fixed-Effects: The {R} Package {FENmlm}.''}
 \emph{CREA Discussion Papers}, no. 13.
 
-\leavevmode\vadjust pre{\hypertarget{ref-boehm2018estimating}{}}%
+\bibitem[\citeproctext]{ref-boehm2018estimating}
 Boehm, Udo, Jeffrey Annis, Michael J Frank, Guy E Hawkins, Andrew
 Heathcote, David Kellen, Angelos-Miltiadis Krypotos, et al. 2018.
 {``Estimating Across-Trial Variability Parameters of the Diffusion
 Decision Model: Expert Advice and Recommendations.''} \emph{Journal of
 Mathematical Psychology} 87: 46--75.
 
-\leavevmode\vadjust pre{\hypertarget{ref-botvinik2020variability}{}}%
+\bibitem[\citeproctext]{ref-botvinik2020variability}
 Botvinik-Nezer, Rotem, Felix Holzmeister, Colin F Camerer, Anna Dreber,
 Juergen Huber, Magnus Johannesson, Michael Kirchler, et al. 2020.
 {``Variability in the Analysis of a Single Neuroimaging Dataset by Many
 Teams.''} \emph{Nature} 582 (7810): 84--88.
 
-\leavevmode\vadjust pre{\hypertarget{ref-breznau2021observing}{}}%
+\bibitem[\citeproctext]{ref-breznau2021observing}
 Breznau, Nate, Eike Mark Rinke, Alexander Wuttke, Muna Adem, Jule
 Adriaans, Amalia Alvarez-Benjumea, Henrik Kenneth Andersen, et al. 2021.
 {``Observing Many Researchers Using the Same Data and Hypothesis Reveals
 a Hidden Universe of Data Analysis.''} \emph{MetaArXiv Preprints}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-broderick2020automatic}{}}%
+\bibitem[\citeproctext]{ref-broderick2020automatic}
 Broderick, Tamara, Ryan Giordano, and Rachael Meager. 2020. {``An
 Automatic Finite-Sample Robustness Metric: When Can Dropping a Little
 Data Make a Big Difference?''} \emph{arXiv Preprint arXiv:2011.14999}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-bryan2019replicator}{}}%
+\bibitem[\citeproctext]{ref-bryan2019replicator}
 Bryan, Christopher J, David S Yeager, and Joseph M O'Brien. 2019.
 {``Replicator Degrees of Freedom Allow Publication of Misleading
 Failures to Replicate.''} \emph{Proceedings of the National Academy of
 Sciences} 116 (51): 25535--45.
 
-\leavevmode\vadjust pre{\hypertarget{ref-callaway2021difference}{}}%
+\bibitem[\citeproctext]{ref-callaway2021difference}
 Callaway, Brantly, and Pedro HC Sant'Anna. 2021.
 {``Difference-in-Differences with Multiple Time Periods.''}
 \emph{Journal of Econometrics} 225 (2): 200--230.
 
-\leavevmode\vadjust pre{\hypertarget{ref-camerer2016evaluating}{}}%
+\bibitem[\citeproctext]{ref-camerer2016evaluating}
 Camerer, Colin F, Anna Dreber, Eskil Forsell, Teck-Hua Ho, Jürgen Huber,
 Magnus Johannesson, Michael Kirchler, et al. 2016. {``Evaluating
 Replicability of Laboratory Experiments in Economics.''} \emph{Science}
 351 (6280): 1433--36.
 
-\leavevmode\vadjust pre{\hypertarget{ref-card2022gender}{}}%
+\bibitem[\citeproctext]{ref-card2022gender}
 Card, David, Stefano DellaVigna, Patricia Funk, and Nagore Iriberri.
 2022. {``Gender Differences in Peer Recognition by Economists.''}
 \emph{Econometrica} 90 (5): 1937--71.
 
-\leavevmode\vadjust pre{\hypertarget{ref-chen2024subjectivity}{}}%
+\bibitem[\citeproctext]{ref-chen2024subjectivity}
 Chen, Wanyi, and Mary Cummings. 2024. {``Subjectivity in Unsupervised
 Machine Learning Model Selection.''} In \emph{Proceedings of the AAAI
 Symposium Series}, 3:22--29. 1.
 
-\leavevmode\vadjust pre{\hypertarget{ref-car2019}{}}%
+\bibitem[\citeproctext]{ref-car2019}
 Fox, John, and Sanford Weisberg. 2019. \emph{An {R} Companion to Applied
 Regression}. Third. Thousand Oaks {CA}: Sage.
 \url{https://socialsciences.mcmaster.ca/jfox/Books/Companion/}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-galiani2017incentives}{}}%
+\bibitem[\citeproctext]{ref-galiani2017incentives}
 Galiani, Sebastian, Paul Gertler, and Mauricio Romero. 2017.
 {``Incentives for Replication in Economics.''} National Bureau of
 Economic Research.
 
-\leavevmode\vadjust pre{\hypertarget{ref-gould2023same}{}}%
+\bibitem[\citeproctext]{ref-gould2023same}
 Gould, Elliot, Hannah S Fraser, Timothy H Parker, Shinichi Nakagawa,
 Simon C Griffith, Peter A Vesk, Fiona Fidler, et al. 2023. {``Same Data,
 Different Analysts: Variation in Effect Sizes Due to Analytical
 Decisions in Ecology and Evolutionary Biology.''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-herbert2021reproducibility}{}}%
+\bibitem[\citeproctext]{ref-herbert2021reproducibility}
 Herbert, Sylvérie, Hautahi Kingi, Flavio Stanchi, and Lars Vilhuber.
 2021. {``The Reproducibility of Economics Research: A Case Study.''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-holzmeister2023heterogeneity}{}}%
+\bibitem[\citeproctext]{ref-holzmeister2023heterogeneity}
 Holzmeister, Felix, Magnus Johannesson, Robert Böhm, Anna Dreber, Jürgen
 Huber, and Michael Kirchler. 2023. {``Heterogeneity in Effect Size
 Estimates: Empirical Evidence and Practical Implications.''} Working
 Papers in Economics; Statistics.
 
-\leavevmode\vadjust pre{\hypertarget{ref-hoogeveen2023many}{}}%
+\bibitem[\citeproctext]{ref-hoogeveen2023many}
 Hoogeveen, Suzanne, Alexandra Sarafoglou, Balazs Aczel, Yonathan Aditya,
 Alexandra J Alayan, Peter J Allen, Sacha Altay, et al. 2023. {``A
 Many-Analysts Approach to the Relation Between Religiosity and
 Well-Being.''} \emph{Religion, Brain \& Behavior} 13 (3): 237--83.
 
-\leavevmode\vadjust pre{\hypertarget{ref-R-vtable}{}}%
+\bibitem[\citeproctext]{ref-R-vtable}
 Huntington-Klein, Nick. 2021. \emph{Vtable: Variable Table for Variable
 Documentation}. \url{https://nickch-k.github.io/vtable/}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-huntington2021influence}{}}%
+\bibitem[\citeproctext]{ref-huntington2021influence}
 Huntington-Klein, Nick, Andreu Arenas, Emily Beam, Marco Bertoni,
 Jeffrey R Bloem, Pralhad Burli, Naibin Chen, et al. 2021. {``The
 Influence of Hidden Researcher Decisions in Applied Microeconomics.''}
 \emph{Economic Inquiry} 59 (3): 944--60.
 
-\leavevmode\vadjust pre{\hypertarget{ref-jafari2022hands}{}}%
+\bibitem[\citeproctext]{ref-jafari2022hands}
 Jafari, Roy. 2022. \emph{Hands-on Data Preprocessing in Python: Learn
 How to Effectively Prepare Data for Successful Data Analytics}. Packt
 Publishing Ltd.
 
-\leavevmode\vadjust pre{\hypertarget{ref-jelveh2024political}{}}%
+\bibitem[\citeproctext]{ref-jelveh2024political}
 Jelveh, Zubin, Bruce Kogut, and Suresh Naidu. 2024. {``Political
 Language in Economics.''} \emph{The Economic Journal}, ueae026.
 
-\leavevmode\vadjust pre{\hypertarget{ref-klau2023comparing}{}}%
+\bibitem[\citeproctext]{ref-klau2023comparing}
 Klau, Simon, Chirag J Patel, John PA Ioannidis, Anne-Laure Boulesteix,
 Sabine Hoffmann, et al. 2023. {``Comparing the Vibration of Effects Due
 to Model, Data Pre-Processing and Sampling Uncertainty on a Large Data
 Set in Personality Psychology.''} \emph{Meta-Psychology} 7.
 
-\leavevmode\vadjust pre{\hypertarget{ref-leamer1983let}{}}%
+\bibitem[\citeproctext]{ref-leamer1983let}
 Leamer, Edward E. 1983. {``Let's Take the Con Out of Econometrics.''}
 \emph{The American Economic Review} 73 (1): 31--43.
 
-\leavevmode\vadjust pre{\hypertarget{ref-lundberg2019women}{}}%
+\bibitem[\citeproctext]{ref-lundberg2019women}
 Lundberg, Shelly, and Jenna Stearns. 2019. {``Women in Economics:
 Stalled Progress.''} \emph{Journal of Economic Perspectives} 33 (1):
 3--22.
 
-\leavevmode\vadjust pre{\hypertarget{ref-menkveld2021non}{}}%
+\bibitem[\citeproctext]{ref-menkveld2021non}
 Menkveld, Albert J, Anna Dreber, Felix Holzmeister, Juergen Huber,
 Magnus Johannesson, Michael Kirchler, Sebastian Neusüss, Michael Razen,
 and Utz Weitzel. 2021. {``Non-Standard Errors.''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-open2015estimating}{}}%
+\bibitem[\citeproctext]{ref-open2015estimating}
 Open Science Collaboration. 2015. {``Estimating the Reproducibility of
 Psychological Science.''} \emph{Science} 349 (6251): aac4716.
 
-\leavevmode\vadjust pre{\hypertarget{ref-ortloff2023different}{}}%
+\bibitem[\citeproctext]{ref-ortloff2023different}
 Ortloff, Anna-Marie, Matthias Fassl, Alexander Ponticello, Florin
 Martius, Anne Mertens, Katharina Krombholz, and Matthew Smith. 2023.
 {``Different Researchers, Different Results? Analyzing the Influence of
@@ -2531,12 +2606,12 @@ Interview and Survey Study on Security Advice.''} In \emph{Proceedings
 of the 2023 CHI Conference on Human Factors in Computing Systems},
 1--21.
 
-\leavevmode\vadjust pre{\hypertarget{ref-osborne2012best}{}}%
+\bibitem[\citeproctext]{ref-osborne2012best}
 Osborne, Jason W. 2012. \emph{Best Practices in Data Cleaning: A
 Complete Guide to Everything You Need to Do Before and After Collecting
 Your Data}. Sage Publications.
 
-\leavevmode\vadjust pre{\hypertarget{ref-ostropolets2023reproducible}{}}%
+\bibitem[\citeproctext]{ref-ostropolets2023reproducible}
 Ostropolets, Anna, Yasser Albogami, Mitchell Conover, Juan M Banda,
 William A Baumgartner Jr, Clair Blacketer, Priyamvada Desai, et al.
 2023. {``Reproducible Variability: Assessing Investigator Discordance
@@ -2544,28 +2619,28 @@ Across 9 Research Teams Attempting to Reproduce the Same Observational
 Study.''} \emph{Journal of the American Medical Informatics Association}
 30 (5): 859--68.
 
-\leavevmode\vadjust pre{\hypertarget{ref-perignon2022reproducibility}{}}%
+\bibitem[\citeproctext]{ref-perignon2022reproducibility}
 Pérignon, Christophe, Olivier Akmansoy, Christophe Hurlin, Anna Dreber,
 Felix Holzmeister, Juergen Huber, Michael Kirchler, Michael Razen, et
 al. 2022. {``Reproducibility of Empirical Results: Evidence from 1,000
 Tests in Finance.''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-portner_huntington-klein_2022}{}}%
+\bibitem[\citeproctext]{ref-portner_huntington-klein_2022}
 Portner, Claus C, and Nick Huntington-Klein. 2022. {``Many
 Economists.''} OSF. \url{https://doi.org/10.17605/OSF.IO/CJ9YX}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-ruggles2024ipums}{}}%
+\bibitem[\citeproctext]{ref-ruggles2024ipums}
 Ruggles, Steven, Sarah Flood, Matthew Sobek, Daniel Backman, Annie Chen,
 Grace Cooper, Stephanie Richards, Renae Rodgers, and Megan Schouweiler.
 2024. {``IPUMS USA: Version 15.0 {[}Dataset{]}. Minneapolis, MN:
 IPUMS.''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-sarafoglou2024subjective}{}}%
+\bibitem[\citeproctext]{ref-sarafoglou2024subjective}
 Sarafoglou, Alexandra, Suzanne Hoogeveen, Don Van Den Bergh, Balázs
 Aczél, Casper J Albers, Tim Althoff, Rotem Botvinik-Nezer, et al. 2024.
 {``Subjective Evidence Evaluation Survey for Multi-Analyst Studies.''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-schweinsberg2021same}{}}%
+\bibitem[\citeproctext]{ref-schweinsberg2021same}
 Schweinsberg, Martin, Michael Feldman, Nicola Staub, Olmo R van den
 Akker, Robbie CM van Aert, Marcel ALM Van Assen, Yang Liu, et al. 2021.
 {``Same Data, Different Conclusions: Radical Dispersion in Empirical
@@ -2573,44 +2648,44 @@ Results When Independent Analysts Operationalize and Test the Same
 Hypothesis.''} \emph{Organizational Behavior and Human Decision
 Processes} 165: 228--49.
 
-\leavevmode\vadjust pre{\hypertarget{ref-silberzahn2018many}{}}%
+\bibitem[\citeproctext]{ref-silberzahn2018many}
 Silberzahn, Raphael, Eric L Uhlmann, Daniel P Martin, Pasquale Anselmi,
 Frederik Aust, Eli Awtrey, Štěpán Bahnı́k, et al. 2018. {``Many Analysts,
 One Data Set: Making Transparent How Variations in Analytic Choices
 Affect Results.''} \emph{Advances in Methods and Practices in
 Psychological Science} 1 (3): 337--56.
 
-\leavevmode\vadjust pre{\hypertarget{ref-simmons2011false}{}}%
+\bibitem[\citeproctext]{ref-simmons2011false}
 Simmons, Joseph P, Leif D Nelson, and Uri Simonsohn. 2011.
 {``False-Positive Psychology: Undisclosed Flexibility in Data Collection
 and Analysis Allows Presenting Anything as Significant.''}
 \emph{Psychological Science} 22 (11): 1359--66.
 
-\leavevmode\vadjust pre{\hypertarget{ref-stansbury2023economics}{}}%
+\bibitem[\citeproctext]{ref-stansbury2023economics}
 Stansbury, Anna, and Robert Schultz. 2023. {``The Economics Profession's
 Socioeconomic Diversity Problem.''} \emph{Journal of Economic
 Perspectives} 37 (4): 207--30.
 
-\leavevmode\vadjust pre{\hypertarget{ref-steegen2016increasing}{}}%
+\bibitem[\citeproctext]{ref-steegen2016increasing}
 Steegen, Sara, Francis Tuerlinckx, Andrew Gelman, and Wolf Vanpaemel.
 2016. {``Increasing Transparency Through a Multiverse Analysis.''}
 \emph{Perspectives on Psychological Science} 11 (5): 702--12.
 
-\leavevmode\vadjust pre{\hypertarget{ref-sulik2023scientists}{}}%
+\bibitem[\citeproctext]{ref-sulik2023scientists}
 Sulik, Justin, Nakwon Rim, Elizabeth Pontikes, James Evans, and Gary
 Lupyan. 2023. {``Why Do Scientists Disagree?''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-urbaninstdata}{}}%
+\bibitem[\citeproctext]{ref-urbaninstdata}
 Urban Institute. 2022. {``State Immigration Policy Resource.''}
 \url{https://www.urban.org/data-tools/state-immigration-policy-resource}.
 
-\leavevmode\vadjust pre{\hypertarget{ref-citservices2016}{}}%
+\bibitem[\citeproctext]{ref-citservices2016}
 U.S. Citizenship and Immigration Services. 2016. {``Number of
 i-821D,consideration of Deferred Action for Childhood Arrivals by Fiscal
 Year, Quarter, Intake, Biometrics and Case Status: 2012-2016 (June
 30).''}
 
-\leavevmode\vadjust pre{\hypertarget{ref-tidyverse2019}{}}%
+\bibitem[\citeproctext]{ref-tidyverse2019}
 Wickham, Hadley, Mara Averick, Jennifer Bryan, Winston Chang, Lucy
 D'Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
 {``Welcome to the {tidyverse}.''} \emph{Journal of Open Source Software}
@@ -2622,20 +2697,21 @@ D'Agostino McGowan, Romain François, Garrett Grolemund, et al. 2019.
 
 \appendix
 
-\hypertarget{appendix}{%
-\section*{Appendix}\label{appendix}}
+\section*{Appendix}\label{appendix}
 \addcontentsline{toc}{section}{Appendix}
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-rdd-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-rdd-1.pdf}
 
 }
 
 \caption{\label{fig-rdd}Impact of Guaranteed Payment on Probability of
 Task 1 Completion}
 
-\end{figure}
+\end{figure}%
 
 \begin{table}
 \centering
@@ -2691,25 +2767,29 @@ Num.Obs. & \num{6809} & \num{6676}\\
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-vs-sample-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-vs-sample-1.pdf}
 
 }
 
 \caption{\label{fig-effect-vs-sample}Task 2 Effect Size and Sample Size}
 
-\end{figure}
+\end{figure}%
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-vs-se-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-effect-vs-se-1.pdf}
 
 }
 
 \caption{\label{fig-effect-vs-se}Task 2 Effect Size and Standard Error}
 
-\end{figure}
+\end{figure}%
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 1 Effect and Samples by Sample Definitions, Full View}\label{tab-task1effectsample-full}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 1 Effect and Samples by Sample Definitions, Full View}\resizebox{\textwidth}{!}{
 \begin{tabular}{llllllllll}
 \hline
 \hline
@@ -2768,7 +2848,7 @@ Years Continuous in USA &  &  &  &  &  &  &  &  &  \\
 }
 \end{table}
 
-\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 2 Effect and Samples by Sample Definitions, Full View}\label{tab-task2effectsample-full}\resizebox{\textwidth}{!}{
+\begin{table}[!htbp] \centering \renewcommand*{\arraystretch}{1.1}\caption{Task 2 Effect and Samples by Sample Definitions, Full View}\resizebox{\textwidth}{!}{
 \begin{tabular}{llllllllll}
 \hline
 \hline
@@ -2826,15 +2906,13 @@ Years Continuous in USA &  &  &  &  &  &  &  &  &  \\
 }
 \end{table}
 
-\hypertarget{multi-analyst-evaluation-of-researcher-characteristics}{%
 \section*{Multi-Analyst Evaluation of Researcher
-Characteristics}\label{multi-analyst-evaluation-of-researcher-characteristics}}
+Characteristics}\label{multi-analyst-evaluation-of-researcher-characteristics}
 \addcontentsline{toc}{section}{Multi-Analyst Evaluation of Researcher
 Characteristics}
 
-\hypertarget{analysis-by-project-organizer-a}{%
 \subsection{Analysis by Project Organizer
-A}\label{analysis-by-project-organizer-a}}
+A}\label{analysis-by-project-organizer-a}
 
 For each categorical researcher characteristic specified in
 Section~\ref{sec-sample-characteristics}, as well as an indicator for
@@ -3032,14 +3110,16 @@ the mean effect in all three rounds.
 
 \begin{figure}
 
-{\centering \includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-deviations-by-language-1.pdf}
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-deviations-by-language-1.pdf}
 
 }
 
 \caption{\label{fig-deviations-by-language}Deviation from Sample Mean of
 Reported Effect by Language}
 
-\end{figure}
+\end{figure}%
 
 Figure~\ref{fig-deviations-by-language} goes further into the split by
 language. We see that, of the two languages, Stata users were more
@@ -3066,9 +3146,8 @@ explanatory power for the choice of programming language. R users were
 more likely than Stata users to report estimates far from average of
 what other users reported.
 
-\hypertarget{analysis-by-project-organizer-b}{%
 \subsection{Analysis By Project Organizer
-B}\label{analysis-by-project-organizer-b}}
+B}\label{analysis-by-project-organizer-b}
 
 Table \ref{tab-researcher-characteristics-regs-b} looks at
 within-researcher variation in effect estimates across tasks. In the
@@ -3125,6 +3204,7 @@ smaller changes from Task 1 to Task 3: those who do not have a PhD
 showed a smaller change between Task 1 and Task 3 (significant at
 \(\alpha = .1\)), and those with fewer papers also showed smaller
 absolute changes than those with 6+ papers (insignificant).
+
 
 
 
