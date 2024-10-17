@@ -17,6 +17,7 @@ dat[, Round := factor(Round, levels = c('Task 1',
                                         'Task 2 Revision',
                                         'Task 3',
                                         'Task 3 Revision'))]
+
 compare_revis = function(r) {
   thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
   pairs = fread(paste0('../data/task_', r, '_peer_review_pairs.csv'))
@@ -29,7 +30,8 @@ compare_revis = function(r) {
 }
 reviews = rbindlist(lapply(1:3, compare_revis))
 
-# Find differences in other rounds
+# Find differences in effect size in other rounds ----
+
 get_diff = function(i, r) {
   if (!reviews[i, got_reviewed]) {
     return(NA_real_)
@@ -62,10 +64,12 @@ dist_compare = rbindlist(list(
 ))
 dist_compare[, Observed := factor(Observed, levels = c('Pre-Review','Next Round'))]
 dist_compare[, Reviewed := fifelse(Reviewed == 1, 'Not Peer-Reviewed','Peer Reviewed')]
+
 # Effect distributions for those peer reviewed vs. not
 dropLeadingZero <- function(l){
   str_replace(l, '0(?=.)', '')
 }
+
 p_peer_review_effect_distributions = ggplot(dist_compare, aes(x = Effect, weight = weight, color = Reviewed, fill = Reviewed)) + 
   geom_density(alpha = .4) + 
   scale_color_manual(values = colorpal) +
@@ -77,7 +81,8 @@ p_peer_review_effect_distributions = ggplot(dist_compare, aes(x = Effect, weight
   labs(caption = 'Viewing range limited to -.05 to .15.', y = 'Density')
 
 
-# Do you become more like your peer reviewer?
+# Do you become more like your peer reviewer in effect size? ----
+
 reviews = rbindlist(lapply(1:3, compare_revis))
 
 # Find differences in other rounds
@@ -147,6 +152,7 @@ changediff = rbindlist(list(
              diff = ar_round3v2$diff)
 ))
 changediff[, Comparison := factor(Comparison, levels = c('Original','Next Round','Next vs. This'))]
+
 p_more_like_reviewer = ggplot(changediff, aes(x = diff, color = Type,
                        fill = Type)) + 
   geom_density(alpha = .1) +
@@ -165,5 +171,6 @@ p_more_like_reviewer = ggplot(changediff, aes(x = diff, color = Type,
        y = 'Density')
 
 
-# Regression to show impacts of peer review
+# Regression to show impacts of peer review ----
+
 peer_review_reg = feols(diff ~ Comparison*Type, data = changediff, split = 'Round')
