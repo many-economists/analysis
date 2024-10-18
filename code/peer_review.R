@@ -1,3 +1,24 @@
+library(rio)
+library(data.table)
+library(ggplot2)
+library(nicksshorts) # remotes::install_github('NickCH-K/nicksshorts')
+library(stringr)
+library(scales)
+library(vtable)
+library(fixest)
+library(modelsummary)
+library(here)
+library(patchwork)
+
+colorpal = palette.colors(palette = 'Paired')
+
+dat = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
+dat[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
+dat[, Revision_of_Q17 := str_replace_all(Revision_of_Q17, '‚Äì','-')]
+dat[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
+
+dat = dat[!is.na(Q2)]
+
 qrecode(dat, 'Q2', 
         c('Revision following the first replication task (such as following peer review)',
           'Revision following the second replication task (such as following peer review)',
@@ -11,6 +32,7 @@ qrecode(dat, 'Q2',
           'Task 1',
           'Task 2',
           'Task 3'), 'Round', checkfrom = TRUE)
+
 dat[, Round := factor(Round, levels = c('Task 1',
                                         'Task 1 Revision',
                                         'Task 2',
@@ -20,7 +42,7 @@ dat[, Round := factor(Round, levels = c('Task 1',
 
 compare_revis = function(r) {
   thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
-  pairs = fread(paste0('../data/task_', r, '_peer_review_pairs.csv'))
+  pairs = fread(here("data", paste0('task_', r, '_peer_review_pairs.csv')))
   pairs = pairs[!(dont_send)]
   thisr = merge(thisr, pairs[, .(Q1 = id2, match = id1, pairID)], all.x = TRUE)
   thisr[, got_reviewed := !is.na(pairID)]

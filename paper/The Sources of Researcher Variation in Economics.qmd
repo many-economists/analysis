@@ -2527,12 +2527,13 @@ output:
   library(patchwork)
 }
 
-dat = import("../data/cleaned_survey_post_corrections.parquet", setclass = 'data.table')
+dat = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
 dat[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
 dat[, Revision_of_Q17 := str_replace_all(Revision_of_Q17, '‚Äì','-')]
 dat[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
 
-# CHANGE THIS COLOR PALETTE TO CHANGE ALL GRAPHS
+# CHANGE THIS COLOR PALETTE TO CHANGE ALL GRAPHS, except peer_review.R, where it
+# is coded directly
 colorpal = palette.colors(palette = 'Paired')
 ```
 
