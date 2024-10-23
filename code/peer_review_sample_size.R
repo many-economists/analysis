@@ -163,6 +163,13 @@ dropLeadingZero <- function(l){
 # Create a named list to store plots
 plots = list()
 
+# Map variable names to descriptive titles
+variable_descriptions <- list(
+  "Revision_of_Q12" = "Analytic Sample Size",
+  "Revision_of_Q18" = "Eligible for DACA Sample Size",
+  "Revision_of_Q21" = "Not Eligible for DACA Sample Size"
+)
+
 # Plot effect distributions for each variable and store them in the list
 for (var in variables_to_analyze) {
 
@@ -190,11 +197,13 @@ for (var in variables_to_analyze) {
     ) +
     facet_grid(cols = vars(Observed), rows = vars(Round)) + 
     theme_nick() + 
-    labs(title = paste("Distributions for", var),
-         caption = 'All rounds are 80% winsorized', y = 'Density') +
-      guides(
-        x = guide_axis(n.dodge = 2)
-      )
+    labs(
+      title = paste("Distributions for", variable_descriptions[[var]]),
+      caption = 'All rounds are 80% winsorized', y = 'Density'
+    ) +
+    guides(
+      x = guide_axis(n.dodge = 2)
+    )
   
   # Store the plot in the list with the variable name
   plots[[var]] = p
