@@ -20,6 +20,31 @@ dat_vt[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
 dat_vt = dat_vt[Q1 != 972]
 dat_vt = dat_vt[Q1 %in% Q1[Q2 == 'The third replication task']]
 
+# Revisions of sample sizes
+dat_vt[Q1 == 15 & Q2 == 'The first replication task', Revision_of_Q12 := 5979569]
+dat_vt[Q1 == 834 & Q2 == 'The first replication task', Revision_of_Q12 := 2924560]
+dat_vt[Q1 == 176 & Q2 == 'The first replication task', Revision_of_Q12 := 284230]
+dat_vt[Q1 == 871 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 20798]
+dat_vt[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q12 := 36762]
+dat_vt[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q18 := 22774]
+dat_vt[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q21 := 13988]
+dat_vt[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q12 := 738057]
+dat_vt[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q18 := 179856]
+dat_vt[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q21 := 558201]
+dat_vt[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 248351]
+dat_vt[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q18 := 110830]
+dat_vt[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q21 := 137521]
+dat_vt[Q1 == 158 & Q2 == "The second replication task", Revision_of_Q18 := 17432]
+dat_vt[Q1 == 395 & Q2 == "The second replication task", Revision_of_Q18 := 2834]
+dat_vt[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q12 := 28863]
+dat_vt[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q18 := 5664]
+dat_vt[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q21 := 23199]
+dat_vt[Q1 == 923 & Q2 == 'The first replication task', Revision_of_Q12 := 313046]
+dat_vt[Q1 == 923 & Q2 == 'The first replication task', Revision_of_Q21 := 221167]
+dat_vt[Q1 == 842 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 3283605]
+dat_vt[Q1 == 842 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q21 := 3196015]
+
+
 efdat_vt = dat_vt[!is.na(Q2)]
 
 qrecode(efdat_vt, 'Q2', 
