@@ -2845,6 +2845,7 @@ source('../code/variance_tests.R')
 source('../code/researcher_characteristics_and_effects.R')
 source('../code/researcher_characteristics_and_effects_b.R')
 source('../code/peer_review.R')
+# source('../code/peer_review_sample_size.R')
 source('../code/analytic_choices.R')
 source('../code/clean_controls.R')
 # This code generated the sample_restrictions_handcoded file that was then corrected by hand
@@ -3016,6 +3017,27 @@ Similar results are found when comparing the variance of analytic, treatment, or
 p_peer_review_effect_distributions
 ```
 
+
+```{r}
+#| label: fig-peer-review-distributions-sample
+#| fig-cap: Distributions of Reported Sample Sizes
+p_peer_review_distributions[["Revision_of_Q12"]]
+```
+
+
+```{r}
+#| label: fig-peer-review-distributions-daca
+#| fig-cap: Distributions of Reported DACA Eligible Sample Sizes
+p_peer_review_distributions[["Revision_of_Q18"]]
+```
+
+
+```{r}
+#| label: fig-peer-review-distributions-non-daca
+#| fig-cap: Distributions of Reported DACA Non-Eligible Sample Sizes
+p_peer_review_distributions[["Revision_of_Q21"]]
+```
+
 @fig-like-your-reviewer explores the possibility that peer review might not make the peer-reviewed group as a whole more similar, but rather just make someone more similar to their specific reviewer. We calculate the absolute difference in effects between each reviewer pair, in the task they perform before reviewing (left column), in the follow-up task (middle column) and comparing your follow-up task against your reviewer's result this round (right column), with the right column representing the possibility that a researcher may select an analysis so as to produce a result more similar to the one they saw in the previous round.[^19]
 
 [^19]: The distributions of absolute differences for non-reviewed researchers are generated as a null distribution by matching every non-reviewed researcher to every other non-reviewed researcher and calculating all absolute differences. This null distribution represents the distribution of absolute differences among people who did not actually experience peer review. Notably, each non-reviewer is matched multiple times in this approach, instead of just once for reviewers. However, matching the non-reviewers only once to a single random pair just produces a noisier version of this all-matches null distribution. Averaging the single-random-match approach over many random single matches produces the same null distribution.
@@ -3029,6 +3051,33 @@ In @fig-like-your-reviewer we see inconsistent evidence in favor of peer review.
 #| fig-height: 5
 p_more_like_reviewer
 ```
+
+```{r}
+#| label: fig-like-your-reviewer-sample
+#| fig-cap: Comparisons of Sample Sizes vs. One's Reviewer
+#| fig-width: 8
+#| fig-height: 5
+plots_more_like_reviewer[["Revision_of_Q12"]]
+```
+
+
+```{r}
+#| label: fig-like-your-reviewer-data
+#| fig-cap: Comparisons of DACA Eligible Sample Sizes vs. One's Reviewer
+#| fig-width: 8
+#| fig-height: 5
+plots_more_like_reviewer[["Revision_of_Q18"]]
+```
+
+
+```{r}
+#| label: fig-like-your-reviewer-non-data
+#| fig-cap: Comparisons of DACA Non-Eligible Sample Sizes vs. One's Reviewer
+#| fig-width: 8
+#| fig-height: 5
+plots_more_like_reviewer[["Revision_of_Q21"]]
+```
+
 
 ## Analytic Choices {#sec-analytic}
 
