@@ -2845,7 +2845,7 @@ source('../code/variance_tests.R')
 source('../code/researcher_characteristics_and_effects.R')
 source('../code/researcher_characteristics_and_effects_b.R')
 source('../code/peer_review.R')
-# source('../code/peer_review_sample_size.R')
+source('../code/peer_review_sample_size.R')
 source('../code/analytic_choices.R')
 source('../code/clean_controls.R')
 # This code generated the sample_restrictions_handcoded file that was then corrected by hand
