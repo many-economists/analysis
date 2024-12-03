@@ -72,9 +72,11 @@ dat[, Round := factor(Round, levels = c('Task 1',
                                         'Task 2 Revision'
                                         ))]
 
-# 90% Winsorize the variables
+# Prepare data for analysis -----
 
-Winsorize <- function(x, probs = c(0.05, 0.95)) {
+# 90% winsorize the variables
+
+winsorize <- function(x, probs = c(0.05, 0.95)) {
   qnt <- quantile(x, probs = probs, na.rm = TRUE)
   x[x < qnt[1]] <- qnt[1]
   x[x > qnt[2]] <- qnt[2]
@@ -83,7 +85,7 @@ Winsorize <- function(x, probs = c(0.05, 0.95)) {
 
 vars_to_winsorize <- c("Revision_of_Q12", "Revision_of_Q18", "Revision_of_Q21")
 
-dat[, (vars_to_winsorize) := lapply(.SD, function(x) Winsorize(x, probs = c(0.10, 0.90))),
+dat[, (vars_to_winsorize) := lapply(.SD, function(x) winsorize(x, probs = c(0.10, 0.90))),
     by = Round, .SDcols = vars_to_winsorize]
 
 
@@ -101,6 +103,8 @@ compare_revis = function(r) {
 
 # Combine reviews from all tasks
 reviews = rbindlist(lapply(1:2, compare_revis))
+
+# Effect Distribution ----
 
 # Function to calculate differences in the specified variables
 get_diff = function(i, r, var_name) {
@@ -161,7 +165,8 @@ dropLeadingZero <- function(l){
 }
 
 # Create a named list to store plots
-plots = list()
+p_peer_review_distributions = list()
+
 
 # Map variable names to descriptive titles
 variable_descriptions <- list(
@@ -206,104 +211,156 @@ for (var in variables_to_analyze) {
     )
   
   # Store the plot in the list with the variable name
-  plots[[var]] = p
+  p_peer_review_distributions[[var]] = p
 }
 
 # Refer to each plot by its variable name, for example:
-# plots[["Revision_of_Q12"]]
-# plots[["Revision_of_Q18"]]
-# plots[["Revision_of_Q21"]]
+p_peer_review_distributions[["Revision_of_Q12"]]
+p_peer_review_distributions[["Revision_of_Q18"]]
+p_peer_review_distributions[["Revision_of_Q21"]]
+
+
+
 
 # Do you become more like your peer reviewer in effect size? ----
 
-reviews = rbindlist(lapply(1:3, compare_revis))
+# List of variables to analyze
+variables_to_analyze = c("Revision_of_Q12", "Revision_of_Q18", "Revision_of_Q21")
 
-# Find differences in other rounds
-get_diff_across = function(i, r) {
-  if (!reviews[i, got_reviewed]) {
-    return(NA_real_)
+# Create a list to store changediff data tables and plots for each variable
+changediff_list = list()
+plots_more_like_reviewer = list()
+
+# Map variable names to descriptive titles (ensure this is defined)
+variable_descriptions <- list(
+  "Revision_of_Q12" = "Analytic Sample Size",
+  "Revision_of_Q18" = "Eligible for DACA Sample Size",
+  "Revision_of_Q21" = "Not Eligible for DACA Sample Size"
+)
+
+# Loop over each variable
+for (var in variables_to_analyze) {
+  
+  # Re-initialize 'reviews' for Tasks 1 and 2
+  reviews = rbindlist(lapply(1:2, compare_revis))
+  
+  # Define 'get_diff_across' function for the variable
+  get_diff_across = function(i, r, var_name) {
+    if (!reviews[i, got_reviewed]) {
+      return(NA_real_)
+    }
+    prev_round_num = as.numeric(str_extract(r, "\\d")) - 1
+    prev_round = paste0('Task ', prev_round_num)
+    thispair = reviews[(Q1 == reviews[i, Q1] & Round == r) | 
+                         (Q1 == reviews[i, match] & Round == prev_round)]
+    if (nrow(thispair) < 2) {
+      return(NA_real_)
+    }
+    return(abs(thispair[[var_name]][2] - thispair[[var_name]][1]))
   }
-  thispair = reviews[(Q1 == reviews[i, Q1] & Round == r) | (Q1 == reviews[i, match] & Round == paste0('Task ', as.numeric(str_sub(r,-1))-1))]
-  if (nrow(thispair) < 2) {
-    return(NA_real_)
+  
+  # Compute 'Diff's for the variable
+  roundnames = c('Task 1', 'Task 2')
+  for (rn in 1:length(roundnames)) {
+    r = roundnames[rn]
+    reviews[[paste0('Diff_', var, '_', rn)]] = sapply(1:nrow(reviews), function(x) get_diff(x, r, var))
+    if (rn > 1) {
+      reviews[[paste0('Diff_', var, '_', rn, '_vs_', rn-1)]] = sapply(1:nrow(reviews), function(x) get_diff_across(x, r, var))
+    }
   }
-  return(abs(thispair$Revision_of_Q4[2] - thispair$Revision_of_Q4[1]))
+  
+  # Separate 'unreviewed' and 'reviewed' data
+  unreviewed = reviews[!(got_reviewed)]
+  reviewed = reviews[(got_reviewed)]
+  
+  # Assign IDs to unreviewed observations
+  unreviewed[, id := .I]
+  
+  # Create all possible pairs among unreviewed observations
+  allreviews = CJ(id1 = unreviewed$id, id2 = unreviewed$id)
+  allreviews = allreviews[id1 < id2]  # Avoid duplicates and self-pairing
+  
+  # Prepare 'ar_round' data tables for each round
+  ar_round_list = list()
+  for (rn in 1:length(roundnames)) {
+    r = roundnames[rn]
+    # Merge Effect sizes for each pair in the same round
+    ar = merge(allreviews, unreviewed[Round == r, .(id1 = id, E1 = get(var))], by = 'id1')
+    ar = merge(ar, unreviewed[Round == r, .(id2 = id, E2 = get(var))], by = 'id2')
+    ar[, diff := abs(E1 - E2)]
+    ar_round_list[[paste0('ar_round', rn)]] = ar
+  }
+  
+  # Prepare cross-round comparisons (e.g., ar_round2v1)
+  # Comparing Task 1 and Task 2 for unreviewed
+  ar_round2v1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = get(var))], by = 'id1')
+  ar_round2v1 = merge(ar_round2v1, unreviewed[Round == 'Task 2', .(id2 = id, E2 = get(var))], by = 'id2')
+  ar_round2v1[, diff := abs(E1 - E2)]
+  
+  # Build 'changediff_var' data table
+  changediff_var = rbindlist(list(
+    # Reviewed
+    data.table(Type = 'Reviewed', Round = 'Task 1', Comparison = 'Original',
+               diff = reviewed[Round == 'Task 1'][[paste0('Diff_', var, '_1')]]),
+    data.table(Type = 'Reviewed', Round = 'Task 1', Comparison = 'Next Round', 
+               diff = reviewed[Round == 'Task 1'][[paste0('Diff_', var, '_2')]]),
+    data.table(Type = 'Reviewed', Round = 'Task 1', Comparison = 'Next vs. This',
+               diff = reviewed[Round == 'Task 1'][[paste0('Diff_', var, '_2_vs_1')]]),
+    data.table(Type = 'Reviewed', Round = 'Task 2', Comparison = 'Original',
+               diff = reviewed[Round == 'Task 2'][[paste0('Diff_', var, '_2')]]),
+    # Unreviewed
+    data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Original',
+               diff = ar_round_list[['ar_round1']]$diff),
+    data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Original',
+               diff = ar_round_list[['ar_round2']]$diff),
+    data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next Round',
+               diff = ar_round_list[['ar_round2']]$diff),
+    data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next vs. This',
+               diff = ar_round2v1$diff)
+  ), use.names = TRUE, fill = TRUE)
+  
+  # Adjust 'Comparison' factor levels
+  changediff_var[, Comparison := factor(Comparison, levels = c('Original','Next Round','Next vs. This'))]
+  
+  # Store 'changediff_var' in the list
+  changediff_list[[var]] = changediff_var
+  
+  # Generate the plot for the variable
+  p_var = ggplot(changediff_var, aes(x = diff, color = Type, fill = Type)) + 
+    geom_density(alpha = .1) +
+    scale_color_manual(values = colorpal) +
+    scale_fill_manual(values = colorpal) +
+    scale_x_continuous(labels = comma_format()) +
+    theme_nick() + 
+    facet_grid(rows = vars(Round), cols = vars(Comparison)) + 
+    labs(
+      title = paste('Absolute Difference for', variable_descriptions[[var]]),
+      caption = 'No weights applied.',
+      x = 'Absolute Difference',
+      y = 'Density'
+    )
+  
+  # Store the plot in the list
+  plots_more_like_reviewer[[var]] = p_var
+  
+  # Optionally, run the regression and store results
+  peer_review_reg = feols(diff ~ Comparison * Type, data = changediff_var, split = ~Round)
+  
+  # Store regression results if needed (e.g., in a list)
+  # regression_results[[var]] = peer_review_reg
+  
+  # If you want to print or save the regression results, you can do so here
 }
 
-roundnames = c('Task 1','Task 2','Task 3')
-for (rn in 1:length(roundnames)) {
-  reviews[[paste0('Diff_',rn)]] = sapply(1:nrow(reviews), \(x) get_diff(x, roundnames[rn]))
-  reviews[[paste0('Diff_',rn,'_vs_',rn-1)]] = sapply(1:nrow(reviews), \(x) get_diff_across(x, roundnames[rn]))
-}
+# Access the plots and changediff data for each variable:
 
-unreviewed = reviews[!(got_reviewed)]
-reviews = reviews[(got_reviewed)]
+print(plots_more_like_reviewer[["Revision_of_Q12"]])
+changediff_Q12 = changediff_list[["Revision_of_Q12"]]
 
-unreviewed[, id := 1:.N]
-allreviews = CJ(id1 = 1:nrow(unreviewed), id2 = 1:nrow(unreviewed))
-allreviews = allreviews[id1 != id2]
-ar_round1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round1 = merge(ar_round1, unreviewed[Round == 'Task 1', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round1[, diff := abs(E1-E2)]
-ar_round2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round2 = merge(ar_round2, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round2[, diff := abs(E1-E2)]
-ar_round3 = merge(allreviews, unreviewed[Round == 'Task 3', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round3 = merge(ar_round3, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round3[, diff := abs(E1-E2)]
-ar_round2v1 = merge(allreviews, unreviewed[Round == 'Task 1', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round2v1 = merge(ar_round2v1, unreviewed[Round == 'Task 2', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round2v1[, diff := abs(E1-E2)]
-ar_round3v2 = merge(allreviews, unreviewed[Round == 'Task 2', .(id1 = id, E1 = Revision_of_Q4)], by = 'id1')
-ar_round3v2 = merge(ar_round3v2, unreviewed[Round == 'Task 3', .(id2 = id, E2 = Revision_of_Q4)], by = 'id2')
-ar_round3v2[, diff := abs(E1-E2)]
+print(plots_more_like_reviewer[["Revision_of_Q18"]])
+changediff_Q18 = changediff_list[["Revision_of_Q18"]]
 
-changediff = rbindlist(list(
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Original',
-             diff = reviews[Round == 'Task 1', Diff_1]),
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next Round', 
-             diff = reviews[Round == 'Task 1', Diff_2]),
-  data.table(Type = 'Reviewed',Round = 'Task 1', Comparison = 'Next vs. This',
-             diff = reviews[Round == 'Task 1', Diff_2_vs_1]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Original',
-             diff = reviews[Round == 'Task 2', Diff_2]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next Round',
-             diff = reviews[Round == 'Task 2', Diff_3]),
-  data.table(Type = 'Reviewed',Round = 'Task 2', Comparison = 'Next vs. This',
-             diff = reviews[Round == 'Task 2', Diff_3_vs_2]),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Original',
-             diff = ar_round1$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Original',
-             diff = ar_round2$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next Round',
-             diff = ar_round2$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next Round',
-             diff = ar_round3$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 1', Comparison = 'Next vs. This',
-             diff = ar_round2v1$diff),
-  data.table(Type = 'Unreviewed', Round = 'Task 2', Comparison = 'Next vs. This',
-             diff = ar_round3v2$diff)
-))
-changediff[, Comparison := factor(Comparison, levels = c('Original','Next Round','Next vs. This'))]
-
-p_more_like_reviewer = ggplot(changediff, aes(x = diff, color = Type,
-                       fill = Type)) + 
-  geom_density(alpha = .1) +
-  scale_color_manual(values = colorpal) +
-  scale_fill_manual(values = colorpal) +
-  scale_x_continuous(breaks = c(0, .025, .05, .075, .1),
-                     labels = c('0', '.025', '.05', '.075', .1)) +
-  coord_cartesian(xlim = c(0, .1)) + 
-  theme_nick() + 
-  theme(axis.text.x = element_text(size = 10)) +
-  facet_grid(rows = vars(Round),
-             cols = vars(Comparison)) + 
-  labs(caption = str_wrap('Original is this round vs. this round. Next round is next round vs. next round. Next vs. This is your next round vs. partner\'s this round. Values beyond .1 omitted for visibility. No weights applied.', 110),
-
-       x = 'Absolute effect difference',
-       y = 'Density')
+print(plots_more_like_reviewer[["Revision_of_Q21"]])
+changediff_Q21 = changediff_list[["Revision_of_Q21"]]
 
 
-# Regression to show impacts of peer review ----
-
-peer_review_reg = feols(diff ~ Comparison*Type, data = changediff, split = 'Round')
