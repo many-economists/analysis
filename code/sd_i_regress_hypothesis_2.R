@@ -88,29 +88,52 @@ dat_reg <- dat_reg %>%
   mutate(
     effect_size_diff = (effect_size - mean(effect_size, na.rm = TRUE))^2,
     sample_size_diff = (sample_size - mean(sample_size, na.rm = TRUE))^2,
-    sample_daca_diff = (daca_sample - mean(sample_dace, na.rm = TRUE))^2,
-    sample_non_daca_diff = (non_data_sample - mean(sample_non_daca, na.rm = TRUE))^2
+    sample_daca_diff = (sample_daca - mean(sample_daca, na.rm = TRUE))^2,
+    sample_non_daca_diff = (sample_non_daca - mean(sample_non_daca, na.rm = TRUE))^2
   )
 
-# Regress each variable in map_vars on round_number
-map_vars <- c('effect_size_diff', 'sample_size_diff', 'daca_sample_diff', 'non_data_sample_diff')
-models <- map(map_vars, 
+# Regress each variable in map_vars on round_number ----
+
+map_vars <- c('effect_size_diff', 'sample_size_diff', 'sample_daca_diff', 'sample_non_daca_diff')
+
+models_linear <- map(map_vars, 
               ~ {
+                # Drop two last rounds for sample variables because we prescribe sample
                 .df <- dat_reg
-                # Convert string to symbol and evaluate in lm formula
-                formula <- as.formula(paste(.x, "~ round_number"))
-                # Drop two last rounds for sample variables
                 if(.x %in% c('sample_size_diff', 'sample_daca_diff', 'sample_non_daca_diff')) {
                   .df <- dat_reg %>% 
                     filter(round_number < 5)
                 }
+                # Convert string to symbol and evaluate in lm formula
+                formula <- as.formula(paste(.x, "~ round_number"))
                 lm(formula, data = .df)
               }) %>% 
   # Extract coefficients and p-values
   map(broom::tidy)
 
 # View the results
-models
+models_linear
+
+# The quadratic model show nothing statistically significant or even close to it
+models_quadratic <- map(map_vars, 
+                     ~ {
+                       # Drop two last rounds for sample variables because we prescribe sample
+                       .df <- dat_reg
+                       if(.x %in% c('sample_size_diff', 'sample_daca_diff', 'sample_non_daca_diff')) {
+                         .df <- dat_reg %>% 
+                           filter(round_number < 5)
+                       }
+                       # Convert string to symbol and evaluate in lm formula
+                       formula <- as.formula(paste(.x, "~ round_number + I(round_number^2)"))
+                       lm(formula, data = .df)
+                     }) %>% 
+  # Extract coefficients and p-values
+  map(broom::tidy)
+
+# View the results
+models_quadratic
+
+
 
 
 
