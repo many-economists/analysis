@@ -12,6 +12,27 @@ split_controls = function(i) {
 
 source('../code/control_var_fixdat.R')
 
+qrecode(dat, 'Q2', 
+        c('Revision following the first replication task (such as following peer review)',
+          'Revision following the second replication task (such as following peer review)',
+          'Revision following the third replication task (such as following peer review)',
+          'The first replication task',
+          'The second replication task',
+          'The third replication task'),
+        c('Task 1 Revision',
+          'Task 2 Revision',
+          'Task 3 Revision',
+          'Task 1',
+          'Task 2',
+          'Task 3'), 'Round', checkfrom = TRUE)
+
+dat[, Round := factor(Round, levels = c('Task 1',
+                                           'Task 1 Revision',
+                                           'Task 2',
+                                           'Task 2 Revision',
+                                           'Task 3',
+                                           'Task 3 Revision'))]
+
 condat = copy(dat[Q1 %in% Q1[Round == 'Task 3']])
 
 for (i in 1:nrow(condat)) {
