@@ -14,42 +14,42 @@ library(patchwork)
 colorpal = palette.colors(palette = 'Paired')
 
 # Import data
-dat = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
+dat_prss = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
 
 # Replace specific characters in the Revision columns
-dat[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
-dat[, Revision_of_Q17 := str_replace_all(Revision_of_Q17, '‚Äì','-')]
-dat[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
+dat_prss[, Revision_of_Q14 := str_replace_all(Revision_of_Q14, '‚Äì','-')]
+dat_prss[, Revision_of_Q17 := str_replace_all(Revision_of_Q17, '‚Äì','-')]
+dat_prss[, Revision_of_Q20 := str_replace_all(Revision_of_Q20, '‚Äì','-')]
 
 # Revisions of sample sizes
-dat[Q1 == 15 & Q2 == 'The first replication task', Revision_of_Q12 := 5979569]
-dat[Q1 == 834 & Q2 == 'The first replication task', Revision_of_Q12 := 2924560]
-dat[Q1 == 176 & Q2 == 'The first replication task', Revision_of_Q12 := 284230]
-dat[Q1 == 871 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 20798]
-dat[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q12 := 36762]
-dat[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q18 := 22774]
-dat[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q21 := 13988]
-dat[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q12 := 738057]
-dat[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q18 := 179856]
-dat[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q21 := 558201]
-dat[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 248351]
-dat[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q18 := 110830]
-dat[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q21 := 137521]
-dat[Q1 == 158 & Q2 == "The second replication task", Revision_of_Q18 := 17432]
-dat[Q1 == 395 & Q2 == "The second replication task", Revision_of_Q18 := 2834]
-dat[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q12 := 28863]
-dat[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q18 := 5664]
-dat[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q21 := 23199]
-dat[Q1 == 923 & Q2 == 'The first replication task', Revision_of_Q12 := 313046]
-dat[Q1 == 923 & Q2 == 'The first replication task', Revision_of_Q21 := 221167]
-dat[Q1 == 842 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 3283605]
-dat[Q1 == 842 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q21 := 3196015]
+dat_prss[Q1 == 15 & Q2 == 'The first replication task', Revision_of_Q12 := 5979569]
+dat_prss[Q1 == 834 & Q2 == 'The first replication task', Revision_of_Q12 := 2924560]
+dat_prss[Q1 == 176 & Q2 == 'The first replication task', Revision_of_Q12 := 284230]
+dat_prss[Q1 == 871 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 20798]
+dat_prss[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q12 := 36762]
+dat_prss[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q18 := 22774]
+dat_prss[Q1 == 737 & Q2 == 'The second replication task', Revision_of_Q21 := 13988]
+dat_prss[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q12 := 738057]
+dat_prss[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q18 := 179856]
+dat_prss[Q1 == 737 & Q2 == 'The first replication task', Revision_of_Q21 := 558201]
+dat_prss[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 248351]
+dat_prss[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q18 := 110830]
+dat_prss[Q1 == 737 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q21 := 137521]
+dat_prss[Q1 == 158 & Q2 == "The second replication task", Revision_of_Q18 := 17432]
+dat_prss[Q1 == 395 & Q2 == "The second replication task", Revision_of_Q18 := 2834]
+dat_prss[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q12 := 28863]
+dat_prss[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q18 := 5664]
+dat_prss[Q1 == 591 & Q2 == "The second replication task", Revision_of_Q21 := 23199]
+dat_prss[Q1 == 923 & Q2 == 'The first replication task', Revision_of_Q12 := 313046]
+dat_prss[Q1 == 923 & Q2 == 'The first replication task', Revision_of_Q21 := 221167]
+dat_prss[Q1 == 842 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q12 := 3283605]
+dat_prss[Q1 == 842 & Q2 == 'Revision following the first replication task (such as following peer review)', Revision_of_Q21 := 3196015]
 
 # Filter out rows with missing Q2 values
-dat = dat[!is.na(Q2)]
+dat = dat_prss[!is.na(Q2)]
 
 # Recode the 'Q2' variable
-qrecode(dat, 'Q2', 
+qrecode(dat_prss, 'Q2', 
         c('Revision following the first replication task (such as following peer review)',
           'Revision following the second replication task (such as following peer review)',
           'Revision following the third replication task (such as following peer review)',
@@ -63,10 +63,10 @@ qrecode(dat, 'Q2',
           'Task 2',
           'Task 3'), 'Round', checkfrom = TRUE)
 
-dat <- dat[!Round %in% c("Task 3 Revision", "Task 3")]
+dat_prss <- dat_prss[!Round %in% c("Task 3 Revision", "Task 3")]
 
 # Set the order of factors in 'Round'
-dat[, Round := factor(Round, levels = c('Task 1',
+dat_prss[, Round := factor(Round, levels = c('Task 1',
                                         'Task 1 Revision',
                                         'Task 2',
                                         'Task 2 Revision'
@@ -85,13 +85,13 @@ winsorize <- function(x, probs = c(0.05, 0.95)) {
 
 vars_to_winsorize <- c("Revision_of_Q12", "Revision_of_Q18", "Revision_of_Q21")
 
-dat[, (vars_to_winsorize) := lapply(.SD, function(x) winsorize(x, probs = c(0.10, 0.90))),
+dat_prss[, (vars_to_winsorize) := lapply(.SD, function(x) winsorize(x, probs = c(0.10, 0.90))),
     by = Round, .SDcols = vars_to_winsorize]
 
 
 # Function to compare revisions
 compare_revis = function(r) {
-  thisr = dat[Round %in% paste0('Task ', r, c('',' Revision'))]
+  thisr = dat_prss[Round %in% paste0('Task ', r, c('',' Revision'))]
   pairs = fread(here("data", paste0('task_', r, '_peer_review_pairs.csv')))
   pairs = pairs[!(dont_send)]
   thisr = merge(thisr, pairs[, .(Q1 = id2, match = id1, pairID)], all.x = TRUE)
