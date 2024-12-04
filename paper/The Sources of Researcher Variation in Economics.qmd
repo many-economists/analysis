@@ -3,7 +3,7 @@ title: "The Sources of Researcher Variation in Economics"
 author:
   - id: HK1
     number: 1
-    name: Nick Huntington-Klein\thanks{Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th ave., Seattle, WA, 98122. Huntington-Klein and Pörtner are the project organizers. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. The Seattle University IRB determined this study to be exempt from IRB review in accordance with federal regulation criteria. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the project.}
+    name: Nick Huntington-Klein\thanks{Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th Ave., Seattle, WA, 98122. Huntington-Klein and Pörtner are the project organizers. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. The Seattle University IRB determined this study to be exempt from IRB review in accordance with federal regulation criteria. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the project.}
     email: nhuntington-klein@seattleu.edu
     phone: 1-206-296-5815
     fax: NONE
@@ -2507,6 +2507,8 @@ include-in-header:
     \usepackage{booktabs}
     \usepackage{longtable}
     \usepackage{placeins}
+    \usepackage{setspace}
+    \doublespacing
 output: 
   rticles::arxiv_article:
     keep_tex: true
@@ -2844,14 +2846,19 @@ source('../code/variation_in_effects_and_sample_sizes.R')
 source('../code/variance_tests.R')
 source('../code/researcher_characteristics_and_effects.R')
 source('../code/researcher_characteristics_and_effects_b.R')
-source('../code/peer_review.R')
-source('../code/peer_review_sample_size.R')
 source('../code/analytic_choices.R')
 source('../code/clean_controls.R')
-# This code generated the sample_restrictions_handcoded file that was then corrected by hand
-#source('../code/sample_limitations.R')
 source('../code/post_handcoding_sample_limitations.R')
 source('../code/round_2_bimodality.R')
+```
+
+```{r peer_review}
+
+# This code generated the sample_restrictions_handcoded file that was then corrected by hand
+#source('../code/sample_limitations.R')
+source('../code/peer_review.R')
+source('../code/peer_review_sample_size.R')
+
 # Generate ordering for spot checks
 
 # generate a random order for spot checks
