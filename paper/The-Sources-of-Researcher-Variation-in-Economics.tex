@@ -141,15 +141,13 @@
 \usepackage{xcolor}
 \usepackage{siunitx}
 
-  \newcolumntype{d}{S[
-    input-open-uncertainty=,
-    input-close-uncertainty=,
-    parse-numbers = false,
-    table-align-text-pre=false,
-    table-align-text-post=false
-  ]}
+    \newcolumntype{d}{S[
+      table-align-text-before=false,
+      table-align-text-after=false,
+      input-symbols={-,\*+()}
+    ]}
   
-\usepackage{booktabs} \usepackage{longtable} \usepackage{placeins}
+\usepackage{booktabs} \usepackage{longtable} \usepackage{placeins} \usepackage{setspace} \doublespacing
 \KOMAoption{captions}{tableheading}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
@@ -213,7 +211,7 @@
 
 \title{The Sources of Researcher Variation in Economics}
 \author{Nick
-Huntington-Klein\thanks{Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th ave., Seattle, WA, 98122. Huntington-Klein and Pörtner are the project organizers. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. The Seattle University IRB determined this study to be exempt from IRB review in accordance with federal regulation criteria. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the project.} \and Claus
+Huntington-Klein\thanks{Corresponding author Nick Huntington-Klein, nhuntington-klein@seattleu.edu, +1 (206) 296-5815. Department of Economics, Seattle University, 901 12th Ave., Seattle, WA, 98122. Huntington-Klein and Pörtner are the project organizers. This project was supported by the Alfred P. Sloan foundation grant G-2022-19377. The Seattle University IRB determined this study to be exempt from IRB review in accordance with federal regulation criteria. Many thanks to Kian Farzaneh, Amrapali Samanta, and Erica Long for research assistance, to the researchers Mira Chaskes, Jennifer A. Heissel, Elaine L. Hill, Rajius Idzalika, Joshua D. Merfeld, and Ethan Sawyer, who contributed but did not want an authorship slot, to the researchers who wished to remain anonymous, and to the researchers who enlisted in the study but were not eligible or were not able to complete all three rounds of the project.} \and Claus
 Pörtner \and Yubraj Acharya \and Matus Adamkovic \and Joop
 Adema \and Lameck Ondieki Agasa \and Imtiaz Ahmad \and Mevlude
 Akbulut-Yuksel \and Martin Eckhoff Andresen \and David
@@ -1151,6 +1149,12 @@ investigation.
 
 \subsection{Variation in Effects and Sample Sizes}\label{sec-variation}
 
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/peer_review-1.pdf}
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/peer_review-2.pdf}
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/peer_review-3.pdf}
+
 Figure~\ref{fig-effect-distributions} and Table \ref{tab-effectdist}
 show the distribution of estimated effects across all researchers. The
 effect distributions are shown in two ways: unweighted and using
@@ -1341,7 +1345,14 @@ Figure~\ref{fig-treated-group-distributions}.
 
 In Figure~\ref{fig-sample-size-distributions} we see a huge amount of
 variation in the reported sample size used in Task 1, noting that the
-x-axis is on a log scale. The 25th and 75th percentiles of reported
+x-axis is on a log scale.\footnote{Task 3 is not shown in the graph
+  because the sample is pre-specified, with the only meaningful
+  variation being whether or not the researcher dropped three rows of
+  data with missing education values, and a few outliers reporting lower
+  numbers. The lower sample sizes for this question are due to
+  researchers who skipped it because they assumed the answer was
+  obvious. {[}Nick: I do not follow the last sentence; what question
+  does this refer to?{]}} The 25th and 75th percentiles of reported
 sample sizes ranging from 61,600 to 356,787, with some researchers using
 millions of observations.\footnote{Keep in mind that for Task 1, there
   was not a specified control group, so a researcher may decide to use
@@ -1355,12 +1366,10 @@ millions of observations.\footnote{Keep in mind that for Task 1, there
 instructions the treated and comparison groups to use, variation reduces
 considerably, although the 75th percentile (48,125) is still double the
 25th (18,981), and there are still some researchers using millions of
-observations. Task 3 is not shown in the graph because the sample is
-pre-specified, with the only meaningful variation being whether or not
-the researcher dropped three rows of data with missing education values,
-and a few outliers reporting lower numbers. The lower sample sizes for
-this question are due to researchers who skipped it because they assumed
-the answer was obvious.
+observations. Consistent with the reduction when we specify the treated
+and comparison groups, a Levene test on the variance in sample size
+rejects the null hypothesis of equal variance across Task 1 and Task 2
+at the 0.05 level.
 
 \begin{figure}
 
@@ -1644,24 +1653,24 @@ Revised Variance
 \endhead
 \bottomrule\noalign{}
 \endlastfoot
-Task 1 & Revision\_of\_Q12 & 1.635321e+12 & 1.092997e+13 & 0.4786146 &
-2.141136e+12 \\
-Task 2 & Revision\_of\_Q12 & 2.178534e+09 & 1.636383e+12 & 0.4766579 &
+Task 1 & Revision\_of\_Q12 & 3.396063e+11 & 1.090333e+13 & 0.2385609 &
+2.368976e+12 \\
+Task 2 & Revision\_of\_Q12 & 2.178534e+09 & 1.619723e+12 & 0.4794986 &
 1.648693e+09 \\
-Pooled & Revision\_of\_Q12 & 8.143549e+11 & 6.251650e+12 & 0.3189842 &
-9.479288e+11 \\
-Task 1 & Revision\_of\_Q18 & 7.785414e+08 & 6.236244e+11 & 0.4423303 &
-3.402099e+09 \\
-Task 2 & Revision\_of\_Q18 & 9.849572e+07 & 7.995043e+10 & 0.3803012 &
+Pooled & Revision\_of\_Q12 & 1.886343e+11 & 6.233894e+12 & 0.1627017 &
+1.073615e+12 \\
+Task 1 & Revision\_of\_Q18 & 7.785414e+08 & 6.234413e+11 & 0.4499723 &
+1.722116e+09 \\
+Task 2 & Revision\_of\_Q18 & 9.848547e+07 & 7.911622e+10 & 0.3832353 &
 2.761379e+10 \\
-Pooled & Revision\_of\_Q18 & 6.867221e+08 & 3.499851e+11 & 0.3078506 &
-1.612899e+10 \\
-Task 1 & Revision\_of\_Q21 & 3.529556e+11 & 6.166209e+12 & 0.2936067 &
-2.852302e+12 \\
-Task 2 & Revision\_of\_Q21 & 3.348237e+12 & 8.966412e+11 & 0.4368802 &
+Pooled & Revision\_of\_Q18 & 6.737974e+08 & 3.480543e+11 & 0.3150961 &
+1.536824e+10 \\
+Task 1 & Revision\_of\_Q21 & 3.514263e+11 & 6.043639e+12 & 0.3166901 &
+2.343534e+12 \\
+Task 2 & Revision\_of\_Q21 & 3.348237e+12 & 8.871517e+11 & 0.4310993 &
 1.592183e+09 \\
-Pooled & Revision\_of\_Q21 & 1.900129e+12 & 3.576866e+12 & 0.6029009 &
-1.343071e+12 \\
+Pooled & Revision\_of\_Q21 & 1.896183e+12 & 3.495470e+12 & 0.6318555 &
+1.103651e+12 \\
 \end{longtable}
 
 Figure~\ref{fig-peer-review-effect-distributions} shows the distribution
@@ -1672,11 +1681,14 @@ and the right column shows the effects reported in the follow-up task.
 As is expected given randomization, effect distributions are fairly
 similar pre-review between the review and non-review groups. No
 differences emerge between these groups in the follow-up task. Levene
-test p-values comparing variance of peer-reviewed and non-peer-reviewed
-groups in follow-up tasks show p-values of 0.846 and 0.788 in Tasks 2
-and 3, respectively, or 0.999 when pooling the two tasks. This is not
-strong evidence in favor of the idea that peer review might drive
-agreement between researchers due to the receipt of feedback.
+test p-values comparing effect size variance of peer-reviewed and
+non-peer-reviewed groups in follow-up tasks show p-values of 0.846 and
+0.788 in Tasks 2 and 3, respectively, or 0.999 when pooling the two
+tasks. This is not strong evidence in favor of the idea that peer review
+might drive agreement between researchers due to the receipt of
+feedback. Similar results are found when comparing the variance of
+analytic, treatment, or control sample sizes between the peer-reviewed
+and non-peer-reviewed groups in the follow-up tasks.
 
 \begin{figure}
 
@@ -1688,6 +1700,45 @@ agreement between researchers due to the receipt of feedback.
 
 \caption{\label{fig-peer-review-effect-distributions}Distributions of
 Reported Effect Sizes}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-peer-review-distributions-sample-1.pdf}
+
+}
+
+\caption{\label{fig-peer-review-distributions-sample}Distributions of
+Reported Sample Sizes}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-peer-review-distributions-daca-1.pdf}
+
+}
+
+\caption{\label{fig-peer-review-distributions-daca}Distributions of
+Reported DACA Eligible Sample Sizes}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-peer-review-distributions-non-daca-1.pdf}
+
+}
+
+\caption{\label{fig-peer-review-distributions-non-daca}Distributions of
+Reported DACA Non-Eligible Sample Sizes}
 
 \end{figure}%
 
@@ -1734,6 +1785,45 @@ making a researcher more like their reviewer as the result of feedback.
 
 \caption{\label{fig-like-your-reviewer}Comparisons of Effect Sizes
 vs.~One's Reviewer}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-like-your-reviewer-sample-1.pdf}
+
+}
+
+\caption{\label{fig-like-your-reviewer-sample}Comparisons of Sample
+Sizes vs.~One's Reviewer}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-like-your-reviewer-data-1.pdf}
+
+}
+
+\caption{\label{fig-like-your-reviewer-data}Comparisons of DACA Eligible
+Sample Sizes vs.~One's Reviewer}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{The-Sources-of-Researcher-Variation-in-Economics_files/figure-pdf/fig-like-your-reviewer-non-data-1.pdf}
+
+}
+
+\caption{\label{fig-like-your-reviewer-non-data}Comparisons of DACA
+Non-Eligible Sample Sizes vs.~One's Reviewer}
 
 \end{figure}%
 
@@ -2734,7 +2824,7 @@ Squared x Above &  & \num{0.000}**\\
 \midrule
 Num.Obs. & \num{282} & \num{282}\\
 \bottomrule
-\multicolumn{3}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}* p \textbackslash{}num\{< 0.1\}, ** p \textbackslash{}num\{< 0.05\}, *** p \textbackslash{}num\{< 0.01\}}\\
 \end{tabular}
 \end{table}
 
@@ -2746,22 +2836,22 @@ Num.Obs. & \num{282} & \num{282}\\
 \toprule
   & Task 1 & Task 2\\
 \midrule
-Intercept & \num{0.086}*** & \num{0.063}***\\
- & (\num{0.010}) & (\num{0.009})\\
-Comparison: Next Round & \num{-0.034}** & \num{-0.006}\\
- & (\num{0.014}) & \vphantom{1} (\num{0.013})\\
-Comparison: Next Round vs. This Round & \num{-0.017} & \num{0.000}\\
- & (\num{0.014}) & (\num{0.013})\\
-Unreviewed & \num{-0.045}*** & \num{0.001}\\
- & (\num{0.010}) & (\num{0.010})\\
-Next Round x Unreviewed & \num{0.057}*** & \num{-0.030}**\\
- & (\num{0.014}) & \vphantom{1} (\num{0.014})\\
-Next vs. This x Unreviewed & \num{0.029}** & \num{-0.017}\\
- & (\num{0.014}) & (\num{0.014})\\
+Intercept & \num{346735.780}*** & \num{32560.217}***\\
+ & (\num{21264.497}) & (\num{5166.315})\\
+Comparison: Next Round & \num{-309264.874}*** & \\
+ & (\num{30538.809}) & \\
+Comparison: Next Round vs. This Round & \num{-112729.230}*** & \\
+ & (\num{30299.506}) & \\
+Unreviewed & \num{-87257.593}*** & \num{9461.777}*\\
+ & (\num{22287.696}) & (\num{5364.594})\\
+Next Round x Unreviewed & \num{91808.680}*** & \\
+ & (\num{31881.045}) & \\
+Next vs. This x Unreviewed & \num{62364.749}** & \\
+ & (\num{31354.187}) & \\
 \midrule
-Num.Obs. & \num{6809} & \num{6676}\\
+Num.Obs. & \num{4762} & \num{1268}\\
 \bottomrule
-\multicolumn{3}{l}{\rule{0pt}{1em}* p $<$ 0.1, ** p $<$ 0.05, *** p $<$ 0.01}\\
+\multicolumn{3}{l}{\rule{0pt}{1em}* p \textbackslash{}num\{< 0.1\}, ** p \textbackslash{}num\{< 0.05\}, *** p \textbackslash{}num\{< 0.01\}}\\
 \end{tabular}
 \end{table}
 
@@ -3187,7 +3277,7 @@ Num.Obs. & \num{145} & \num{145} & \num{145} & \num{145}\\
 R2 & \num{0.046} & \num{0.040} & \num{0.088} & \num{0.047}\\
 R2 Adj. & \num{-0.010} & \num{-0.017} & \num{0.034} & \num{-0.009}\\
 \bottomrule
-\multicolumn{5}{l}{\rule{0pt}{1em}+ p $<$ 0.1, * p $<$ 0.05, ** p $<$ 0.01, *** p $<$ 0.001}\\
+\multicolumn{5}{l}{\rule{0pt}{1em}+ p \textbackslash{}num\{< 0.1\}, * p \textbackslash{}num\{< 0.05\}, ** p \textbackslash{}num\{< 0.01\}, *** p \textbackslash{}num\{< 0.001\}}\\
 \end{tabular}
 \end{table}
 
