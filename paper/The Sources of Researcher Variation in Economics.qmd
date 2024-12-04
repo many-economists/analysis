@@ -2841,7 +2841,7 @@ Importantly, these results are derived from the survey responses that researcher
 
 ## Variation in Effects and Sample Sizes {#sec-variation}
 
-```{r}
+```{r main scripts}
 source('../code/variation_in_effects_and_sample_sizes.R')
 source('../code/variance_tests.R')
 source('../code/researcher_characteristics_and_effects.R')
@@ -2852,7 +2852,7 @@ source('../code/post_handcoding_sample_limitations.R')
 source('../code/round_2_bimodality.R')
 ```
 
-```{r peer_review}
+```{r peer review code}
 
 # This code generated the sample_restrictions_handcoded file that was then corrected by hand
 #source('../code/sample_limitations.R')
