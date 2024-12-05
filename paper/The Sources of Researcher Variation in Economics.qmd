@@ -2883,6 +2883,12 @@ results_hypo_2 |>
                caption = 'Squared Difference to Round Mean against\\linebreak Round number (Hypothesis 2)\\label{hypothesis-2}')
 ```
 
+[This probably does not go here]
+Table \ref{hypothesis-2} shows the squared differences to the mean effect in each round regressed against the round number for the effect size and the three 
+samples sizes, total, DACA eligible and Non-DACA eligible.
+The squared difference to the round mean provides us with a measure of the variance in effect size and samples sizes across researchers.
+None of the coefficient on round number are statistically significant, although the coefficients for sample sizes are negative as expected.
+
 
 Our preregistration plan details that we planned to give descriptive characteristics of the results, as we do here, and also implement a Levene test on whether the variance between researchers declined. We do not reject at the 95% level the null of no change in variance from any stage to any later stage (including a comparison of each task to its revision stage, and comparing each main task to later main tasks), with the lowest p-value of `r number(levene_test_results$pval[1],.001)` coming from the comparison of `r levene_test_results$TaskA[1]` to `r levene_test_results$TaskB[1]`.
 
