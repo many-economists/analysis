@@ -107,12 +107,12 @@ models_linear <- map(map_vars,
                 # Convert string to symbol and evaluate in lm formula
                 formula <- as.formula(paste(.x, "~ round_number"))
                 lm(formula, data = .df)
-              }) %>% 
-  # Extract coefficients and p-values
-  map(broom::tidy)
+              }) 
 
 # View the results
-models_linear
+models_linear %>% 
+  # Extract coefficients and p-values
+  map(broom::tidy)
 
 # The quadratic model show nothing statistically significant or even close to it
 models_quadratic <- map(map_vars, 
@@ -132,6 +132,42 @@ models_quadratic <- map(map_vars,
 
 # View the results
 models_quadratic
+
+# Produce table for inclusion in the paper
+
+results_hypo_2 <- map2(models_linear, map_vars, ~ {
+  broom::tidy(.x) %>%
+    mutate(variable = .y) # Add variable name for identification
+}) %>% 
+  bind_rows() %>% 
+  select(variable, term, estimate, std.error, p.value) %>% 
+  filter(term == 'round_number') %>%
+  select(-term) %>%
+  # Format numbers
+  mutate(
+    estimate = scales::label_scientific(accuracy = 0.001)(estimate),
+    std.error = scales::label_scientific(accuracy = 0.001)(std.error),
+    p.value = scales::pvalue(p.value, accuracy = 0.001)
+  ) %>% 
+  # Better names for y variables
+  mutate(
+    variable = case_when(
+      variable == 'effect_size_diff' ~ 'Effect Size',
+      variable == 'sample_size_diff' ~ 'Sample Size (Total)',
+      variable == 'sample_daca_diff' ~ 'Sample Size (DACA)',
+      variable == 'sample_non_daca_diff' ~ 'Sample Size (Non-DACA)'
+    )
+  ) %>%
+  # Rename Columns
+  rename(
+    'Variable' = variable,
+    'Estimate' = estimate,
+    'Std. Error' = std.error,
+    'P-Value' = p.value
+  )  
+  
+  
+  
 
 
 
