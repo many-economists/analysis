@@ -19,7 +19,7 @@ author:
         address: 901 12th Ave, Seattle, WA, 98122
   - id: CP2
     number: 2
-    name: Claus Pörtner
+    name: Claus C. Pörtner
     email: cportner@seattleu.edu
     phone: 1-206-296-2593
     fax: NONE
@@ -2841,7 +2841,7 @@ Importantly, these results are derived from the survey responses that researcher
 
 ## Variation in Effects and Sample Sizes {#sec-variation}
 
-```{r}
+```{r main scripts}
 source('../code/variation_in_effects_and_sample_sizes.R')
 source('../code/variance_tests.R')
 source('../code/researcher_characteristics_and_effects.R')
@@ -2850,9 +2850,10 @@ source('../code/analytic_choices.R')
 source('../code/clean_controls.R')
 source('../code/post_handcoding_sample_limitations.R')
 source('../code/round_2_bimodality.R')
+source('../code/sd_i_regress_hypothesis_2.R')
 ```
 
-```{r peer_review}
+```{r peer review code}
 
 # This code generated the sample_restrictions_handcoded file that was then corrected by hand
 #source('../code/sample_limitations.R')
@@ -2875,6 +2876,19 @@ source('../code/peer_review_sample_size.R')
 [^16]: The use of inverse-standard-error weights is not preregistered but follows meta-analytic standards, reducing the influence of estimates that may be outliers due to being estimated with a highly-noisy method, under the suggestion of @auspurg2023social. Weights are truncated at the 95th percentile (200, or a standard error of .005) so as to avoid any single researcher having too much influence on results. Not using the truncation leads to more agreement because a few researchers with very small standard errors make up a significant share of the weighted sample.
 
 In Task 1, the mean estimated effect of DACA eligibility on the probability of working full-time was .053 unweighted or .044 weighted. In both cases these means are pulled upwards by high top-end estimates and are above the 75th percentiles. Median estimates were .030 unweighted or .026 weighted. Even in Task 1, with a large amount of freedom afforded, researchers found a reasonable amount of agreement in the effect sizes outside of the tails, with the 25th to 75th percentile ranges of the effect being .014 to .051 unweighted, an inter-quartile range (IQR) of .037, or 3.7 percentage points in the effect, or .012 to .043 weighted, an IQR of .031. The use of weights narrows the distribution of effects: researchers reporting smaller standard errors also reported estimates that were more similar to each other, which was also the case in Tasks 2 and 3.
+
+```{r hypothesis 2}
+results_hypo_2 |> 
+  knitr::kable(booktabs = TRUE,
+               caption = 'Squared Difference to Round Mean against\\linebreak Round number (Hypothesis 2)\\label{hypothesis-2}')
+```
+
+[This probably does not go here]
+Table \ref{hypothesis-2} shows the squared differences to the mean effect in each round regressed against the round number for the effect size and the three 
+samples sizes, total, DACA eligible and Non-DACA eligible.
+The squared difference to the round mean provides us with a measure of the variance in effect size and samples sizes across researchers.
+None of the coefficient on round number are statistically significant, although the coefficients for sample sizes are negative as expected.
+
 
 Our preregistration plan details that we planned to give descriptive characteristics of the results, as we do here, and also implement a Levene test on whether the variance between researchers declined. We do not reject at the 95% level the null of no change in variance from any stage to any later stage (including a comparison of each task to its revision stage, and comparing each main task to later main tasks), with the lowest p-value of `r number(levene_test_results$pval[1],.001)` coming from the comparison of `r levene_test_results$TaskA[1]` to `r levene_test_results$TaskB[1]`.
 
