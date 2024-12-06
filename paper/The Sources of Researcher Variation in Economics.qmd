@@ -2787,7 +2787,6 @@ summary_data |>
   ) |>
   add_header_above(header) |> # Adds a header row above the main column names
   kable_styling(
-    bootstrap_options = c("striped", "hover"),
     font_size = 7
     ) 
 ```
@@ -2812,7 +2811,6 @@ sumtable(alldemog,
          out = 'kable'
          ) |>
   kable_styling(
-    bootstrap_options = c("striped", "hover"),
     latex_options = "scale_down"
     ) |>
   column_spec(1:9, latex_column_spec = "lrrrrrrrr")
@@ -2821,7 +2819,6 @@ sumtable(alldemog,
 Table \ref{tab-samp3} shows the demographics of the researcher sample. The original enrollment was just under 80% male and more than 55% white, with the white share growing to 66% by the end of Task 3. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. About half of the sample was situated in the United States, and about half was from another country. The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
 
 ```{r}
-#| output: asis
 sumtable(alldemog, vars = c('Researcher_Q15',
                             'RaceRecode',
                             'Researcher_Q17'), 
