@@ -88,6 +88,8 @@ alldemog[, RaceRecode := factor(RaceRecode,
 
 alldemog[, Researcher_Q11 := factor(Researcher_Q11,
                                     levels = c('Social media', 'Department email','Email of a professional organization','Other'))]
+# Better labeling for table
+levels(alldemog$Researcher_Q11)[levels(alldemog$Researcher_Q11) == "Email of a professional organization"] <- "Professional organization email"
 alldemog[, Researcher_Q17 := factor(Researcher_Q17, 
                                     levels = c('Yes','No','Prefer not to say'))]
 # Coding languages

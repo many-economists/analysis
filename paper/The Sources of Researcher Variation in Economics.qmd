@@ -2514,7 +2514,7 @@ output:
     keep_tex: true
 ---
 
-```{r}
+```{r libraries and data import}
 {
   library(rio)
   library(data.table)
@@ -2527,6 +2527,8 @@ output:
   library(modelsummary)
   library(here)
   library(patchwork)
+  library(kableExtra)
+  library(tidyverse)
 }
 
 dat = import(here("data", "cleaned_survey_post_corrections.parquet"), setclass = 'data.table')
@@ -2729,7 +2731,7 @@ The recruitment message described the project and its goals, and provided a link
 
 ### Participation and Attrition
 
-```{r}
+```{r participation and attrition}
 source('../code/participation_and_attrition.R')
 ```
 
@@ -2737,7 +2739,7 @@ Overall participation and attrition values are in Table \ref{tbl-attrition}. `r 
 
 [^12]: Data processing and analysis as well as table and figure creation for this paper were performed using the R packages **data.table**, **tidyverse**, **rio**, **fixest**, **car**, **modelsummary**, and **vtable** [@R-data-table; @tidyverse2019; @R-rio; @fixest2018; @car2019; @modelsummary2022; @R-vtable].
 
-```{r attrition}
+```{r attrition table}
 justcount |> knitr::kable(booktabs = TRUE,
                           caption = 'Participation and Attrition\\label{tbl-attrition}')
 ```
@@ -2758,16 +2760,36 @@ Tables \ref{tab-samp1} to \ref{tab-samp3} show the characteristics of the recrui
 
 Table \ref{tab-samp1} shows that the majority of researchers were recruited via social media, and also that those recruited from social media were more likely to finish all three tasks. Upon signup, researchers were about 90% confident of their ability to finish all three tasks. More-confident researchers were slightly more likely to actually finish, and average confidence rates of those who did finish were about 92% instead of 90%.
 
-```{r}
-#| output: asis
-sumtable(alldemog, vars = c('Researcher_Q11',
-                            'Researcher_Q12_1',
-                            'Researcher_Q12_2'), 
-         labels = c('Recruitment Source','Certainty to Finish Task 1','Certainty to Finish Task 3'), group = 'Round',
-         out = 'latex',
-         title = 'Researcher Recruitment Source and Completion Confidence',
-         fit.page = '\\textwidth',
-         anchor = 'tab-samp1')
+```{r reseacher recruitment table}
+# Generate the summary data frame
+summary_data <- sumtable(
+  alldemog,
+  vars = c('Researcher_Q11', 'Researcher_Q12_1', 'Researcher_Q12_2'),
+  labels = c('Recruitment Source', 'Certainty to Finish Task 1', 'Certainty to Finish Task 3'),
+  group = 'Round',
+  out = 'return' # Return as a data frame instead of LaTeX
+) 
+
+# To get rid of Round, remove first row of summary data and remove row labels/names
+summary_data <- tail(summary_data, -1)
+rownames(summary_data) <- NULL
+
+# Add a custom header above "N," "Mean," and "SD" for each Round group
+header <- c(" " = 1, "Original signup" = 3, "Assigned tasks 1" = 3, "Finished task 1" = 3, "Finished task 3" = 3)  
+
+
+# Render the table with proper spanning headers
+summary_data |>
+  knitr::kable(
+    booktabs = TRUE,
+    caption = 'Researcher Recruitment Source and Completion Confidence\\label{tab-samp1}',
+    align = "lrrrrrrrrrrrr"
+  ) |>
+  add_header_above(header) |> # Adds a header row above the main column names
+  kable_styling(
+    bootstrap_options = c("striped", "hover"),
+    font_size = 7
+    ) 
 ```
 
 Table \ref{tab-samp2} shows the professional experience of enrollees. While graduate students were considered eligible for the project as long as they had a published or forthcoming paper, the majority of eligible researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q10 %in% c('PhD','Prof. Degree')),1)]`) had PhDs. PhD holders were also more likely than other eligible researchers to complete all three tasks.[^14]
