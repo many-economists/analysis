@@ -2838,12 +2838,6 @@ sumtable(alldemog,
 
 One researcher did complete all three research tasks, and appears in the above tables, but their work has been removed from the results that follow in the rest of the paper, because a misunderstanding of the instructions meant that their work did not attempt to estimate the effect of DACA on the probability of employment.
 
-```{r}
-# Ensure the proper analytic sample for all following code
-dat = dat[Q1 != 972]
-dat = dat[Q1 %in% Q1[Q2 == "The third replication task"]]
-```
-
 Aside from being skewed towards the United States, the sample largely reflects the group of people who publish work in applied microeconomics. The US overrepresentation is partially driven by the emails sent to US economics departments, the fact that the project was advertised and carried out in English, and the fact that the project organizers are in the United States and advertised the project using their own social media.
 
 # Results
@@ -2854,7 +2848,11 @@ Importantly, these results are derived from the survey responses that researcher
 
 ## Variation in Effects and Sample Sizes {#sec-variation}
 
-```{r main scripts}
+```{r Main Scripts}
+# Ensure the proper analytic sample for all following code
+dat = dat[Q1 != 972]
+dat = dat[Q1 %in% Q1[Q2 == "The third replication task"]]
+
 source('../code/variation_in_effects_and_sample_sizes.R')
 source('../code/variance_tests.R')
 source('../code/researcher_characteristics_and_effects.R')
@@ -2866,7 +2864,7 @@ source('../code/round_2_bimodality.R')
 source('../code/sd_i_regress_hypothesis_2.R')
 ```
 
-```{r peer review code}
+```{r Peer Review Code}
 
 # This code generated the sample_restrictions_handcoded file that was then corrected by hand
 #source('../code/sample_limitations.R')
@@ -2890,7 +2888,7 @@ source('../code/peer_review_sample_size.R')
 
 In Task 1, the mean estimated effect of DACA eligibility on the probability of working full-time was .053 unweighted or .044 weighted. In both cases these means are pulled upwards by high top-end estimates and are above the 75th percentiles. Median estimates were .030 unweighted or .026 weighted. Even in Task 1, with a large amount of freedom afforded, researchers found a reasonable amount of agreement in the effect sizes outside of the tails, with the 25th to 75th percentile ranges of the effect being .014 to .051 unweighted, an inter-quartile range (IQR) of .037, or 3.7 percentage points in the effect, or .012 to .043 weighted, an IQR of .031. The use of weights narrows the distribution of effects: researchers reporting smaller standard errors also reported estimates that were more similar to each other, which was also the case in Tasks 2 and 3.
 
-```{r hypothesis 2}
+```{r Hypothesis 2 Table}
 results_hypo_2 |> 
   knitr::kable(booktabs = TRUE,
                caption = 'Squared Difference to Round Mean against\\linebreak Round number (Hypothesis 2)\\label{hypothesis-2}')
@@ -2911,7 +2909,7 @@ Moving all the way to Task 3, agreement considerably increases between researche
 
 Taking only the effect distributions as a baseline, we see that, at least in this application, researchers in general report fairly similar, although certainly not identical, effect estimates on average, but there are some extreme outlier estimates as well. We may also take this to mean that providing pre-cleaned data, as in Task 3, led to a strong increase in researcher agreement. Specifying further the research question and design, however, as in Task 2, led to somewhat less agreement. The odd result for Task 2 and its proper interpretation will be investigated further in @sec-bimodal.
 
-```{r}
+```{r Distribution of Reported Effect Sizes Figure}
 #| fig-width: 8
 #| fig-height: 5
 #| label: fig-effect-distributions
@@ -2923,7 +2921,7 @@ Table \ref{tab-effectdist} also shows the reported standard errors. Reported sta
 
 Increasing agreement is necessarily driven by individual researchers changing their reported effects in subsequent rounds. @fig-effects-compare-rounds shows that researchers were not strictly bound by their previous estimates. There is effectively no visible or linear statistical relationship between a researcher's reported effect in one task and their effect in the next task.
 
-```{r}
+```{r Same-Researcher Effect Sizes Figure}
 #| fig-width: 9
 #| fig-height: 3
 #| label: fig-effects-compare-rounds
