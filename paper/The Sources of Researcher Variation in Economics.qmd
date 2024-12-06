@@ -3009,8 +3009,15 @@ Further, Table \ref{tab-match-by-field} shows that the share of researchers matc
 
 ```{r Match by Field Table}
 rfield |>
-  knitr::kable(booktabs = TRUE,
-               caption = 'Share of Researchers Matching Treated-Group Definition Exactly by Field\\label{tab-match-by-field}')
+  kable(
+    booktabs = TRUE,
+    caption = 'Share of Researchers Matching Treated-Group Definition Exactly by Field\\label{tab-match-by-field}',
+    format = "latex"
+    ) |>
+  kable_styling(
+    latex_options = "scale_down"
+    ) |>
+  column_spec(1:5, latex_column_spec = "lrrrr")
 
 # our t-test
 # d = data.table(field = c(rep(TRUE,1+3+12+35),rep(FALSE,c(18+76))), out = c(rep(TRUE,13),rep(FALSE,3+35),rep(TRUE,18),rep(FALSE,76)))
@@ -3040,7 +3047,7 @@ peer_review_levene |>
   kable_styling(
     latex_options = "scale_down"
     ) |>
-  column_spec(1:9, latex_column_spec = "lrrrr")
+  column_spec(1:5, latex_column_spec = "lrrrr")
 ```
 
 
