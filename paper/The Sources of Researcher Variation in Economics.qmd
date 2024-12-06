@@ -2952,7 +2952,7 @@ effect_sum_tab |>
   column_spec(1:9, latex_column_spec = "lrrrrrrrr")
 ```
 
-```{r}
+```{r Specification Curve for All Reported Estimates Figure}
 #| label: fig-full-effect-distribution
 #| fig-cap: Specification Curve for All Reported Estimates
 p_full_effect_distribution_individual
@@ -2969,7 +2969,7 @@ Consistent with the reduction when we specify the treated and comparison groups,
 
 [^17]: Keep in mind that for Task 1, there was not a specified control group, so a researcher may decide to use the entire ACS sample in the analysis, including people very unlike the eligible group in the sample. In Task 2, the instructions specified a treated and comparison group, but some researchers may have different samples than in Task 3 either due to error, or because they included people other than the treated and comparison group in their sample to improve precision, and used their model to compare those groups more directly.
 
-```{r}
+```{r Sample Size Distributions Figure}
 #| label: fig-sample-size-distributions
 #| fig-cap: Distributions of Reported Sample Sizes
 #| fig-width: 8
@@ -2979,7 +2979,7 @@ p_sample_size_distributions
 
 Variation in the reported size of the treated group in @fig-treated-group-distributions is affected somewhat by researcher confusion in responding to the survey question. The survey question about treated-group size instructed researchers not to count individuals eligible for DACA as treated for the purposes of this question if they were in a pre-DACA year. However, many researchers counted these individuals as treated anyway, leading to variation in the Task 3 distribution, even though every researcher is at this point working with the same eligibility indicator.
 
-```{r}
+```{r Treated Group Distributions Figure}
 #| label: fig-treated-group-distributions
 #| fig-cap: Distributions of Reported Treated-Group Sizes
 p_treated_group_sample_size
@@ -3007,7 +3007,7 @@ This does not fully explain researcher behavior: note that there is also a weigh
 
 Further, Table \ref{tab-match-by-field} shows that the share of researchers matching exactly is fairly low, between 20-25% by field, keeping in mind that even very minor mismatches are counted as mismatches. Further, perfect-match rates were slightly higher among researchers whose work was closest to the field that the research task was in, immigration and labor, although this difference was not statistically significant at the 95% level.
 
-```{r}
+```{r Match by Field Table}
 rfield |>
   knitr::kable(booktabs = TRUE,
                caption = 'Share of Researchers Matching Treated-Group Definition Exactly by Field\\label{tab-match-by-field}')
@@ -3028,21 +3028,40 @@ There is no statistically significant difference in variance between the reviewe
 Similarly, as shown in Table \ref{tab-variance-after-revision-sample} there are no statistically significant differences in the variance of sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks. 
 
 
-```{r}
+```{r Variance in Effect after Revision table}
 #| label: Levene test - effect size
 # variance_tests.R - effect size tests
 peer_review_levene |>
-  knitr::kable(booktabs = TRUE, 
-               caption = 'Post-Revision Variance in Effect Sizes by Peer Review \\label{tab-variance-after-revision}')
+  knitr::kable(
+    booktabs = TRUE, 
+    caption = 'Post-Revision Variance in Effect Sizes by Peer Review \\label{tab-variance-after-revision}',
+    format = "latex"
+    ) |>
+  kable_styling(
+    latex_options = "scale_down"
+    ) |>
+  column_spec(1:9, latex_column_spec = "lrrrr")
 ```
 
 
-```{r}
+```{r Variance in Sample Sizes after Revision table}
 #| label: Levene test - sample size
 # variance_test.R - sample size tests
 peer_review_levene_sample |>
-  knitr::kable(booktabs = TRUE, 
-               caption = 'Post-Revision Variance in Sample Sizes by Peer Review \\label{tab-variance-after-revision-sample}') 
+  select(-2) |>
+  kable(
+    booktabs = TRUE, 
+    caption = 'Post-Revision Variance in Sample Sizes by Peer Review \\label{tab-variance-after-revision-sample}',
+    digits = 3,
+    format = "latex"
+    ) |>
+  pack_rows(
+    index = c("Overall Sample Size" = 3, "DACA Eligible Sample Size" = 3, "DACA Non-Eligible Sample Size" = 3),
+    bold = FALSE
+  ) |>
+  kable_styling(
+    latex_options = "scale_down"
+    )
 ```
 
 
