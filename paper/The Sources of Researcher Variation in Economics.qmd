@@ -2931,13 +2931,25 @@ p_compare_rounds
 
 We can compare average standard errors against the variation in effects between researchers to get a sense of how much effect variability is omitted by only considering a reported standard error, as in @huntington2021influence or @menkveld2021non. Comparing the standard deviation of weighted effects against the average standard error gives ratios of 4.84, 2.23, and 1.75 for Tasks 1, 2, and 3, respectively. @huntington2021influence used a single round and allowed full researcher freedom, and found a range of 3-4 for this ratio, below what we find for the full-freedom Task 1. If we instead compare weighted IQR to average standard errors we get ratios of 1.63, 1.29, and .41. The decrease over rounds is partially driven by increasing agreement over rounds, which suggest that a reported standard error considerably understates the estimate uncertainty that we should acknowledge when including researcher variation. However, these reductions are also driven by the fact that sample sizes decreased from round to round, due to the shared research design instructing researchers to use a more restricted sample than many used in Task 1. These reduced sample sizes increased the reported standard errors and thus the denominator of the effect-variation-to-average-standard-error ratio. This behavior demonstrates a flaw with these ratios, introduced in @huntington2021influence, as a metric for researcher-indused uncertainty. Even if one might expect that researcher variation should be higher for research designs with smaller samples (or less precision for some other fundamental reason), there's no reason to believe that researcher variation would scale at the same rate as the standard error. So this ratio will tend to be higher for research tasks with bigger samples than smaller samples, even if the level of researcher variation is the same.
 
-```{r}
-#| output: asis
-
-dftoLaTeX(effect_sum_tab,
-         anchor = 'tab-effectdist',
-         title = 'Distribution of Reported Effects and Sample Sizes', fit.page = '\\textwidth') |>
-  cat()
+```{r Distribution of Reported Effects and Samples Sizes Table}
+effect_sum_tab |>
+  # remove 1st, 7th, and 13th rows
+  slice(-1) |>
+  slice(-6) |>
+  slice(-11) |>
+  kable(
+    caption = 'Distribution of Reported Effects and Sample Sizes\\label{tab-effectdist}',
+    booktabs = TRUE,
+    format = "latex"
+    ) |>
+  pack_rows(
+    index = c("Round: Task 1" = 5, "Round: Task 2" = 5, "Round: Task 3" = 5),
+    bold = FALSE
+  ) |>
+  kable_styling(
+    latex_options = "scale_down"
+    ) |>
+  column_spec(1:9, latex_column_spec = "lrrrrrrrr")
 ```
 
 ```{r}
