@@ -2783,7 +2783,7 @@ These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',perc
 
 [^15]: Researchers in the "faculty" or "non-faculty researchers" categories who do not hold PhDs were either people who had been hired to faculty roles without holding PhDs (such as ABDs, or people in a faculty position requiring only a Master's degree), or people with Master's degrees in non-faculty research positions who had published academic papers (some of whom were still graduate students). Researchers with "No Academic Papers" are non-academic researchers who produce work not intended for academic journal publication. Those with "No Published Academic Papers" have papers that are forthcoming, or are faculty who only have working papers and no publications.
 
-```{r Researcher Professional Experience}
+```{r Researcher Professional Experience Table}
 alldemog[Researcher_Q13 %like% 'Labor', Researcher_Cats := 'Labor']
 alldemog[Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration']
 alldemog[Researcher_Q13 %like% 'Labor' & Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration & Labor']
@@ -2802,15 +2802,20 @@ sumtable(alldemog,
 
 Table \ref{tab-samp3} shows the demographics of the researcher sample. The original enrollment was just under 80% male and more than 55% white, with the white share growing to 66% by the end of Task 3. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. About half of the sample was situated in the United States, and about half was from another country. The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
 
-```{r}
-sumtable(alldemog, vars = c('Researcher_Q15',
+```{r Researcher Demographics Table}
+sumtable(alldemog, 
+         vars = c('Researcher_Q15',
                             'RaceRecode',
                             'Researcher_Q17'), 
-         labels = c('Gender','Race','LGBTQ+'), group = 'Round',
-         out = 'latex',
-         title = 'Researcher Demographics',
-         fit.page = '\\textwidth',
-         anchor = 'tab-samp3')
+         labels = c('Gender', 'Race', 'LGBTQ+'), 
+         group = 'Round',
+         title = 'Researcher Demographics\\label{tab-samp3}',
+         out = 'kable',
+) |>
+  kable_styling(
+    latex_options = "scale_down"
+    ) |>
+  column_spec(1:9, latex_column_spec = "lrrrrrrrr")
 ```
 
 ```{r}
