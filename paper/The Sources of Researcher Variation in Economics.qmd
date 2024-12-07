@@ -2997,7 +2997,7 @@ Several anticipated correlates did not explain the bimodal outcomes of Task 2. @
 
 Instead, we find that a major contributing factor to Task 2 bimodality is the ability to precisely implement the treated-group definition given in the instructions. Task 2 gave a very precise definition of who should be included as a part of the treated group. We examine whether a given researcher followed the full set of treated-group definition instructions exactly or not. The mismatch could be small, such as using "\<= 16" instead of "\< 16" for age at migration, or large, such as omitting that eligible people must be non-citizens. In @fig-match-vs-mismatch we show their distribution of effects against researchers who had a mismatch in their criteria in any way. The graph shows that the bimodality heavily driven by the group that precisely matched the treated-group definition. This implies that the bimodality in Task 2 may be explained in large part by a split between researchers who exactly followed the instructions, and so effectively matched what a typical researcher found in Task 3, and those who did not.
 
-```{r}
+```{r Match vs Mismatch Figure}
 #| label: fig-match-vs-mismatch
 #| fig-cap: Task 2 Effect Distributions Among Those with Exact Treated-Group Definition Matchs vs. Those with Some Mismatch
 p_match_vs_mismatch_distribution
@@ -3081,28 +3081,28 @@ This is not strong evidence in favor of the idea that peer review might drive ag
 Similar results are found when comparing the variance of analytic, treatment, or control sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks.
 
 
-```{r}
+```{r Distribution of Reported Effect Sizes Figure}
 #| label: fig-peer-review-effect-distributions
 #| fig-cap: Distributions of Reported Effect Sizes
 p_peer_review_effect_distributions
 ```
 
 
-```{r}
+```{r Distribution of Reported Sample Sizes Figure}
 #| label: fig-peer-review-distributions-sample
 #| fig-cap: Distributions of Reported Sample Sizes
 p_peer_review_distributions[["Revision_of_Q12"]]
 ```
 
 
-```{r}
+```{r Distribution of Reported DACA Eligible Sample Sizes Figure}
 #| label: fig-peer-review-distributions-daca
 #| fig-cap: Distributions of Reported DACA Eligible Sample Sizes
 p_peer_review_distributions[["Revision_of_Q18"]]
 ```
 
 
-```{r}
+```{r Distribution of Reported DACA Non-Eligible Sample Sizes Figure}
 #| label: fig-peer-review-distributions-non-daca
 #| fig-cap: Distributions of Reported DACA Non-Eligible Sample Sizes
 p_peer_review_distributions[["Revision_of_Q21"]]
@@ -3114,7 +3114,7 @@ p_peer_review_distributions[["Revision_of_Q21"]]
 
 In @fig-like-your-reviewer we see inconsistent evidence in favor of peer review. Task 1 review pairs became more similar in Task 2, while unreviewed pairs did not change. The change in average absolute effect differences from Task 1 to Task 2 was a statistically significant .051 greater for review pairs than non-review pairs (see Appendix Table \ref{tab-peer-review-reg}). However, this finding does not replicate in Task 2, where from Task 2 to Task 3, average absolute effect differences shrunk by a statistically significant .029 more for unreviewed than reviewed pairs. This is not consistent strong evidence of peer review making a researcher more like their reviewer as the result of feedback.
 
-```{r}
+```{r Comparisons of Effect Sizes vs. One's Reviewer Figure}
 #| label: fig-like-your-reviewer
 #| fig-cap: Comparisons of Effect Sizes vs. One's Reviewer
 #| fig-width: 8
@@ -3122,7 +3122,7 @@ In @fig-like-your-reviewer we see inconsistent evidence in favor of peer review.
 p_more_like_reviewer
 ```
 
-```{r}
+```{r Comparisons of Sample Sizes vs. One's Reviewer Figure}
 #| label: fig-like-your-reviewer-sample
 #| fig-cap: Comparisons of Sample Sizes vs. One's Reviewer
 #| fig-width: 8
@@ -3131,7 +3131,7 @@ plots_more_like_reviewer[["Revision_of_Q12"]]
 ```
 
 
-```{r}
+```{r Comparisons of DACA Eligible Sample Sizes vs. One's Reviewer Figure}
 #| label: fig-like-your-reviewer-data
 #| fig-cap: Comparisons of DACA Eligible Sample Sizes vs. One's Reviewer
 #| fig-width: 8
@@ -3140,7 +3140,7 @@ plots_more_like_reviewer[["Revision_of_Q18"]]
 ```
 
 
-```{r}
+```{r Comparisons of DACA Non-Eligible Sample Sizes vs. One's Reviewer Figure}
 #| label: fig-like-your-reviewer-non-data
 #| fig-cap: Comparisons of DACA Non-Eligible Sample Sizes vs. One's Reviewer
 #| fig-width: 8
