@@ -2762,13 +2762,28 @@ Table \ref{tab-samp1} shows that the majority of researchers were recruited via 
 
 ```{r Reseacher Recruitment Table}
 # Generate the summary data frame
-sumtable(alldemog,
+table_2 <- sumtable(alldemog,
          vars = c('Researcher_Q11', 'Researcher_Q12_1', 'Researcher_Q12_2'),
          labels = c('Recruitment Source', 'Certainty to Finish Task 1', 'Certainty to Finish Task 3'),
          group = 'Round',
-         title = "Researcher Recruitment Source and Completion Confidence\\label{tab-samp1}",
-         out = 'kable' 
-) |> 
+         out = 'return' 
+) 
+
+# Sumtable places the group variable as the first row, so we remove it
+table_2 <- table_2[-1, ]
+row.names(table_2) <- NULL
+
+table_2 |>
+  kbl(
+    format = "latex",
+    caption = "Researcher Recruitment Source and Completion Confidence\\label{tab-samp1}",
+    booktabs = TRUE
+  ) |>
+  add_header_above(c(" " = 1, "Signup" = 3, "Task 1" = 3, 
+                     "Task 1" = 3, "Task 3" = 3)) |>
+  add_header_above(c(" " = 1, "Original" = 3, "Assigned" = 3, 
+                     "Finished" = 3, "Finished" = 3), line = FALSE) |>
+  add_header_above(c(" " = 1, "Round" = 12), line = FALSE) |> 
   kable_styling(
     latex_options = "scale_down"
   ) |>
@@ -2784,16 +2799,37 @@ These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',perc
 [^15]: Researchers in the "faculty" or "non-faculty researchers" categories who do not hold PhDs were either people who had been hired to faculty roles without holding PhDs (such as ABDs, or people in a faculty position requiring only a Master's degree), or people with Master's degrees in non-faculty research positions who had published academic papers (some of whom were still graduate students). Researchers with "No Academic Papers" are non-academic researchers who produce work not intended for academic journal publication. Those with "No Published Academic Papers" have papers that are forthcoming, or are faculty who only have working papers and no publications.
 
 ```{r Researcher Professional Experience Table}
+linesep<-function(x,y=character()){
+  if(!length(x))
+    return(y)
+  linesep(x[-length(x)], c(rep('',x[length(x)]-1),'\\addlinespace',y))  
+}
 alldemog[Researcher_Q13 %like% 'Labor', Researcher_Cats := 'Labor']
 alldemog[Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration']
 alldemog[Researcher_Q13 %like% 'Labor' & Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration & Labor']
-sumtable(alldemog, 
+table_3 <- sumtable(alldemog, 
          vars = c('Researcher_Q10', 'Researcher_Q6', 'Q8Recode', 'Researcher_Cats'), 
          labels = c('Degree', 'Occupation', 'Research Experience','Field'), 
          group = 'Round',
-         title = 'Researcher Professional Experience\\label{tab-samp2}',
-         out = 'kable'
-) |>
+         out = 'return'
+)
+
+# Sumtable places the group variable as the first row, so we remove it
+table_3 <- table_3[-1, ] 
+row.names(table_3) <- NULL
+
+table_3 |>
+  kbl(
+    format = "latex",
+    caption = "Researcher Professional Experience\\label{tab-samp2}",
+    booktabs = TRUE,
+    linesep = linesep(c(6,5,5))
+  ) |>
+  add_header_above(c(" " = 1, "Signup" = 2, "Task 1" = 2, 
+                     "Task 1" = 2, "Task 3" = 2)) |>
+  add_header_above(c(" " = 1, "Original" = 2, "Assigned" = 2, 
+                     "Finished" = 2, "Finished" = 2), line = FALSE) |>
+  add_header_above(c(" " = 1, "Round" = 8), line = FALSE) |>
   kable_styling(
     latex_options = "scale_down"
     ) |>
@@ -2803,15 +2839,31 @@ sumtable(alldemog,
 Table \ref{tab-samp3} shows the demographics of the researcher sample. The original enrollment was just under 80% male and more than 55% white, with the white share growing to 66% by the end of Task 3. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. About half of the sample was situated in the United States, and about half was from another country. The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
 
 ```{r Researcher Demographics Table}
-sumtable(alldemog, 
+table_4 <- sumtable(alldemog, 
          vars = c('Researcher_Q15',
                             'RaceRecode',
                             'Researcher_Q17'), 
          labels = c('Gender', 'Race', 'LGBTQ+'), 
          group = 'Round',
-         title = 'Researcher Demographics\\label{tab-samp3}',
-         out = 'kable',
-) |>
+         out = 'return',
+) 
+
+# Sumtable places the group variable as the first row, so we remove it
+table_4 <- table_4[-1, ]
+row.names(table_4) <- NULL
+
+table_4 |>
+  kbl(
+    format = "latex",
+    caption = "Researcher Demographics\\label{tab-samp3}",
+    booktabs = TRUE,
+    linesep = linesep(c(5,6))
+  ) |>
+  add_header_above(c(" " = 1, "Signup" = 2, "Task 1" = 2, 
+                     "Task 1" = 2, "Task 3" = 2)) |>
+  add_header_above(c(" " = 1, "Original" = 2, "Assigned" = 2, 
+                     "Finished" = 2, "Finished" = 2), line = FALSE) |>
+  add_header_above(c(" " = 1, "Round" = 8), line = FALSE) |>
   kable_styling(
     latex_options = "scale_down"
     ) |>
@@ -3114,7 +3166,7 @@ p_peer_review_distributions[["Revision_of_Q21"]]
 
 In @fig-like-your-reviewer we see inconsistent evidence in favor of peer review. Task 1 review pairs became more similar in Task 2, while unreviewed pairs did not change. The change in average absolute effect differences from Task 1 to Task 2 was a statistically significant .051 greater for review pairs than non-review pairs (see Appendix Table \ref{tab-peer-review-reg}). However, this finding does not replicate in Task 2, where from Task 2 to Task 3, average absolute effect differences shrunk by a statistically significant .029 more for unreviewed than reviewed pairs. This is not consistent strong evidence of peer review making a researcher more like their reviewer as the result of feedback.
 
-```{r Comparisons of Effect Sizes vs. One's Reviewer Figure}
+```{r Comparisons of Effect Sizes vs. Reviewer Figure}
 #| label: fig-like-your-reviewer
 #| fig-cap: Comparisons of Effect Sizes vs. One's Reviewer
 #| fig-width: 8
@@ -3122,7 +3174,7 @@ In @fig-like-your-reviewer we see inconsistent evidence in favor of peer review.
 p_more_like_reviewer
 ```
 
-```{r Comparisons of Sample Sizes vs. One's Reviewer Figure}
+```{r Comparisons of Sample Sizes vs. Reviewer Figure}
 #| label: fig-like-your-reviewer-sample
 #| fig-cap: Comparisons of Sample Sizes vs. One's Reviewer
 #| fig-width: 8
@@ -3131,7 +3183,7 @@ plots_more_like_reviewer[["Revision_of_Q12"]]
 ```
 
 
-```{r Comparisons of DACA Eligible Sample Sizes vs. One's Reviewer Figure}
+```{r Comparisons of DACA Eligible Sample Sizes vs. Reviewer Figure}
 #| label: fig-like-your-reviewer-data
 #| fig-cap: Comparisons of DACA Eligible Sample Sizes vs. One's Reviewer
 #| fig-width: 8
@@ -3140,7 +3192,7 @@ plots_more_like_reviewer[["Revision_of_Q18"]]
 ```
 
 
-```{r Comparisons of DACA Non-Eligible Sample Sizes vs. One's Reviewer Figure}
+```{r Comparisons of DACA Non-Eligible Sample Sizes vs. Reviewer Figure}
 #| label: fig-like-your-reviewer-non-data
 #| fig-cap: Comparisons of DACA Non-Eligible Sample Sizes vs. One's Reviewer
 #| fig-width: 8
