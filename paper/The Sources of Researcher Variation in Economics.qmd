@@ -3344,15 +3344,37 @@ We see a huge amount of variety in the ways these variables were used, including
 
 For all other variables besides Years Continuous in USA, the option matching the instructions was the most common, but we also see plenty of variation. We also see considerable variation for the columns in which there is not a clear "correct" option, like the analytic sample definition. No single way of applying any variable was used by more than 84% of the sample in any case. One interesting feature is the use of both "\< 16" and "\<= 16" for age at migration, and "\< 2007" and "\<= 2007" for year of migation. For year of migration, the two are similarly popular. Also interesting is the distinction between researchers using age defined in years to determine eligibility vs. age defined in quarters, which makes a difference given that eligibility is based on age specifically in June 2012.
 
-```{r}
-#| output: asis
+```{r Sample Limitations Extensive}
 # Variables used in limitations
-sumtable(r12samp, titles, group = 'Round/Sample',
-         out = 'latex',
-         fit.page = '.75\\textwidth',
-         anchor = 'tab-sample-limitations-extensive',
-         note = 'Multistep condition means the variable is one part of a complex boolean involving many different variables.',
-         title = 'Sample Restriction Methods')
+table_14 <- sumtable(
+  r12samp, 
+  titles, 
+  group = 'Round/Sample',
+  out = 'return'
+) 
+
+table_14 <- table_14[-1, ]
+rownames(table_14) <- NULL
+
+table_14 |>
+  kbl(
+    format = "latex",
+    booktabs = T,
+    caption = "Sample Restriction Methods\\label{tab-sample-limitations-extensive}",
+    linesep = linesep(c(6, 6, 7, 5, 5, 9, 7))
+  ) |>
+  add_header_above(c(" " = 1, "All" = 2, "Treated" = 2, "All" = 2, "Treated" = 2)) |>
+  add_header_above(c(" " = 1, "Task 1" = 4, "Task 2" = 4), line = FALSE) |>
+  kable_styling(
+    latex_options = "scale_down",
+    font_size = 8
+    ) |>
+  column_spec(2:9, latex_column_spec = "r") |>
+  footnote(
+    c("Multistep condition means the variable is one part of a complex boolean involving many different variables."),
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  ) 
 ```
 
 Showing the impact of these choices on estimated effects is difficult since, aside from the most-common option, any specific alternative does not have enough people using it to make a reasonable comparison. However, we show estimated effects and, for analytic-sample restrictions, analytic sample size by sample limitation choice in Appendix Tables \ref{tab-task1effectsample-full} for Task 1 and Table \ref{tab-task2effectsample-full} for Task 2. There are large differences in estimated effects and sample sizes across many of these different sample restriction choices, but in many cases these comparisons are based on very small samples.
