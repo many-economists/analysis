@@ -3214,8 +3214,6 @@ The use of sample weights was relatively uncommon, despite their use being advis
 There was considerable variation across researchers in the selection of standard error adjustment. A slim majority of researchers applied clustered standard errors in some way, but clustered at different levels: state, state/year, or according to a survey clustering indicator like Strata or some other variable. A further 17% of submissions used heteroskedasticity-robust but not cluster-robust standard errors.
 
 ```{r Estimation Methods}
-#| output: asis
-
 base %>%
   mutate(se_adjustment = factor(se_adjustment, levels = c(
     'Cluster (State)',
@@ -3253,13 +3251,26 @@ The most common included controls were for state, year, age, and sex, which were
 
 Across all rounds, in which there were `r 3*145` submitted research tasks, there were `r exact_matches[, .N]` different unique sets of included covariates after "Other" covariates are excluded. `r percent(exact_matches[numpairs == 1, sum(numpairs)]/sum(exact_matches$numpairs))` of submissions had a set of covariates that was unique for the task. `r percent(exact_matches[numpairs == 2, sum(numpairs)]/sum(exact_matches$numpairs))` shared a covariate set with one other person in that task, `r percent(exact_matches[numpairs %in% c(3,4), sum(numpairs)]/sum(exact_matches$numpairs))` shared with two or three other people, and only the those with no controls shared with more than three other people.
 
-```{r}
+```{r Controls Across Rounds}
 # Average appearances across rounds
-controls_across_rounds[, .(Control, `Rate in Task 1` = `Task 1`, `Task 2`, `Task 3`)] |>
-  merge(effects_by_controls[, .(Control, Effect, `Mean SE`, `Effect SD`)], by = 'Control') |>
-  setorder(-Effect) |>
-  knitr::kable(booktabs = TRUE, 
-               caption = 'Covariate Inclusion Across Rounds and Estimated Effects \\label{tab-controls-across-rounds}')
+controls_across_rounds[, .(Control, `Task 1`, `Task 2`, `Task 3`)] |>
+  merge(effects_by_controls[, .(Control, Size = Effect, `SD` = `Effect SD`, Mean = `Mean SE`)], by = 'Control') |>
+  setorder(-Size) |>
+  kable(
+    booktabs = TRUE, 
+    caption = 'Covariate Inclusion Across Rounds and Estimated Effects \\label{tab-controls-across-rounds}',
+    linesep = "",
+    format = "latex"
+) |>
+  add_header_above(c(" " = 1, "Rate in" = 3, "Effect" = 2, "SE" = 1)) |>
+  kable_styling(latex_options = "scale_down") |>
+  footnote(
+    general = "Nick: can you add a note about mean SE and SD of effects here to explain what they measure and how calculated?",
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE,
+    general_title = "Notes:"
+  ) |>
+  column_spec(2:7, latex_column_spec = "r")
 ```
 
 There was very little agreement across researchers on the exact set of appropriate controls, or the inclusion or exclusion of any given control (aside from those very rarely included). Did these choices impact the effect estimates? Not by much. The mean reported effects differ by only .023 percentage points comparing the covariate included in analyses with the highest average effectestimates (Continuous Years in the USA) against the lowest (Race). This likely overstates the impact of covariate selection here, as selecting the highest vs. lowest after estimates are known will bias us towards a larger difference from noise alone.
