@@ -3310,11 +3310,24 @@ In this section we examine the ways in which researchers defined their analytic 
 
 Table \ref{tab-number-of-sample-limitations} uses researcher survey responses about their sample definitions and looks purely at the number of distinct variables referenced in the sample limitations, regardless of what they are. In Task 1, the typical researcher used five variables to define their analytic sample, and an additional four to define their treated group. In Task 2, where inclusion criteria were shared, both of these numbers increased, but there was still considerable variation, with the 25th and 75th percentiles using 3 and 10 variables to define their full sample. Definition of the treated group was more shared, with the 25th and 75th percentiles using 9 and 12 variables, respectively.
 
-```{r}
-#| output: asis
+```{r Number of Sample Limitations}
 # Basic sample limitations table
-sumtable(basic_samp_limitations, vars = c('Whole Sample','Treated Group','Untreated Group'), add.median = TRUE, group = 'Round', group.long = TRUE, title = 'Number of Variables Referred to in Sample Limitations', anchor = 'tab-number-of-sample-limitations',
-         out = 'latex', numformat = formatfunc(digits=2, nsmall = 1))
+sumtable(
+  basic_samp_limitations, 
+  vars = c('Whole Sample','Treated Group','Untreated Group'), 
+  add.median = TRUE, 
+  group = 'Round', 
+  group.long = TRUE, 
+  out = 'return', 
+  numformat = formatfunc(digits=2, nsmall = 1)
+  ) |>
+  kbl(
+    format = "latex",
+    booktabs = T,
+    caption = "Number of Variables Referred to in Sample Limitations\\label{tab-number-of-sample-limitations}",
+    linesep = ""
+  ) |>
+  column_spec(2:8, latex_column_spec = "r")
 ```
 
 Table \ref{tab-sample-limitations-extensive} shows how these variables were implemented as sample restrictions, based on actual researcher code. This is the only section of the paper where the data do not rely on researcher responses to the survey. For each researcher's Task 1 and Task 2 code, organizers read the code directly and recorded some aspects of the sample definitions used for the overall analytic sample and for the definition of the treated group, including definitions that appeared to be the result of coding errors.[^21] 
