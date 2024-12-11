@@ -3381,30 +3381,52 @@ Showing the impact of these choices on estimated effects is difficult since, asi
 
 The two comparisons for which an alternative was common enough to compare are for the YRSUSA inclusion and the use of "\< 2007" vs. "\<= 2007" for year of migration, which are shown in \ref{tab-task1effectsample}. For both tasks, the relationship between these choices on effects varies from negligible to a several percentage-point difference associated with a single sample restriction change, a fairly minor one in particular for "\< 2007" vs. "\<= 2007". Effect differences are larger in Task 2. However, in Task 1, even though estimated effects are similar, sample sizes are considerably larger for the less-restrictive option, and so reported standard errors would be lower, and statistical significance more likely.
 
-```{r}
-#| output: asis
+```{r Effect and Sample Table}
 # sample limitations and effects/samples, task 1
 t1efftab = make_efftab(r12samp[Round == 'Task 1'])[Variable %in% c('HEADERROW', 'Year of Immigration','... < 2007','... <= 2007','Years Continuous in USA','... Used YRSUSA','... No YRSUSA')]
 t2efftab = make_efftab(r12samp[Round == 'Task 2'])[Variable %in% c('HEADERROW', 'Year of Immigration','... < 2007','... <= 2007','Years Continuous in USA','... Used YRSUSA','... No YRSUSA')]
-hrow1 = data.table(a1 = 'Task 1', a2 = '',
-                   a3 = '', a4 = '', a5 = '', a6 = '',
-                   a7 = '', a8 = '', a9 = '', a10 = '')
-setnames(hrow1, names(t1efftab))
-hrow2 = data.table(a1 = 'Task 2', a2 = '',
-                   a3 = '', a4 = '', a5 = '', a6 = '',
-                   a7 = '', a8 = '', a9 = '', a10 = '')
-setnames(hrow2, names(t1efftab))
-t1efftab = rbindlist(list(t1efftab[1],
-                    hrow1,
-                     t1efftab[2:.N],
-                    hrow2,
-                    t2efftab[2:.N]))
 
-cat(dftoLaTeX(t1efftab,
-          align = 'llllllllll',
-            title = 'Task 1 Effect and Samples by Sample Definitions',
-            anchor = 'tab-task1effectsample',
-            fit.page = '\\textwidth'))
+t1efftable <- rbindlist(
+  list(t1efftab[1],
+       t1efftab[2:.N],
+       t2efftab[2:.N]
+       )
+) 
+
+t1efftable <- t1efftable[-1, ]
+rownames(t1efftable) <- NULL
+
+setnames(
+  t1efftable, 
+  c("Variable", "25", "50", "75", "25", "50", "75", "25", "50", "75")
+)
+
+t1efftable |>
+  kbl(
+    format = "latex",
+    caption = "Effect and Samples by Sample Definitions\\label{tab-task1effectsample}",
+    booktabs = TRUE
+  ) |>
+  pack_rows(
+    index = c("Task 1" = 6, "Task 2" = 6),
+    bold = FALSE
+  ) |>
+  add_header_above(
+    c(" " = 1, "Effect Percentile" = 3, "Effect Percentile" = 3, "Sample Size Percentile" = 3),
+    line = FALSE
+  ) |>
+  add_header_above(
+    c(" " = 1, "Restrictions" = 3, "Restrictions" = 6)
+  ) |>
+  add_header_above(
+    c(" " = 1, "Treated-Group" = 3, "All-Sample" = 6),
+    line = FALSE
+  ) |>
+  kable_styling(
+    latex_options = "scale_down"
+  ) |>
+  column_spec(2:10, latex_column_spec = "r")
+
 ```
 
 ## Researcher Characteristics and Effects {#sec-researcher-chars}
