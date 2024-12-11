@@ -3213,7 +3213,7 @@ The use of sample weights was relatively uncommon, despite their use being advis
 
 There was considerable variation across researchers in the selection of standard error adjustment. A slim majority of researchers applied clustered standard errors in some way, but clustered at different levels: state, state/year, or according to a survey clustering indicator like Strata or some other variable. A further 17% of submissions used heteroskedasticity-robust but not cluster-robust standard errors.
 
-```{r}
+```{r Estimation Methods}
 #| output: asis
 
 base %>%
@@ -3228,11 +3228,23 @@ base %>%
   filter(!(round %like% 'Revision')) %>%
   sumtable(vars = c('method','Weights','se_adjustment'), 
          labels = c("Method",'Weights','S.E. Adjustment'),
-         title = "Estimation Methods",
          col.breaks = 2,
          note = '\\begin{tabular}[x]{@{}r@{}}This table shows details on estimation, not research design. "Difference-in-differences" \\\\ implemented with linear regression, for example, counts here as linear regression.\\end{tabular}',
-         out = 'latex',
-         anchor = 'tab-estimation-methods')
+         out = 'return',
+         ) |>
+  kbl(
+    format = "latex",
+    booktabs = T,
+    caption = "Estimation Methods\\label{tab-estimation-methods}",
+    linesep = ""
+  ) |>
+  add_footnote(
+    "Notes: This table shows details on estimation, not research design. \"Difference-in-differences\" implemented with linear regression, for example, counts here as linear regression.",
+    threeparttable = TRUE,
+    notation = "none"
+    ) |>
+  # right justify columns
+  column_spec(1:6, latex_column_spec = "lrrlrr")
 ```
 
 Table \ref{tab-controls-across-rounds} shows the average rate of inclusion of covariates across all three tasks, as well as the estimated effects among analyses including those controls, shown in the order of average effect size. The average rate of inclusion can be read as the share of researchers who included the covariate, with the exception of "Other", which allows each researcher to have multiple "Other" controls. The most common covariates included are shown, with the exception of indicators for "eligible for DACA" or "in a post-DACA period", as these are considered part of the core research design rather than covariates. Variables are included here regardless of the functional form used to include them.
