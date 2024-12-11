@@ -3279,14 +3279,27 @@ There do not appear to be major differences in the average reported standard err
 
 While the inclusion of a given common control variable does not strongly predict an estimated effect, in Table \ref{tab-effects-by-functional-form} we look at the most common covariates and examine whether their functional form meaningfully affects the estimated effect. The selection of functional form explained more variation in average estimated effects than the inclusion of covariates did, at least in this context. For both age and the State/Year controls, the difference between the highest-average-effect functional form variants and the lowest, in both cases comparing a linear control against a fixed effect, was greater than the difference between highest and lowest among covariates included.
 
-```{r}
+```{r Effects by Functional Form}
 trans_con[, .(N = uniqueN(paste0(Q1,Round)),
-                Effect = number(mean(Effect, na.rm = TRUE), .001),
-                `Mean SE` = number(mean(SE, na.rm = TRUE), .001),
-                `Effect SD` = number(sd(Effect, na.rm = TRUE), .001)),
+                `Mean` = number(mean(Effect, na.rm = TRUE), .001),
+                `SD` = number(sd(Effect, na.rm = TRUE), .001),
+                `Mean` = number(mean(SE, na.rm = TRUE), .001)
+              ),
             by = .(Category = category, Control = Relabel)][order(Control)] |>
-  knitr::kable(booktabs = TRUE,
-               caption = 'Estimated Effects by Functional Form of Control Variable \\label{tab-effects-by-functional-form}')
+  kable(
+    booktabs = TRUE,
+    caption = 'Estimated Effects by Functional Form of Control Variable \\label{tab-effects-by-functional-form}',
+    linesep = "",
+    format = "latex"
+)  |>
+  add_header_above(c(" " = 3, "Effect" = 2, "SE" = 1)) |>
+  kable_styling(latex_options = "scale_down") |>
+  column_spec(3:6, latex_column_spec = "r") |>
+  footnote(
+    c("Nick: can you add a note about mean SE and SD of effects here to explain what they measure and how calculated?"),
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  )
 ```
 
 These specific findings about the impact of choices on effects - that the inclusion of different covariates did not have a major impact on estimated effects, or that the choice of functional form had a greater impact than the selection of covariates - should not be expected to generalize, and is specific to this research task. However, what we can take from this section is that there is substantial variation across researchers in what they believe the appropriate set of covariates to be and, for a given covariate, what the appropriate functional form is. We can also see that, in the case of this particular study, these decisions, while varied, did not fully explain the variation in effects between researchers.
