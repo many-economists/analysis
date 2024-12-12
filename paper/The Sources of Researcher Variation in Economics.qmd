@@ -3577,14 +3577,48 @@ p_standard_error_scatter
 
 ```
 
-```{r}
-#| output: asis
+```{r Task 1 Effect and Sample Size by Sample Definitions}
 # sample limitations and effects/samples, task 1
-cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 1']),
-          align = 'llllllllll',
-            title = 'Task 1 Effect and Samples by Sample Definitions, Full View',
-            anchor = 'tab-task1effectsample-full',
-            fit.page = '\\textwidth'))
+efftab_full <- make_efftab(r12samp[Round == 'Task 1'])
+
+
+efftab_full <- efftab_full[-1, ]
+rownames(efftab_full) <- NULL
+
+setnames(
+  efftab_full, 
+  c("Variable", "25", "50", "75", "25", "50", "75", "25", "50", "75")
+)
+
+
+efftab_full |>
+  kbl(
+    format = "latex",
+    caption = "Task 1 Effect and Samples by Sample Definitions, Full View\\label{tab-task1effectsample-full}",
+    booktabs = TRUE
+  ) |>
+  pack_rows(
+    index = c("Task 1" = 6, "Task 2" = 6),
+    bold = FALSE
+  ) |>
+  add_header_above(
+    c(" " = 1, "Effect Percentile" = 3, "Effect Percentile" = 3, "Sample Size Percentile" = 3),
+    line = FALSE
+  ) |>
+  add_header_above(
+    c(" " = 1, "Restrictions" = 3, "Restrictions" = 6)
+  ) |>
+  add_header_above(
+    c(" " = 1, "Treated-Group" = 3, "All-Sample" = 6),
+    line = FALSE
+  ) |>
+  kable_styling(
+    latex_options = "scale_down"
+  ) |>
+  column_spec(2:10, latex_column_spec = "r")
+
+
+
 ```
 
 ```{r}
