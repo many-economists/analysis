@@ -3524,6 +3524,7 @@ sq_rdd = feols(
 msummary(
   list('Linear' = lin_rdd, 'Quadratic' = sq_rdd),
   stars = c('*' = .1, '**' = .05, '***' = .01),
+  align = 'ldd',
   gof_omit = c('IC|R2|RMSE|Err|AIC|BIC'),
   coef_map = c('(Intercept)' = 'Intercept',
                'I(order > 200)' = 'Order above 200',
@@ -3537,19 +3538,23 @@ msummary(
 )
 ```
 
-```{r}
+```{r Peer Review Regression}
 names(peer_review_reg) = c('Task 1','Task 2')
 peer_review_reg |>
-  msummary(stars = c('*' = .1, '**' = .05, '***' = .01),
-                         gof_omit = c('IC|R2|RMSE|Err'),
-           coef_rename = c('Intercept',
-                           'Comparison: Next Round',
-                           'Comparison: Next Round vs. This Round',
-                           'Unreviewed',
-                           'Next Round x Unreviewed',
-                           'Next vs. This x Unreviewed'),
-           output = 'kableExtra',
-           title = 'Paired Absolute Effect Differences and Peer Review \\label{tab-peer-review-reg}', escape = FALSE)
+  msummary(
+    stars = c('*' = .1, '**' = .05, '***' = .01),
+    align = 'ldd',
+    gof_omit = c('IC|R2|RMSE|Err'),
+    coef_rename = c('Intercept',
+                    'Comparison: Next Round',
+                    'Comparison: Next Round vs. This Round',
+                    'Unreviewed',
+                    'Next Round x Unreviewed',
+                    'Next vs. This x Unreviewed'),
+    output = 'latex',
+    title = 'Paired Absolute Effect Differences and Peer Review \\label{tab-peer-review-reg}',
+    escape = FALSE
+  )
 ```
 
 ```{r}
