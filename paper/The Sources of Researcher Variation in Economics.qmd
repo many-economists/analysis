@@ -3557,13 +3557,13 @@ peer_review_reg |>
   )
 ```
 
-```{r}
+```{r Task 2 Effect Size and Sample Size}
 #| label: fig-effect-vs-sample
 #| fig-cap: Task 2 Effect Size and Sample Size
 p_sample_size_scatter
 ```
 
-```{r}
+```{r Task 2 Effect Size and Standard Error}
 #| label: fig-effect-vs-se
 #| fig-cap: Task 2 Effect Size and Standard Error
 p_standard_error_scatter
