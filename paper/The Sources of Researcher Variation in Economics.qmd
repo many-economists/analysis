@@ -3502,7 +3502,7 @@ The development of best-practice standards in areas where we currently do not ac
 
 # Additional Figures and Tables
 
-```{r}
+```{r RDD on completion figure}
 #| label: fig-rdd
 #| fig-cap: Impact of Guaranteed Payment on Probability of Task 1 Completion
 
@@ -3511,20 +3511,30 @@ rdplot(moneyatt$Finished,moneyatt$order,200,
        title = '', p = 2, binselect = 'espr')
 ```
 
-```{r}
-lin_rdd = feols(Finished ~ I(order-200)*I(order>200), data = moneyatt[Stage != 'Late'])
-sq_rdd = feols(Finished ~ (I(order-200)+I((order-200)^2))*I(order>200), data = moneyatt[Stage != 'Late'])
-msummary(list('Linear' = lin_rdd, 'Quadratic' = sq_rdd),
-         stars = c('*' = .1, '**' = .05, '***' = .01),
-                         gof_omit = c('IC|R2|RMSE|Err|AIC|BIC'),
-         coef_map = c('(Intercept)' = 'Intercept',
-                      'I(order > 200)' = 'Order above 200',
-                      'I(order - 200)' = 'Linear order - 200',
-                      'I((order-200)^2))' = 'Squared (order - 200)',
-                      'I(order - 200):I(order > 200)' = 'Linear x Above',
-                      'I((order - 200)^2):I(order > 200)' = 'Squared x Above'),
-         output = 'kableExtra',
-           title = 'Linear and Quadratic Regression Discontinuity Estimates\\label{tab-rdd-reg}', escape = FALSE)
+```{r RDD on completion table}
+lin_rdd = feols(
+  Finished ~ I(order-200)*I(order>200), 
+  data = moneyatt[Stage != 'Late']
+  )
+sq_rdd = feols(
+  Finished ~ (I(order-200)+I((order-200)^2))*I(order>200), 
+  data = moneyatt[Stage != 'Late']
+  )
+
+msummary(
+  list('Linear' = lin_rdd, 'Quadratic' = sq_rdd),
+  stars = c('*' = .1, '**' = .05, '***' = .01),
+  gof_omit = c('IC|R2|RMSE|Err|AIC|BIC'),
+  coef_map = c('(Intercept)' = 'Intercept',
+               'I(order > 200)' = 'Order above 200',
+               'I(order - 200)' = 'Linear order - 200',
+               'I((order-200)^2))' = 'Squared (order - 200)',
+               'I(order - 200):I(order > 200)' = 'Linear x Above',
+               'I((order - 200)^2):I(order > 200)' = 'Squared x Above'),
+  output = 'latex',
+  title = 'Linear and Quadratic Regression Discontinuity Estimates\\label{tab-rdd-reg}', 
+  escape = FALSE
+)
 ```
 
 ```{r}
