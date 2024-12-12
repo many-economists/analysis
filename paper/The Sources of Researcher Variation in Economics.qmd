@@ -3486,9 +3486,21 @@ The development of best-practice standards in areas where we currently do not ac
 
 \FloatBarrier
 
+\newpage
 \appendix
+\renewcommand{\thesection}{\Alph{section}}
+\setcounter{section}{0}
+\counterwithin{figure}{section}
+\counterwithin{table}{section}
 
-# Appendix {.unnumbered}
+\renewcommand{\section}[1]{\refstepcounter{section}%
+\begin{Large}\bfseries Appendix \thesection: #1\end{Large}}
+
+\renewcommand{\subsection}[1]{\refstepcounter{subsection}%
+\begin{large}\bfseries \thesubsection: #1\end{large}}
+
+
+# Additional Figures and Tables
 
 ```{r}
 #| label: fig-rdd
@@ -3569,8 +3581,8 @@ cat(dftoLaTeX(make_efftab(r12samp[Round == 'Task 2']),
             anchor = 'tab-task2effectsample-full',
             fit.page = '\\textwidth'))
 ```
-
-# Multi-Analyst Evaluation of Researcher Characteristics {.unnumbered}
+\clearpage
+# Multi-Analyst Evaluation of Researcher Characteristics 
 
 ## Analysis by Project Organizer A
 
