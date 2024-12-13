@@ -3753,7 +3753,7 @@ res_tab_deviation |>
 
 The only researcher characteristic that did seem to matter was the choice of programming language, which only weakly predicted effect level, but was a statistically significant predictor of being close to the mean effect in all three rounds.
 
-```{r}
+```{r Organizer A effect level deviation by language}
 #| fig-cap: Deviation from Sample Mean of Reported Effect by Language
 #| label: fig-deviations-by-language
 #| fig-width: 8
@@ -3773,8 +3773,11 @@ Overall, there is little role for researcher professional or demographic charact
 
 Table \ref{tab-researcher-characteristics-regs-b} looks at within-researcher variation in effect estimates across tasks. In the first three columns, the dependent variable is the absolute difference in effects for a given researcher across two tasks, while in the fourth column, the dependent variable is a researcher's maximum estimated effect minus their minimum.
 
-```{r}
+```{r Organizer B}
 modelsummary(researcher_characteristics_models_b, 
+             estimate = "{estimate}{stars}",
+             stars = c('*' = .1, '**' = .05, '***' = .01),
+             align = 'ldddd',
              coef_map = c(
                '(Intercept)' = 'Intercept',
                'factor(position)Faculty' = 'Faculty',
@@ -3789,12 +3792,19 @@ modelsummary(researcher_characteristics_models_b,
                'factor(experience)1-5 papers' = '1-5 papers',
                'factor(experience)0 papers' = '0 papers'
              ),
-             stars = TRUE,
-             output = 'kableExtra',
              title = "Model Coefficients and Standard Errors for Task Comparisons\\label{tab-researcher-characteristics-regs-b}",
              gof_omit = '^(?!R2|Num.Obs)',
+             output = 'latex',
              escape = FALSE
-)
+) |>
+  footnote(
+    general = 
+      c("\\\\footnotesize{* $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$}"),
+    general_title = "\\\\footnotesize{Note:}",
+    escape = FALSE,
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  ) 
 ```
 
 Most researcher characteristics do not predict absolute within-researcher variation. Career stage, occupation, and number of published papers do not predict absolute differences in estimates across tasks to a statistically significant degree, with few exceptions.
