@@ -3523,6 +3523,7 @@ sq_rdd = feols(
 
 msummary(
   list('Linear' = lin_rdd, 'Quadratic' = sq_rdd),
+  estimate = "{estimate}{stars}",
   stars = c('*' = .1, '**' = .05, '***' = .01),
   align = 'ldd',
   gof_omit = c('IC|R2|RMSE|Err|AIC|BIC'),
@@ -3535,13 +3536,22 @@ msummary(
   output = 'latex',
   title = 'Linear and Quadratic Regression Discontinuity Estimates\\label{tab-rdd-reg}', 
   escape = FALSE
-)
+) |>
+  footnote(
+    general = 
+      c("\\\\footnotesize{* $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$}"),
+    general_title = "\\\\footnotesize{Note:}",
+    escape = FALSE,
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  ) 
 ```
 
 ```{r Peer Review Regression}
 names(peer_review_reg) = c('Task 1','Task 2')
 peer_review_reg |>
   msummary(
+    estimate = "{estimate}{stars}",
     stars = c('*' = .1, '**' = .05, '***' = .01),
     align = 'ldd',
     gof_omit = c('IC|R2|RMSE|Err'),
@@ -3554,7 +3564,15 @@ peer_review_reg |>
     output = 'latex',
     title = 'Paired Absolute Effect Differences and Peer Review \\label{tab-peer-review-reg}',
     escape = FALSE
-  )
+  ) |>
+  footnote(
+    general = 
+      c("\\\\footnotesize{* $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$}"),
+    general_title = "\\\\footnotesize{Note:}",
+    escape = FALSE,
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  ) 
 ```
 
 ```{r Task 2 Effect Size and Sample Size}
