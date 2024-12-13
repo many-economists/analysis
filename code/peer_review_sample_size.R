@@ -344,10 +344,10 @@ for (var in variables_to_analyze) {
   plots_more_like_reviewer[[var]] = p_var
   
   # Optionally, run the regression and store results
-  peer_review_reg = feols(diff ~ Comparison * Type, data = changediff_var, split = ~Round)
+  peer_review_reg_sample = feols(diff ~ Comparison * Type, data = changediff_var, split = ~Round)
   
   # Store regression results if needed (e.g., in a list)
-  # regression_results[[var]] = peer_review_reg
+  # regression_results[[var]] = peer_review_reg_sample
   
   # If you want to print or save the regression results, you can do so here
 }
