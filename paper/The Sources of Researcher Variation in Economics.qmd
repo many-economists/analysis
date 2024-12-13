@@ -2740,8 +2740,12 @@ Overall participation and attrition values are in Table \ref{tbl-attrition}. `r 
 [^12]: Data processing and analysis as well as table and figure creation for this paper were performed using the R packages **data.table**, **tidyverse**, **rio**, **fixest**, **car**, **modelsummary**, and **vtable** [@R-data-table; @tidyverse2019; @R-rio; @fixest2018; @car2019; @modelsummary2022; @R-vtable].
 
 ```{r Attrition Table}
-justcount |> knitr::kable(booktabs = TRUE,
-                          caption = 'Participation and Attrition\\label{tbl-attrition}')
+justcount |> 
+  kable(
+    booktabs = TRUE,
+    caption = 'Participation and Attrition\\label{tbl-attrition}'
+    ) |>
+  column_spec(1:3, latex_column_spec = "lrr")
 ```
 
 This left `r justcount[2,Participants]` eligible participants. This is more than the 200 for which budget was available to pay the offered \$2,000 incentive. The 282 of these participants who had signed up by the original signup due date were put into a random order, and then the 13 late signups were put at the end of this order. Participants were given their place in the order, and informed that, among people completing all stages of the project, the first 200 in the order would be paid.
@@ -3106,6 +3110,12 @@ peer_review_levene |>
 ```{r Variance in Sample Sizes after Revision table}
 #| label: Levene test - sample size
 # variance_test.R - sample size tests
+peer_review_levene_sample <- peer_review_levene_sample %>%
+  mutate(
+    across(where(is.numeric) & !matches("Levene Test p-value"), ~ formatC(., format = "e", digits = 3)),  # Format non-p-value numeric columns in scientific notation
+    `Levene Test p-value` = round(`Levene Test p-value`, 3)  # Format p-value column with standard notation
+  )
+
 peer_review_levene_sample |>
   select(-2) |>
   kable(
@@ -3120,7 +3130,8 @@ peer_review_levene_sample |>
   ) |>
   kable_styling(
     latex_options = "scale_down"
-    )
+    ) |>
+  column_spec(1:5, latex_column_spec = "lrrrr")
 ```
 
 
