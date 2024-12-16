@@ -2921,7 +2921,7 @@ source('../code/round_2_bimodality.R')
 source('../code/sd_i_regress_hypothesis_2.R')
 ```
 
-```{r Peer Review Code}
+```{r Peer Review Code, results='hide', echo=FALSE, fig.show='hide'}
 
 # This code generated the sample_restrictions_handcoded file that was then corrected by hand
 #source('../code/sample_limitations.R')
@@ -2972,10 +2972,10 @@ Taking only the effect distributions as a baseline, we see that, at least in thi
 
 ```{r Distribution of Reported Effect Sizes Figure}
 #| fig-width: 8
-#| fig-height: 5
+#| fig-height: 8
 #| label: fig-effect-distributions
 #| fig-cap: Distributions of Reported Effect Sizes
-p_effect_distribution
+p_effect_distribution_task_on_y_axis
 ```
 
 Table \ref{tab-effectdist} also shows the reported standard errors. Reported standard errors increase significantly from round to round, driven largely by the specification of the research design, which for many researchers considerably narrowed the sample they were supposed to use. This can also be seen in @fig-full-effect-distribution, where the distribution of effects narrows a little across rounds, but confidence intervals increase considerably. Throughout, while there is general agreement on effect size in the middle of the distribution, researchers vary in whether the reported effect is statistically significant, with `r viol[Round == 'Task 1' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]`, `r viol[Round == 'Task 2' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]`, and `r viol[Round == 'Task 3' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]` reporting results that were statistically significantly different from 0 in Tasks 1, 2, and 3, respectively.
@@ -2984,7 +2984,7 @@ Increasing agreement is necessarily driven by individual researchers changing th
 
 ```{r Same-Researcher Effect Sizes Figure}
 #| fig-width: 9
-#| fig-height: 3
+#| fig-height: 4
 #| label: fig-effects-compare-rounds
 #| fig-cap: Same-Researcher Effect Sizes Across Tasks
 p_compare_rounds
@@ -3014,6 +3014,8 @@ effect_sum_tab |>
 ```
 
 ```{r Specification Curve for All Reported Estimates Figure}
+#| fig-width: 8
+#| fig-height: 5
 #| label: fig-full-effect-distribution
 #| fig-cap: Specification Curve for All Reported Estimates
 p_full_effect_distribution_individual
@@ -3034,13 +3036,15 @@ Consistent with the reduction when we specify the treated and comparison groups,
 #| label: fig-sample-size-distributions
 #| fig-cap: Distributions of Reported Sample Sizes
 #| fig-width: 8
-#| fig-height: 5
+#| fig-height: 4
 p_sample_size_distributions
 ```
 
 Variation in the reported size of the treated group in @fig-treated-group-distributions is affected somewhat by researcher confusion in responding to the survey question. The survey question about treated-group size instructed researchers not to count individuals eligible for DACA as treated for the purposes of this question if they were in a pre-DACA year. However, many researchers counted these individuals as treated anyway, leading to variation in the Task 3 distribution, even though every researcher is at this point working with the same eligibility indicator.
 
 ```{r Treated Group Distributions Figure}
+#| fig-width: 8
+#| fig-height: 4
 #| label: fig-treated-group-distributions
 #| fig-cap: Distributions of Reported Treated-Group Sizes
 p_treated_group_sample_size
@@ -3059,6 +3063,8 @@ Several anticipated correlates did not explain the bimodal outcomes of Task 2. @
 Instead, we find that a major contributing factor to Task 2 bimodality is the ability to precisely implement the treated-group definition given in the instructions. Task 2 gave a very precise definition of who should be included as a part of the treated group. We examine whether a given researcher followed the full set of treated-group definition instructions exactly or not. The mismatch could be small, such as using "\<= 16" instead of "\< 16" for age at migration, or large, such as omitting that eligible people must be non-citizens. In @fig-match-vs-mismatch we show their distribution of effects against researchers who had a mismatch in their criteria in any way. The graph shows that the bimodality heavily driven by the group that precisely matched the treated-group definition. This implies that the bimodality in Task 2 may be explained in large part by a split between researchers who exactly followed the instructions, and so effectively matched what a typical researcher found in Task 3, and those who did not.
 
 ```{r Match vs Mismatch Figure}
+#| fig-width: 8
+#| fig-height: 4
 #| label: fig-match-vs-mismatch
 #| fig-cap: Task 2 Effect Distributions Among Those with Exact Treated-Group Definition Matchs vs. Those with Some Mismatch
 p_match_vs_mismatch_distribution
@@ -3150,6 +3156,8 @@ Similar results are found when comparing the variance of analytic, treatment, or
 
 
 ```{r Distribution of Reported Effect Sizes Figure}
+#| fig-width: 8
+#| fig-height: 5
 #| label: fig-peer-review-effect-distributions
 #| fig-cap: Distributions of Reported Effect Sizes
 p_peer_review_effect_distributions
@@ -3157,6 +3165,8 @@ p_peer_review_effect_distributions
 
 
 ```{r Distribution of Reported Sample Sizes Figure}
+#| fig-width: 8
+#| fig-height: 4
 #| label: fig-peer-review-distributions-sample
 #| fig-cap: Distributions of Reported Sample Sizes
 p_peer_review_distributions[["Revision_of_Q12"]]
@@ -3164,6 +3174,8 @@ p_peer_review_distributions[["Revision_of_Q12"]]
 
 
 ```{r Distribution of Reported DACA Eligible Sample Sizes Figure}
+#| fig-width: 8
+#| fig-height: 4
 #| label: fig-peer-review-distributions-daca
 #| fig-cap: Distributions of Reported DACA Eligible Sample Sizes
 p_peer_review_distributions[["Revision_of_Q18"]]
@@ -3171,6 +3183,8 @@ p_peer_review_distributions[["Revision_of_Q18"]]
 
 
 ```{r Distribution of Reported DACA Non-Eligible Sample Sizes Figure}
+#| fig-width: 8
+#| fig-height: 4
 #| label: fig-peer-review-distributions-non-daca
 #| fig-cap: Distributions of Reported DACA Non-Eligible Sample Sizes
 p_peer_review_distributions[["Revision_of_Q21"]]
@@ -3537,7 +3551,7 @@ sq_rdd = feols(
   data = moneyatt[Stage != 'Late']
   )
 
-msummary(
+modelsummary(
   list('Linear' = lin_rdd, 'Quadratic' = sq_rdd),
   estimate = "{estimate}{stars}",
   stars = c('*' = .1, '**' = .05, '***' = .01),
@@ -3549,9 +3563,9 @@ msummary(
                'I((order-200)^2))' = 'Squared (order - 200)',
                'I(order - 200):I(order > 200)' = 'Linear x Above',
                'I((order - 200)^2):I(order > 200)' = 'Squared x Above'),
-  output = 'latex',
   title = 'Linear and Quadratic Regression Discontinuity Estimates\\label{tab-rdd-reg}', 
-  escape = FALSE
+  escape = FALSE,
+  output = "kableExtra"
 ) |>
   footnote(
     general = 
@@ -3566,7 +3580,7 @@ msummary(
 ```{r Peer Review Regression}
 names(peer_review_reg) = c('Task 1','Task 2')
 peer_review_reg |>
-  msummary(
+  modelsummary(
     estimate = "{estimate}{stars}",
     stars = c('*' = .1, '**' = .05, '***' = .01),
     align = 'ldd',
@@ -3577,9 +3591,9 @@ peer_review_reg |>
                     'Unreviewed',
                     'Next Round x Unreviewed',
                     'Next vs. This x Unreviewed'),
-    output = 'latex',
     title = 'Paired Absolute Effect Differences and Peer Review \\label{tab-peer-review-reg}',
-    escape = FALSE
+    escape = FALSE,
+    output = 'kableExtra'
   ) |>
   footnote(
     general = 
@@ -3828,8 +3842,8 @@ modelsummary(researcher_characteristics_models_b,
              ),
              title = "Model Coefficients and Standard Errors for Task Comparisons\\label{tab-researcher-characteristics-regs-b}",
              gof_omit = '^(?!R2|Num.Obs)',
-             output = 'latex',
-             escape = FALSE
+             escape = FALSE,
+             output = 'kableExtra'
 ) |>
   footnote(
     general = 

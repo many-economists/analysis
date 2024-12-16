@@ -36,6 +36,20 @@ p_effect_distribution = ggplot(viol[(!is.infinite(weight)) & !is.na(weight)], ae
   facet_grid(rows = vars(Type), cols = vars(Round),
              scales = 'free_x')
 
+p_effect_distribution_task_on_y_axis = ggplot(viol[(!is.infinite(weight)) & !is.na(weight)], aes(x = Revision_of_Q4, weight = weight)) + 
+  geom_density(fill = colorpal[1], alpha = .5) +
+  geom_boxplot(width = 5) +
+  theme_nick() + 
+  coord_cartesian(xlim = c(-.05, .1)) +
+  labs(x = 'Effect Size (limited to [-.05, .1] for viewing)', y = 'Density') +
+  facet_grid(
+    rows = vars(Round), 
+    cols = vars(Type)
+  ) +
+  theme(
+    strip.placement = "outside",            # Keeps strip labels in the correct orientation.
+    axis.title.y = element_text(angle = 90, vjust = 0.5, hjust = 0.5) # Rotates and centers the y-axis label.
+  )
 
 # summary table
 weighted_quantile_rm = function(x, w, m) {
