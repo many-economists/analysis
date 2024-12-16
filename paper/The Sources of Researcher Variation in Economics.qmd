@@ -2501,7 +2501,7 @@ execute:
   message: false
   echo: false
 abstract: |
-  Abstract: We have 146 research teams of economists independently use the same data source to answer the same question about the causal effect of a policy. Each team performs the task three times, first with free choice of how to answer the question, second with all researchers required to use a shared research design, and third with pre-cleaned data and a shared research design. We find considerable variation across researchers in reported sample sizes, sample definitions, and modeling choices, although estimated effects show muted variation. Levels of researcher variation were most heavily influenced by data preparation and cleaning, with much smaller roles for researcher background, modeling and estimation decisions, and exposure to peer review. This implies that data preparation and cleaning should receive considerably more attention in researcher training and the evaluation of research.
+  Abstract: We have 146 research teams of economists independently use the same data source to answer the same question about the causal effect of a policy. Each team performs the task three times, first with free choice of how to answer the question, second with all researchers required to use a shared research design, and third with pre-cleaned data and a shared research design. We find considerable variation across researchers in reported sample sizes, sample definitions, and modeling choices, although estimated effects show muted variation. Levels of researcher variation were most heavily influenced by data preparation and cleaning, with much smaller roles for researcher background, modeling and estimation decisions, and exposure to peer review. This implies that data preparation and cleaning should receive considerably more attention in researcher training and the evaluation of research. [consider highlighting methodology and process more]
 include-in-header:
   text:
     \usepackage{booktabs}
@@ -2804,7 +2804,14 @@ table_2 |>
   kable_styling(
     latex_options = "scale_down"
   ) |>
-  column_spec(1:12, latex_column_spec = "lrrrrrrrrrrr")
+  column_spec(1:12, latex_column_spec = "lrrrrrrrrrrr") |>
+  footnote(
+    general  = c("\\\\footnotesize{Results for Tasks 2 are omitted because very few researchers dropped out between Task 1 and Task 2. Full results are available upon request.}"),
+    general_title = "\\\\footnotesize{Note:}\\\\hspace{-0.5cm}",
+    escape = FALSE,
+    footnote_as_chunk = TRUE,
+    threeparttable = TRUE
+  )
 ```
 
 Table \ref{tab-samp2} shows the professional experience of enrollees. While graduate students were considered eligible for the project as long as they had a published or forthcoming paper, the majority of eligible researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q10 %in% c('PhD','Prof. Degree')),1)]`) had PhDs. PhD holders were also more likely than other eligible researchers to complete all three tasks.[^14]
@@ -2850,7 +2857,15 @@ table_3 |>
   kable_styling(
     latex_options = "scale_down"
     ) |>
-  column_spec(1:9, latex_column_spec = "lrrrrrrrr")
+  column_spec(1:9, latex_column_spec = "lrrrrrrrr") |>
+  footnote(
+    general  = c("\\\\footnotesize{Results for Tasks 2 are omitted because very few researchers dropped out between Task 1 and Task 2. Full results are available upon request.}"),
+    general_title = "\\\\footnotesize{Note:}\\\\hspace{-0.5cm}",
+    escape = FALSE,
+    footnote_as_chunk = TRUE,
+    threeparttable = TRUE
+  )
+
 ```
 
 Table \ref{tab-samp3} shows the demographics of the researcher sample. The original enrollment was just under 80% male and more than 55% white, with the white share growing to 66% by the end of Task 3. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. About half of the sample was situated in the United States, and about half was from another country. The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
@@ -2884,7 +2899,15 @@ table_4 |>
   kable_styling(
     latex_options = "scale_down"
     ) |>
-  column_spec(1:9, latex_column_spec = "lrrrrrrrr")
+  column_spec(1:9, latex_column_spec = "lrrrrrrrr") |>
+  footnote(
+    general  = c("\\\\footnotesize{Results for Tasks 2 are omitted because very few researchers dropped out between Task 1 and Task 2. Full results are available upon request.}"),
+    general_title = "\\\\footnotesize{Note:}\\\\hspace{-0.5cm}",
+    escape = FALSE,
+    footnote_as_chunk = TRUE,
+    threeparttable = TRUE
+  )
+
 ```
 
 ```{r}
@@ -3027,7 +3050,7 @@ effect_sum_tab |>
 
 ```{r Specification Curve for All Reported Estimates Figure}
 #| fig-width: 8
-#| fig-height: 5
+#| fig-height: 8
 #| label: fig-full-effect-distribution
 #| fig-cap: Specification Curve for All Reported Estimates
 p_full_effect_distribution_individual

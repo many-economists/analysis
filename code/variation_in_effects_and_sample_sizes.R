@@ -48,7 +48,8 @@ p_effect_distribution_task_on_y_axis = ggplot(viol[(!is.infinite(weight)) & !is.
   ) +
   theme(
     strip.placement = "outside",            # Keeps strip labels in the correct orientation.
-    axis.title.y = element_text(angle = 90, vjust = 0.5, hjust = 0.5) # Rotates and centers the y-axis label.
+    axis.title.y = element_text(angle = 90, vjust = 0.5, hjust = 0.5), # Rotates and centers the y-axis label.
+    panel.spacing = unit(0.3, "cm", data = NULL)
   )
 
 # summary table
@@ -133,11 +134,17 @@ p_full_effect_distribution_individual = ggplot(viol[Type == 'Unweighted'], aes(x
   scale_color_manual(values = colorpal) +
   facet_wrap(~Round, nrow = 3) + 
   guides(color = 'none') +
-  labs(y = 'Effect Size\n(95% CI)',
-       x = NULL, caption = '95% CI reconstructed from effect size and SE, even if asymmetric\nCI was reported. Visible range limited to (-.05, .15).') + 
+  labs(y = 'Effect Size and 95% CI',
+       x = 'Dark blue indicate statistically significant confidence intervals. The 95% CI reconstructed from effect size \n  and SE, even if asymmetric CI was reported. Visible range limited to (-.05, .15).') + 
   theme_nick() + 
-  theme(axis.text.x = element_blank(),
-        axis.ticks.x = element_blank())
+  theme(
+    axis.text.y = element_text(size = 10),
+    axis.text.x = element_blank(),
+    axis.ticks.x = element_blank(),
+    strip.placement = "outside",            
+    axis.title.y = element_text(angle = 90, vjust = 0.5, hjust = 0.5),
+    axis.title.x = element_text(size = 12)
+    )
 
 # Density distributions of sample sizes
 p_sample_size_distributions = ggplot(viol[Type == 'Unweighted' & Round %in% c('Task 1','Task 2')], aes(x = Revision_of_Q12)) + 
