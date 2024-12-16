@@ -2749,11 +2749,23 @@ justcount |>
   column_spec(1:3, latex_column_spec = "lrr")
 ```
 
-This left `r justcount[2,Participants]` eligible participants. This is more than the 200 for which budget was available to pay the offered \$2,000 incentive. The 282 of these participants who had signed up by the original signup due date were put into a random order, and then the 13 late signups were put at the end of this order. Participants were given their place in the order, and informed that, among people completing all stages of the project, the first 200 in the order would be paid.
+This left `r justcount[2,Participants]` eligible participants. 
+This is more than the 200 for which budget was available to pay the offered \$2,000 incentive. 
+The 282 of these participants who had signed up by the original signup due date were put into a random order, and then the 13 late signups were put at the end of this order.
+Participants were given their place in the order, and informed that, among people completing all stages of the project, the first 200 in the order would be paid.
 
-Initial assumptions from the power analysis that attrition rates would be near 50% were almost exactly correct, with `r percent(justcount[5,Participants]/justcount[2,Participants],.01)` of these initial `r justcount[2,Participants]` eligible researchers completing all three stages. Nearly all of the attrition occurred by the completion of Task 1. After `r justcount[2,Participants]-justcount[3,Participants]` eligible researchers failed to complete Task 1, only a further `r justcount[3,Participants]-justcount[5,Participants]` failed to complete Task 3. This means we have `r justcount[5,Participants]` researchers who completed all three research tasks, well above the goal of 90.
+Initial assumptions from the power analysis that attrition rates would be near 50% were almost exactly correct, with `r percent(justcount[5,Participants]/justcount[2,Participants],.01)` of these initial `r justcount[2,Participants]` eligible researchers completing all three stages. 
+Nearly all of the attrition occurred by the completion of Task 1. 
+After `r justcount[2,Participants]-justcount[3,Participants]` eligible researchers failed to complete Task 1, only a further `r justcount[3,Participants]-justcount[5,Participants]` failed to complete Task 3. 
+This means we have `r justcount[5,Participants]` researchers who completed all three research tasks, well above the goal of 90.
 
-The high recruitment numbers and the fact that nearly all attrition occurs before Task 1 is complete allows us to evaluate the impact of the payment incentive. One potential concern with our incentive design is that payment and authorship are offered to anyone who completes all tasks, regardless of the quality of their work. We evaluate whether being guaranteed payment affects the probability of completing Task 1 using a regression discontinuity design. Someone randomly assigned to position 199 in the ordering is guaranteed payment if they complete all the tasks, while someone in position 201 may think they are likely to receive payment, but they are not guaranteed it.
+The high recruitment numbers and the fact that nearly all attrition occurs before Task 1 is complete allows us to evaluate the impact of the payment incentive.[^decline-pay] 
+One potential concern with our incentive design is that payment and authorship are offered to anyone who completes all tasks, regardless of the quality of their work. 
+We evaluate whether being guaranteed payment affects the probability of completing Task 1 using a regression discontinuity design. 
+Someone randomly assigned to position 199 in the ordering is guaranteed payment if they complete all the tasks, while someone in position 201 may think they are likely to receive payment, but they are not guaranteed it.
+
+[^decline-pay]: Seven researchers indicated that they did not want payment on their consent form.
+Of those, three finished the project, while the other four did not. 
 
 We do not find that completion rates are significantly lower just above the cutoff relative to just below it. Appendix @fig-rdd and Table \ref{tab-rdd-reg} show that immediately above the cutoff, completion rates are no different, although they drop as researchers get further from the cutoff before becoming higher again. Regression discontinuity effect estimates vary. Using either a local-polynomial regression with a triangular kernel bandwidth or an OLS regression discontinuity estimate with a quadratic specification and the full range of the data (not including late signups) show meaningfully large effects of being above the cutoff of -.2 on completion rates, but this is very noisy and statistically insignificant. Using a linear specification, linear regression, and the full range of the data instead to maximize statistical power shows an insignificant and small result of .01.[^13] This is not strong evidence that participants were simply signing up in an attempt to get a \$2,000 payment for little effort.
 
