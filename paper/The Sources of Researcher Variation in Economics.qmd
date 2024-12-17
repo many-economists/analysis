@@ -3365,7 +3365,9 @@ controls_across_rounds[, .(Control, `Task 1`, `Task 2`, `Task 3`)] |>
   column_spec(2:7, latex_column_spec = "r")
 ```
 
-There was very little agreement across researchers on the exact set of appropriate controls, or the inclusion or exclusion of any given control (aside from those very rarely included). Did these choices impact the effect estimates? Not by much. The mean reported effects differ by only .023 percentage points comparing the covariate included in analyses with the highest average effectestimates (Continuous Years in the USA) against the lowest (Race). This likely overstates the impact of covariate selection here, as selecting the highest vs. lowest after estimates are known will bias us towards a larger difference from noise alone.
+Did this lack of agreement across researchers on the exact set of appropriate controls, or the inclusion or exclusion of any given control, impact the effect estimates? 
+Not by much; the mean reported effects differ by only .023 percentage points comparing the covariate included in analyses with the highest average effectestimates (Continuous Years in the USA) against the lowest (Race). 
+This likely overstates the impact of covariate selection here, as selecting the highest vs. lowest after estimates are known will bias us towards a larger difference from noise alone.
 
 There do not appear to be major differences in the average reported standard errors either, or in the standard deviation of the effect distribution among reserachers including that covariate.
 
@@ -3396,7 +3398,7 @@ trans_con[, .(N = uniqueN(paste0(Q1,Round)),
 
 These specific findings about the impact of choices on effects - that the inclusion of different covariates did not have a major impact on estimated effects, or that the choice of functional form had a greater impact than the selection of covariates - should not be expected to generalize, and is specific to this research task. However, what we can take from this section is that there is substantial variation across researchers in what they believe the appropriate set of covariates to be and, for a given covariate, what the appropriate functional form is. We can also see that, in the case of this particular study, these decisions, while varied, did not fully explain the variation in effects between researchers.
 
-## Sample Limitations {#sec-sample-limitations}
+## Researchers' Sample Choices {#sec-sample-limitations}
 
 In this section we examine the ways in which researchers defined their analytic samples, as well as how they defined the treated group. For these analyses, Task 3 is omitted because the analytic sample and treated group are defined for all researchers. 
 
