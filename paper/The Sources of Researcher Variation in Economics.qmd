@@ -2579,7 +2579,7 @@ This study's design aims to evaluate multiple of these variation sources through
 
 In this study, we aim to isolate the influence of several different potential sources of researcher variation by having the same set of researchers complete the same research task at least three times. The research task always has researchers estimate the effect of the Deferred Action for Childhood Arrivals (DACA) program on the probability that those affected by the program work full-time, but the details and restrictions on what researchers do differ between rounds. We refer to these main research tasks as Task 1, Task 2, and Task 3. Following each task, a subset of researchers are randomized into a round of peer reviews, and given the opportunity to revise their work.
 
-Task 1 gives researchers a large amount of freedom in how they complete the research task. Each successive task removes a degree of freedom from the researcher and further specifies how the analysis is to be performed. The intuition behind this design is that if the removal of a specific kind of researcher freedom meaningfully reduces the variation in results between researchees, then that degree of freedom is a meaningful contributor to researcher variation.
+Task 1 gives researchers a large amount of freedom in how they complete the research task. Each successive task removes a degree of freedom from the researcher and further specifies how the analysis is to be performed. The intuition behind this design is that if the removal of a specific kind of researcher freedom meaningfully reduces the variation in results between researchers, then that degree of freedom is a meaningful contributor to researcher variation.
 
 The following goals and instructions are shared across all tasks:
 
@@ -2617,7 +2617,8 @@ Notably, this form of peer review does not exactly match what is typically done 
 
 Following each research task and revision, researchers filled out a survey about their work.[^5] This survey asked them to report their findings, additional information like sample size and standard errors, and choices made in the process of doing the analysis like sample restrictions, treated-group definitions, estimator, and standard error adjustments. Researchers were also asked to justify why they had made these choices.
 
-[^5]: Note that the design of this study, and this survey, predates @sarafoglou2024subjective and so does not follow it.
+[^5]: Note that the design of this study, and this survey, predates @sarafoglou2024subjective. 
+We, therefore, do not include questions related to researchers' subjective assessments of topics such as methodology choices and consistency of results.
 
 This research design and analysis plan has been preregistered [@portner_huntington-klein_2022]. Analyses that were not preregistered will be noted in the results section as they are performed. Full instructions for each task, as well as post-task survey text and the peer-reviewing instructions, are available in the online appendix.
 
@@ -2773,7 +2774,8 @@ We do not find that completion rates are significantly lower just above the cuto
 
 ### Sample Characteristics {#sec-sample-characteristics}
 
-Tables \ref{tab-samp1} to \ref{tab-samp3} show the characteristics of the recruited sample, and how those characteristics changed with eligibility and attrition. Task 2 is omitted as an attrition stage since so few people dropped out between Task 1 and Task 2.
+Tables \ref{tab-samp1} and \ref{tab-samp2} show the characteristics of the recruited sample, and how those characteristics changed with eligibility and attrition. 
+Task 2 is omitted as an attrition stage since so few people dropped out between Task 1 and Task 2.
 
 Table \ref{tab-samp1} shows that the majority of researchers were recruited via social media, and also that those recruited from social media were more likely to finish all three tasks. Upon signup, researchers were about 90% confident of their ability to finish all three tasks. More-confident researchers were slightly more likely to actually finish, and average confidence rates of those who did finish were about 92% instead of 90%.
 
@@ -2814,9 +2816,12 @@ table_2 |>
   )
 ```
 
-Table \ref{tab-samp2} shows the professional experience of enrollees. While graduate students were considered eligible for the project as long as they had a published or forthcoming paper, the majority of eligible researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q10 %in% c('PhD','Prof. Degree')),1)]`) had PhDs. PhD holders were also more likely than other eligible researchers to complete all three tasks.[^14]
+The top panel of Table \ref{tab-samp2} shows the professional experience of enrollees. 
+While graduate students were considered eligible for the project as long as they had a published or forthcoming paper, the majority of eligible researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q10 %in% c('PhD','Prof. Degree')),1)]`) had PhDs. 
+PhD holders were also more likely than other eligible researchers to complete all three tasks.[^14]
 
-[^14]: We also checked the programming languages used by researchers in the work they submitted. The most common language was Stata, with 109 researchers performing their work solely in Stata. 33 used R, and one researcher used both R and Stata. Less common were Python and SPSS, with one researcher each.
+[^14]: We also checked the programming languages used by researchers in the work they submitted. 
+The most common language was Stata, with 109 researchers performing their work solely in Stata. 33 used R, and one researcher used both R and Stata. Less common were Python and SPSS, with one researcher each.
 
 These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Faculty')),1)]`) and other non-faculty researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Other Researcher')),1)]`), both of which were more likely than graduate students to finish all three rounds. Most of the researchers had at least one published paper.[^15] About a third of initial researchers, and 40% of the final set of researchers, had done work in either immigration or labor economics, the fields closest to the research task at hand, with 5% having done work in both, although all researchers had done work in applied microeconomics generally.
 
@@ -2832,8 +2837,14 @@ alldemog[Researcher_Q13 %like% 'Labor', Researcher_Cats := 'Labor']
 alldemog[Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration']
 alldemog[Researcher_Q13 %like% 'Labor' & Researcher_Q13 %like% 'Immigration', Researcher_Cats := 'Immigration & Labor']
 table_3 <- sumtable(alldemog, 
-         vars = c('Researcher_Q10', 'Researcher_Q6', 'Q8Recode', 'Researcher_Cats'), 
-         labels = c('Degree', 'Occupation', 'Research Experience','Field'), 
+         vars = c(
+           'Researcher_Q10', 'Researcher_Q6', 'Q8Recode', 'Researcher_Cats',
+           'Researcher_Q15', 'RaceRecode', 'Researcher_Q17'
+           ), 
+         labels = c(
+           'Degree', 'Occupation', 'Research Experience', 'Field', 
+           'Gender', 'Race', 'LGBTQ+'
+           ), 
          group = 'Round',
          out = 'return'
 )
@@ -2845,21 +2856,28 @@ row.names(table_3) <- NULL
 table_3 |>
   kbl(
     format = "latex",
-    caption = "Researcher Professional Experience\\label{tab-samp2}",
+    caption = "Researcher Professional Experience and Demographics\\label{tab-samp2}",
     booktabs = TRUE,
-    linesep = linesep(c(6,5,5))
+    linesep = linesep(c(6, 5, 5, 4, 6))
   ) |>
   add_header_above(c(" " = 1, "Signup" = 2, "Task 1" = 2, 
                      "Task 1" = 2, "Task 3" = 2)) |>
   add_header_above(c(" " = 1, "Original" = 2, "Assigned" = 2, 
                      "Finished" = 2, "Finished" = 2), line = FALSE) |>
   add_header_above(c(" " = 1, "Round" = 8), line = FALSE) |>
+  pack_rows(
+    index = c("Professional Experience" = 21, "Demographics" = 15),
+    bold = FALSE,
+    hline_after = TRUE,
+    latex_gap_space = "0.5em",
+    latex_align = "c"
+  ) |>
   kable_styling(
     latex_options = "scale_down"
     ) |>
   column_spec(1:9, latex_column_spec = "lrrrrrrrr") |>
   footnote(
-    general  = c("\\\\footnotesize{Results for Tasks 2 are omitted because very few researchers dropped out between Task 1 and Task 2. Full results are available upon request.}"),
+    general  = c("\\\\footnotesize{Results for Tasks 2 are omitted because only four researchers dropped out between Task 1 and Task 2. Full results are available upon request.}"),
     general_title = "\\\\footnotesize{Note:}\\\\hspace{-0.5cm}",
     escape = FALSE,
     footnote_as_chunk = TRUE,
@@ -2868,45 +2886,49 @@ table_3 |>
 
 ```
 
-Table \ref{tab-samp3} shows the demographics of the researcher sample. The original enrollment was just under 80% male and more than 55% white, with the white share growing to 66% by the end of Task 3. The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. About half of the sample was situated in the United States, and about half was from another country. The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
+The bottom panel of Table \ref{tab-samp2} shows the demographics of the researcher sample. 
+The original enrollment was just under 80% male and more than 55% white, with the white share growing to 66% by the end of Task 3. 
+The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. 
+About half of the sample was situated in the United States, and about half was from another country. 
+The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
 
 ```{r Researcher Demographics Table}
-table_4 <- sumtable(alldemog, 
-         vars = c('Researcher_Q15',
-                            'RaceRecode',
-                            'Researcher_Q17'), 
-         labels = c('Gender', 'Race', 'LGBTQ+'), 
-         group = 'Round',
-         out = 'return',
-) 
-
-# Sumtable places the group variable as the first row, so we remove it
-table_4 <- table_4[-1, ]
-row.names(table_4) <- NULL
-
-table_4 |>
-  kbl(
-    format = "latex",
-    caption = "Researcher Demographics\\label{tab-samp3}",
-    booktabs = TRUE,
-    linesep = linesep(c(5,6))
-  ) |>
-  add_header_above(c(" " = 1, "Signup" = 2, "Task 1" = 2, 
-                     "Task 1" = 2, "Task 3" = 2)) |>
-  add_header_above(c(" " = 1, "Original" = 2, "Assigned" = 2, 
-                     "Finished" = 2, "Finished" = 2), line = FALSE) |>
-  add_header_above(c(" " = 1, "Round" = 8), line = FALSE) |>
-  kable_styling(
-    latex_options = "scale_down"
-    ) |>
-  column_spec(1:9, latex_column_spec = "lrrrrrrrr") |>
-  footnote(
-    general  = c("\\\\footnotesize{Results for Tasks 2 are omitted because very few researchers dropped out between Task 1 and Task 2. Full results are available upon request.}"),
-    general_title = "\\\\footnotesize{Note:}\\\\hspace{-0.5cm}",
-    escape = FALSE,
-    footnote_as_chunk = TRUE,
-    threeparttable = TRUE
-  )
+# table_4 <- sumtable(alldemog, 
+#          vars = c('Researcher_Q15',
+#                             'RaceRecode',
+#                             'Researcher_Q17'), 
+#          labels = c('Gender', 'Race', 'LGBTQ+'), 
+#          group = 'Round',
+#          out = 'return',
+# ) 
+# 
+# # Sumtable places the group variable as the first row, so we remove it
+# table_4 <- table_4[-1, ]
+# row.names(table_4) <- NULL
+# 
+# table_4 |>
+#   kbl(
+#     format = "latex",
+#     caption = "Researcher Demographics\\label{tab-samp3}",
+#     booktabs = TRUE,
+#     linesep = linesep(c(5,6))
+#   ) |>
+#   add_header_above(c(" " = 1, "Signup" = 2, "Task 1" = 2, 
+#                      "Task 1" = 2, "Task 3" = 2)) |>
+#   add_header_above(c(" " = 1, "Original" = 2, "Assigned" = 2, 
+#                      "Finished" = 2, "Finished" = 2), line = FALSE) |>
+#   add_header_above(c(" " = 1, "Round" = 8), line = FALSE) |>
+#   kable_styling(
+#     latex_options = "scale_down"
+#     ) |>
+#   column_spec(1:9, latex_column_spec = "lrrrrrrrr") |>
+#   footnote(
+#     general  = c("\\\\footnotesize{Results for Tasks 2 are omitted because only four researchers dropped out between Task 1 and Task 2. Full results are available upon # request.}"),
+#     general_title = "\\\\footnotesize{Note:}\\\\hspace{-0.5cm}",
+#     escape = FALSE,
+#     footnote_as_chunk = TRUE,
+#     threeparttable = TRUE
+#   )
 
 ```
 
@@ -2974,9 +2996,14 @@ source('../code/peer_review_sample_size.R')
 # export(spot_checks, 'spot_checks_no_revisions.xlsx')
 ```
 
-@fig-effect-distributions and Table \ref{tab-effectdist} show the distribution of estimated effects across all researchers. The effect distributions are shown in two ways: unweighted and using inverse-standard-error weights.[^16] Several data points are dropped from the weighted analysis for researchers who did not report standard errors or reported 0. Other missing values are researchers who did not repond to a given question.
+@fig-effect-distributions and Table \ref{tab-effectdist} show the distribution of estimated effects across all researchers. 
+The effect distributions are shown in two ways: unweighted and using inverse-standard-error weights.[^16] 
+Several data points are dropped from the weighted analysis for researchers who did not report standard errors or reported 0. 
+Other missing values are researchers who did not repond to a given question.
 
-[^16]: The use of inverse-standard-error weights is not preregistered but follows meta-analytic standards, reducing the influence of estimates that may be outliers due to being estimated with a highly-noisy method, under the suggestion of @auspurg2023social. Weights are truncated at the 95th percentile (200, or a standard error of .005) so as to avoid any single researcher having too much influence on results. Not using the truncation leads to more agreement because a few researchers with very small standard errors make up a significant share of the weighted sample.
+[^16]: The use of inverse-standard-error weights is not preregistered but follows meta-analytic standards, reducing the influence of estimates that may be outliers due to being estimated with a highly-noisy method, under the suggestion of @auspurg2023social. 
+Weights are truncated at the 95th percentile (200, or a standard error of .005) so as to avoid any single researcher having too much influence on results. 
+Not using the truncation leads to more agreement because a few researchers with very small standard errors make up a significant share of the weighted sample.
 
 In Task 1, the mean estimated effect of DACA eligibility on the probability of working full-time was .053 unweighted or .044 weighted. In both cases these means are pulled upwards by high top-end estimates and are above the 75th percentiles. Median estimates were .030 unweighted or .026 weighted. Even in Task 1, with a large amount of freedom afforded, researchers found a reasonable amount of agreement in the effect sizes outside of the tails, with the 25th to 75th percentile ranges of the effect being .014 to .051 unweighted, an inter-quartile range (IQR) of .037, or 3.7 percentage points in the effect, or .012 to .043 weighted, an IQR of .031. The use of weights narrows the distribution of effects: researchers reporting smaller standard errors also reported estimates that were more similar to each other, which was also the case in Tasks 2 and 3.
 
@@ -3009,7 +3036,7 @@ Taking only the effect distributions as a baseline, we see that, at least in thi
 #| fig-width: 8
 #| fig-height: 8
 #| label: fig-effect-distributions
-#| fig-cap: Distributions of Reported Effect Sizes
+#| fig-cap: Distributions of Reported Effect Sizes by Task With the Weighted Distributions Using Inverse-Standard-Error Weights
 p_effect_distribution_task_on_y_axis
 ```
 
@@ -3052,13 +3079,13 @@ effect_sum_tab |>
 #| fig-width: 8
 #| fig-height: 8
 #| label: fig-full-effect-distribution
-#| fig-cap: Specification Curve for All Reported Estimates
+#| fig-cap: Specification Curve for All Reported Estimates by Task with Estimates Ordered From Smallest to Largest
 p_full_effect_distribution_individual
 ```
 
 Table \ref{tab-effectdist} also shows summary statistics for reported standard errors, both overall and for the treated group. These distributions are also shown in @fig-sample-size-distributions and @fig-treated-group-distributions.
 
-In @fig-sample-size-distributions we see a huge amount of variation in the reported sample size used in Task 1, noting that the x-axis is on a log scale.[^task-3]
+In @fig-sample-size-distributions we see substantial variation in the reported sample size used in Task 1, noting that the x-axis is on a log scale.[^task-3]
 The 25th and 75th percentiles of reported sample sizes ranging from 61,600 to 356,787, with some researchers using millions of observations.[^17] 
 For Task 2, which specified in the instructions the treated and comparison groups to use, variation reduces considerably, although the 75th percentile (48,125) is still double the 25th (18,981), and there are still some researchers using millions of observations.
 Consistent with the reduction when we specify the treated and comparison groups, a Levene test on the variance in sample size rejects the null hypothesis of equal variance across Task 1 and Task 2 at the 0.05 level.
@@ -3403,7 +3430,7 @@ XXX NOTE FOR CLAUS: SHOULD WE DROP MULTISTEP CONDITION ALTOGETHER AND JUST GROUP
 
 The coding does not cover the full set of possible variables used to define samples, which vary beyond the list presented in the table. Some common limitations used by some researchers and not others include filtering out people living in group quarters or those out of the labor force, or dropping anyone with a recorded year of immigration before their recorded year of birth. Many researchers also chose to limit the sample based on current age as of the year of their inclusion in the ACS (as opposed to their age in 2012, which is shown), choosing many different acceptable age ranges. Table \ref{tab-sample-limitations-extensive} looks only at limitations based on variables for which there is a ``right answer'' in the Task 2 instructions. 
 
-We see a huge amount of variety in the ways these variables were used, including in Task 2, where there is a correct answer according to the instructions (and similarly a correct answer for some variables in the Task 1 treated-group definition).[^22] For each variable, the most-common option, listed at the top, is the "correct" answer for defining the treated group, with two exceptions: (a) for Citizenship, there is a second justifiable answer in "Non-Citizen or Naturalized After 2012." These immigrants would have been eligible for DACA in 2012, but would not be eligible for DACA as of the time they were surveyed, so they would have received a partial "dose" of DACA, which could justifiably be included or excluded, and (b) for Years Continuous in USA, where DACA guidelines require that the immigrant have lived *continuously* in the United States for five years as of 2012. Most researchers used only year of immigration being before 2007 to satisfy this criterion, but others used the YRSUSA set of variables which specifically track living continuously in the country.
+We see a large amount of variety in the ways these variables were used, including in Task 2, where there is a correct answer according to the instructions (and similarly a correct answer for some variables in the Task 1 treated-group definition).[^22] For each variable, the most-common option, listed at the top, is the "correct" answer for defining the treated group, with two exceptions: (a) for Citizenship, there is a second justifiable answer in "Non-Citizen or Naturalized After 2012." These immigrants would have been eligible for DACA in 2012, but would not be eligible for DACA as of the time they were surveyed, so they would have received a partial "dose" of DACA, which could justifiably be included or excluded, and (b) for Years Continuous in USA, where DACA guidelines require that the immigrant have lived *continuously* in the United States for five years as of 2012. Most researchers used only year of immigration being before 2007 to satisfy this criterion, but others used the YRSUSA set of variables which specifically track living continuously in the country.
 
 [^22]: Keep in mind that the table allows for coding errors. For example the individuals reporting that they used only high school graduates or *non-veterans,* instead of veterans as per the instructions, likely did not intentionally choose to use non-veterans but rather coded "VETSTAT == 1," which indicates "non-veteran", perhaps based on a misunderstanding of the IPUMS documentation (veterans are VETSTAT == 2). However, an earlier version of this paper relied on researcher self-reports of sample limitations in the survey, and found similar rates at which Task 2 choices did not match the "correct answer", so coding errors alone do not account for these results.
 
@@ -3534,7 +3561,10 @@ Those recommendations may not be in the control of any one researcher, though. T
 
 This paper describes the results of a large many-analysts project in applied microeconomics. We found large amounts of variation in the choices made by researchers, especially in regards to data cleaning and processing, research design, the definition of treated and comparison groups, and the selection and functional form of controls. Some of this variation appears to be from researcher data cleaning processes that do not match the instructions, derived from policy realities, for constructing the treated group. Variation was not strongly constrained by the influence of peer review or a shared research design, but there was a (descriptive if not statistically significant) reduction of variation when researchers were provided with pre-cleaned data.
 
-Interestingly, we do not find huge amounts of variation in actual estimated effects of the policy. There were some outliers, and statistical significance varied between researchers. However, the central range of estimated effects of DACA on the probability of working full time effects generally was not very wide, with the difference between the 25th and 75th percentiles typically only 2-3 percentage points. However, the fact that widely different sample definitions and modeling choices led to a narrow range of effects is not guaranteed to generalize to other contexts.
+Interestingly, we do not find substantial amounts of variation in actual estimated effects of the policy. 
+There were some outliers, and statistical significance varied between researchers. 
+However, the central range of estimated effects of DACA on the probability of working full time effects generally was not very wide, with the difference between the 25th and 75th percentiles typically only 2-3 percentage points. 
+However, the fact that widely different sample definitions and modeling choices led to a narrow range of effects is not guaranteed to generalize to other contexts.
 
 There were also parts where researchers behaved very similarly. The use of linear regression modeling was very popular, and very few researchers used unadjusted standard errors, although the specific adjustment or clustering level varied.
 

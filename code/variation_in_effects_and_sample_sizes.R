@@ -134,8 +134,8 @@ p_full_effect_distribution_individual = ggplot(viol[Type == 'Unweighted'], aes(x
   scale_color_manual(values = colorpal) +
   facet_wrap(~Round, nrow = 3) + 
   guides(color = 'none') +
-  labs(y = 'Effect Size and 95% CI',
-       x = 'Dark blue indicate statistically significant confidence intervals. The 95% CI reconstructed from effect size \n  and SE, even if asymmetric CI was reported. Visible range limited to (-.05, .15).') + 
+  labs(y = 'Point Estimates for Effect Size and Associated 95% Confidence Intervals',
+       x = 'The 95% confidence intervals are reconstructed from reported effect size and SE, even for asymmetric \n reported confidence interval. Dark blue indicate statistically significant confidence intervals.\n Visible range limited to (-.05, .15).') + 
   theme_nick() + 
   theme(
     axis.text.y = element_text(size = 10),
