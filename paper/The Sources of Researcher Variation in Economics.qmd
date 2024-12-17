@@ -2559,7 +2559,7 @@ While this prior replication work takes an existing study as a baseline and asks
 
 One way to empirically study researcher degrees of freedom is using a many-analysts design. The many-analysts design, popularized by @silberzahn2018many, gives the same data set to multiple teams of researchers and has them independently try to answer the same research question.[^1] Many-analysts studies have now been carried out in many fields, including microeconomics [@huntington2021influence], finance [@menkveld2021non], religion [@hoogeveen2023many], neuroimaging [@botvinik2020variability], political science [@breznau2021observing], machine learning [@chen2024subjectivity], ecology and evolutionary biology [@gould2023same], psychology [@boehm2018estimating; @bastiaansen2020time; @schweinsberg2021same], and medical informatics [@ostropolets2023reproducible], among others.
 
-[^1]: Many-analysts designs are sometimes referred to as "crowdsourced" science.
+[^1]: See also @Magnus1997 for an early example in applied econometrics. Many-analysts designs are sometimes referred to as "crowdsourced" science.
 
 With few exceptions, many-analysts studies find that there *is* meaningful variation in both methods and conclusions across researchers. Furthermore, researcher variation in design and analysis likely outweighs population variation in effects [@holzmeister2023heterogeneity].
 
@@ -3112,7 +3112,7 @@ Variation in the reported size of the treated group in @fig-treated-group-distri
 p_treated_group_sample_size
 ```
 
-Aside from this issue, we see that the imposition of a shared definition for the trated group reduced the IQR for the size of the group from 34,631 in Taks 1 to 9,879 in Task 2. Theoretically, however, since there was a shared definition of the treated group in Task 2, there should be no more variation in this variable in Task 2 than in Task 3. This indicates that not all instructions were implemented in the same way across researchers, which will be explored further in @sec-sample-limitations. Despite a shared understanding of who was eligible for DACA and who should be in the treated group, only a shared data preparation that implemented these rules for people led to sharp agreement in the size of the treated-groups sample.
+Aside from this issue, we see that the imposition of a shared definition for the treated group reduced the IQR for the size of the group from 34,631 in Taks 1 to 9,879 in Task 2. Theoretically, however, since there was a shared definition of the treated group in Task 2, there should be no more variation in this variable in Task 2 than in Task 3. This indicates that not all instructions were implemented in the same way across researchers, which will be explored further in @sec-sample-limitations. Despite a shared understanding of who was eligible for DACA and who should be in the treated group, only a shared data preparation that implemented these rules for people led to sharp agreement in the size of the treated-groups sample.
 
 ## Bimodality in the Task 2 Effect Estimates {#sec-bimodal}
 
