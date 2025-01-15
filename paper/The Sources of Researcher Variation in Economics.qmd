@@ -3396,7 +3396,9 @@ trans_con[, .(N = uniqueN(paste0(Q1,Round)),
   )
 ```
 
-These specific findings about the impact of choices on effects - that the inclusion of different covariates did not have a major impact on estimated effects, or that the choice of functional form had a greater impact than the selection of covariates - should not be expected to generalize, and is specific to this research task. However, what we can take from this section is that there is substantial variation across researchers in what they believe the appropriate set of covariates to be and, for a given covariate, what the appropriate functional form is. We can also see that, in the case of this particular study, these decisions, while varied, did not fully explain the variation in effects between researchers.
+These specific findings about the impact of choices on effects - that the inclusion of different covariates did not have a major impact on estimated effects, or that the choice of functional form had a greater impact than the selection of covariates - should not be expected to generalize, and is specific to this research task. 
+However, what we can take from this section is that there is substantial variation across researchers in what they believe the appropriate set of covariates to be and, for a given covariate, what the appropriate functional form is. 
+We can also see that, in the case of this particular study, these decisions, while varied, did not fully explain the variation in effects between researchers.
 
 ## Researchers' Sample Choices {#sec-sample-limitations}
 
@@ -3567,6 +3569,7 @@ Interestingly, we do not find substantial amounts of variation in actual estimat
 There were some outliers, and statistical significance varied between researchers. 
 However, the central range of estimated effects of DACA on the probability of working full time effects generally was not very wide, with the difference between the 25th and 75th percentiles typically only 2-3 percentage points. 
 However, the fact that widely different sample definitions and modeling choices led to a narrow range of effects is not guaranteed to generalize to other contexts.
+[Discuss Goldhaber's comment: That there's relatively more variation around sample, design, etc. compared to findings is surprising and could probably use more discussion. Do you think it's just related to the DACA problem, maybe because the answers aren't super sensitive to issues like sample? I don't know that there's more to dig into in terms of the analysis, but I'd surface the issue of the sensitivity of these results to the project/problem we were asked to address.]
 
 There were also parts where researchers behaved very similarly. The use of linear regression modeling was very popular, and very few researchers used unadjusted standard errors, although the specific adjustment or clustering level varied.
 
