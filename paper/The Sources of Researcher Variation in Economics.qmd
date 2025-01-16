@@ -2565,7 +2565,7 @@ With few exceptions, many-analysts studies find that there *is* meaningful varia
 
 However, these studies vary considerably in the extent to which they can identify the source of that researcher variation or suggest policies that might reduce it. Establishing that there is variation is important, but is of limited impact if we do not understand why or what we can do about it. Further, if not carefully performed, many-analysts results may not even imply that a problem exists. For example, variation in the original @silberzahn2018many study may be largely explained by the research question not being made sufficiently clear to researchers [@auspurg2021has], and not following standard meta-analytic practice may lead us to overstate variation between researchers by being too sensitive to outlier estimates [@auspurg2023social].
 
-The ability to explain variation between researchers, rather than just show that variation exists, is restricted by the limited size of the prior many-analyst studies. As we discuss in @sec-target-sample, we pursued a sample of at least 90 researchers to achieve sufficient power to explain differences in variation.[^2] Since participation in a many-analysts study takes considerable time and effort, sample sizes are often well below even the aforementioned 90, which may explain why many studies do not attempt do decompose the variation in effects they find between sources. These smaller sample sizes can produce acceptable statistical power for some tests but not others, and explaining variation or agreement in effects between researchers generally demands a larger sample than showing the existence of meaningful variation or showing a difference in rates of making a particular research decision. Prior many-analyst studies that try to explain the sources of variation between researchers either do so despite the low-power issue, gather larger samples of researchers, or select analyses that produce adequate power despite small samples.
+The ability to explain variation between researchers, rather than just show that variation exists, is restricted by the limited size of the prior many-analyst studies. As we discuss in @sec-target-sample, we pursued a sample of at least 90 researchers to achieve sufficient power to explain differences in variation.[^2] Since participation in a many-analysts study takes considerable time and effort, sample sizes are often well below even the aforementioned 90, which may explain why many studies do not attempt to decompose the variation in effects they find between sources. These smaller sample sizes can produce acceptable statistical power for some tests but not others, and explaining variation or agreement in effects between researchers generally demands a larger sample than showing the existence of meaningful variation or showing a difference in rates of making a particular research decision. Prior many-analyst studies that try to explain the sources of variation between researchers either do so despite the low-power issue, gather larger samples of researchers, or select analyses that produce adequate power despite small samples.
 
 [^2]: @perignon2022reproducibility, in looking at the sources of reproducibility variation using many teams, used a design with 1,000 tests to replicate in order to adequately power comparisons.
 
@@ -2956,9 +2956,15 @@ Aside from being skewed towards the United States, the sample largely reflects t
 
 # Results
 
-This section examines the variation in effects and methods across researchers and conditions, demonstrating that variation exists and attempting to explain it.
+This section examines the variation in effects and methods across researchers and conditions.
+We demonstrate that such variation exists and evaluate explanations for it.
 
-Importantly, these results are derived from the survey responses that researchers gave about their findings and the choices made. Project organizers did not cross-reference survey responses against researcher code to ensure that their code was accurately reflected in the survey, except in a small number of cases where the survey response could not be interpreted. This means that the variation presented here represents the variation in how researchers would plan to implement the research task if they were doing it independently, and what a reader would see as the description of a study in a published version of their work. Any variation between researchers that occurs as a result of coding error or a research report that misrepresents what a researcher actually did will not be reflected here, but could be the subject of a future investigation.
+Importantly, the results are based on survey responses provided by researchers regarding their findings and the decisions they made. 
+The project organizers did not cross-check these survey responses against the researchers' actual coding, which means there is no guarantee of consistency between the two.[^except] 
+Therefore, the variation presented here reflects how researchers would plan to conduct the research task independently and what readers might find in the published descriptions of their studies. 
+Any discrepancies that arise from coding errors or misrepresentations in research reports will not be addressed here but could be the focus of future investigations.
+
+[^except]: The exception is a small number of cases where the survey response could not be interpreted.
 
 ## Variation in Effects and Sample Sizes {#sec-variation}
 
@@ -3366,8 +3372,9 @@ controls_across_rounds[, .(Control, `Task 1`, `Task 2`, `Task 3`)] |>
 ```
 
 Did this lack of agreement across researchers on the exact set of appropriate controls, or the inclusion or exclusion of any given control, impact the effect estimates? 
-Not by much; the mean reported effects differ by only .023 percentage points comparing the covariate included in analyses with the highest average effectestimates (Continuous Years in the USA) against the lowest (Race). 
-This likely overstates the impact of covariate selection here, as selecting the highest vs. lowest after estimates are known will bias us towards a larger difference from noise alone.
+Not by much; the mean reported effects differ by only .023 percentage points when we compare the covariate with the highest average effect estimates (Continuous Years in the USA) against the lowest (Race). 
+What is more, this comparison likely overstates the impact of covariate selection.
+Selecting the highest versus the lowest after estimates are known will lead to bias towards a larger difference from noise alone.
 
 There do not appear to be major differences in the average reported standard errors either, or in the standard deviation of the effect distribution among reserachers including that covariate.
 
@@ -3779,9 +3786,14 @@ efftable_2 |>
 
 ## Analysis by Project Organizer A
 
-For each categorical researcher characteristic specified in @sec-sample-characteristics, as well as an indicator for the use of R or Stata as a programming language. In each case, categories with 5 or fewer researchers in them were omitted before performing the analysis. Table \ref{tab-orga-effects} shows the F-statistic from a regression of the reported effect estimate on a set of indicators for that characteristic, as well as the associated $p$-value and $R^2$ from that regression. This table allows us to see whether researchers with different characteristics reported different effect levels. Table \ref{tab-orga-deviation} does the same, but uses absolute deviation from the sample mean as the dependent variable. This table allows us to see whether researchers with different characteristics showed greater agreement on effect levels with the group as a whole.
+Table \ref{tab-orga-effects} shows the F-statistic from a regression of the reported effect estimate on a set of indicators for that characteristic, as well as the associated $p$-value and $R^2$ from that regression.
+The indicators include each categorical researcher characteristic specified in @sec-sample-characteristics, as well as an indicator for the use of R or Stata as a programming language. 
+For all indicators, categories with 5 or fewer researchers in them were omitted before performing the analysis. 
+This table allows us to see whether researchers with different characteristics reported different effect levels. 
+Table \ref{tab-orga-deviation} does the same, but uses absolute deviation from the sample mean as the dependent variable, which allows us to see whether researchers with different characteristics showed greater agreement on effect levels with the group as a whole.
 
-Tables \ref{tab-orga-effects} and \ref{tab-orga-deviation} show that researcher characteristics hold basically no explanatory power for estimated effects either in level or deviation from the mean. Nearly all $p$-values are well above .05. In \ref{tab-orga-deviation}, the $p$-value for race as an explanatory variable in Task 1 had a $p$-value below .1, but given how many comparisons there are here, this is likely to just be noise.
+Tables \ref{tab-orga-effects} and \ref{tab-orga-deviation} show that researcher characteristics hold basically no explanatory power for estimated effects either in level or deviation from the mean. 
+Nearly all $p$-values are well above .05. In \ref{tab-orga-deviation}, the $p$-value for race as an explanatory variable in Task 1 had a $p$-value below .1, but given how many comparisons there are here, this is likely to just be noise.
 
 
 ```{r Organizer A effect level}
