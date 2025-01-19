@@ -2565,13 +2565,23 @@ One way to empirically study researcher degrees of freedom is using a many-analy
 
 [^1]: See also @Magnus1997 for an early example in applied econometrics. Many-analysts designs are sometimes referred to as "crowdsourced" science.
 
-With few exceptions, many-analysts studies find that there *is* meaningful variation in both methods and conclusions across researchers. Furthermore, researcher variation in design and analysis likely outweighs population variation in effects [@holzmeister2023heterogeneity].
+With few exceptions, many-analysts studies find that there *is* meaningful variation in both methods and conclusions across researchers. 
+Furthermore, researcher variation in design and analysis likely outweighs population variation in effects [@holzmeister2023heterogeneity].
 
-However, these studies vary considerably in the extent to which they can identify the source of that researcher variation or suggest policies that might reduce it. Establishing that there is variation is important, but is of limited impact if we do not understand why or what we can do about it. Further, if not carefully performed, many-analysts results may not even imply that a problem exists. For example, variation in the original @silberzahn2018many study may be largely explained by the research question not being made sufficiently clear to researchers [@auspurg2021has], and not following standard meta-analytic practice may lead us to overstate variation between researchers by being too sensitive to outlier estimates [@auspurg2023social].
+However, the limited size of most prior many-analyst studies restricted their ability go beyond showing simply that variation exists to show what explain these difference. 
+Establishing that there is variation is important, but is of limited impact if we cannot identify the source of that researcher variation or suggest policies that might reduce it. 
+Further, if not carefully performed, many-analysts results may not even imply that a problem exists. 
+For example, variation in the original @silberzahn2018many study may be largely explained by the research question not being made sufficiently clear to researchers [@auspurg2021has].
+Furthermore, not following standard meta-analytic practice may lead us to overstate variation between researchers by being too sensitive to outlier estimates [@auspurg2023social].
 
-The ability to explain variation between researchers, rather than just show that variation exists, is restricted by the limited size of the prior many-analyst studies. As we discuss in @sec-target-sample, we pursued a sample of at least 90 researchers to achieve sufficient power to explain differences in variation.[^2] Since participation in a many-analysts study takes considerable time and effort, sample sizes are often well below even the aforementioned 90, which may explain why many studies do not attempt to decompose the variation in effects they find between sources. These smaller sample sizes can produce acceptable statistical power for some tests but not others, and explaining variation or agreement in effects between researchers generally demands a larger sample than showing the existence of meaningful variation or showing a difference in rates of making a particular research decision. Prior many-analyst studies that try to explain the sources of variation between researchers either do so despite the low-power issue, gather larger samples of researchers, or select analyses that produce adequate power despite small samples.
+To achieve sufficient power to both show that variation exists *and* explain differences in variation, our goal was to have at least 90 researchers complete all the steps of the project.[^2]
+As we discuss in @#sec-recruitment-attrition, we had 295 qualified researchers sign up, of which 146 finished all tasks.
+Since participation in a many-analysts study takes considerable time and effort, sample sizes are often well below even the aforementioned 90, which may explain why many studies do not attempt to decompose the variation in effects they find between sources. 
+These smaller sample sizes can produce acceptable statistical power for some tests but not others.
+Explaining variation or agreement in effects between researchers generally demands a larger sample than showing the existence of meaningful variation or showing a difference in rates of making a particular research decision. 
+Prior many-analyst studies that try to explain the sources of variation between researchers either do so despite the low-power issue, gather larger samples of researchers, or only perform select analyses that produce adequate power despite small samples.
 
-[^2]: @perignon2022reproducibility, in looking at the sources of reproducibility variation using many teams, used a design with 1,000 tests to replicate in order to adequately power comparisons.
+[^2]: @perignon2022reproducibility used a design with 1,000 replication tests to adequately power comparisons when examining what explain differences in reproducibility of results.
 
 Among studies that attempt to explain researcher variation, there are three common explanations explored: difficulty of the research task, differences in researcher experience or characteristics, and the presence of peer review or evaluation. Some studies show less researcher agreement in more complex or difficult-to-analyze scenarios [@menkveld2021non; @ortloff2023different]. Higher-quality teams (with more experience, seniority, publishing success, and/or people) agree more [@menkveld2021non], experienced researchers tend to draw more abstract codebooks and conclusions than students [@ortloff2023different], and replicators with more coding skill found more errors in original work [@broderick2020automatic]. Outside of many-analysts work, @jelveh2024political find that researcher political orientation affects research results, and @sulik2023scientists show the same for researcher personality metrics. However, other many-analysts research finds that researcher characteristics explained only a small share of the variation in results [@breznau2021observing]. Finally, review may increase agreement [@menkveld2021non]. However, in some cases there is no chance to revise, so we cannot see the impact of peer review, but instead outside evaluation is used as a measure of researcher quality, although in that case, peer review scores do not predict whether a given researcher produces an outlier result [@gould2023same].
 
@@ -2705,7 +2715,7 @@ In Task 3, the instructions remain unchanged from Task 2, except that the data i
 
 [^9]: There were three observations in the final cleaned data set that were missing values of the education variable. The final used sample in Task 3 sometimes differs by 3 across researchers, based on whether the analysis uses education and thus drops these individuals.
 
-## Recruitment and Attrition
+## Recruitment and Attrition {#sec-recruitment-attrition}
 
 In a many-analysts study, researchers who carry out the research task make up both the bulk of the author list and are the subject of inquiry, so their recruitment is a key feature of the study.
 
@@ -2758,12 +2768,15 @@ justcount |>
   column_spec(1:3, latex_column_spec = "lrr")
 ```
 
-This left `r justcount[2,Participants]` eligible participants. 
-This is more than the 200 for which budget was available to pay the offered \$2,000 incentive. 
-The 282 of these participants who had signed up by the original signup due date were put into a random order, and then the 13 late signups were put at the end of this order.
-Participants were given their place in the order, and informed that, among people completing all stages of the project, the first 200 in the order would be paid.
+This left `r justcount[2,Participants]` eligible participants, which was in excess of the 200 the available budget allowed for. 
+We, therefore, randomly listed the 282 participants who had signed up by the original due date, and added the 13 late signups at the end of this list.
+The first 200 on the list were told that they would be paid if they completed all stages of the project, but were not told their order.
+Everyone with a number above 200 were given their place in the list, and informed that they would be paid if they completed all stages of the project and sufficient numbers of those below them did not complete all steps.
+For example, if someone was number 206, payment was conditional on at least six participants with a lower number did not complete all steps.
 
-Initial assumptions from the power analysis that attrition rates would be near 50% were almost exactly correct, with `r percent(justcount[5,Participants]/justcount[2,Participants],.01)` of these initial `r justcount[2,Participants]` eligible researchers completing all three stages. 
+Initial assumptions from the power analysis that attrition rates would be near 50% were almost exactly correct, with `r percent(justcount[5,Participants]/justcount[2,Participants],.01)` of these initial `r justcount[2,Participants]` eligible researchers completing all three stages.
+Hence, we were able to pay all participants who completed all steps.
+
 Nearly all of the attrition occurred by the completion of Task 1. 
 After `r justcount[2,Participants]-justcount[3,Participants]` eligible researchers failed to complete Task 1, only a further `r justcount[3,Participants]-justcount[5,Participants]` failed to complete Task 3. 
 This means we have `r justcount[5,Participants]` researchers who completed all three research tasks, well above the goal of 90.
@@ -3058,7 +3071,12 @@ Taking only the effect distributions as a baseline, we see that, at least in thi
 p_effect_distribution_task_on_y_axis
 ```
 
-Table \ref{tab-effectdist} also shows the reported standard errors. Reported standard errors increase significantly from round to round, driven largely by the specification of the research design, which for many researchers considerably narrowed the sample they were supposed to use. This can also be seen in @fig-full-effect-distribution, where the distribution of effects narrows a little across rounds, but confidence intervals increase considerably. Throughout, while there is general agreement on effect size in the middle of the distribution, researchers vary in whether the reported effect is statistically significant, with `r viol[Round == 'Task 1' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]`, `r viol[Round == 'Task 2' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]`, and `r viol[Round == 'Task 3' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]` reporting results that were statistically significantly different from 0 in Tasks 1, 2, and 3, respectively.
+Table \ref{tab-effectdist} also shows the reported standard errors. 
+Reported standard errors increase significantly from round to round, driven largely by the specification of the research design, which for many researchers considerably narrowed the sample they were supposed to use. 
+This can also be seen in @fig-full-effect-distribution, which, for each round, show the reported effect size ranked from smallest to largest, together with the confidence intervals for each researcher's estimate calculated based on the reported standard error.
+The distribution of effects narrows a little across rounds as shown by the flatter specification curve, but confidence intervals increase considerably, across rounds.
+Throughout, while there is general agreement on effect size in the middle of the distribution, researchers vary in whether the reported effect is statistically significant, with `r viol[Round == 'Task 1' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]`, `r viol[Round == 'Task 2' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]`, and `r viol[Round == 'Task 3' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]` reporting results that were statistically significantly different from 0 in Tasks 1, 2, and 3, respectively.
+[Nick: I am trying to figure out what the figure adds over the table. Also, is is correct that the narrowing is indicated by the flatter line]
 
 Increasing agreement is necessarily driven by individual researchers changing their reported effects in subsequent rounds. @fig-effects-compare-rounds shows that researchers were not strictly bound by their previous estimates. There is effectively no visible or linear statistical relationship between a researcher's reported effect in one task and their effect in the next task.
 
@@ -3097,7 +3115,7 @@ effect_sum_tab |>
 #| fig-width: 8
 #| fig-height: 8
 #| label: fig-full-effect-distribution
-#| fig-cap: Specification Curve for All Reported Estimates by Task with Estimates Ordered From Smallest to Largest
+#| fig-cap: Specification Curve for All Reported Estimates by Task with Estimates Ordered From Smallest to Largest (X axis is number in order within tasks)
 p_full_effect_distribution_individual
 ```
 
@@ -3546,13 +3564,16 @@ t1efftable |>
 
 ## Researcher Characteristics and Effects {#sec-researcher-chars}
 
-In this section we evaluate the relationship between researcher characteristics and the effects they reported. As in our preregistration, analysis in this section is performed in a muliple-analysts style, with the two project organizers taking the same data and research question and performing independent analyses.[^23]
+In this section we evaluate the relationship between researcher characteristics and the effects they reported. 
+As listed in our preregistration, the analyses in this section were performed in a muliple-analysts style, with the two project organizers taking the same data and research question and performing independent analyses.[^23]
+Full results from each project organizer can be found in Appendix B.
 
 [^23]: From the preregistration: "Both primary authors will, independently, analyze the relationship between (a) researcher characteristics and reported research results in earlier stages, and (b) attrition from the study and reported research results in later stages." Because there was so little attrition from the study after Task 1, part b was dropped from the analysis. 
 
-Full results from each project organizer can be found in Appendix B in order to preserve the multi-analyst nature of this section. The two project organizers took very different approaches to the question of how researcher characteristics affected results, selecting different dependent variables and methods of analysis, and different sets of researcher characteristics.
-
-Both organizers found, however, that researcher characteristics were not strong predictors of estimated effects. Across researcher demographics, occupation, and professional experience, there was no strong relationship between researcher background and either the level of the effect estimate they reported, the deviation of their estimate from the mean, or changes in their estimate from task to task. The only relevant difference we found is that the minority of researchers who used the R programming language were more likely to report outlier estimates than researchers who used Stata.
+The two project organizers took very different approaches to the question of how researcher characteristics affected results, selecting different dependent variables and methods of analysis, and different sets of researcher characteristics.
+Both organizers found, however, that researcher characteristics were not strong predictors of estimated effects. 
+Across researcher demographics, occupation, and professional experience, there was no strong relationship between researcher background and either the level of the effect estimate they reported, the deviation of their estimate from the mean, or changes in their estimate from task to task. 
+The only relevant difference we found is that the minority of researchers who used the R programming language were more likely to report outlier estimates than researchers who used Stata.
 
 # Conclusion
 
