@@ -41,12 +41,19 @@ p_task1_vs_task2 = rvs |>
   annotate(geom = 'text', x = .075, y = .01,
            label = get_cor('Task 1','Task 2'),
            family = 'serif', size = 13/.pt) +
-  labs(x = 'Task 1 Effect', y = 'Task\n2\nEffect',
+  labs(x = 'Task 1 Effect', y = 'Task 2 Effect',
        caption = ' ') + 
-  scale_y_continuous(limits = c(0, .1),
-                     labels = dropLeadingZero) +
-  scale_x_continuous(limits = c(0, .1),
-                     labels = dropLeadingZero)
+  # scale_y_continuous(limits = c(0, .1),
+  #                    labels = dropLeadingZero) +
+  # scale_x_continuous(limits = c(0, .1),
+  #                    labels = dropLeadingZero)  +
+  coord_cartesian(
+    xlim = c(-.05, .1), ylim = c(-.05, .1)
+  ) +
+  theme(
+    axis.title.y = element_text(angle = 90, vjust = .5, hjust = 0.5),
+  )
+
 p_task2_vs_task3 = rvs |>
   ggplot(aes(x = `Task 2`, y = `Task 3`)) + 
   geom_abline(intercept = 0, slope = 1, linetype = 'dashed') +
@@ -56,12 +63,19 @@ p_task2_vs_task3 = rvs |>
   annotate(geom = 'text', x = .075, y = .01,
            label = get_cor('Task 2','Task 3'),
            family = 'serif', size = 13/.pt) +
-  labs(x = 'Task 2 Effect', y = 'Task\n3\nEffect',
+  labs(x = 'Task 2 Effect', y = 'Task 3 Effect',
        caption = 'Visible range limited to effects from 0 to .1.') + 
-  scale_y_continuous(limits = c(0, .1),
-                     labels = dropLeadingZero) +
-  scale_x_continuous(limits = c(0, .1),
-                     labels = dropLeadingZero)
+  # scale_y_continuous(limits = c(0, .1),
+  #                    labels = dropLeadingZero) +
+  # scale_x_continuous(limits = c(0, .1),
+  #                    labels = dropLeadingZero)  +
+  coord_cartesian(
+    xlim = c(-.05, .1), ylim = c(-.05, .1)
+  ) +
+  theme(
+    axis.title.y = element_text(angle = 90, vjust = .5, hjust = 0.5),
+  )
+
 p_task1_vs_task3 = rvs |>
   ggplot(aes(x = `Task 1`, y = `Task 3`)) + 
   geom_abline(intercept = 0, slope = 1, linetype = 'dashed') +
@@ -71,12 +85,18 @@ p_task1_vs_task3 = rvs |>
   annotate(geom = 'text', x = .075, y = .01,
            label = get_cor('Task 1','Task 3'),
            family = 'serif', size = 13/.pt) +
-  labs(x = 'Task 1 Effect', y = 'Task\n3\nEffect',
+  labs(x = 'Task 1 Effect', y = 'Task 3 Effect',
        caption = '*/**/***: p < .1/.05/.01.') + 
-  scale_y_continuous(limits = c(0, .1),
-                     labels = dropLeadingZero) +
-  scale_x_continuous(limits = c(0, .1),
-                     labels = dropLeadingZero)
+  # scale_y_continuous(limits = c(0, .1),
+  #                    labels = dropLeadingZero) +
+  # scale_x_continuous(limits = c(0, .1),
+  #                    labels = dropLeadingZero) +
+  coord_cartesian(
+    xlim = c(-.05, .1), ylim = c(-.05, .1)
+    ) +
+  theme(
+    axis.title.y = element_text(angle = 90, vjust = .5, hjust = 0.5),
+  )
 
 p_compare_rounds = p_task1_vs_task2+p_task2_vs_task3+p_task1_vs_task3
 

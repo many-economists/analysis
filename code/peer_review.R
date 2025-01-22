@@ -100,7 +100,11 @@ p_peer_review_effect_distributions = ggplot(dist_compare, aes(x = Effect, weight
   coord_cartesian(xlim = c(-.05, .15)) + 
   facet_grid(cols = vars(Observed), rows = vars(Round)) + 
   theme_nick() + 
-  labs(caption = 'Viewing range limited to -.05 to .15.', y = 'Density')
+  labs(x = 'Effect (viewing range limited to -.05 to .15.)', y = 'Density') +
+  theme(
+    strip.placement = "outside",            # Keeps strip labels in the correct orientation.
+    axis.title.y = element_text(angle = 90, vjust = 0.5, hjust = 0.5) # Rotates and centers the y-axis label.
+  )
 
 
 # Do you become more like your peer reviewer in effect size? ----
