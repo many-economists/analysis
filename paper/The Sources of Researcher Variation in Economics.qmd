@@ -2982,8 +2982,10 @@ Aside from being skewed towards the United States, the sample largely reflects t
 
 # Results
 
-This section examines the variation in effects and methods across researchers and conditions.
+This section examines the variation in effects, samples, and methods across researchers and conditions.
 We demonstrate that such variation exists and evaluate explanations for it.
+The preregistered hypotheses and analyses are shown in Appendix @sec-preregistration.
+[should we discuss briefly what those hypotheses are here? Alternatively, we should have some discussion of what we will be doing in this section.]
 
 Importantly, the results are based on survey responses provided by researchers regarding their findings and the decisions they made. 
 The project organizers did not cross-check these survey responses against the researchers' actual coding, which means there is no guarantee of consistency between the two.[^except] 
@@ -3659,7 +3661,7 @@ The development of best-practice standards in areas where we currently do not ac
 \renewcommand{\subsection}[1]{\refstepcounter{subsection}%
 \begin{large}\bfseries \thesubsection: #1\end{large}}
 
-# Hypotheses and Analysis Preregistration
+# Hypotheses and Analysis Preregistration {#sec-preregistration}
 
 This Appendix Section shows only the the preregistrated hypotheses and the associated analysis plan.
 Both are edited for clarity.
@@ -3667,24 +3669,20 @@ For the full preregistration, see \url{https://doi.org/10.17605/OSF.IO/CJ9YX}.
 
 ## Hypotheses
 
-In each case, $SD_i$ refers to the standard deviation of effect sizes across replicators reported in the $i$th round of the study. 
+In each case, $SD_i$ refers to the standard deviation of effect sizes across replicators reported in the $i$th round of the study:
 
-Round 1: Initial replication task
+- Round 1: Initial replication task
+- Round 2: Results after peer review and revision
+- Round 3: Second replication task
+- Round 4: Results after second peer review and revision
+- Round 5: Third replication task
+- Round 6: Results after third peer review and revision
 
-Round 2: Results after peer review and revision
-
-Round 3: Second replication task
-
-Round 4: Results after second peer review and revision
-
-Round 5: Third replication task
-
-Round 6: Results after third peer review and revision
-
+Hypotheses:
 
 1. $SD_1$ will be greater than the mean reported standard error of effect sizes, among studies for which a standard error and single effect size can be derived.
 2. $SD_i$ will have a negative linear or quadratic relationship with $i$.
-3. 3a-3e: For $i$ from 1 to 5, $SD_{i+1} < SD_i$.
+3. For $i$ from 1 to 5, $SD_{i+1} < SD_i$.
 4. Respondents assigned to the peer review condition in round $i$ will have a smaller $SD_i$ than respondents not assigned to peer review, where the round $i$ results for anyone who does not submit a revision in round $i$ is their round $i-1$ result.
 5. Respondents assigned to the peer review condition in round $i$ will have a smaller $SD_{i+1}$ than respondents not assigned to peer review.    
 6. a. For a given peer review pair assigned to review each other in round $i$, the difference between their results in round $i$ will be smaller than the difference between their results in round $i-1$.  
