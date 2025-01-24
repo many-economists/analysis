@@ -2490,10 +2490,12 @@ author:
         name: Università Politecnica delle Marche (Marche Polytechnic University)
         department: Department of Agricultural, Food & Environmental Sciences
         address: Via Brecce Bianche 60131 ANCONA, Italy
+editor: source
 format: 
   pdf:
     keep-tex: true
-editor: source
+    cite-method: biblatex
+    pdf-engine: xelatex
 bibliography: References.bib
 number-sections: true
 execute:
@@ -2509,6 +2511,15 @@ include-in-header:
     \usepackage{placeins}
     \usepackage{setspace}
     \doublespacing
+    \usepackage[backend=biber, style=authoryear, citestyle=authoryear]{biblatex}
+    \addbibresource{References.bib}
+    \usepackage{hyperref}
+    \hypersetup{
+      colorlinks=true,
+      linkcolor=blue,
+      citecolor=blue,
+      urlcolor=blue
+    }
 output: 
   rticles::arxiv_article:
     keep_tex: true
@@ -2543,27 +2554,50 @@ colorpal = palette.colors(palette = 'Paired')
 
 # Introduction
 
-[Petroulakis: There is not enough info on the results in the intro. A brief quantification would help sell the point of the paper much better (e.g. the variance falls by X% when removing cleaning discretion). Moreover, the results paragraph is a little too dense, and the result does not jump out as much as it should. Overall, given the very unusual nature of this paper, a bit of handholding of the reader would help a lot in establishing why the reader should care about this paper. Few of the readers will have strong opinions on this (it's no-one's field), so they have to be convinced to care.]
+Skepticism about the validity of empirical results in economics is not new, but has received increasing attention over the last decade with rising concerns about the replicability of results, publication bias, and p-hacking [@leamer1983let; @Brodeur2020].
+Much of the focus so far has been on the relative narrow question of replication, with dismal results: study code and data are not available or do not reproduce the published results [@herbert2021reproducibility] and "policing replications" that test sensitivity of published results are rare [@ankel2023economists].
+Even experimental results are not immune; a high percentage of studies cannot be replicated when tested using new data [@camerer2016evaluating].[^open-replication]
 
-[Petroulakis: I would give a short primer on the literature, over an above a standard lit review, because this is very likely to be the first such paper the reader comes upon. ]
+[^open-replication]: Experiments in social psychology, and psychology more broadly, perform even worse, leading to discussions about an ongoing "replication crisis" [@open2015estimating].
 
-The social and behavioral sciences produce a staggering amount of empirical results. A responsible reader of this literature should wonder how much they can trust a given study, given the potential for errors, fluke results, or intentional manipulation. Furthermore, as any responsible producer of this literature is well aware, even a researcher doing their best to avoid these problems must make hundreds of choices in the process of collecting and cleaning data, planning their estimation, and coding their analysis---in other words, there are numerous "researcher degrees of freedom" [@simmons2011false]. Even if Researcher A's choices stand up to scrutiny from a reviewer or reader, Researcher B---with the same goal, data, and skills---might have reasonably chosen in a different way that would also stand up to scrutiny. If A and B's choices lead to different results, but only one of them performs the study, this is a source of largely arbitrary variation in the collection of published results. Estimates suggest that, at least in one context, this variation might outweigh the population variation we typically consider when estimating standard errors [@holzmeister2023heterogeneity].
 
-This study examines the impact of researcher degrees of freedom on results, and attempts to isolate researcher degrees of freedom at different stages of the research process to try to determine where researcher choice varies most, and where it most strongly influences results. We do this using a "many-analysts" design where multiple researchers attempt the same research task. The task we chose is common across applied econometrics: estimating the causal effect of a policy that is implemented at a specific period of time and affects some people but not others. We look at differences between researchers in the results as well as in their analytic and data cleaning choices.
 
-We expand on a typical many-analysts design by introducing multiple iterations of the task, each time restricting the amount of choice that researchers can make and so reducing researcher degrees of freedom. This allows us to observe the overall amount of variation in estimates between researchers, as is common in many-analysts designs, and also to separately evaluate the influence of choice in research design and in data cleaning, and the impact of peer review.
+, discussions about how much we should trust a given study
+given the potential for errors, fluke results, or intentional manipulation
+
+
+
+The social and behavioral sciences produce a staggering amount of empirical results. 
+A responsible reader of this literature should wonder how much they can trust a given study, given the potential for errors, fluke results, or intentional manipulation. 
+Furthermore, as any responsible producer of this literature is well aware, even a researcher doing their best to avoid these problems must make hundreds of choices in the process of collecting and cleaning data, planning their estimation, and coding their analysis---in other words, there are numerous "researcher degrees of freedom" [@simmons2011false]. 
+Even if Researcher A's choices stand up to scrutiny from a reviewer or reader, Researcher B---with the same goal, data, and skills---might have reasonably chosen in a different way that would also stand up to scrutiny. 
+If A and B's choices lead to different results, but only one of them performs the study, this is a source of largely arbitrary variation in the collection of published results. 
+Estimates suggest that, at least in one context, this variation might outweigh the population variation we typically consider when estimating standard errors [@holzmeister2023heterogeneity].
+
+This study examines the impact of researcher degrees of freedom on results, and attempts to isolate researcher degrees of freedom at different stages of the research process to try to determine where researcher choice varies most, and where it most strongly influences results. 
+We do this using a "many-analysts" design where multiple researchers attempt the same research task with progressively stricter restrictions on their choices. 
+
+
+
+The task we chose is common across applied econometrics: estimating the causal effect of a policy that is implemented at a specific period of time and affects some people but not others. 
+We look at differences between researchers in the results as well as in their analytic and data cleaning choices.
+
+We expand on a typical many-analysts design by introducing multiple iterations of the task, each time restricting the amount of choice that researchers can make and so reducing researcher degrees of freedom. 
+This allows us to observe the overall amount of variation in estimates between researchers, as is common in many-analysts designs, and also to separately evaluate the influence of choice in research design and in data cleaning, and the impact of peer review.
 
 We find meaningful differences in the ways that different researchers approach the same task. Some of these differences come from decisions that would normally receive scrutiny from a reader, like the research design and choice of control variables. Other differences came from sources where researchers choose differently but a reader might not recognize that a consequential decision had been made, such as in the functional form of the control variables or in a number of data cleaning or sample limitation decisions. When we force researchers to use the same research design, results became more similar, especially when that shared design is rigidly adhered to. Researcher agreement increased sharply when pre-cleaned data was provided to researchers, implying that data cleaning decisions are a major source of variation between researchers. Development of more mature and standardized data cleaning procedures, and increased visibility for data cleaning and the sharing of data cleaning code, may have a meaningful impact on the consistency and believability of results in applied microeconomics.
 
-## Previous Work on Research Reliability and Researcher Degrees of Freedom
 
-In economics, suspicion about empirical results is not new [@leamer1983let]. The most recent wave of concern is inspired by discussions, originating in the field of psychology, of the "replication crisis." Studies on the replication crisis show that a high percentage of studies cannot be replicated when tested using new data [@open2015estimating; @camerer2016evaluating], that study code and data are not available or do not reproduce the published results [@herbert2021reproducibility], or that "policing replications" that test sensitivity of published results are rare [@ankel2023economists].
+While this prior replication work takes an existing study as a baseline and asks whether it is robust to re-evaluation in some way, questions about researcher degrees of freedom are not about whether a given study can be challenged, but instead whether a different researcher performing the same study would have done it differently. 
+These two fields may intersect, and some failures to replicate in replication studies could be due to researcher degrees of freedom, where both the original study and the replication made reasonable choices but found different results [@bryan2019replicator]. 
+The difference in framing here is that the replication literature views the differing choices as a challenge to the validity of the original results, while the researcher degrees of freedom framing views both as part of a universe of reasonable results, assuming both analyses are defensible.
 
-While this prior replication work takes an existing study as a baseline and asks whether it is robust to re-evaluation in some way, questions about researcher degrees of freedom are not about whether a given study can be challenged, but instead whether a different researcher performing the same study would have done it differently. These two fields may intersect, and some failures to replicate in replication studies could be due to researcher degrees of freedom, where both the original study and the replication made reasonable choices but found different results [@bryan2019replicator]. The difference in framing here is that the replication literature views the differing choices as a challenge to the validity of the original results, while the researcher degrees of freedom framing views both as part of a universe of reasonable results, assuming both analyses are defensible.
+One way to empirically study researcher degrees of freedom is using a many-analysts design. 
+The many-analysts design, popularized by @silberzahn2018many, gives the same data set to multiple teams of researchers and has them independently try to answer the same research question.[^1] 
+Many-analysts studies have now been carried out in many fields, including microeconomics [@huntington2021influence], finance [@menkveld2021non], religion [@hoogeveen2023many], neuroimaging [@botvinik2020variability], political science [@breznau2021observing], machine learning [@chen2024subjectivity], ecology and evolutionary biology [@gould2023same], psychology [@boehm2018estimating; @bastiaansen2020time; @schweinsberg2021same], and medical informatics [@ostropolets2023reproducible], among others.
 
-One way to empirically study researcher degrees of freedom is using a many-analysts design. The many-analysts design, popularized by @silberzahn2018many, gives the same data set to multiple teams of researchers and has them independently try to answer the same research question.[^1] Many-analysts studies have now been carried out in many fields, including microeconomics [@huntington2021influence], finance [@menkveld2021non], religion [@hoogeveen2023many], neuroimaging [@botvinik2020variability], political science [@breznau2021observing], machine learning [@chen2024subjectivity], ecology and evolutionary biology [@gould2023same], psychology [@boehm2018estimating; @bastiaansen2020time; @schweinsberg2021same], and medical informatics [@ostropolets2023reproducible], among others.
-
-[^1]: See also @Magnus1997 for an early example in applied econometrics. Many-analysts designs are sometimes referred to as "crowdsourced" science.
+[^1]: See also @Magnus1997 for an early example in applied econometrics. 
+Many-analysts designs are sometimes referred to as "crowdsourced" science.
 
 With few exceptions, many-analysts studies find that there *is* meaningful variation in both methods and conclusions across researchers. 
 Furthermore, researcher variation in design and analysis likely outweighs population variation in effects [@holzmeister2023heterogeneity].
@@ -2575,7 +2609,7 @@ For example, variation in the original @silberzahn2018many study may be largely 
 Furthermore, not following standard meta-analytic practice may lead us to overstate variation between researchers by being too sensitive to outlier estimates [@auspurg2023social].
 
 To achieve sufficient power to both show that variation exists *and* explain differences in variation, our goal was to have at least 90 researchers complete all the steps of the project.[^2]
-As we discuss in @#sec-recruitment-attrition, we had 295 qualified researchers sign up, of which 146 finished all tasks.
+As we discuss in @sec-recruitment-attrition, we had 295 qualified researchers sign up, of which 146 finished all tasks.
 Since participation in a many-analysts study takes considerable time and effort, sample sizes are often well below even the aforementioned 90, which may explain why many studies do not attempt to decompose the variation in effects they find between sources. 
 These smaller sample sizes can produce acceptable statistical power for some tests but not others.
 Explaining variation or agreement in effects between researchers generally demands a larger sample than showing the existence of meaningful variation or showing a difference in rates of making a particular research decision. 
@@ -2593,6 +2627,12 @@ In addition, we include a randomized set of peer reviews.
 The goal is to incorporate the mechanisms proposed by the literature and responding to the critique of @auspurg2021has. 
 Researcher characteristics are collected, as well, allowing for exploration of the researcher-characteristics source of researcher variation, although not in a controlled way.
 We do not address the difficulty of the research task as a potential source of researcher variation in this study.
+
+[Petroulakis: There is not enough info on the results in the intro. A brief quantification would help sell the point of the paper much better (e.g. the variance falls by X% when removing cleaning discretion). Moreover, the results paragraph is a little too dense, and the result does not jump out as much as it should. Overall, given the very unusual nature of this paper, a bit of handholding of the reader would help a lot in establishing why the reader should care about this paper. Few of the readers will have strong opinions on this (it's no-one's field), so they have to be convinced to care.]
+
+[Petroulakis: I would give a short primer on the literature, over an above a standard lit review, because this is very likely to be the first such paper the reader comes upon. ]
+
+
 
 # Design
 
