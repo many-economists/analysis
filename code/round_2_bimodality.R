@@ -38,7 +38,7 @@ p_task1_vs_task2 = rvs |>
   geom_smooth(color = 'black', se = FALSE) +
   geom_point() + 
   theme_nick() + 
-  annotate(geom = 'text', x = .075, y = .01,
+  annotate(geom = 'text', x = .025, y = -0.04,
            label = get_cor('Task 1','Task 2'),
            family = 'serif', size = 13/.pt) +
   labs(x = 'Task 1 Effect', y = 'Task 2 Effect',
@@ -60,7 +60,7 @@ p_task2_vs_task3 = rvs |>
   geom_smooth(color = 'black', se = FALSE) +
   geom_point() + 
   theme_nick() + 
-  annotate(geom = 'text', x = .075, y = .01,
+  annotate(geom = 'text', x = .025, y = -0.04,
            label = get_cor('Task 2','Task 3'),
            family = 'serif', size = 13/.pt) +
   labs(x = 'Task 2 Effect', y = 'Task 3 Effect',
@@ -82,7 +82,7 @@ p_task1_vs_task3 = rvs |>
   geom_smooth(color = 'black', se = FALSE) +
   geom_point() + 
   theme_nick() + 
-  annotate(geom = 'text', x = .075, y = .01,
+  annotate(geom = 'text', x = .025, y = -0.04,
            label = get_cor('Task 1','Task 3'),
            family = 'serif', size = 13/.pt) +
   labs(x = 'Task 1 Effect', y = 'Task 3 Effect',

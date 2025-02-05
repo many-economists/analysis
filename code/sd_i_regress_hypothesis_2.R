@@ -145,27 +145,64 @@ results_hypo_2 <- map2(models_linear, map_vars, ~ {
   select(-term) %>%
   # Format numbers
   mutate(
-    estimate = scales::label_scientific(accuracy = 0.001)(estimate),
-    std.error = scales::label_scientific(accuracy = 0.001)(std.error),
-    p.value = scales::pvalue(p.value, accuracy = 0.001)
-  ) %>% 
+    across(c(estimate, std.error, p.value), ~ case_when(
+      abs(.) >= 1e6 ~ format(round(., 0), scientific = FALSE, big.mark = ","),  # Large numbers: rounded, comma-separated
+      abs(.) >= 1 ~ sprintf("%.2f", .),  # Medium numbers: rounded to 2 decimal places
+      TRUE ~ sprintf("%.4f", .)  # Small numbers: up to 4 decimal places
+    ), .names = "formatted_{.col}")
+  ) %>%
+  # Ensure all formatted columns are characters
+  mutate(across(starts_with("formatted_"), as.character)) %>%
+  # Replace old numeric columns with formatted ones
+  select(
+    Variable = variable,
+    Estimate = formatted_estimate,
+    `Std. Error` = formatted_std.error,
+    `P-Value` = formatted_p.value
+  ) %>%
   # Better names for y variables
   mutate(
-    variable = case_when(
-      variable == 'effect_size_diff' ~ 'Effect Size',
-      variable == 'sample_size_diff' ~ 'Sample Size (Total)',
-      variable == 'sample_daca_diff' ~ 'Sample Size (DACA)',
-      variable == 'sample_non_daca_diff' ~ 'Sample Size (Non-DACA)'
+    Variable = case_when(
+      Variable == 'effect_size_diff' ~ 'Effect Size',
+      Variable == 'sample_size_diff' ~ 'Sample Size (Total)',
+      Variable == 'sample_daca_diff' ~ 'Sample Size (DACA)',
+      Variable == 'sample_non_daca_diff' ~ 'Sample Size (Non-DACA)',
+      TRUE ~ Variable
     )
-  ) %>%
-  # Rename Columns
-  rename(
-    'Variable' = variable,
-    'Estimate' = estimate,
-    'Std. Error' = std.error,
-    'P-Value' = p.value
-  )  
-  
+  )
+
+
+# # Original version with scientific notation for all but p-values
+# results_hypo_2 <- map2(models_linear, map_vars, ~ {
+#   broom::tidy(.x) %>%
+#     mutate(variable = .y) # Add variable name for identification
+# }) %>% 
+#   bind_rows() %>% 
+#   select(variable, term, estimate, std.error, p.value) %>% 
+#   filter(term == 'round_number') %>%
+#   select(-term) %>%
+# mutate(
+#   # estimate = scales::label_scientific(accuracy = 0.001)(estimate),
+#   # std.error = scales::label_scientific(accuracy = 0.001)(std.error),
+#   p.value = scales::pvalue(p.value, accuracy = 0.001)
+#   ) %>% 
+#   # Better names for y variables
+#   mutate(
+#     variable = case_when(
+#       variable == 'effect_size_diff' ~ 'Effect Size',
+#       variable == 'sample_size_diff' ~ 'Sample Size (Total)',
+#       variable == 'sample_daca_diff' ~ 'Sample Size (DACA)',
+#       variable == 'sample_non_daca_diff' ~ 'Sample Size (Non-DACA)'
+#     )
+#   ) %>%
+#   # Rename Columns
+#   rename(
+#     'Variable' = variable,
+#     'Estimate' = estimate,
+#     'Std. Error' = std.error,
+#     'P-Value' = p.value
+#   )  
+#   
   
   
 
