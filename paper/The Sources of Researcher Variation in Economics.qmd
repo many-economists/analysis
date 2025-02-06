@@ -2706,40 +2706,27 @@ Data processing and analysis as well as table and figure creation for this paper
 [^r-packages]: We used the following R packages **data.table**, **tidyverse**, **rio**, **fixest**, **car**, **modelsummary**, and **vtable** [@R-data-table; @tidyverse2019; @R-rio; @fixest2018; @car2019; @modelsummary2022; @R-vtable]. 
 
 
-# Data
+# Recruitment and Descriptive Statistics {#sec-recruitment-descriptive}
 
-
-In a many-analysts study, researchers who carry out the research task make up both the bulk of the author list and are the subject of inquiry, so their recruitment is a key feature of the study.
-
-## Researcher Qualifications
-
-The goal of the project organizers was to make the set of researchers representative of the set of people who produce the applied microeconomics literature. As such, recruitment criteria focused on identifying people who have produced applied microeconomic research, including potentially non-academic applied microeconomics research.
-
-A given researcher was qualified for the project if they satisfied any one of the following criteria:
-
--   They are academic faculty working in applied microeconomics.
-
--   They are a graduate student **and** have a published or forthcoming paper in applied microeconomics.
-
--   They hold a PhD **and** work in a job where they write non-academic reports using tools from applied microeconomics to estimate causal effects.[^10]
+In a many-analysts study, researchers who carry out the research task are the subject of inquiry, so their recruitment is a key feature of the study.
+The goal of the project organizers was to make the set of researchers representative of those who produce the applied microeconomics literature. 
+As such, recruitment criteria focused on identifying people who have produced applied microeconomic research, including non-academic applied microeconomics research.
+Researchers qualified for the project if they satisfied any of the following criteria: they are academic faculty working in applied microeconomics; they are a graduate student *and* have a published or forthcoming paper in applied microeconomics; or they hold a PhD *and* work in a job where they write non-academic reports using tools from applied microeconomics to estimate causal effects.[^10]
+Participation was not limited on the basis of country, career stage, or demographics such as sex, race, or sexual or gender identity.
 
 [^10]: This qualification allow those employed in, for example, central banks, the World Bank, and private sector research, to participate.
 
-Participation was not limited on the basis of country, career stage, or demographics such as sex, race, or sexual or gender identity.
+For our simulation-based power analysis, we assumed that each research task would have 5% smaller between-researcher variation in effects than the previous round and determined the statistical power needed to detect a linear relationship between task number and the squared deviation of effects (variance of estimated effects across researchers). 
+With 90 researchers finishing all tasks, we would have 90% power to detect this effect. 
+For comparisons of only two different research tasks, 90 researchers would give 85% power to detect a decline in variance from one stage to the next of 15% or more, a reasonable effect size given previous many-analyst studies.
+We further assumed that attrition rates would be roughly 50%, which would suggest recruiting 180 eligible researchers to achieve adequate power. 
+We revised that goal to 200 to account for our assumptions potentially being optimistic and obtained funding to support payments to 200 researchers.
 
-## Target Sample Size {#sec-target-sample}
-
-An initial simulation-based power analysis assumed that each research task would have 5% less between-researcher variation in observed effects than the previous round and looked at the statisical power to detect a linear relationship between round number and the squared deviation of effects (variance of estimated effects across researchers). We found that we had 90% power to detect this effect if 90 researchers finished all tasks. We also found that, for comparisons of only two different research tasks, 90 researchers would give 85% power to detect a decline in variance from one stage to the next of 15% or more, a reasonable effect size given previous many-analyst studies.
-
-We further assumed that attrition rates would be roughly 50%, which would suggest recruiting 180 eligible researchers to achieve adequate power. We revised that goal to 200 to account for our assumptions potentially being optimistic. Project organizers obtained funding to support payments to 200 researchers (see below).
-
-## Recruitment and Incentives
-
-Recruitment was advertised to potential researchers through three avenues: (1) social media posts on Twitter and LinkedIn, (2) emails to professional organizations including the Institute for Replication and the Committee on the Status of Women in the Economics Profession, and (3) emails to United States economics department chairs. For emails to departments heads, we gathered the list of all 286 economics departments listed in the U.S. News and World Report. We could locate email addresses for a front desk or (preferably) department chair for 264 of those departments. We emailed those 264 departments, asking for the message to be passed on to all faculty or just all microeconomics faculty.
-
-The recruitment message described the project and its goals, and provided a link to a website that included further detail on project expectations and incentives for participation.[^11] Researchers were told that if they completed all three tasks of the project, they would be offered a \$2,000 payment for up to 200 of the participants, and authorship on the eventual paper. The website included a link to a survey that asked questions related to eligibility for the project.
-
-[^11]: <https://nickch-k.github.io/ManyEconomists/>
+The project was advertised to potential researchers through three avenues: (1) social media posts on Twitter and LinkedIn, (2) emails to professional organizations, and (3) emails to United States economics department chairs. 
+For emails to departments heads, we gathered the list of all 286 economics departments listed in the U.S. News and World Report. 
+We emailed the 264 departments for which we could locate email addresses for a front desk or (preferably) department chair, asking for the message to be passed on to all relevant faculty.
+The recruitment message described the project and its goals, and provided a link to a website (<https://nickch-k.github.io/ManyEconomists/>) with further detail on project expectations and incentives for participation and a link to a survey to determine eligibility for the project.
+As incentives for participation we offered, upon completion of all three tasks, a \$2,000 payment for up to 200 of the participants and authorship on the eventual paper.
 
 ## Participation and Attrition
 
@@ -2747,8 +2734,13 @@ The recruitment message described the project and its goals, and provided a link
 source('../code/participation_and_attrition.R')
 ```
 
-Overall participation and attrition values are in Table \ref{tbl-attrition}. `r justcount[1,Participants]` people submitted applications for the project with `r justcount[1, Attrition]` of these found to be ineligible for the project. 
-Most ineligible people were graduate students who did not yet have a forthcoming paper.
+A total of `r justcount[1,Participants]` people submitted applications for the project (Table \ref{tbl-attrition} shows the participation and attrition).
+Of those, `r justcount[1, Attrition]` were ineligible for the project, with most ineligible people graduate students without a forthcoming paper.
+This left `r justcount[2,Participants]` eligible participants, which was in excess of the 200 the available budget allowed for. 
+We, therefore, randomly listed the 282 participants who had signed up by the original due date, and added the 13 late signups at the end of this list.
+The first 200 on the list were told that they would be paid if they completed all stages of the project, but were not told their order.
+Everyone with a number above 200 were given their place in the list, and informed that they would be paid if they completed all stages of the project and sufficient numbers of those below them did not complete all steps.
+For example, if someone was number 206, payment was conditional on at least six participants with a lower number did not complete all steps.
 
 ```{r Attrition Table}
 justcount |> 
@@ -2760,18 +2752,12 @@ justcount |>
   column_spec(1:3, latex_column_spec = "lrr")
 ```
 
-This left `r justcount[2,Participants]` eligible participants, which was in excess of the 200 the available budget allowed for. 
-We, therefore, randomly listed the 282 participants who had signed up by the original due date, and added the 13 late signups at the end of this list.
-The first 200 on the list were told that they would be paid if they completed all stages of the project, but were not told their order.
-Everyone with a number above 200 were given their place in the list, and informed that they would be paid if they completed all stages of the project and sufficient numbers of those below them did not complete all steps.
-For example, if someone was number 206, payment was conditional on at least six participants with a lower number did not complete all steps.
-
-Initial assumptions from the power analysis that attrition rates would be near 50% were almost exactly correct, with `r percent(justcount[5,Participants]/justcount[2,Participants],.01)` of these initial `r justcount[2,Participants]` eligible researchers completing all three stages.
-Hence, we were able to pay all participants who completed all steps.
-
+Our initial assumptions that attrition rates would be near 50% were almost exactly correct, with `r percent(justcount[5,Participants]/justcount[2,Participants],.01)` of these initial `r justcount[2,Participants]` eligible researchers completing all three stages.
 Nearly all of the attrition occurred by the completion of Task 1. 
 After `r justcount[2,Participants]-justcount[3,Participants]` eligible researchers failed to complete Task 1, only a further `r justcount[3,Participants]-justcount[5,Participants]` failed to complete Task 3. 
-This means we have `r justcount[5,Participants]` researchers who completed all three research tasks, well above the goal of 90.
+This means we have `r justcount[5,Participants]` researchers who completed all three research tasks, well above the goal of 90, and that we were able to pay all participants who completed all steps.
+
+[Next two paragraphs not edited; waiting for new results from Nick; potentially drop or move to Appendix given that we were able to pay everyone]
 
 The high recruitment numbers and the fact that nearly all attrition occurs before Task 1 is complete allows us to evaluate the impact of the payment incentive.[^decline-pay] 
 One potential concern with our incentive design is that payment and authorship are offered to anyone who completes all tasks, regardless of the quality of their work. 
@@ -2781,7 +2767,11 @@ Someone randomly assigned to position 199 in the ordering is guaranteed payment 
 [^decline-pay]: Seven researchers indicated that they did not want payment on their consent form.
 Of those, three finished the project, while the other four did not. 
 
-We do not find that completion rates are significantly lower just above the cutoff relative to just below it. Appendix @fig-rdd and Table \ref{tab-rdd-reg} show that immediately above the cutoff, completion rates are no different, although they drop as researchers get further from the cutoff before becoming higher again. Regression discontinuity effect estimates vary. Using either a local-polynomial regression with a triangular kernel bandwidth or an OLS regression discontinuity estimate with a quadratic specification and the full range of the data (not including late signups) show meaningfully large effects of being above the cutoff of -.2 on completion rates, but this is very noisy and statistically insignificant. Using a linear specification, linear regression, and the full range of the data instead to maximize statistical power shows an insignificant and small result of .01.[^13] This is not strong evidence that participants were simply signing up in an attempt to get a \$2,000 payment for little effort.
+We do not find that completion rates are significantly lower just above the cutoff relative to just below it. 
+Appendix @fig-rdd and Table \ref{tab-rdd-reg} show that immediately above the cutoff, completion rates are no different, although they drop as researchers get further from the cutoff before becoming higher again. 
+Regression discontinuity effect estimates vary. Using either a local-polynomial regression with a triangular kernel bandwidth or an OLS regression discontinuity estimate with a quadratic specification and the full range of the data (not including late signups) show meaningfully large effects of being above the cutoff of -.2 on completion rates, but this is very noisy and statistically insignificant. 
+Using a linear specification, linear regression, and the full range of the data instead to maximize statistical power shows an insignificant and small result of .01.[^13] 
+This is not strong evidence that participants were simply signing up in an attempt to get a \$2,000 payment for little effort.
 
 [^13]: Use of the full range, rather than a bandwidth, is justified given that the running variable is randomly assigned aside from the late sign-ups. We also find no effect if we drop the late sign-ups from the regression discontinuity analysis.
 
@@ -2789,8 +2779,7 @@ We do not find that completion rates are significantly lower just above the cuto
 
 Tables \ref{tab-samp1} and \ref{tab-samp2} show the characteristics of the recruited sample, and how those characteristics changed with eligibility and attrition. 
 Task 2 is omitted as an attrition stage since so few people dropped out between Task 1 and Task 2.
-
-Table \ref{tab-samp1} shows that the majority of researchers were recruited via social media, and also that those recruited from social media were more likely to finish all three tasks. Upon signup, researchers were about 90% confident of their ability to finish all three tasks. More-confident researchers were slightly more likely to actually finish, and average confidence rates of those who did finish were about 92% instead of 90%.
+One researcher completed all three research tasks, and appears in the above tables, but their work has been removed from the results in the rest of the paper, because a misunderstanding of the instructions meant that their work did not attempt to estimate the effect of DACA on the probability of employment.
 
 ```{r Reseacher Recruitment Table}
 # Generate the summary data frame
@@ -2828,17 +2817,6 @@ table_2 |>
     threeparttable = TRUE
   )
 ```
-
-The top panel of Table \ref{tab-samp2} shows the professional experience of enrollees. 
-While graduate students were considered eligible for the project as long as they had a published or forthcoming paper, the majority of eligible researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q10 %in% c('PhD','Prof. Degree')),1)]`) had PhDs. 
-PhD holders were also more likely than other eligible researchers to complete all three tasks.[^14]
-
-[^14]: We also checked the programming languages used by researchers in the work they submitted. 
-The most common language was Stata, with 109 researchers performing their work solely in Stata. 33 used R, and one researcher used both R and Stata. Less common were Python and SPSS, with one researcher each.
-
-These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Faculty')),1)]`) and other non-faculty researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Other Researcher')),1)]`), both of which were more likely than graduate students to finish all three rounds. Most of the researchers had at least one published paper.[^15] About a third of initial researchers, and 40% of the final set of researchers, had done work in either immigration or labor economics, the fields closest to the research task at hand, with 5% having done work in both, although all researchers had done work in applied microeconomics generally.
-
-[^15]: Researchers in the "faculty" or "non-faculty researchers" categories who do not hold PhDs were either people who had been hired to faculty roles without holding PhDs (such as ABDs, or people in a faculty position requiring only a Master's degree), or people with Master's degrees in non-faculty research positions who had published academic papers (some of whom were still graduate students). Researchers with "No Academic Papers" are non-academic researchers who produce work not intended for academic journal publication. Those with "No Published Academic Papers" have papers that are forthcoming, or are faculty who only have working papers and no publications.
 
 ```{r Researcher Professional Experience Table}
 linesep<-function(x,y=character()){
@@ -2899,11 +2877,28 @@ table_3 |>
 
 ```
 
-The bottom panel of Table \ref{tab-samp2} shows the demographics of the researcher sample. 
+The majority of researchers were recruited via social media.
+Upon signup, researchers were about 90% confident of their ability to finish all three tasks. 
+Those recruited from social media reported a higher expectation of finishing all three tasks. 
+More-confident researchers were slightly more likely to actually finish with the average confidence rates of those who did finish about 92%.
+
+The majority of eligible researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q10 %in% c('PhD','Prof. Degree')),1)]`) had PhDs. 
+PhD holders were also more likely than other eligible researchers to complete all three tasks.
+These PhDs are split across faculty (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Faculty')),1)]`) and other non-faculty researchers (`r alldemog[Round == 'Assigned task 1',percent(mean(Researcher_Q6 %in% c('Other Researcher')),1)]`), both of which were more likely than graduate students to finish all three rounds. 
+Most of the researchers had at least one published paper.[^15] 
+About a third of initial researchers, and 40% of the final set of researchers, had done work in either immigration or labor economics, the fields closest to the research task at hand, with 5% having done work in both, although all researchers had done work in applied microeconomics generally.
+
+[^15]: Researchers in the "faculty" or "non-faculty researchers" categories who do not hold PhDs were either people who had been hired to faculty roles without holding PhDs (such as ABDs, or people in a faculty position requiring only a Master's degree), or people with Master's degrees in non-faculty research positions who had published academic papers (some of whom were still graduate students). 
+Researchers with "No Academic Papers" are non-academic researchers who produce work not intended for academic journal publication. 
+Those with "No Published Academic Papers" have papers that are forthcoming, or are faculty who only have working papers and no publications.
+
 The original enrollment was just under 80% male and more than 55% white, with the white share growing to 66% by the end of Task 3. 
 The 80% male figure is similar to the share male found for faculty at a selected set of top economics departments in 2017 by @lundberg2019women, and among all actively publishing economists in 2019 by @card2022gender. 
 About half of the sample was situated in the United States, and about half was from another country. 
 The representativeness of the racial mixture is difficult to assess for this reason; 66% white would be low if the entire sample were from the United States [@stansbury2023economics], but it is unclear what the population rate is in a 50% US/50% other location sample.
+Aside from being skewed towards the United States, the sample largely reflects the group of people who publish work in applied microeconomics. 
+The US overrepresentation is likely driven by the emails sent to US economics departments, that the project was advertised and carried out in English, and that the project organizers are in the United States and advertised the project using their own social media.
+
 
 ```{r Researcher Demographics Table}
 # table_4 <- sumtable(alldemog, 
@@ -2962,10 +2957,6 @@ The representativeness of the racial mixture is difficult to assess for this rea
 #          anchor = 'tab-samp4')
 
 ```
-
-One researcher did complete all three research tasks, and appears in the above tables, but their work has been removed from the results that follow in the rest of the paper, because a misunderstanding of the instructions meant that their work did not attempt to estimate the effect of DACA on the probability of employment.
-
-Aside from being skewed towards the United States, the sample largely reflects the group of people who publish work in applied microeconomics. The US overrepresentation is partially driven by the emails sent to US economics departments, the fact that the project was advertised and carried out in English, and the fact that the project organizers are in the United States and advertised the project using their own social media.
 
 # Results {#sec-results}
 
