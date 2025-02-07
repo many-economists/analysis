@@ -2775,7 +2775,7 @@ This is not strong evidence that participants were simply signing up in an attem
 
 [^13]: Use of the full range, rather than a bandwidth, is justified given that the running variable is randomly assigned aside from the late sign-ups. We also find no effect if we drop the late sign-ups from the regression discontinuity analysis.
 
-## Sample Characteristics {#sec-sample-characteristics}
+## Researcher Characteristics {#sec-researcher-characteristics}
 
 Tables \ref{tab-samp1} and \ref{tab-samp2} show the characteristics of the recruited sample, and how those characteristics changed with eligibility and attrition. 
 Task 2 is omitted as an attrition stage since so few people dropped out between Task 1 and Task 2.
@@ -2967,12 +2967,21 @@ The preregistered hypotheses and analyses are shown in Appendix @sec-preregistra
 
 Importantly, the results are based on survey responses provided by researchers regarding their findings and the decisions they made. 
 The project organizers did not cross-check these survey responses against the researchers' actual coding, which means there is no guarantee of consistency between the two.[^except] 
-Therefore, the variation presented here reflects how researchers would plan to conduct the research task independently and what readers might find in the published descriptions of their studies. 
+Therefore, the variation presented here reflects what readers might find in the published descriptions of studies. 
 Any discrepancies that arise from coding errors or misrepresentations in research reports will not be addressed here but could be the focus of future investigations.
 
 [^except]: The exception is a small number of cases where the survey response could not be interpreted.
 
-## Variation in Effects and Sample Sizes {#sec-variation}
+The distribution of estimated effects, reported standard errors, and the size of the sample used, both overall and for the treated group are in Table \ref{tab-effectdist}. 
+The effect distributions are shown in two ways: unweighted and using inverse-standard-error weights.[^16] 
+Several data points are dropped from the weighted analysis for researchers who did not report standard errors or reported zero. 
+Other missing values are researchers who did not repond to a given question.
+The lower number of responses for the treated-group sample size question in Task 3 is due to researchers who skipped it because they assumed the answer was obvious.
+
+[^16]: The use of inverse-standard-error weights is not preregistered but follows meta-analytic standards, reducing the influence of estimates that may be outliers due to being estimated with a highly-noisy method, under the suggestion of @auspurg2023social. 
+Weights are truncated at the 95th percentile (200, or a standard error of .005) so as to avoid any single researcher having too much influence on results. 
+Not using the truncation leads to more agreement because a few researchers with very small standard errors make up a significant share of the weighted sample.
+
 
 ```{r Main Scripts}
 # Ensure the proper analytic sample for all following code
@@ -3008,24 +3017,6 @@ source('../code/peer_review_sample_size.R')
 # export(spot_checks, 'spot_checks_no_revisions.xlsx')
 ```
 
-@fig-effect-distributions and Table \ref{tab-effectdist} show the distribution of estimated effects across all researchers. 
-The effect distributions are shown in two ways: unweighted and using inverse-standard-error weights.[^16] 
-Several data points are dropped from the weighted analysis for researchers who did not report standard errors or reported 0. 
-Other missing values are researchers who did not repond to a given question.
-The lower number of responses for the treated-group sample size question in Task 3 is due to researchers who skipped it because they assumed the answer was obvious.
-
-[^16]: The use of inverse-standard-error weights is not preregistered but follows meta-analytic standards, reducing the influence of estimates that may be outliers due to being estimated with a highly-noisy method, under the suggestion of @auspurg2023social. 
-Weights are truncated at the 95th percentile (200, or a standard error of .005) so as to avoid any single researcher having too much influence on results. 
-Not using the truncation leads to more agreement because a few researchers with very small standard errors make up a significant share of the weighted sample.
-
-```{r Distribution of Reported Effect Sizes Figure}
-#| fig-width: 8
-#| fig-height: 8
-#| label: fig-effect-distributions
-#| fig-cap: Distributions of Reported Effect Sizes by Task With the Weighted Distributions Using Inverse-Standard-Error Weights
-p_effect_distribution_task_on_y_axis
-```
-
 ```{r Distribution of Reported Effects and Samples Sizes Table}
 effect_sum_tab |>
   # remove 1st, 7th, and 13th rows
@@ -3048,56 +3039,66 @@ effect_sum_tab |>
 ```
 
 
-In Task 1, the mean estimated effect of DACA eligibility on the probability of working full-time was .053 unweighted or .044 weighted. 
-In both cases these means are pulled upwards by high top-end estimates and are above the 75th percentiles. 
-Median estimates were .030 unweighted or .026 weighted. 
-Even in Task 1, with a large amount of freedom afforded, researchers found a reasonable amount of agreement in the effect sizes outside of the tails, with the 25th to 75th percentile ranges of the effect being .014 to .051 unweighted, an inter-quartile range (IQR) of .037, or 3.7 percentage points in the effect, or .012 to .043 weighted, an IQR of .031. 
-The use of weights narrows the distribution of effects: researchers reporting smaller standard errors also reported estimates that were more similar to each other, which was also the case in Tasks 2 and 3.
+## Variation Across Researchers {#sec-variation}
 
-```{r Hypothesis 2 Table}
-results_hypo_2 |> 
-  kable(
-    booktabs = TRUE,
-    caption = 'Squared Difference to Round Mean\\linebreak against Round number\\label{hypothesis-2}',
-    format = 'latex'
-    ) |>
-  column_spec(1:4, latex_column_spec = "lrrr")
+The average effects are relatively similar across the three Tasks, but there is a particularly strong increase in researcher agreement measured by the inter-quartile range (IQR) when we provided pre-cleaned data in Tasks 3.
+In Task 1, the mean unweighted estimated effect of DACA eligibility on the probability of working full-time was .053, which was above the 75th percentile because of high top-end estimates, with the unweighted median estimate .030. 
+However, even with substantial researcher freedom, there was a reasonable amount of agreement outside the tails.
+The 25th to 75th percentile range of the unweighted effect was .014 to .051, an IQR of .037, or 3.7 percentage points in the effect.[^weights]
+Task 2 shows less agreement than Task 1, despite giving researchers less freedom, with the unweighted IQRs increasing to .043 and the coefficient of variation (CV) increasing from 1.7 to 2.3. 
+For Task 3, agreement increases between researchers, with the 25th and 75th percentile unweighted effects .031 and .058 (IQR .027 with a median of 0.05), although the CV only declines from 2.3 to 2.2. 
+Hence, from Round 1 to Round 3 we see considerable increases in agreement between researchers, although there are still substantial outliers.
+
+[^weights]: The use of weights narrows the distribution of effects across all tasks: researchers reporting smaller standard errors also reported estimates that were more similar to each other.
+
+The changes in sample and treated-group sizes across tasks reflect, to a large extent, the same pattern as for effect size.
+For tasks 1, the 25th and 75th sample size percentiles ranged from 61,600 to 356,787, with some researchers using millions of observations.
+In the absence of a specified control group, some researchers appear to have used the entire ACS sample, including people very unlike the DACA-eligible group.
+Opposite the effect size, the IQR did reduce considerably in Task 2, where the instructions specified a treated and comparison group, although the 75th percentile (48,125) is still double the 25th (18,981) and some researchers still used millions of observations, resulting in an increase in the CV from 3.7 in Tasks 1 to 6.8. 
+
+The imposition of a shared definition for the treated group reduced the treated-group IQR from 34,631 in Taks 1 to 9,879 in Task 2. 
+Theoretically, since there was a shared definition of the treated group in Task 2, variation in the treated-group should be similar in Tasks 2 and 3.[^treated-variation]
+That they are not indicates that not all instructions were implemented in the same way across researchers, which will be explored further in @sec-sample-limitations. 
+Despite a shared understanding of who was eligible for DACA and who should be in the treated group, only a shared data preparation that implemented these rules for people led to sharp agreement in the size of the treated-groups sample.
+
+[^treated-variation]: Variation in the treated-group size is affected by researcher confusion in responding to the survey question. 
+The survey question instructed researchers to not count individuals eligible for DACA as treated for the purposes of this question if they were in a pre-DACA year. 
+However, many researchers counted these individuals as treated anyway, leading to variation in the Task 3 distribution, even though every researcher is at this point working with the same eligibility indicator.
+
+With the conflicting changes between the first two tasks and the substantial number of outliers in both effect and sample sizes, @fig-effect-distributions and @fig-sample-size-distributions show the distributions of effects and sample sizes, respectively, across the three tasks.[^task-3]
+For Task 2, both the the effect and sample sizes distributions are somewhat bimodal; for the effect size especially when weighted. 
+One of these modes appears to be researchers reporting effect estimates and sample size of a similar level to those in Task 1, and others reporting effect estimates similar to what would later be found in Task 3.
+The bimodality is still present in Tasks 3, but with much more agreement and density at the higher mode. 
+The decline in agreement and the bimodal result for Task 2 will be investigated further in @sec-bimodal.
+
+[^task-3]: Note that for the sample sizes, the x-axes are on a log scale and that Task 3 is not shown in the graph because the sample is pre-specified. 
+
+```{r Distribution of Reported Effect Sizes Figure}
+#| fig-width: 8
+#| fig-height: 8
+#| label: fig-effect-distributions
+#| fig-cap: Distributions of Reported Effect Sizes by Task With the Weighted Distributions Using Inverse-Standard-Error Weights
+p_effect_distribution_task_on_y_axis
 ```
 
-[This probably does not go here]
-Table \ref{hypothesis-2} shows the squared differences to the mean effect in each round regressed against the round number for the effect size and the three 
-samples sizes, total, DACA eligible and Non-DACA eligible.
-The squared difference to the round mean provides us with a measure of the variance in effect size and samples sizes across researchers.
-None of the coefficient on round number are statistically significant, although the coefficients for sample sizes are negative as expected.
+```{r Combined Sample size figures}
+#| label: fig-sample-size-distributions
+#| fig-cap: Distributions of Reported Sample Sizes and Treated-Group Sizes
+#| fig-width: 8
+#| fig-height: 8
+(p_sample_size_distributions + ggtitle("(a) Distributions of Reported Sample Sizes")) /
+(p_treated_group_sample_size + ggtitle("(b) Distributions of Reported Treated-Group Sizes"))
+```
 
-
-Our preregistration plan details that we planned to give descriptive characteristics of the results, as we do here, and also implement a Levene test on whether the variance between researchers declined. 
-We do not reject at the 95% level the null of no change in variance from any stage to any later stage (including a comparison of each task to its revision stage, and comparing each main task to later main tasks), with the lowest p-value of `r number(levene_test_results$pval[1],.001)` coming from the comparison of `r levene_test_results$TaskA[1]` to `r levene_test_results$TaskB[1]`.
-
-Task 2 shows less agreement than Task 1, despite giving researchers less freedom, with the IQRs increasing to .043 unweighted or .040 weighted. 
-Further, the effect distributions are somewhat bimodal, especially when weighted. 
-One of these modes appears to be researchers reporting effect estimates of a similar level to those in Task 1, and others reporting effect estimates similar to what would later be found in Task 3.
-None of these changes appear to be related to the review process as discussed below.
-
-Moving all the way to Task 3, agreement considerably increases between researchers. 
-The 25th and 75th percentile effects are .031 and .058 unweighted (IQR .027), and .036 and .060 weighted (IQR .024). 
-The bimodality from Task 2 is still there, but with much more agreement and density at the higher mode. 
-From Round 1 to Round 3 we see considerable increases in agreement between researchers.
-
-Taking only the effect distributions as a baseline, we see that, at least in this application, researchers in general report fairly similar, although certainly not identical, effect estimates on average, but there are some extreme outlier estimates as well. 
-We may also take this to mean that providing pre-cleaned data, as in Task 3, led to a strong increase in researcher agreement. 
-Specifying further the research question and design, however, as in Task 2, led to somewhat less agreement. 
-The odd result for Task 2 and its proper interpretation will be investigated further in @sec-bimodal.
-
-Reported standard errors increase substantially from round to round despite relatively minor changes in average effects, as shown in Table \ref{tab-effectdist}.
-This increase was driven primarily by the research design specification, which considerably narrowed the samples used.
-The median sample size in Round 3 is one-tenth of the median in Round 1.
-
-Across rounds, there is increasing clustering of effect sizes but fewer statistically significant effects as can seen in @fig-full-effect-distribution.
-The figure shows the reported effect sizes ranked from smallest to largest for each round, together with the calculated confidence intervals for each effect size based on the reported standard error.
-The distribution of effects narrows across rounds as shown by the flatter specification curve, but confidence intervals increase considerably across rounds.
+Reported standard errors increase substantially from round to round despite relatively minor changes in average effects, which was driven primarily by the research design specification considerably narrowing the samples used.[^nick-ratios]
+@fig-full-effect-distribution shows the reported effect sizes ranked from smallest to largest for each round, together with the calculated confidence intervals for each effect size based on the reported standard error.
+The distribution of effects narrows across rounds as shown by the flatter specification curve, but confidence intervals increase considerably across rounds and there are fewer statistically significant effects.
 Throughout, while there is general agreement on effect size in the middle of the distribution, researchers vary in whether the reported effect is statistically significant, with `r viol[Round == 'Task 1' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]`, `r viol[Round == 'Task 2' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]`, and `r viol[Round == 'Task 3' & Type == 'Weighted', percent(mean(sig, na.rm = TRUE))]` reporting results that were statistically significantly different from 0 in Tasks 1, 2, and 3, respectively.
 Those effects that are away from the modal effects are substantially more likely to have very large confidence intervals in Tasks 2 and 3, while there are relatively few studies with very large confidence intervals in Task 1.
+
+[^nick-ratios]: Comparing average standard errors to the variation in reported effects, as in @huntington2021influence and @Menkveld2024, suggests that reported standard errors alone substantially understate total uncertainty.
+However, the ratios decline across tasks partly because smaller shared samples in later rounds inflate the standard errors (increasing the denominator).
+Hence, more generally, because researcher variation need not scale in parallel with standard errors, using these ratios to capture researcher-induced uncertainty can be misleading. 
 
 ```{r Specification Curve for All Reported Estimates Figure}
 #| fig-width: 8
@@ -3119,226 +3120,16 @@ Only between Tasks 1 and 2 is there a statistically significant correlation, and
 p_compare_rounds
 ```
 
-We can compare average standard errors against the variation in effects between researchers to get a sense of how much effect variability is omitted by only considering a reported standard error, as in @huntington2021influence or @Menkveld2024. 
-Comparing the standard deviation of weighted effects against the average standard error gives ratios of 4.84, 2.23, and 1.75 for Tasks 1, 2, and 3, respectively. 
-@huntington2021influence used a single round and allowed full researcher freedom, and found a range of 3-4 for this ratio, below what we find for the full-freedom Task 1. 
-If we instead compare weighted IQR to average standard errors we get ratios of 1.63, 1.29, and .41. 
-The decrease over rounds is partially driven by increasing agreement over rounds, which suggest that a reported standard error considerably understates the estimate uncertainty that we should acknowledge when including researcher variation. 
-However, these reductions are also driven by the fact that sample sizes decreased from round to round, due to the shared research design instructing researchers to use a more restricted sample than many used in Task 1. 
-These reduced sample sizes increased the reported standard errors and thus the denominator of the effect-variation-to-average-standard-error ratio.
-This behavior demonstrates a flaw with these ratios, introduced in @huntington2021influence, as a metric for researcher-indused uncertainty. 
-Even if one might expect that researcher variation should be higher for research designs with smaller samples (or less precision for some other fundamental reason), there's no reason to believe that researcher variation would scale at the same rate as the standard error. 
-So this ratio will tend to be higher for research tasks with bigger samples than smaller samples, even if the level of researcher variation is the same.
+In addition to the preregistered descriptive analysis above, we preregistered a set of tests on effect and sample sizes.
+For effect size, we do not reject any of the preregistered Levene tests for the variation at the 95% level, where the null hypothesis is no change in variance from any stage to any later stage (including a comparison of each task to its revision stage, and comparing each main task to later main tasks). 
+The lowest p-value of `r number(levene_test_results$pval[1],.001)` comes from the comparison of `r levene_test_results$TaskA[1]` to `r levene_test_results$TaskB[1]`.
+We do, however, reject the null hypothesis of equal variance across Task 1 and Task 2 at the 0.05 level for the sample size variance, consistent with the expected reduction when we specify the treated and comparison groups.
 
-Table \ref{tab-effectdist} also shows summary statistics for reported standard errors, both overall and for the treated group. These distributions are also shown in @fig-sample-size-distributions and @fig-treated-group-distributions.
-
-In @fig-sample-size-distributions we see substantial variation in the reported sample size used in Task 1, noting that the x-axis is on a log scale.[^task-3]
-The 25th and 75th percentiles of reported sample sizes ranging from 61,600 to 356,787, with some researchers using millions of observations.[^17] 
-For Task 2, which specified in the instructions the treated and comparison groups to use, variation reduces considerably, although the 75th percentile (48,125) is still double the 25th (18,981), and there are still some researchers using millions of observations.
-Consistent with the reduction when we specify the treated and comparison groups, a Levene test on the variance in sample size rejects the null hypothesis of equal variance across Task 1 and Task 2 at the 0.05 level.
-
-[^task-3]: Task 3 is not shown in the graph because the sample is pre-specified, with the only meaningful variation being whether or not the researcher dropped three rows of data with missing education values, and a few outliers reporting lower numbers. 
-
-[^17]: Keep in mind that for Task 1, there was not a specified control group, so a researcher may decide to use the entire ACS sample in the analysis, including people very unlike the eligible group in the sample. In Task 2, the instructions specified a treated and comparison group, but some researchers may have different samples than in Task 3 either due to error, or because they included people other than the treated and comparison group in their sample to improve precision, and used their model to compare those groups more directly.
-
-```{r Sample Size Distributions Figure}
-#| label: fig-sample-size-distributions
-#| fig-cap: Distributions of Reported Sample Sizes
-#| fig-width: 8
-#| fig-height: 4
-p_sample_size_distributions
-```
-
-Variation in the reported size of the treated group in @fig-treated-group-distributions is affected somewhat by researcher confusion in responding to the survey question. The survey question about treated-group size instructed researchers not to count individuals eligible for DACA as treated for the purposes of this question if they were in a pre-DACA year. However, many researchers counted these individuals as treated anyway, leading to variation in the Task 3 distribution, even though every researcher is at this point working with the same eligibility indicator.
-
-```{r Treated Group Distributions Figure}
-#| fig-width: 8
-#| fig-height: 4
-#| label: fig-treated-group-distributions
-#| fig-cap: Distributions of Reported Treated-Group Sizes
-p_treated_group_sample_size
-```
-
-Aside from this issue, we see that the imposition of a shared definition for the treated group reduced the IQR for the size of the group from 34,631 in Taks 1 to 9,879 in Task 2. Theoretically, however, since there was a shared definition of the treated group in Task 2, there should be no more variation in this variable in Task 2 than in Task 3. This indicates that not all instructions were implemented in the same way across researchers, which will be explored further in @sec-sample-limitations. Despite a shared understanding of who was eligible for DACA and who should be in the treated group, only a shared data preparation that implemented these rules for people led to sharp agreement in the size of the treated-groups sample.
-
-## Bimodality in the Task 2 Effect Estimates {#sec-bimodal}
-
-One of the surprising results in @sec-variation was the effect distribution in Task 2. In designing the study, we had expected that each task would show a narrower distribution of effects than the previous task. While we see this pattern for sample sizes and some researcher choices, the distribution of effects became wider going from Task 1 to Task 2. We also saw emerging bimodality, where the larger part of the sample reported estimates that reflected the distribution of effects already seen in Task 1, while a smaller group of researchers reported larger effects that were more like those found in Task 3. In this section we look for an explanation of the unexpected findings in Task 2.[^18]
-
-[^18]: This section is entirely un-preregistered, as we did not anticipate this finding.
-
-Several anticipated correlates did not explain the bimodal outcomes of Task 2. @fig-effect-vs-sample and @fig-effect-vs-se in the Appendix show that the Task 2 reported sample sizes and standard errors do not strongly explain the effects reported. @fig-effects-compare-rounds in @sec-variation shows that bimodality is not a feature of some researchers trying to make their Task 2 results consistent with their Task 1.
-
-Instead, we find that a major contributing factor to Task 2 bimodality is the ability to precisely implement the treated-group definition given in the instructions. Task 2 gave a very precise definition of who should be included as a part of the treated group. We examine whether a given researcher followed the full set of treated-group definition instructions exactly or not. The mismatch could be small, such as using "\<= 16" instead of "\< 16" for age at migration, or large, such as omitting that eligible people must be non-citizens. In @fig-match-vs-mismatch we show their distribution of effects against researchers who had a mismatch in their criteria in any way. The graph shows that the bimodality heavily driven by the group that precisely matched the treated-group definition. This implies that the bimodality in Task 2 may be explained in large part by a split between researchers who exactly followed the instructions, and so effectively matched what a typical researcher found in Task 3, and those who did not.
-
-```{r Match vs Mismatch Figure}
-#| fig-width: 8
-#| fig-height: 4
-#| label: fig-match-vs-mismatch
-#| fig-cap: Task 2 Effect Distributions Among Those with Exact Treated-Group Definition Matchs vs. Those with Some Mismatch
-p_match_vs_mismatch_distribution
-```
-
-This does not fully explain researcher behavior: note that there is also a weight of researchers with higher results who did not match perfectly, and also that much of the density of the perfect-match group is at Task 1 effect levels, but keep in mind that there are many other decisions in analysis to be made, and this captures only one angle where determining the correct decision is easiest.
-
-Further, Table \ref{tab-match-by-field} shows that the share of researchers matching exactly is fairly low, between 20-25% by field, keeping in mind that even very minor mismatches are counted as mismatches. Further, perfect-match rates were slightly higher among researchers whose work was closest to the field that the research task was in, immigration and labor, although this difference was not statistically significant at the 95% level.
-
-```{r Match by Field Table}
-rfield |>
-  kable(
-    booktabs = TRUE,
-    caption = 'Share of Researchers Matching Treated-Group Definition Exactly by Field\\label{tab-match-by-field}',
-    format = "latex"
-    ) |>
-  kable_styling(
-    latex_options = "scale_down"
-    ) |>
-  column_spec(1:5, latex_column_spec = "lrrrr")
-
-# our t-test
-# d = data.table(field = c(rep(TRUE,1+3+12+35),rep(FALSE,c(18+76))), out = c(rep(TRUE,13),rep(FALSE,3+35),rep(TRUE,18),rep(FALSE,76)))
-# t.test(d[field == FALSE, out], d[field == TRUE, out])
-```
-
-## Peer Review
-
-This section evaluates the impact of peer review on the later work performed by a researcher. The structure of peer review in this study is that, following each main task, 2/3 of the researchers are randomized into pairs that produce a peer review report of the other's work, while the remaining 1/3 do not receive or perform peer review. Then, researchers have an opportunity to revise their work.
-
-Revision is optional, and relatively few researchers (fewer than 30 per task) chose to revise their work after receiving peer review. As such, we mostly look at the impact of peer review on the work performed in subsequent main tasks. The mechanisms by which peer review might be expected to change a researcher's work in normal journal submissions include both that researchers might find peer review comments helpful and incorporate them into their work, and that researchers are required by the journal submission process to incorporate most reviewer comments. In this study, our peer review process can only capture the first of these mechanisms, and in effect may be closer to comments received, for example, during seminar presentations.
-
-In Table \ref{tab-variance-after-revision}, we incorporate revisions and show the variance of the entire sample of reported effects post-revision, replacing each researcher's reported task effect with its revision, if they revised their work. 
-There is no statistically significant difference in variance between the reviewed and non-reviewed groups, nor is there a consistent effect in one direction.
-Similarly, as shown in Table \ref{tab-variance-after-revision-sample} there are no statistically significant differences in the variance of sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks. 
-
-
-```{r Variance in Effect after Revision table}
-#| label: Levene test - effect size
-# variance_tests.R - effect size tests
-peer_review_levene |>
-  knitr::kable(
-    booktabs = TRUE, 
-    caption = 'Post-Revision Variance in Effect Sizes by Peer Review \\label{tab-variance-after-revision}',
-    format = "latex"
-    ) |>
-  kable_styling(
-    latex_options = "scale_down"
-    ) |>
-  column_spec(1:5, latex_column_spec = "lrrrr")
-```
-
-
-```{r Variance in Sample Sizes after Revision table}
-#| label: Levene test - sample size
-# variance_test.R - sample size tests
-peer_review_levene_sample <- peer_review_levene_sample %>%
-  mutate(
-    across(where(is.numeric) & !matches("Levene Test p-value"), ~ formatC(., format = "e", digits = 3)),  # Format non-p-value numeric columns in scientific notation
-    `Levene Test p-value` = round(`Levene Test p-value`, 3)  # Format p-value column with standard notation
-  )
-
-peer_review_levene_sample |>
-  select(-2) |>
-  kable(
-    booktabs = TRUE, 
-    caption = 'Post-Revision Variance in Sample Sizes by Peer Review \\label{tab-variance-after-revision-sample}',
-    digits = 3,
-    format = "latex"
-    ) |>
-  pack_rows(
-    index = c("Overall Sample Size" = 3, "DACA Eligible Sample Size" = 3, "DACA Non-Eligible Sample Size" = 3),
-    bold = FALSE
-  ) |>
-  kable_styling(
-    latex_options = "scale_down"
-    ) |>
-  column_spec(1:5, latex_column_spec = "lrrrr")
-```
-
-
-@fig-peer-review-effect-distributions shows the distribution of effect sizes estimated by those who did, and did not, engage in peer review in each round. 
-The left column of graphs shows the effects reported in each task before researchers were assigned to peer review, and the right column shows the effects reported in the follow-up task. 
-As is expected given randomization, effect distributions are fairly similar pre-review between the review and non-review groups. 
-No differences emerge between these groups in the follow-up task. 
-Levene test p-values comparing effect size variance of peer-reviewed and non-peer-reviewed groups in follow-up tasks show p-values of `r number(levene_peer_vs_next_round$levene_p[1], .001)` and `r number(levene_peer_vs_next_round$levene_p[2], .001)` in Tasks 2 and 3, respectively, or `r number(levene_result_pooled[['Pr(>F)']][1], .001)` when pooling the two tasks. 
-This is not strong evidence in favor of the idea that peer review might drive agreement between researchers due to the receipt of feedback.
-Similar results are found when comparing the variance of analytic, treatment, or control sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks.
-
-
-```{r Distribution of Reported Effect Sizes Figure}
-#| fig-width: 8
-#| fig-height: 5
-#| label: fig-peer-review-effect-distributions
-#| fig-cap: Distributions of Reported Effect Sizes
-p_peer_review_effect_distributions
-```
-
-
-```{r Distribution of Reported Sample Sizes Figure}
-#| fig-width: 8
-#| fig-height: 4
-#| label: fig-peer-review-distributions-sample
-#| fig-cap: Distributions of Reported Sample Sizes
-p_peer_review_distributions[["Revision_of_Q12"]]
-```
-
-
-```{r Distribution of Reported DACA Eligible Sample Sizes Figure}
-#| fig-width: 8
-#| fig-height: 4
-#| label: fig-peer-review-distributions-daca
-#| fig-cap: Distributions of Reported DACA Eligible Sample Sizes
-p_peer_review_distributions[["Revision_of_Q18"]]
-```
-
-
-```{r Distribution of Reported DACA Non-Eligible Sample Sizes Figure}
-#| fig-width: 8
-#| fig-height: 4
-#| label: fig-peer-review-distributions-non-daca
-#| fig-cap: Distributions of Reported DACA Non-Eligible Sample Sizes
-p_peer_review_distributions[["Revision_of_Q21"]]
-```
-
-@fig-like-your-reviewer explores the possibility that peer review might not make the peer-reviewed group as a whole more similar, but rather just make someone more similar to their specific reviewer. We calculate the absolute difference in effects between each reviewer pair, in the task they perform before reviewing (left column), in the follow-up task (middle column) and comparing your follow-up task against your reviewer's result this round (right column), with the right column representing the possibility that a researcher may select an analysis so as to produce a result more similar to the one they saw in the previous round.[^19]
-
-[^19]: The distributions of absolute differences for non-reviewed researchers are generated as a null distribution by matching every non-reviewed researcher to every other non-reviewed researcher and calculating all absolute differences. This null distribution represents the distribution of absolute differences among people who did not actually experience peer review. Notably, each non-reviewer is matched multiple times in this approach, instead of just once for reviewers. However, matching the non-reviewers only once to a single random pair just produces a noisier version of this all-matches null distribution. Averaging the single-random-match approach over many random single matches produces the same null distribution.
-
-In @fig-like-your-reviewer we see inconsistent evidence in favor of peer review. Task 1 review pairs became more similar in Task 2, while unreviewed pairs did not change. The change in average absolute effect differences from Task 1 to Task 2 was a statistically significant .051 greater for review pairs than non-review pairs (see Appendix Table \ref{tab-peer-review-reg}). However, this finding does not replicate in Task 2, where from Task 2 to Task 3, average absolute effect differences shrunk by a statistically significant .029 more for unreviewed than reviewed pairs. This is not consistent strong evidence of peer review making a researcher more like their reviewer as the result of feedback.
-
-```{r Comparisons of Effect Sizes vs. Reviewer Figure}
-#| label: fig-like-your-reviewer
-#| fig-cap: Comparisons of Effect Sizes vs. One's Reviewer
-#| fig-width: 8
-#| fig-height: 5
-p_more_like_reviewer
-```
-
-```{r Comparisons of Sample Sizes vs. Reviewer Figure}
-#| label: fig-like-your-reviewer-sample
-#| fig-cap: Comparisons of Sample Sizes vs. One's Reviewer
-#| fig-width: 8
-#| fig-height: 5
-plots_more_like_reviewer[["Revision_of_Q12"]]
-```
-
-
-```{r Comparisons of DACA Eligible Sample Sizes vs. Reviewer Figure}
-#| label: fig-like-your-reviewer-data
-#| fig-cap: Comparisons of DACA Eligible Sample Sizes vs. One's Reviewer
-#| fig-width: 8
-#| fig-height: 5
-plots_more_like_reviewer[["Revision_of_Q18"]]
-```
-
-
-```{r Comparisons of DACA Non-Eligible Sample Sizes vs. Reviewer Figure}
-#| label: fig-like-your-reviewer-non-data
-#| fig-cap: Comparisons of DACA Non-Eligible Sample Sizes vs. One's Reviewer
-#| fig-width: 8
-#| fig-height: 5
-plots_more_like_reviewer[["Revision_of_Q21"]]
-```
-
+Furthermore, we preregistered regressing the squared difference to the round means against the round number.
+The squared differences to the mean in each round which provide us with a measure of the variance in effect and samples sizes across researchers.
+None of the coefficients on round are statistically significant, although the coefficients for sample sizes are negative as expected (See Appendix Table \ref{hypothesis-2}).
+Finally, as shown in Appendix Section @sec-peer-review, there is no statistically significant difference in variance between the reviewed and non-reviewed groups, nor is there a consistent effect in one direction.
+Similarly, there are no statistically significant differences in the variance of sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks. 
 
 ## Analytic Choices {#sec-analytic}
 
@@ -3589,6 +3380,47 @@ The two project organizers took very different approaches to the question of how
 Both organizers found, however, that researcher characteristics were not strong predictors of estimated effects. 
 Across researcher demographics, occupation, and professional experience, there was no strong relationship between researcher background and either the level of the effect estimate they reported, the deviation of their estimate from the mean, or changes in their estimate from task to task. 
 The only relevant difference we found is that the minority of researchers who used the R programming language were more likely to report outlier estimates than researchers who used Stata.
+
+## Bimodality in the Task 2 Effect Estimates {#sec-bimodal}
+
+One of the surprising results in @sec-variation was the effect distribution in Task 2. In designing the study, we had expected that each task would show a narrower distribution of effects than the previous task. While we see this pattern for sample sizes and some researcher choices, the distribution of effects became wider going from Task 1 to Task 2. We also saw emerging bimodality, where the larger part of the sample reported estimates that reflected the distribution of effects already seen in Task 1, while a smaller group of researchers reported larger effects that were more like those found in Task 3. In this section we look for an explanation of the unexpected findings in Task 2.[^18]
+
+[^18]: This section is entirely un-preregistered, as we did not anticipate this finding.
+
+Several anticipated correlates did not explain the bimodal outcomes of Task 2. @fig-effect-vs-sample and @fig-effect-vs-se in the Appendix show that the Task 2 reported sample sizes and standard errors do not strongly explain the effects reported. @fig-effects-compare-rounds in @sec-variation shows that bimodality is not a feature of some researchers trying to make their Task 2 results consistent with their Task 1.
+
+Instead, we find that a major contributing factor to Task 2 bimodality is the ability to precisely implement the treated-group definition given in the instructions. Task 2 gave a very precise definition of who should be included as a part of the treated group. We examine whether a given researcher followed the full set of treated-group definition instructions exactly or not. The mismatch could be small, such as using "\<= 16" instead of "\< 16" for age at migration, or large, such as omitting that eligible people must be non-citizens. In @fig-match-vs-mismatch we show their distribution of effects against researchers who had a mismatch in their criteria in any way. The graph shows that the bimodality heavily driven by the group that precisely matched the treated-group definition. This implies that the bimodality in Task 2 may be explained in large part by a split between researchers who exactly followed the instructions, and so effectively matched what a typical researcher found in Task 3, and those who did not.
+
+```{r Match vs Mismatch Figure}
+#| fig-width: 8
+#| fig-height: 4
+#| label: fig-match-vs-mismatch
+#| fig-cap: Task 2 Effect Distributions Among Those with Exact Treated-Group Definition Matchs vs. Those with Some Mismatch
+p_match_vs_mismatch_distribution
+```
+
+This does not fully explain researcher behavior: note that there is also a weight of researchers with higher results who did not match perfectly, and also that much of the density of the perfect-match group is at Task 1 effect levels, but keep in mind that there are many other decisions in analysis to be made, and this captures only one angle where determining the correct decision is easiest.
+
+Further, Table \ref{tab-match-by-field} shows that the share of researchers matching exactly is fairly low, between 20-25% by field, keeping in mind that even very minor mismatches are counted as mismatches. Further, perfect-match rates were slightly higher among researchers whose work was closest to the field that the research task was in, immigration and labor, although this difference was not statistically significant at the 95% level.
+
+```{r Match by Field Table}
+rfield |>
+  kable(
+    booktabs = TRUE,
+    caption = 'Share of Researchers Matching Treated-Group Definition Exactly by Field\\label{tab-match-by-field}',
+    format = "latex"
+    ) |>
+  kable_styling(
+    latex_options = "scale_down"
+    ) |>
+  column_spec(1:5, latex_column_spec = "lrrrr")
+
+# our t-test
+# d = data.table(field = c(rep(TRUE,1+3+12+35),rep(FALSE,c(18+76))), out = c(rep(TRUE,13),rep(FALSE,3+35),rep(TRUE,18),rep(FALSE,76)))
+# t.test(d[field == FALSE, out], d[field == TRUE, out])
+```
+
+
 
 # Conclusion {#sec-conclusion}
 
@@ -3879,33 +3711,16 @@ modelsummary(
   ) 
 ```
 
-```{r Peer Review Regression}
-names(peer_review_reg) = c('Task 1','Task 2')
-peer_review_reg |>
-  modelsummary(
-    estimate = "{estimate}{stars}",
-    stars = c('*' = .1, '**' = .05, '***' = .01),
-    align = 'ldd',
-    gof_omit = c('IC|R2|RMSE|Err'),
-    coef_rename = c('Intercept',
-                    'Comparison: Next Round',
-                    'Comparison: Next Round vs. This Round',
-                    'Unreviewed',
-                    'Next Round x Unreviewed',
-                    'Next vs. This x Unreviewed'),
-    title = 'Paired Absolute Effect Differences and Peer Review \\label{tab-peer-review-reg}',
-    escape = FALSE,
-    output = 'kableExtra'
-  ) |>
-  footnote(
-    general = 
-      c("\\\\footnotesize{* $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$}"),
-    general_title = "\\\\footnotesize{Note:}",
-    escape = FALSE,
-    threeparttable = TRUE,
-    footnote_as_chunk = TRUE
-  ) 
+```{r Hypothesis 2 Table}
+results_hypo_2 |> 
+  kable(
+    booktabs = TRUE,
+    caption = 'Squared Difference to Round Mean\\linebreak against Round number\\label{hypothesis-2}',
+    format = 'latex'
+    ) |>
+  column_spec(1:4, latex_column_spec = "lrrr")
 ```
+
 
 ```{r Task 2 Effect Size and Sample Size}
 #| label: fig-effect-vs-sample
@@ -4004,6 +3819,191 @@ efftable_2 |>
   column_spec(2:10, latex_column_spec = "r")
 
 ```
+
+\clearpage
+
+## Peer Review {#sec-peer-review}
+
+This section evaluates the impact of peer review on the later work performed by a researcher. 
+The structure of peer review in this study is that, following each main task, 2/3 of the researchers are randomized into pairs that produce a peer review report of the other's work, while the remaining 1/3 do not receive or perform peer review. 
+Then, researchers have an opportunity to revise their work.
+
+Revision is optional, and relatively few researchers (fewer than 30 per task) chose to revise their work after receiving peer review. 
+As such, we mostly look at the impact of peer review on the work performed in subsequent main tasks. 
+The mechanisms by which peer review might be expected to change a researcher's work in normal journal submissions include both that researchers might find peer review comments helpful and incorporate them into their work, and that researchers are required by the journal submission process to incorporate most reviewer comments. 
+In this study, our peer review process can only capture the first of these mechanisms, and in effect may be closer to comments received, for example, during seminar presentations.
+
+In Appendix Table \ref{tab-variance-after-revision}, we incorporate revisions and show the variance of the entire sample of reported effects post-revision, replacing each researcher's reported task effect with its revision, if they revised their work. 
+There is no statistically significant difference in variance between the reviewed and non-reviewed groups, nor is there a consistent effect in one direction.
+Similarly, as shown in Appendix Table \ref{tab-variance-after-revision-sample} there are no statistically significant differences in the variance of sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks. 
+
+
+```{r Variance in Effect after Revision table}
+#| label: Levene test - effect size
+# variance_tests.R - effect size tests
+peer_review_levene |>
+  knitr::kable(
+    booktabs = TRUE, 
+    caption = 'Post-Revision Variance in Effect Sizes by Peer Review \\label{tab-variance-after-revision}',
+    format = "latex"
+    ) |>
+  kable_styling(
+    latex_options = "scale_down"
+    ) |>
+  column_spec(1:5, latex_column_spec = "lrrrr")
+```
+
+
+```{r Variance in Sample Sizes after Revision table}
+#| label: Levene test - sample size
+# variance_test.R - sample size tests
+peer_review_levene_sample <- peer_review_levene_sample %>%
+  mutate(
+    across(where(is.numeric) & !matches("Levene Test p-value"), ~ formatC(., format = "e", digits = 3)),  # Format non-p-value numeric columns in scientific notation
+    `Levene Test p-value` = round(`Levene Test p-value`, 3)  # Format p-value column with standard notation
+  )
+
+peer_review_levene_sample |>
+  select(-2) |>
+  kable(
+    booktabs = TRUE, 
+    caption = 'Post-Revision Variance in Sample Sizes by Peer Review \\label{tab-variance-after-revision-sample}',
+    digits = 3,
+    format = "latex"
+    ) |>
+  pack_rows(
+    index = c("Overall Sample Size" = 3, "DACA Eligible Sample Size" = 3, "DACA Non-Eligible Sample Size" = 3),
+    bold = FALSE
+  ) |>
+  kable_styling(
+    latex_options = "scale_down"
+    ) |>
+  column_spec(1:5, latex_column_spec = "lrrrr")
+```
+
+
+Appendix @fig-peer-review-effect-distributions shows the distribution of effect sizes estimated by those who did, and did not, engage in peer review in each round. 
+The left column of graphs shows the effects reported in each task before researchers were assigned to peer review, and the right column shows the effects reported in the follow-up task. 
+As is expected given randomization, effect distributions are fairly similar pre-review between the review and non-review groups. 
+No differences emerge between these groups in the follow-up task. 
+Levene test p-values comparing effect size variance of peer-reviewed and non-peer-reviewed groups in follow-up tasks show p-values of `r number(levene_peer_vs_next_round$levene_p[1], .001)` and `r number(levene_peer_vs_next_round$levene_p[2], .001)` in Tasks 2 and 3, respectively, or `r number(levene_result_pooled[['Pr(>F)']][1], .001)` when pooling the two tasks. 
+This is not strong evidence in favor of the idea that peer review might drive agreement between researchers due to the receipt of feedback.
+Similar results are found when comparing the variance of analytic, treatment, or control sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks.
+
+
+```{r Distribution of Reported Effect Sizes Figure}
+#| fig-width: 8
+#| fig-height: 5
+#| label: fig-peer-review-effect-distributions
+#| fig-cap: Distributions of Reported Effect Sizes
+p_peer_review_effect_distributions
+```
+
+
+```{r Distribution of Reported Sample Sizes Figure}
+#| fig-width: 8
+#| fig-height: 4
+#| label: fig-peer-review-distributions-sample
+#| fig-cap: Distributions of Reported Sample Sizes
+p_peer_review_distributions[["Revision_of_Q12"]]
+```
+
+
+```{r Distribution of Reported DACA Eligible Sample Sizes Figure}
+#| fig-width: 8
+#| fig-height: 4
+#| label: fig-peer-review-distributions-daca
+#| fig-cap: Distributions of Reported DACA Eligible Sample Sizes
+p_peer_review_distributions[["Revision_of_Q18"]]
+```
+
+
+```{r Distribution of Reported DACA Non-Eligible Sample Sizes Figure}
+#| fig-width: 8
+#| fig-height: 4
+#| label: fig-peer-review-distributions-non-daca
+#| fig-cap: Distributions of Reported DACA Non-Eligible Sample Sizes
+p_peer_review_distributions[["Revision_of_Q21"]]
+```
+
+@fig-like-your-reviewer explores the possibility that peer review might not make the peer-reviewed group as a whole more similar, but rather just make someone more similar to their specific reviewer. 
+We calculate the absolute difference in effects between each reviewer pair, in the task they perform before reviewing (left column), in the follow-up task (middle column) and comparing your follow-up task against your reviewer's result this round (right column), with the right column representing the possibility that a researcher may select an analysis so as to produce a result more similar to the one they saw in the previous round.[^19]
+
+[^19]: The distributions of absolute differences for non-reviewed researchers are generated as a null distribution by matching every non-reviewed researcher to every other non-reviewed researcher and calculating all absolute differences. 
+This null distribution represents the distribution of absolute differences among people who did not actually experience peer review. 
+Notably, each non-reviewer is matched multiple times in this approach, instead of just once for reviewers. 
+However, matching the non-reviewers only once to a single random pair just produces a noisier version of this all-matches null distribution. 
+Averaging the single-random-match approach over many random single matches produces the same null distribution.
+
+In @fig-like-your-reviewer we see inconsistent evidence in favor of peer review. 
+Task 1 review pairs became more similar in Task 2, while unreviewed pairs did not change. 
+The change in average absolute effect differences from Task 1 to Task 2 was a statistically significant .051 greater for review pairs than non-review pairs (see Appendix Table \ref{tab-peer-review-reg}). 
+However, this finding does not replicate in Task 2, where from Task 2 to Task 3, average absolute effect differences shrunk by a statistically significant .029 more for unreviewed than reviewed pairs. 
+This is not consistent strong evidence of peer review making a researcher more like their reviewer as the result of feedback.
+
+```{r Comparisons of Effect Sizes vs. Reviewer Figure}
+#| label: fig-like-your-reviewer
+#| fig-cap: Comparisons of Effect Sizes vs. One's Reviewer
+#| fig-width: 8
+#| fig-height: 5
+p_more_like_reviewer
+```
+
+```{r Comparisons of Sample Sizes vs. Reviewer Figure}
+#| label: fig-like-your-reviewer-sample
+#| fig-cap: Comparisons of Sample Sizes vs. One's Reviewer
+#| fig-width: 8
+#| fig-height: 5
+plots_more_like_reviewer[["Revision_of_Q12"]]
+```
+
+
+```{r Comparisons of DACA Eligible Sample Sizes vs. Reviewer Figure}
+#| label: fig-like-your-reviewer-data
+#| fig-cap: Comparisons of DACA Eligible Sample Sizes vs. One's Reviewer
+#| fig-width: 8
+#| fig-height: 5
+plots_more_like_reviewer[["Revision_of_Q18"]]
+```
+
+
+```{r Comparisons of DACA Non-Eligible Sample Sizes vs. Reviewer Figure}
+#| label: fig-like-your-reviewer-non-data
+#| fig-cap: Comparisons of DACA Non-Eligible Sample Sizes vs. One's Reviewer
+#| fig-width: 8
+#| fig-height: 5
+plots_more_like_reviewer[["Revision_of_Q21"]]
+```
+
+```{r Peer Review Regression}
+names(peer_review_reg) = c('Task 1','Task 2')
+peer_review_reg |>
+  modelsummary(
+    estimate = "{estimate}{stars}",
+    stars = c('*' = .1, '**' = .05, '***' = .01),
+    align = 'ldd',
+    gof_omit = c('IC|R2|RMSE|Err'),
+    coef_rename = c('Intercept',
+                    'Comparison: Next Round',
+                    'Comparison: Next Round vs. This Round',
+                    'Unreviewed',
+                    'Next Round x Unreviewed',
+                    'Next vs. This x Unreviewed'),
+    title = 'Paired Absolute Effect Differences and Peer Review \\label{tab-peer-review-reg}',
+    escape = FALSE,
+    output = 'kableExtra'
+  ) |>
+  footnote(
+    general = 
+      c("\\\\footnotesize{* $p < 0.1$, ** $p < 0.05$, *** $p < 0.01$}"),
+    general_title = "\\\\footnotesize{Note:}",
+    escape = FALSE,
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE
+  ) 
+```
+
+
 
 \clearpage
 
