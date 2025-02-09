@@ -3131,9 +3131,10 @@ None of the coefficients on round are statistically significant, although the co
 Finally, as shown in Appendix Section @sec-peer-review, there is no statistically significant difference in variance between the reviewed and non-reviewed groups, nor is there a consistent effect in one direction.
 Similarly, there are no statistically significant differences in the variance of sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks. 
 
-## Analytic Choices {#sec-analytic}
+## ## Researchers' Analytic and Sample Choices {#sec-choices}
 
-The next two sections examine the different choices that researchers made, both to demonstrate the variation in ways that different researchers chose to carry out the research tasks, and to relate those choices to differences in outcomes.
+This sections examines to what extent the different choices that researchers made in analytical and sample choices can explain the variation in effects and sample sizes.
+
 
 Table \ref{tab-estimation-methods} shows the different choices made in estimating the effect of DACA on the probability of employment across all three tasks, in particular the estimator chosen, the use of ACS sampling weights provided by IPUMS, and the choice of standard error adjustment.[^20] The dependent variable of interest, working full-time or not, is binary. However, as is generally standard in applied microeconomics, linear regression was the most common estimator used, with 82% of entries. 13% used logit or probit regression instead. Notably, many reserachers used linear regression as a means of implementing a fully saturated (or nearly fully saturated) difference-in-differences design, in which case the downsides of linear probability models are muted. Other researchers mostly used a matching estimator (sometimes combined with linear regression) or one of several newly-introduced estimators for difference-in-differences designs, like @callaway2021difference.
 
@@ -3239,10 +3240,6 @@ These specific findings about the impact of choices on effects - that the inclus
 However, what we can take from this section is that there is substantial variation across researchers in what they believe the appropriate set of covariates to be and, for a given covariate, what the appropriate functional form is. 
 We can also see that, in the case of this particular study, these decisions, while varied, did not fully explain the variation in effects between researchers.
 
-## Researchers' Sample Choices {#sec-sample-limitations}
-
-In this section we examine the ways in which researchers defined their analytic samples, as well as how they defined the treated group. For these analyses, Task 3 is omitted because the analytic sample and treated group are defined for all researchers. 
-
 Table \ref{tab-number-of-sample-limitations} uses researcher survey responses about their sample definitions and looks purely at the number of distinct variables referenced in the sample limitations, regardless of what they are. In Task 1, the typical researcher used five variables to define their analytic sample, and an additional four to define their treated group. In Task 2, where inclusion criteria were shared, both of these numbers increased, but there was still considerable variation, with the 25th and 75th percentiles using 3 and 10 variables to define their full sample. Definition of the treated group was more shared, with the 25th and 75th percentiles using 9 and 12 variables, respectively.
 
 ```{r Number of Sample Limitations}
@@ -3265,12 +3262,10 @@ sumtable(
   column_spec(2:8, latex_column_spec = "r")
 ```
 
-Table \ref{tab-sample-limitations-extensive} shows how these variables were implemented as sample restrictions, based on actual researcher code. This is the only section of the paper where the data do not rely on researcher responses to the survey. For each researcher's Task 1 and Task 2 code, organizers read the code directly and recorded some aspects of the sample definitions used for the overall analytic sample and for the definition of the treated group, including definitions that appeared to be the result of coding errors.[^21] 
+Table \ref{tab-sample-limitations-extensive} shows how these variables were implemented as sample restrictions, based on actual researcher code. This is the only section of the paper where the data do not rely on researcher responses to the survey. For each researcher's Task 1 and Task 2 code, organizers read the code directly and recorded some aspects of the sample definitions used for the overall analytic sample and for the definition of the treated group, including definitions that appeared to be the result of coding errors.
 
-XXX NOTE FOR CLAUS: SHOULD WE DROP MULTISTEP CONDITION ALTOGETHER AND JUST GROUP THEM IN WITH OTHER?
+XXX NOTE FOR CLAUS: SHOULD WE DROP MULTISTEP CONDITION ALTOGETHER AND JUST GROUP THEM IN WITH OTHER? I think we should group them in with "Other"
 
-[^21]: Other notes of interest for reading the table: (a) "Multistep condition" refers to cases where the variable is included, but only as a part of a complex boolean statement involving many variables. 
-These most commonly appeared in definitions for the comparison group, which are not in the table, in the format of "fails any one of the following set of DACA eligibility requirements," (b) for Education/Veteran status, recall that the mention of this eligibility requirement was omitted from the Task 1 instructions, which explains why very few researchers used these variables to define their samples or treated groups in Task 1, and (c) all categories listed in the table refer to filtering the data in the exact same way with the exceptions of "Other" and "Multistep Condition" which both refer to a wide range of unique conditions, Year-Quarter Age and Year-Only Age, where any usage of year-quarter or year-only age in 2012 are grouped together, Used YRSUSA, where any usage of YRSUSA is grouped together, and "Hispanic-Any", which groups together the IPUMS conditions "HISPAN > 0" (which allows for someone to be both Hispanic and another race) and "RACHSING == 5" (which does not).
 
 The coding does not cover the full set of possible variables used to define samples, which vary beyond the list presented in the table. 
 Some common limitations used by some researchers and not others include filtering out people living in group quarters or those out of the labor force, or dropping anyone with a recorded year of immigration before their recorded year of birth. 
@@ -3820,9 +3815,13 @@ efftable_2 |>
 
 ```
 
+
+
+
+
 \clearpage
 
-## Peer Review {#sec-peer-review}
+# Peer Review {#sec-peer-review}
 
 This section evaluates the impact of peer review on the later work performed by a researcher. 
 The structure of peer review in this study is that, following each main task, 2/3 of the researchers are randomized into pairs that produce a peer review report of the other's work, while the remaining 1/3 do not receive or perform peer review. 
