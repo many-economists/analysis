@@ -3371,13 +3371,16 @@ The only relevant difference we found is that the minority of researchers who us
 
 ## Bimodality in the Task 2 Effect Estimates {#sec-bimodal}
 
-One of the surprising results in @sec-variation was the effect distribution in Task 2. In designing the study, we had expected that each task would show a narrower distribution of effects than the previous task. While we see this pattern for sample sizes and some researcher choices, the distribution of effects became wider going from Task 1 to Task 2. We also saw emerging bimodality, where the larger part of the sample reported estimates that reflected the distribution of effects already seen in Task 1, while a smaller group of researchers reported larger effects that were more like those found in Task 3. In this section we look for an explanation of the unexpected findings in Task 2.[^18]
+When designing the study, we expected that each task would show a narrower distribution of effects than the previous task, but while we see this pattern for sample sizes and some researcher choices, the distribution of effects became wider between Tasks 1 and 2. 
+There is also an emerging bimodality in both effects and samples sizes, where most of the researchers reported estimates that reflected the distribution of effects seen in Task 1, while a smaller group of researchers reported larger effects more like those in Task 3. 
+This un-preregistered analysis examines potential explanations for these unexpected findings.
 
-[^18]: This section is entirely un-preregistered, as we did not anticipate this finding.
-
-Several anticipated correlates did not explain the bimodal outcomes of Task 2. @fig-effect-vs-sample and @fig-effect-vs-se in the Appendix show that the Task 2 reported sample sizes and standard errors do not strongly explain the effects reported. @fig-effects-compare-rounds in @sec-variation shows that bimodality is not a feature of some researchers trying to make their Task 2 results consistent with their Task 1.
-
-Instead, we find that a major contributing factor to Task 2 bimodality is the ability to precisely implement the treated-group definition given in the instructions. Task 2 gave a very precise definition of who should be included as a part of the treated group. We examine whether a given researcher followed the full set of treated-group definition instructions exactly or not. The mismatch could be small, such as using "\<= 16" instead of "\< 16" for age at migration, or large, such as omitting that eligible people must be non-citizens. In @fig-match-vs-mismatch we show their distribution of effects against researchers who had a mismatch in their criteria in any way. The graph shows that the bimodality heavily driven by the group that precisely matched the treated-group definition. This implies that the bimodality in Task 2 may be explained in large part by a split between researchers who exactly followed the instructions, and so effectively matched what a typical researcher found in Task 3, and those who did not.
+A major contributing factor to Task 2 bimodality is the ability to precisely implement the treated-group definition given in the instructions. 
+Task 2 gave a very precise definition of who should be included as a part of the treated group, and we examine whether a given researcher followed the full set of treated-group definition instructions exactly or not. 
+Any mismatch could be small, such as using "\<= 16" instead of "\< 16" for age at migration, or large, such as omitting that eligible people must be non-citizens. 
+@fig-match-vs-mismatch shows the distribution of effects for researchers who follow the definition precisely against researchers who had a mismatch in their criteria in any way. 
+The graph indicates that the bimodality is driven by the group that precisely matched the treated-group definition. 
+This implies that the bimodality in Task 2 may be explained in large part by a split between researchers who exactly followed the instructions, and so effectively matched what a typical researcher found in Task 3, and those who did not.
 
 ```{r Match vs Mismatch Figure}
 #| fig-width: 8
@@ -3387,9 +3390,11 @@ Instead, we find that a major contributing factor to Task 2 bimodality is the ab
 p_match_vs_mismatch_distribution
 ```
 
-This does not fully explain researcher behavior: note that there is also a weight of researchers with higher results who did not match perfectly, and also that much of the density of the perfect-match group is at Task 1 effect levels, but keep in mind that there are many other decisions in analysis to be made, and this captures only one angle where determining the correct decision is easiest.
-
-Further, Table \ref{tab-match-by-field} shows that the share of researchers matching exactly is fairly low, between 20-25% by field, keeping in mind that even very minor mismatches are counted as mismatches. Further, perfect-match rates were slightly higher among researchers whose work was closest to the field that the research task was in, immigration and labor, although this difference was not statistically significant at the 95% level.
+The treated-group implementation does not fully explain researcher behavior.
+There is a weight of researchers with higher results who did not match perfectly and much of the density of the perfect-match group is at Task 1 effect levels.
+Furthermore, there are many other decisions made, and the treated-group implementation captures only one angle.
+Furthermore, the share of researchers matching exactly across all fields is fairly low at 20-25% as shown by Table \ref{tab-match-by-field}, although recall that even very minor mismatches are counted as mismatches.
+Perfect-match rates were slightly higher among researchers whose work was closest to the field that the research task was in, immigration and labor, although this difference was not statistically significant at the 95% level.
 
 ```{r Match by Field Table}
 rfield |>
@@ -3408,7 +3413,9 @@ rfield |>
 # t.test(d[field == FALSE, out], d[field == TRUE, out])
 ```
 
-
+Several other anticipated correlates did not explain the bimodal outcomes of Task 2. 
+The Task 2 reported sample sizes and standard errors do not strongly explain the effects reported (See Appendix @fig-effect-vs-sample and Appendix @fig-effect-vs-se). 
+Furthermore, the bimodality is not a feature of some researchers trying to make their Task 2 results consistent with their Task 1, as @fig-effects-compare-rounds in @sec-variation shows.
 
 # Conclusion {#sec-conclusion}
 
