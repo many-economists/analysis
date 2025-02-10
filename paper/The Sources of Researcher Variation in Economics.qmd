@@ -2757,7 +2757,7 @@ Nearly all of the attrition occurred by the completion of Task 1.
 After `r justcount[2,Participants]-justcount[3,Participants]` eligible researchers failed to complete Task 1, only a further `r justcount[3,Participants]-justcount[5,Participants]` failed to complete Task 3. 
 This means we have `r justcount[5,Participants]` researchers who completed all three research tasks, well above the goal of 90, and that we were able to pay all participants who completed all steps.
 
-[Next two paragraphs not edited; waiting for new results from Nick; potentially drop or move to Appendix given that we were able to pay everyone]
+[Next two paragraphs not edited; waiting for new results from NICK; potentially drop or move to Appendix given that we were able to pay everyone]
 
 The high recruitment numbers and the fact that nearly all attrition occurs before Task 1 is complete allows us to evaluate the impact of the payment incentive.[^decline-pay] 
 One potential concern with our incentive design is that payment and authorship are offered to anyone who completes all tasks, regardless of the quality of their work. 
@@ -3131,18 +3131,17 @@ None of the coefficients on round are statistically significant, although the co
 Finally, as shown in Appendix Section @sec-peer-review, there is no statistically significant difference in variance between the reviewed and non-reviewed groups, nor is there a consistent effect in one direction.
 Similarly, there are no statistically significant differences in the variance of sample sizes between the peer-reviewed and non-peer-reviewed groups in the follow-up tasks. 
 
-## ## Researchers' Analytic and Sample Choices {#sec-choices}
+## Researchers' Analytic and Sample Choices {#sec-choices}
 
-This sections examines to what extent the different choices that researchers made in analytical and sample choices can explain the variation in effects and sample sizes.
+The standard approach when evaluating research, for example when peer reviewing a paper, is to focus on the researchers' analytical choices, such as estimation method and associated decisions.
+Given the differences in samples above, this section examines to what extent the different choices that researchers made in both analytical and sample choices can explain the variation in effects and sample sizes.
 
-
-Table \ref{tab-estimation-methods} shows the different choices made in estimating the effect of DACA on the probability of employment across all three tasks, in particular the estimator chosen, the use of ACS sampling weights provided by IPUMS, and the choice of standard error adjustment.[^20] The dependent variable of interest, working full-time or not, is binary. However, as is generally standard in applied microeconomics, linear regression was the most common estimator used, with 82% of entries. 13% used logit or probit regression instead. Notably, many reserachers used linear regression as a means of implementing a fully saturated (or nearly fully saturated) difference-in-differences design, in which case the downsides of linear probability models are muted. Other researchers mostly used a matching estimator (sometimes combined with linear regression) or one of several newly-introduced estimators for difference-in-differences designs, like @callaway2021difference.
-
-[^20]: For most researchers, these choices did not change over the tasks, and so we just present the overall view.
-
-The use of sample weights was relatively uncommon, despite their use being advised with survey data like ACS. Only 25% of task completions mentioned the use of weights or any of the standard ACS weight variables.
-
-There was considerable variation across researchers in the selection of standard error adjustment. A slim majority of researchers applied clustered standard errors in some way, but clustered at different levels: state, state/year, or according to a survey clustering indicator like Strata or some other variable. A further 17% of submissions used heteroskedasticity-robust but not cluster-robust standard errors.
+For most researchers, the choices of estimator, use of ACS sampling weights, or standard error adjustment did not change across tasks, and Table \ref{tab-estimation-methods} therefore shows the combined choices, which generally are in line with common practices in applied econometric work.
+The dependent variable is binary, but linear regression was the most common estimator with 82% of entries, and 13% using logit or probit. 
+Notably, many implemented a fully saturated (or nearly fully saturated) difference-in-differences design, which mutes the downsides of linear probability models. 
+Other researchers used a matching estimator (sometimes combined with linear regression) or one of several newly-introduced estimators for difference-in-differences designs, like @callaway2021difference.
+Despite IPUMS recommendation, only 25% used weights.
+The standard error adjustment varied considerably, with a slim majority clustering standard errors in some way, although at a range of different levels, and 17% heteroskedasticity-robust but not cluster-robust standard errors.
 
 ```{r Estimation Methods}
 base %>%
@@ -3176,42 +3175,23 @@ base %>%
   column_spec(1:6, latex_column_spec = "lrrlrr")
 ```
 
-Table \ref{tab-controls-across-rounds} shows the average rate of inclusion of covariates across all three tasks, as well as the estimated effects among analyses including those controls, shown in the order of average effect size. The average rate of inclusion can be read as the share of researchers who included the covariate, with the exception of "Other", which allows each researcher to have multiple "Other" controls. The most common covariates included are shown, with the exception of indicators for "eligible for DACA" or "in a post-DACA period", as these are considered part of the core research design rather than covariates. Variables are included here regardless of the functional form used to include them.
+The researchers disagreed substantially on the appropriate controls.[^controls-table]
+Across the `r 3*145` submissions there was `r exact_matches[, .N]` different unique sets of included covariates, with `r percent(exact_matches[numpairs == 1, sum(numpairs)]/sum(exact_matches$numpairs))` that included a unique set of covariates for the task. 
+Only those with *no* controls shared a covariate set with more than three other people, while `r percent(exact_matches[numpairs %in% c(3,4), sum(numpairs)]/sum(exact_matches$numpairs))` shared with two or three other people, and `r percent(exact_matches[numpairs == 2, sum(numpairs)]/sum(exact_matches$numpairs))` shared with one other person.
+The most common included controls were for state, year, age, and sex, which more than 50% included in all three tasks. 
+However, there was a large amount of variation in the sets of included covariates. 
+In Task 1, for example, there are ten covariates with rates between .2 and .8, meaning that at least 20% of the researchers made a different decision on inclusion of the covariate than the majority. 
 
-The most common included controls were for state, year, age, and sex, which were included as covariates for more than 50% of researchers in all three tasks. However, there was a large amount of variation in the sets of included covariates. In Task 1, for example, there are ten covariates with rates between .2 and .8, meaning that at least 20% of the researchers made a different decision on inclusion of the covariate than the majority. There are four covariates in the 40-60% range, meaning that the researchers were almost evenly split on whether or not to include the covariate. These rates did not change much by Task 3.
+[^controls-table]: Appendix Table \ref{tab-controls-across-rounds} shows the average rate of inclusion of covariates, as well as the estimated effects among analyses including those controls, in order of average effect size. 
+Variables are included regardless of the functional form used to include them.
 
-Across all rounds, in which there were `r 3*145` submitted research tasks, there were `r exact_matches[, .N]` different unique sets of included covariates after "Other" covariates are excluded. `r percent(exact_matches[numpairs == 1, sum(numpairs)]/sum(exact_matches$numpairs))` of submissions had a set of covariates that was unique for the task. `r percent(exact_matches[numpairs == 2, sum(numpairs)]/sum(exact_matches$numpairs))` shared a covariate set with one other person in that task, `r percent(exact_matches[numpairs %in% c(3,4), sum(numpairs)]/sum(exact_matches$numpairs))` shared with two or three other people, and only the those with no controls shared with more than three other people.
+This lack of agreement across researchers did, however, not substantially impact the effect estimates.
+The mean reported effects differ by only .023 percentage points when we compare the covariate with the highest average effect estimates (Continuous Years in the USA) against the lowest (Race). 
+What is more, this comparison likely overstates the impact of covariate selection since selecting the highest versus the lowest after estimates are known will bias towards a larger difference from noise alone.
+There do not appear to be major differences in the average reported standard errors either, or in the standard deviation of the effect distribution among researcher.
 
-```{r Controls Across Rounds}
-# Average appearances across rounds
-controls_across_rounds[, .(Control, `Task 1`, `Task 2`, `Task 3`)] |>
-  merge(effects_by_controls[, .(Control, Size = Effect, `SD` = `Effect SD`, Mean = `Mean SE`)], by = 'Control') |>
-  setorder(-Size) |>
-  kable(
-    booktabs = TRUE, 
-    caption = 'Covariate Inclusion Across Rounds and Estimated Effects \\label{tab-controls-across-rounds}',
-    linesep = "",
-    format = "latex"
-) |>
-  add_header_above(c(" " = 1, "Rate in" = 3, "Effect" = 2, "SE" = 1)) |>
-  kable_styling(latex_options = "scale_down") |>
-  footnote(
-    general = "Nick: can you add a note about mean SE and SD of effects here to explain what they measure and how calculated?",
-    threeparttable = TRUE,
-    footnote_as_chunk = TRUE,
-    general_title = "Notes:"
-  ) |>
-  column_spec(2:7, latex_column_spec = "r")
-```
-
-Did this lack of agreement across researchers on the exact set of appropriate controls, or the inclusion or exclusion of any given control, impact the effect estimates? 
-Not by much; the mean reported effects differ by only .023 percentage points when we compare the covariate with the highest average effect estimates (Continuous Years in the USA) against the lowest (Race). 
-What is more, this comparison likely overstates the impact of covariate selection.
-Selecting the highest versus the lowest after estimates are known will lead to bias towards a larger difference from noise alone.
-
-There do not appear to be major differences in the average reported standard errors either, or in the standard deviation of the effect distribution among reserachers including that covariate.
-
-While the inclusion of a given common control variable does not strongly predict an estimated effect, in Table \ref{tab-effects-by-functional-form} we look at the most common covariates and examine whether their functional form meaningfully affects the estimated effect. The selection of functional form explained more variation in average estimated effects than the inclusion of covariates did, at least in this context. For both age and the State/Year controls, the difference between the highest-average-effect functional form variants and the lowest, in both cases comparing a linear control against a fixed effect, was greater than the difference between highest and lowest among covariates included.
+The chosen functional form explained more variation in average effects than the covariate choices, as shown in Table \ref{tab-effects-by-functional-form}. 
+For both age and the State/Year controls, the difference between the highest average-effect functional form variants and the lowest was greater than the difference between highest and lowest for covariates.
 
 ```{r Effects by Functional Form}
 trans_con[, .(N = uniqueN(paste0(Q1,Round)),
@@ -3230,17 +3210,18 @@ trans_con[, .(N = uniqueN(paste0(Q1,Round)),
   kable_styling(latex_options = "scale_down") |>
   column_spec(3:6, latex_column_spec = "r") |>
   footnote(
-    c("Nick: can you add a note about mean SE and SD of effects here to explain what they measure and how calculated?"),
+    c("NICK: can you add a note about mean SE and SD of effects here to explain what they measure and how calculated?"),
     threeparttable = TRUE,
     footnote_as_chunk = TRUE
   )
 ```
 
-These specific findings about the impact of choices on effects - that the inclusion of different covariates did not have a major impact on estimated effects, or that the choice of functional form had a greater impact than the selection of covariates - should not be expected to generalize, and is specific to this research task. 
-However, what we can take from this section is that there is substantial variation across researchers in what they believe the appropriate set of covariates to be and, for a given covariate, what the appropriate functional form is. 
-We can also see that, in the case of this particular study, these decisions, while varied, did not fully explain the variation in effects between researchers.
-
-Table \ref{tab-number-of-sample-limitations} uses researcher survey responses about their sample definitions and looks purely at the number of distinct variables referenced in the sample limitations, regardless of what they are. In Task 1, the typical researcher used five variables to define their analytic sample, and an additional four to define their treated group. In Task 2, where inclusion criteria were shared, both of these numbers increased, but there was still considerable variation, with the 25th and 75th percentiles using 3 and 10 variables to define their full sample. Definition of the treated group was more shared, with the 25th and 75th percentiles using 9 and 12 variables, respectively.
+<!---
+[NICK - why is this relevant?]
+Table \ref{tab-number-of-sample-limitations} uses researcher survey responses about their sample definitions and looks purely at the number of distinct variables referenced in the sample limitations, regardless of what they are. 
+In Task 1, the typical researcher used five variables to define their analytic sample, and an additional four to define their treated group. 
+In Task 2, where inclusion criteria were shared, both of these numbers increased, but there was still considerable variation, with the 25th and 75th percentiles using 3 and 10 variables to define their full sample. 
+Definition of the treated group was more shared, with the 25th and 75th percentiles using 9 and 12 variables, respectively.
 
 ```{r Number of Sample Limitations}
 # Basic sample limitations table
@@ -3261,22 +3242,24 @@ sumtable(
   ) |>
   column_spec(2:8, latex_column_spec = "r")
 ```
+--->
 
-Table \ref{tab-sample-limitations-extensive} shows how these variables were implemented as sample restrictions, based on actual researcher code. This is the only section of the paper where the data do not rely on researcher responses to the survey. For each researcher's Task 1 and Task 2 code, organizers read the code directly and recorded some aspects of the sample definitions used for the overall analytic sample and for the definition of the treated group, including definitions that appeared to be the result of coding errors.
-
-XXX NOTE FOR CLAUS: SHOULD WE DROP MULTISTEP CONDITION ALTOGETHER AND JUST GROUP THEM IN WITH OTHER? I think we should group them in with "Other"
+XXX NOTE FOR CLAUS: SHOULD WE DROP MULTISTEP CONDITION ALTOGETHER AND JUST GROUP THEM IN WITH OTHER? NICK, yes, I think we should group them in with "Other"
 
 
-The coding does not cover the full set of possible variables used to define samples, which vary beyond the list presented in the table. 
-Some common limitations used by some researchers and not others include filtering out people living in group quarters or those out of the labor force, or dropping anyone with a recorded year of immigration before their recorded year of birth. 
-Many researchers also chose to limit the sample based on current age as of the year of their inclusion in the ACS (as opposed to their age in 2012, which is shown), choosing many different acceptable age ranges. 
-Table \ref{tab-sample-limitations-extensive} looks only at limitations based on variables for which there is a "right answer" in the Task 2 instructions. 
+As Table \ref{tab-sample-limitations-extensive} shows, there is large variation in which variable researchers based their sample selection on and how these variables were implemented, including in Task 2, where there is a correct answer according to the instructions.[^actual-code]
+For each variable, the most-common option, listed at the top, is the "correct" answer for defining the treated group, with two exceptions.
+First, for Citizenship, there is a second justifiable answer because those who are "Non-Citizen or Naturalized After 2012" would have been eligible for DACA in 2012, but not when they were surveyed and therefore would have received a partial "dose" of DACA.
+Second, for "Years Continuous in USA," DACA requires that the immigrant have lived *continuously* in the United States for five years as of 2012, but most researchers used only year of immigration being before 2007 to satisfy this criterion, while others used the YRSUSA set of variables which specifically track living continuously in the country.
+For all other variables besides "Years Continuous in USA," the option matching the instructions was the most common, but we also see plenty of variation. 
+We also see considerable variation when there is not a clear "correct" option, like the analytic sample definition, where no single way used by more than 84% of the sample. 
 
-We see a large amount of variety in the ways these variables were used, including in Task 2, where there is a correct answer according to the instructions (and similarly a correct answer for some variables in the Task 1 treated-group definition).[^22] For each variable, the most-common option, listed at the top, is the "correct" answer for defining the treated group, with two exceptions: (a) for Citizenship, there is a second justifiable answer in "Non-Citizen or Naturalized After 2012." These immigrants would have been eligible for DACA in 2012, but would not be eligible for DACA as of the time they were surveyed, so they would have received a partial "dose" of DACA, which could justifiably be included or excluded, and (b) for Years Continuous in USA, where DACA guidelines require that the immigrant have lived *continuously* in the United States for five years as of 2012. Most researchers used only year of immigration being before 2007 to satisfy this criterion, but others used the YRSUSA set of variables which specifically track living continuously in the country.
+[^actual-code]: This is the only part of the paper that does not rely on researcher responses to the survey. 
+For each researcher's Task 1 and Task 2 code, organizers read the code directly and recorded some aspects of the sample definitions used for the overall analytic sample and for the definition of the treated group, including definitions that appeared to be the result of coding errors.
+The table allows for coding errors. 
+For example the individuals reporting that they used only high school graduates or *non-veterans,* instead of veterans as per the instructions, likely did not intentionally choose to use non-veterans but rather coded "VETSTAT == 1," which indicates "non-veteran", perhaps based on a misunderstanding of the IPUMS documentation (veterans are VETSTAT == 2). 
+However, an earlier version of this paper relied on researcher self-reports of sample limitations in the survey, and found similar rates at which Task 2 choices did not match the "correct answer", so coding errors alone do not account for these results.
 
-[^22]: Keep in mind that the table allows for coding errors. For example the individuals reporting that they used only high school graduates or *non-veterans,* instead of veterans as per the instructions, likely did not intentionally choose to use non-veterans but rather coded "VETSTAT == 1," which indicates "non-veteran", perhaps based on a misunderstanding of the IPUMS documentation (veterans are VETSTAT == 2). However, an earlier version of this paper relied on researcher self-reports of sample limitations in the survey, and found similar rates at which Task 2 choices did not match the "correct answer", so coding errors alone do not account for these results.
-
-For all other variables besides Years Continuous in USA, the option matching the instructions was the most common, but we also see plenty of variation. We also see considerable variation for the columns in which there is not a clear "correct" option, like the analytic sample definition. No single way of applying any variable was used by more than 84% of the sample in any case. One interesting feature is the use of both "\< 16" and "\<= 16" for age at migration, and "\< 2007" and "\<= 2007" for year of migation. For year of migration, the two are similarly popular. Also interesting is the distinction between researchers using age defined in years to determine eligibility vs. age defined in quarters, which makes a difference given that eligibility is based on age specifically in June 2012.
 
 ```{r Sample Limitations Extensive}
 # Variables used in limitations
@@ -3305,15 +3288,21 @@ table_14 |>
     ) |>
   column_spec(2:9, latex_column_spec = "r") |>
   footnote(
-    c("Multistep condition means the variable is one part of a complex boolean involving many different variables."),
+    c(
+    "Multistep condition means the variable is one part of a complex boolean involving many different variables.", "The table does not cover the full set of possible variables used to define samples. Some common limitations used by some researchers and not others include filtering out people living in group quarters or those out of the labor force, or dropping anyone with a recorded year of immigration before their recorded year of birth. Many researchers also chose to limit the sample based on current age as of the year of their inclusion in the ACS, as opposed to their age in 2012, which is shown, choosing many different acceptable age ranges."
+),
     threeparttable = TRUE,
     footnote_as_chunk = TRUE
   ) 
 ```
 
-Showing the impact of these choices on estimated effects is difficult since, aside from the most-common option, any specific alternative does not have enough people using it to make a reasonable comparison. However, we show estimated effects and, for analytic-sample restrictions, analytic sample size by sample limitation choice in Appendix Tables \ref{tab-task1effectsample-full} for Task 1 and Table \ref{tab-task2effectsample-full} for Task 2. There are large differences in estimated effects and sample sizes across many of these different sample restriction choices, but in many cases these comparisons are based on very small samples.
+Showing the impact of these choices on estimated effects is difficult because any specific alternative to the most common option has too few people using it to make a reasonable comparison. 
+The two comparisons for which an alternative was common enough to compare are for the YRSUSA inclusion and the use of "\< 2007" vs. "\<= 2007" for year of migration, shown in \ref{tab-task1effectsample}. 
+For both tasks, the relationship between these choices on effects varies from negligible to a several percentage-points difference associated with a single sample restriction change, a fairly minor one in particular for "\< 2007" vs. "\<= 2007" [NICK - I do not follow the last bit]. 
+Effect differences are larger in Task 2. 
+However, in Task 1, even though estimated effects are similar, sample sizes are considerably larger for the less-restrictive option, and so reported standard errors would be lower, and statistical significance more likely.
+For other comparisons, there are large differences in estimated effects and sample sizes across many of the different sample restriction choices, although in most cases these comparisons are based on very small samples (See Appendix Tables \ref{tab-task1effectsample-full} for Task 1 and Table \ref{tab-task2effectsample-full} for Task 2). 
 
-The two comparisons for which an alternative was common enough to compare are for the YRSUSA inclusion and the use of "\< 2007" vs. "\<= 2007" for year of migration, which are shown in \ref{tab-task1effectsample}. For both tasks, the relationship between these choices on effects varies from negligible to a several percentage-point difference associated with a single sample restriction change, a fairly minor one in particular for "\< 2007" vs. "\<= 2007". Effect differences are larger in Task 2. However, in Task 1, even though estimated effects are similar, sample sizes are considerably larger for the less-restrictive option, and so reported standard errors would be lower, and statistical significance more likely.
 
 ```{r Effect and Sample Table}
 # sample limitations and effects/samples, task 1
@@ -3362,6 +3351,11 @@ t1efftable |>
   column_spec(2:10, latex_column_spec = "r")
 
 ```
+
+That the inclusion of different covariates did not have a major impact on estimated effects or that the choice of functional form had a greater impact than the selection of covariates likely do not generalize, but is specific to this research task. 
+However, there is clearly substantial variation across researchers in what they believe the appropriate set of covariates should be and, for a given covariate, what the appropriate functional form is. 
+We also see that, in the case of this particular study, these decisions did not fully explain the variation in effects between researchers.
+
 
 ## Researcher Characteristics and Effects {#sec-researcher-chars}
 
@@ -3737,6 +3731,30 @@ p_standard_error_scatter
 
 ```
 
+```{r Controls Across Rounds}
+# Average appearances across rounds
+controls_across_rounds[, .(Control, `Task 1`, `Task 2`, `Task 3`)] |>
+  merge(effects_by_controls[, .(Control, Size = Effect, `SD` = `Effect SD`, Mean = `Mean SE`)], by = 'Control') |>
+  setorder(-Size) |>
+  kable(
+    booktabs = TRUE, 
+    caption = 'Covariate Inclusion Across Rounds and Estimated Effects \\label{tab-controls-across-rounds}',
+    linesep = "",
+    format = "latex"
+) |>
+  add_header_above(c(" " = 1, "Rate in" = 3, "Effect" = 2, "SE" = 1)) |>
+  kable_styling(latex_options = "scale_down") |>
+  footnote(
+    general = "NICK: can you add a note about mean SE and SD of effects here to explain what they measure and how calculated?",
+    threeparttable = TRUE,
+    footnote_as_chunk = TRUE,
+    general_title = "Notes:"
+  ) |>
+  column_spec(2:7, latex_column_spec = "r")
+```
+
+
+
 ```{r Task 1 Effect and Sample Size by Sample Definitions}
 # sample limitations and effects/samples, task 1
 efftab_full <- make_efftab(r12samp[Round == 'Task 1'])
@@ -3814,6 +3832,7 @@ efftable_2 |>
   column_spec(2:10, latex_column_spec = "r")
 
 ```
+
 
 
 
