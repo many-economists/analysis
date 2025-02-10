@@ -3058,7 +3058,7 @@ Opposite the effect size, the IQR did reduce considerably in Task 2, where the i
 
 The imposition of a shared definition for the treated group reduced the treated-group IQR from 34,631 in Taks 1 to 9,879 in Task 2. 
 Theoretically, since there was a shared definition of the treated group in Task 2, variation in the treated-group should be similar in Tasks 2 and 3.[^treated-variation]
-That they are not indicates that not all instructions were implemented in the same way across researchers, which will be explored further in @sec-sample-limitations. 
+That they are not indicates that not all instructions were implemented in the same way across researchers, which will be explored further in @sec-choices. 
 Despite a shared understanding of who was eligible for DACA and who should be in the treated group, only a shared data preparation that implemented these rules for people led to sharp agreement in the size of the treated-groups sample.
 
 [^treated-variation]: Variation in the treated-group size is affected by researcher confusion in responding to the survey question. 
@@ -3359,14 +3359,13 @@ We also see that, in the case of this particular study, these decisions did not 
 
 ## Researcher Characteristics and Effects {#sec-researcher-chars}
 
-In this section we evaluate the relationship between researcher characteristics and the effects they reported. 
-As listed in our preregistration, the analyses in this section were performed in a muliple-analysts style, with the two project organizers taking the same data and research question and performing independent analyses.[^23]
+As listed in our preregistration, the two project organizers individually evaluated the relationship between researcher characteristics and the effects they reported using a multiple-analysts approach, with the two project organizers taking the same data and research question and performing independent analyses.
+The preregistration called for independent analyze of the relationship between (a) researcher characteristics and reported research results in earlier stages, and (b) attrition from the study and reported research results in later stages.
+Because there was so little attrition from the study after Task 1, part b was dropped from the analysis. 
 Full results from each project organizer can be found in Appendix B.
 
-[^23]: From the preregistration: "Both primary authors will, independently, analyze the relationship between (a) researcher characteristics and reported research results in earlier stages, and (b) attrition from the study and reported research results in later stages." Because there was so little attrition from the study after Task 1, part b was dropped from the analysis. 
-
 The two project organizers took very different approaches to the question of how researcher characteristics affected results, selecting different dependent variables and methods of analysis, and different sets of researcher characteristics.
-Both organizers found, however, that researcher characteristics were not strong predictors of estimated effects. 
+Despite this, both organizers found that researcher characteristics were not strong predictors of estimated effects. 
 Across researcher demographics, occupation, and professional experience, there was no strong relationship between researcher background and either the level of the effect estimate they reported, the deviation of their estimate from the mean, or changes in their estimate from task to task. 
 The only relevant difference we found is that the minority of researchers who used the R programming language were more likely to report outlier estimates than researchers who used Stata.
 
@@ -4030,7 +4029,7 @@ peer_review_reg |>
 ## Analysis by Project Organizer A
 
 Table \ref{tab-orga-effects} shows the F-statistic from a regression of the reported effect estimate on a set of indicators for that characteristic, as well as the associated $p$-value and $R^2$ from that regression.
-The indicators include each categorical researcher characteristic specified in @sec-sample-characteristics, as well as an indicator for the use of R or Stata as a programming language. 
+The indicators include each categorical researcher characteristic specified in @sec-choices, as well as an indicator for the use of R or Stata as a programming language. 
 For all indicators, categories with 5 or fewer researchers in them were omitted before performing the analysis. 
 This table allows us to see whether researchers with different characteristics reported different effect levels. 
 Table \ref{tab-orga-deviation} does the same, but uses absolute deviation from the sample mean as the dependent variable, which allows us to see whether researchers with different characteristics showed greater agreement on effect levels with the group as a whole.
@@ -4138,7 +4137,7 @@ p_deviations_by_language
 
 @fig-deviations-by-language goes further into the split by language. We see that, of the two languages, Stata users were more likely to report effect estimates near the sample mean. 6.4%, 1.8%, and 0.9% of Stata users were more than .1 in absolute distance from the sample mean in Tasks 1, 2, and 3, respectively, while for R those values are 15.6%, 9.4%, and 12.5%. The number of R users is relatively low at 32,[^24] and so these numbers are sensitive to any researchers who were consistently outliers. There were two R users who had an absolute deviation from the mean of .1 or more every round, while all other R researchers with deviations of .1 or more only had deviations that large in a single round. If we omit those two consistently-high-deviation R users, the percentages are 10%, 3.3%, and 6.7% for R users, which are still higher than the percentages for Stata users.
 
-[^24]: This is one lower than the value reported in @sec-sample-characteristics because the researcher who was dropped from analysis, mentioned later in @sec-sample-characteristics, was an R user.
+[^24]: This is one lower than the value reported in @sec-choices because the researcher who was dropped from analysis, mentioned later in @sec-choices, was an R user.
 
 Overall, there is little role for researcher professional or demographic characteristics in predicting either the level of the effects they reported, or the deviation of those effects from the mean. There is some explanatory power for the choice of programming language. R users were more likely than Stata users to report estimates far from average of what other users reported.
 
