@@ -3419,68 +3419,60 @@ Furthermore, the bimodality is not a feature of some researchers trying to make 
 
 # Conclusion {#sec-conclusion}
 
-## Recommendations for Improved Practice
+We had 146 research teams perform the same causal inference task three times: first with few constraints, then using a shared research design, and finally with pre-cleaned data in addition to a specified design.
+We found substantial variation in researchers’ choices, particularly in data cleaning and processing, research design, the definition of treated and comparison groups, and the selection and functional form of controls.
+Some of this variation appears to stem from data cleaning processes that do not align with the instructions for constructing the treated group.
+Variation was not strongly constrained by peer review or a shared research design, though providing pre-cleaned data did reduce the variation.
+However, there were also aspects where researchers behaved similarly.
+Linear regression modeling was widely used, and very few researchers employed unadjusted standard errors, although the specific adjustment or clustering level varied substantially.
 
-What do these results imply should change about the practice of applied microeconomic research?
+Despite the variation in data preparation and modeling, researchers reported policy effects that were relatively similar, at least in the center of the distribution.
+In Task 1, where researchers had full freedom, the interquartile range (IQR) of policy impacts was only 3.1 percentage points, though substantial outlier estimates lay outside this range.
+Task 2 showed less agreement than Task 1, with an IQR of 4.0 percentage points, driven by some researchers not fully adhering to the specified research design.
+In Task 3, where data was pre-cleaned and errors in data preparation were eliminated, the IQR fell to its lowest level at 2.4 percentage points---an improvement in agreement, though not statistically significant.
+Specifying a research design considerably improved agreement in reported sample sizes, with the IQR decreasing from 295,187 in Task 1 to 29,144 in Task 2 and effectively 0 in Task 3.
+In contrast to these changes, we found no effect of peer review or researcher background or experience on reported policy effects.
 
-To some degree, the findings of this paper do not reflect a problem to be solved. The fact that different researchers approach a problem differently is not in itself a problem, as long as any points of disagreement are visible to the reader and subject to scrutiny and disagreement, and the reader understands that a given study or set of research decisions is not the last word.
+The fact that different researchers approach the same research question differently is not inherently problematic, as long as disagreements are visible to readers, open to scrutiny, and understood as part of a broader discourse.
+However, problems arise when researcher variation reflects either (a) errors or (b) unexamined or invisible choices.
+In our study, when "standard" approaches existed---such as using linear modeling in a difference-in-differences setting with a binary outcome or adjusting standard errors---researchers tended to follow them.
+In the absence of well-established standards---such as in the choice of clustering level, covariate selection in this particular setting, or data cleaning---researchers diverged, sometimes with consequential effects and sometimes without significant impact.
 
-However, there is a problem to be solved to the extent that researcher variation reflects either (a) error, or (b) choices that are unexamined or invisible while also being something that researchers would choose differently.
+A key result of this study is that the absence of standards in aspects of the research process, such as data cleaning, can lead to arbitrary variation.
+By "standards," we refer both to the process by which choices are made *and* to how these choices are reported.
+For data cleaning, for example, neither standardized practices nor transparent reporting of those practices are common.
+In principle, the use of platforms like GitHub and well-documented code can address the transparency issue, but in many cases, this information is either unavailable or not sufficiently examined in research discussions.
+Even when provided, there is often little emphasis on understanding *how* these choices influence research outcomes.
 
-In this study, we found considerable variation across researchers in the approaches taken to answering the main question in Task 1, which most closely reflects actual practice. While the distribution of effects did not considerably narrow from Task 1 to Task 2, the sample sizes did, as did the treated and comparison group definitions. Although we generally did not reject Levene tests of equal variance across rounds, descriptively there was an obvious narrowing of the distribution of effects. There was, in both rounds, a lot of variation in the set of covariates included, as well.
+The optimal level of researcher variation is not zero, as individual researchers often have valid reasons for deviating from the methods and practices of others.
+However, such deviations should occur because there *is* a good reason to depart from an established template---not because no template exists in the first place.
+Without formal training in PhD programs or a culture of reviewing and critiquing data cleaning and preprocessing in research papers, substantial unexplained inter-researcher variation will persist.
+Among broader systemic changes, incorporating data cleaning and preprocessing courses into the standard PhD applied economics curriculum could improve research quality and reduce researcher variability.[^clustering-practices]
 
-To the extent that these choices reflect research design and modeling choices, the problem is somewhat already addressed. Researchers are used to critiquing research design and modeling choices in public work. Because of this, we would expect that all of these choices would be reported in a writeup of research, where they could be critiqued. What would not typically occur is someone actually testing whether many of these alternate choices actually lead to different results, especially for seemingly more innocuous choices like covariate functional form, which was found in this study to be more consequential than the set of covariates included.
+[^clustering-practices]: While we have highlighted data-cleaning practices as a particularly fruitful area for standardization, similar efforts are needed in other areas, such as clustering levels. 
+An example of progress in this direction is found in @abadie2023should.
 
-On the part of researcher practice, this set of results suggests the use of multiverse analysis [@steegen2016increasing], where the researcher considers every combination of reasonable modeling decisions and demonstrates their effects on estimated effects, or even many-analysts approaches to producing original work, as we did in @sec-researcher-chars. On the part of journals, this suggests that journals should consider accepting work that is a variation in the approach to a published work, even if that variation is not framed as a replication or rejection of the original study, currently a barrier to the publication of replications [@galiani2017incentives].
+This discussion presumes the existence of best practices, as codifying standards without empirical validation could reduce variability around wrong answers.
+However, the crucial point is that once an effort is made to formalize and disseminate best practices---much like how applied economists routinely learn about modeling---we establish a basis for evaluating and refining those practices.[^modeling-choice]
+Other disciplines have already made progress in this direction [e.g., @osborne2012best; @jafari2022hands].
+Thus, economics would not need to start from scratch but could refine existing recommendations to suit applied microeconomics.
+The inclusion of discussions on best practices in at least one recent textbook is a step in this direction [@Bekes2021].
 
-However, this study did not find that research design and modeling choices were the majority of explained researcher variation. Instead, this came in the form of data cleaning and preprocessing, including the selection of sample and the creation of variables indicating the treated group. Some of this variation could be classified as error, for example researchers in @sec-bimodal whose treated-group definition in Task 2 did not match the instructions. Other parts of this variation could be reasonable disagreement.
+[^modeling-choice]: Similar to how researchers learn about modeling through econometrics textbooks or applied literature [@abadie2023should].
 
-That much of the relevant variation seems to come along the lines of data cleaning and preprocessing is possibly unsurprising, given how this task is currently handled in economics. 
-Relative to modeling and research design, data cleaning and preprocessing receive little attention. 
-It is common for minor, or even important, details of data processing to be left off the description of methods in published papers. 
-Data cleaning is also not formally taught in most graduate programs. 
-A professor who would never allow a research assistant to decide their research design or model might be happy passing along the data cleaning task to an assistant, even though, as this paper shows, the task may be just as relevant to the results and just as prone to arbitrary choice-making.
+Researchers are accustomed to critiquing research design and modeling choices, and we expect these decisions to be clearly documented in research writeups.
+What is less common, however, is testing whether different analytical choices yield different results.
+In this study, for instance, seemingly minor decisions---such as the functional form of covariates---proved more consequential than the choice of which covariates to include.
+This suggests an important future role for multiverse analysis, where researchers systematically assess the impact of alternative modeling decisions, or for many-analyst approaches, as in @sec-researcher-chars, when conducting original research [@steegen2016increasing].
+Journals could also consider publishing studies that explore variations in analytical approaches to existing research, even if these are not framed as replications or direct challenges to prior findings---a current barrier to publishing replications [@galiani2017incentives].
 
-Because data cleaning gets so little attention, it is perhaps to be expected that we saw the most variation here. 
-Without formal training in PhD programs, or a culture of reviewing and critiquing data cleaning and preprocessing in research papers, there is little opportunity for researchers to *learn to do the "correct" thing*, and so we see heavy variation. 
-Contrast this to the popular use of linear probability models in Table \ref{tab-estimation-methods}, for example, which is common in applied microeconomics, especially in difference-in-differences designs. 
-Because its use is very visible, researchers can see that it is the standard in the field. 
-Whether or not it is actually the best method to use here, researchers know that this method has gained wide acceptance in the field. 
-We see a similar story play out with standard error adjustments in the same table. 
-The standard method by which economists learn data processing is on a much narrower scale, often from one's advisor or from others on a small research team.
+At a minimum, researchers should document their data-cleaning processes as thoroughly as they describe their modeling choices.
+Ideally, arbitrary data-cleaning decisions should also be subjected to multiverse analysis [as suggested by @steegen2016increasing].
+Moreover, while an increasing number of journals require replication packages [for example, @aeaguidelines], these packages often start from a pre-processed dataset and only include code for running statistical models.
+Requiring the inclusion of data preprocessing code in replication packages---and making this code accessible to peer reviewers and readers---would enhance transparency and accountability.
+In short, economics should treat data cleaning and preprocessing as just as critical to the research process as model selection.
 
-Among broader system-wide changes, the introduction of data cleaning and preprocessing classes teaching methods and best practices in the standard PhD applied economics curriculum would likely improve the quality of economics research as well as reduce researcher variability. 
-This presumes the existence of a set of best practices; otherwise, we might end up with less variability around the wrong answers. 
-So, an attempt should be made to codify and popularize a set of data-cleaning best practices, similar to how applied economists routinely learn about modeling best practices (for example any number of econometrics textbooks, or in the applied literature papers like @abadie2023should). 
-Other fields have already made strides in this direction [e.g. @osborne2012best; @jafari2022hands] so this effort would not need to start from scratch, but would be improved by designing recommendations most relevant to an applied microeconomics context.
-That at least one recent textbook include a discussion of best-practices in data cleaning is one step in that direction [@Bekes2021].
 
-Those recommendations may not be in the control of any one researcher, though. 
-The policy that this paper implies for individual researchers and journal editors or reviewers is that economics as a field should consider data cleaning and preprocessing to be just as much a part of the methods as the choice of model. Researchers should fully describe their data cleaning processes in their papers to the same level of detail that they describe their modeling choices. 
-They should also perhaps subject any arbitrary data-cleaning decisions to multiverse analysis as well (note that this is also a suggestion of @steegen2016increasing). 
-Further, an increasingly common requirement of journal submissions is to provide a replication package of the code used to perform a paper's analyses (for example @aeaguidelines). 
-However, these replication packages often begin from an already-prepared data set, and only include the code necessary to run models. 
-It would be advisable to include data preprocessing code in these replication packages.
-
-## Discussion
-
-This paper describes the results of a large many-analysts project in applied microeconomics. We found large amounts of variation in the choices made by researchers, especially in regards to data cleaning and processing, research design, the definition of treated and comparison groups, and the selection and functional form of controls. Some of this variation appears to be from researcher data cleaning processes that do not match the instructions, derived from policy realities, for constructing the treated group. Variation was not strongly constrained by the influence of peer review or a shared research design, but there was a (descriptive if not statistically significant) reduction of variation when researchers were provided with pre-cleaned data.
-
-Interestingly, we do not find substantial amounts of variation in actual estimated effects of the policy. 
-There were some outliers, and statistical significance varied between researchers. 
-However, the central range of estimated effects of DACA on the probability of working full time effects generally was not very wide, with the difference between the 25th and 75th percentiles typically only 2-3 percentage points. 
-However, the fact that widely different sample definitions and modeling choices led to a narrow range of effects is not guaranteed to generalize to other contexts.
-[Discuss Goldhaber's comment: That there's relatively more variation around sample, design, etc. compared to findings is surprising and could probably use more discussion. Do you think it's just related to the DACA problem, maybe because the answers aren't super sensitive to issues like sample? I don't know that there's more to dig into in terms of the analysis, but I'd surface the issue of the sensitivity of these results to the project/problem we were asked to address.]
-
-[Goldhaber comment: That there's relatively more variation around sample, design, etc. compared to findings is surprising and could probably use more discussion. Do you think it's just related to the DACA problem, maybe because the answers aren't super sensitive to issues like sample? I don't know that there's more to dig into in terms of the analysis, but I'd surface the issue of the sensitivity of these results to the project/problem we were asked to address.]
-
-There were also parts where researchers behaved very similarly. The use of linear regression modeling was very popular, and very few researchers used unadjusted standard errors, although the specific adjustment or clustering level varied.
-
-What we might learn from this study, and perhaps the wider world of studies on researcher variation, is perhaps obvious: in cases where there were well-acknowledged "standard" ways of doing something, like using linear modeling in a difference-in-differences-type setting with a binary outcome, or adjusting one's standard errors, researchers tended to do that thing. And where there was no well-acknowledged standard, like in the choice of clustering level, the selection of covariates in this particular setting, or in data cleaning, researchers behaved differently, sometimes to consequence and sometimes without it mattering much.
-
-While researcher error also plays a part, the impact of the absence of standards is an emergent result from this study. Readers and practitioners of research should expect arbitrary variation in parts of research, like data cleaning, that do not have standards.
-
-The development of best-practice standards in areas where we currently do not acknowledge them would be likely to improve applied microeconomics towards being a more mature, sophisticated, and believable field than it is today. We have highlighted data-cleaning practices as being an especially fruitful place to develop these standards, but the same applies in other areas as well like the level of clustering (an example of a place where development of consensus guidance is already underway in @abadie2023should). The optimal level of researcher variation is not zero, as individual researchers often have good reasons not to match the methods and practices used by others. But when this occurs, it should be because there *is* a good reason to deviate from the template, rather than because we have no template to begin with.
 
 # References {.unnumbered}
 
