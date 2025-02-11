@@ -2963,7 +2963,7 @@ The US overrepresentation is likely driven by the emails sent to US economics de
 This section examines the variation in effects, samples, and methods across researchers and conditions.
 We demonstrate that such variation exists and evaluate explanations for it.
 The preregistered hypotheses and analyses are shown in Appendix @sec-preregistration.
-[should we discuss briefly what those hypotheses are here? Alternatively, we should have some discussion of what we will be doing in this section.]
+[NICK: should we discuss briefly what those hypotheses are here? Alternatively, we should have some discussion of what we will be doing in this section.]
 
 Importantly, the results are based on survey responses provided by researchers regarding their findings and the decisions they made. 
 The project organizers did not cross-check these survey responses against the researchers' actual coding, which means there is no guarantee of consistency between the two.[^except] 
