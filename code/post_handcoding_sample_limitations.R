@@ -12,15 +12,23 @@ sampdat[limAll_CITIZEN == 'Non-Cit or Natlzd Post-2012', limAll_CITIZEN := 'Non-
 sampdat[limAll_AGE_AT_MIGRATION == 'Multistep Condition', limAll_AGE_AT_MIGRATION := 'Other']
 sampdat[limAll_AGE_IN_2012 %in% c('Multistep Condition','Other'), limAll_AGE_IN_2012 := 'Other']
 
+# REVISION AT END: Get rid of "Multistep Condition" and group it in with "Other"
+# We do this because we are not reporting the non-treated group definitions
+# and multistep was really only popular for that
+# Loop over all character variables in sampdat
+for (cc in names(sampdat)[sapply(sampdat, is.character)]) {
+  sampdat[sampdat[[cc]] == 'Multistep Condition', (cc) := 'Other']
+}
+
 # Note these levels only appear levels that appear in All or Treat
-sampdat[, limAll_HISPAN := factor(limAll_HISPAN, levels = c( "Hispanic-Mexican","Hispanic-Any", "Hispanic-Mex or Mex-Born", "Multistep Condition", "None"))]
-sampdat[, limTreat_HISPAN := factor(limTreat_HISPAN, levels = c( "Hispanic-Mexican","Hispanic-Any", "Hispanic-Mex or Mex-Born", "Multistep Condition", "None"))]
+sampdat[, limAll_HISPAN := factor(limAll_HISPAN, levels = c( "Hispanic-Mexican","Hispanic-Any", "Hispanic-Mex or Mex-Born", "None"))]
+sampdat[, limTreat_HISPAN := factor(limTreat_HISPAN, levels = c( "Hispanic-Mexican","Hispanic-Any", "Hispanic-Mex or Mex-Born", "None"))]
 
 sampdat[, limAll_BPL := factor(limAll_BPL, levels = c("Mexican-Born", "Hispanic-Mex or Mex-Born", "Non-US Born", "Central America-Born",    "None"))]
 sampdat[, limTreat_BPL := factor(limTreat_BPL, levels = c("Mexican-Born", "Hispanic-Mex or Mex-Born", "Non-US Born", "Central America-Born",    "None"))]
 
-sampdat[, limAll_CITIZEN := factor(limAll_CITIZEN, levels = c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012",   "Multistep Condition", "Other" ,  "None"))]
-sampdat[, limTreat_CITIZEN := factor(limTreat_CITIZEN, levels =c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012",  "Multistep Condition", "Other" ,  "None"))]
+sampdat[, limAll_CITIZEN := factor(limAll_CITIZEN, levels = c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012",   "Other" ,  "None"))]
+sampdat[, limTreat_CITIZEN := factor(limTreat_CITIZEN, levels =c("Non-Citizen", "Foreign-Born", "Non-Cit or Natlzd post-2012",  "Other" ,  "None"))]
 
 sampdat[, limAll_AGE_AT_MIGRATION := factor(limAll_AGE_AT_MIGRATION, levels = c("< 16", "<= 16", "Other", "None"))]
 sampdat[, limTreat_AGE_AT_MIGRATION := factor(limTreat_AGE_AT_MIGRATION, levels = c("< 16", "<= 16",  "Other", "None"))]
@@ -28,8 +36,8 @@ sampdat[, limTreat_AGE_AT_MIGRATION := factor(limTreat_AGE_AT_MIGRATION, levels 
 sampdat[, limAll_AGE_IN_2012 := factor(limAll_AGE_IN_2012, levels = c("Year-Quarter Age", "Year-Only Age", "Other","None"))]
 sampdat[, limTreat_AGE_IN_2012 := factor(limTreat_AGE_IN_2012, levels = c("Year-Quarter Age", "Year-Only Age", "None"))]
 
-sampdat[, limAll_YRIMMIG := factor(limAll_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012",  "Any Year", "Multistep Condition", "Other", "None"))]
-sampdat[, limTreat_YRIMMIG := factor(limTreat_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012", "Any Year", "Multistep Condition", "Other", "None"))]
+sampdat[, limAll_YRIMMIG := factor(limAll_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012",  "Any Year", "Other", "None"))]
+sampdat[, limTreat_YRIMMIG := factor(limTreat_YRIMMIG, levels = c("< 2007", "<= 2007", "< 2012",  "<= 2012", "Any Year", "Other", "None"))]
 
 sampdat[, limAll_EDUCVET := factor(limAll_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or Non-Veteran",  "Other", "None"))]
 sampdat[, limTreat_EDUCVET := factor(limTreat_EDUCVET, levels = c("HS Grad or Veteran", "12th Grade or Veteran", "HS Grad", "HS Grad or Non-Veteran", "Other", "None"))]

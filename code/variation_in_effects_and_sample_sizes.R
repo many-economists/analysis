@@ -153,7 +153,7 @@ p_sample_size_distributions = ggplot(viol[Type == 'Unweighted' & Round %in% c('T
   theme_nick() + 
   coord_cartesian(ylim = c(0, 2)) +
   scale_x_log10(labels = label_rangescale()) +
-  labs(x = 'Total Sample Size', y = 'Density') +
+  labs(x = 'Total Sample Size (log scale)', y = 'Density') +
   facet_grid(rows = vars(Type), cols = vars(Round))
 
 # Density distributions of the treated-group sample sizes
@@ -164,5 +164,5 @@ p_treated_group_sample_size = ggplot(viol[Type == 'Unweighted'], aes(x = Revisio
   coord_cartesian(ylim = c(0, 2),
                   xlim = c(1000,200000)) +
   scale_x_log10(labels = label_rangescale()) +
-  labs(x = 'Treated-Group Sample Size', caption = 'Range limited to [1k, 200k] for viewing.', y = 'Density') +
+  labs(x = 'Treated-Group Sample Size (log scale)', caption = 'Range limited to [1k, 200k] for viewing.', y = 'Density') +
   facet_grid(rows = vars(Type), cols = vars(Round))
