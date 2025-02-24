@@ -2560,10 +2560,11 @@ Even experimental economics results are not immune; a high percentage of studies
 
 [^open-replication]: Experiments in social psychology, and psychology more broadly, perform even worse, leading to discussions about an ongoing "replication crisis" [@open2015estimating].
 
-A broader issue is that researchers face myriad choices on data collection, data cleaning, variable selection, and estimation method, each of which can affect published results.
-For example, researchers are more likely to present marginally significant results over marginally insignificant results [@Brodeur2016; @Brodeur2020].
-Even without conscious manipulation, the numerous "researcher degrees of freedom" can lead equally competent researchers to substantially different conclusions [@simmons2011false].
-At least in psychology, the variation introduced by researcher choices might outweigh the population variation we typically consider when estimating standard errors [@holzmeister2023heterogeneity]. In finance, @black2024road find that these choices, many of which are unreported, explain heavy variation in estimated effects across 80 different studies on the same policy change.
+A broader issue is that researchers face myriad choices regarding data collection, data cleaning, variable selection, and estimation methods, each of which can substantially affect published results. 
+For example, researchers are more likely to present marginally significant results over marginally insignificant ones [@Brodeur2016; @Brodeur2020].
+Even without conscious manipulation, these numerous "researcher degrees of freedom" can lead equally competent researchers to substantially different conclusions [@simmons2011false].
+In psychology, the variation introduced by researcher choices might outweigh the population variation typically considered when estimating standard errors [@holzmeister2023heterogeneity].
+Similarly, in finance, these methodological choices---many of which remain unreported---explain substantial variation in estimated effects across 80 different studies of the same policy change [@black2024road].
 
 Our goal is to understand the relative importance of the various researcher degrees of freedom in explaining estimate variation.[^compare-replication-studies]
 We use a "many-analysts" design, where researchers independently perform the same research task.
@@ -2583,9 +2584,10 @@ Many-analysts studies have been conducted in microeconomics [@huntington2021infl
 
 [^magnus]: See also @Magnus1997 for an early example in the same vein in applied econometrics.
 
-Most many-analysts studies find meaningful variation in both methods and conclusions across researchers.
-However, participation in a many-analysts study takes considerable time and effort, which limits the size of most prior studies and prevents them from going beyond demonstrating that variation exists to exploring its causes and potential remedies.[^finance] 
-To achieve sufficient power to both show that variation exists *and* explain its sources, our goal was to have at least 90 researchers complete all the steps of the project. 146 research teams finished all tasks, exceeding these requirements.
+Most many-analysts studies find meaningful variation in both methods and conclusions across researchers. 
+However, participating in such studies requires considerable time and effort, which has limited the size of most prior studies and prevented them from moving beyond demonstrating the existence of variation to exploring its causes and potential remedies.[^finance] 
+To achieve sufficient statistical power to both establish the presence of variation *and* examine its sources, our goal was for at least 90 researchers to complete all steps of the project. 
+In total, 146 research teams successfully completed all tasks, exceeding this requirement
 
 [^finance]: A notable exception is @Menkveld2024, which had 164 teams test the same hypotheses on the same data.
 
@@ -2732,7 +2734,8 @@ source('../code/participation_and_attrition.R')
 ```
 
 A total of `r justcount[1,Participants]` people submitted applications for the project (Table \ref{tbl-attrition} shows signups and attrition).
-Of those, `r justcount[1, Attrition]` were ineligible for the project. Most ineligible people were graduate students without a forthcoming paper.
+Of those, `r justcount[1, Attrition]` were ineligible for the project. 
+Most ineligible people were graduate students without a forthcoming paper.
 This left `r justcount[2,Participants]` eligible participants, which was in excess of the 200 the available budget allowed for. 
 We, therefore, randomly ordered the 282 participants who had signed up by the original due date, and added the 13 late signups at the end of this list.
 The first 200 on the list were told that they would be paid if they completed all stages of the project, but were not told their order.
@@ -2763,10 +2766,14 @@ Someone randomly assigned to position 199 in the ordering is guaranteed payment 
 Of those, three finished the project, while the other four did not. 
 
 We do not find that completion rates are significantly lower just above the cutoff relative to just below it. 
-Appendix @fig-rdd and Table \ref{tab-rdd-reg} show that immediately above the cutoff, completion rates are no different. Local-polynomial regression discontinuity estimates of the effect of the cutoff are insignificant, as are alternate regression discontinuity specifications selected to increase statistical power.[^13] The effect of the cutoff on completion rates is insignificant and positive using a linear slope above the cutoff, or insignificant and negative using a quadratic specification above the cutoff.
+Appendix @fig-rdd and Table \ref{tab-rdd-reg} show that immediately above the cutoff, completion rates are no different. 
+Local-polynomial regression discontinuity estimates of the effect of the cutoff are insignificant, as are alternate regression discontinuity specifications selected to increase statistical power.[^13] 
+The effect of the cutoff on completion rates is insignificant and positive using a linear slope above the cutoff, or insignificant and negative using a quadratic specification above the cutoff.
 This is not strong evidence that participants were simply signing up in an attempt to get a \$2,000 payment for little effort.
 
-[^13]: In these alternate versions we use of the full range of the data, rather than a bandwidth, which is justified given that the running variable is randomly assigned aside from the late sign-ups. We also use a zero-order polynomial (average only) below the cutoff, which is justified by the fact that respondents below the cutoff did not know their order. We also find no effect if we drop the late sign-ups from the regression discontinuity analysis.
+[^13]: In these alternate versions we use of the full range of the data, rather than a bandwidth, which is justified given that the running variable is randomly assigned aside from the late sign-ups. 
+We also use a zero-order polynomial (average only) below the cutoff, which is justified by the fact that respondents below the cutoff did not know their order. 
+We also find no effect if we drop the late sign-ups from the regression discontinuity analysis.
 
 ## Researcher Characteristics {#sec-researcher-characteristics}
 
@@ -2955,13 +2962,17 @@ The US overrepresentation is likely driven by the emails sent to US economics de
 
 # Results {#sec-results}
 
-This section examines the variation in effects, samples, and methods across researchers and conditions.
-We demonstrate that such variation exists and evaluate explanations for it. We both describe the distribution of effects and researcher choices descriptively, and test our preregistered hypotheses. Preregistered hypotheses that include that the standard deviation of estimated effects, sample sizes, and treated and untreated-group sample sizes will decline from task to task, that peer review will make subsequent effects and sample sizes more similar to the group and to one's peer review partner, and that the standard deviation of reported effects will be bigger than the mean reported standard error. Precise definitions of the  preregistered hypotheses and analyses are shown in Appendix @sec-preregistration.
+This section examines variation in effects, samples, and methods across researchers and conditions. 
+We first establish that such variation exists and then evaluate potential explanations for it. 
+Specifically, we describe the distribution of estimated effects and researcher choices and test our preregistered hypotheses.
 
-Importantly, the results are based on survey responses provided by researchers regarding their findings and the decisions they made. 
-The project organizers did not cross-check these survey responses against the researchers' actual coding, which means there is no guarantee of consistency between the two.[^except] 
-Therefore, the variation presented here reflects what readers might find in the published descriptions of studies. 
-Any discrepancies that arise from coding errors or misrepresentations in research reports will not be addressed here but could be the focus of future investigations.
+Our preregistered hypotheses include the following: (1) the standard deviation of estimated effects, sample sizes, and treated and untreated group sample sizes will decrease from task to task; (2) peer review will lead subsequent estimates and sample sizes to become more similar to both the group as a whole and the reviewer’s estimates; and (3) the standard deviation of reported effects will exceed the mean reported standard error. 
+A detailed description of the preregistered hypotheses and analyses is provided in Appendix @sec-preregistration.
+
+Importantly, the results are based on survey responses from researchers regarding their findings and methodological decisions. 
+The project organizers did not cross-check these responses against researchers' actual coding, meaning there is no guarantee of consistency between the two.[^except] 
+Consequently, the variation presented here reflects what readers might encounter in published study descriptions. 
+Any discrepancies arising from coding errors or misrepresentations in research reports are beyond the scope of this analysis but could be explored in future research.
 
 [^except]: The exception is a small number of cases where the survey response could not be interpreted.
 
@@ -3090,7 +3101,8 @@ Throughout, while there is general agreement on effect size in the middle of the
 Those effects that are away from the modal effects are substantially more likely to have very large confidence intervals in Tasks 2 and 3, while there are relatively few studies with very large confidence intervals in Task 1.
 
 [^nick-ratios]: Comparing our average standard errors to the variation in reported effects, as in @huntington2021influence and @Menkveld2024, suggests that reported standard errors alone substantially understate total uncertainty.
-Calculating this ratio across all three tasks shows a decline in the ratio of variance to mean standard error. However, this decline occurs partly because smaller shared samples in later rounds inflate the standard errors (increasing the denominator).
+Calculating this ratio across all three tasks shows a decline in the ratio of variance to mean standard error. 
+However, this decline occurs partly because smaller shared samples in later rounds inflate the standard errors (increasing the denominator).
 Hence, more generally, because researcher variation need not scale in parallel with standard errors, using these ratios to capture researcher-induced uncertainty can be misleading. 
 
 ```{r Specification Curve for All Reported Estimates Figure}
@@ -3136,7 +3148,10 @@ Other researchers used a matching estimator (sometimes combined with linear regr
 Despite IPUMS recommendation, only 25% used weights.
 The standard error adjustment varied considerably, with a slim majority clustering standard errors in some way, although at a range of different levels, and 17% used heteroskedasticity-robust but not cluster-robust standard errors. 
 
-The choices shown in Table \ref{tab-estimation-methods} modestly explain estimated effects. Regressing effect sizes on the full set of indicators, which is not preregistered, produces an $R^2$ value of .162 for Task 1, .073 in Task 2, and .023 in Task 3. In Tasks 2 and 3, these choices more heavily influence whether the result is statistically significant at the 95% level, with $R^2$ values of .026 in Task 1, .227 in Task 2, and .338 in Task 3. The choice of estimation method drove most of the variation in significance (and was a significant predictor in Tasks 2 and 3), followed by standard error adjustment (which was significant only in Task 3). 
+The choices shown in Table \ref{tab-estimation-methods} modestly explain estimated effects. 
+Regressing effect sizes on the full set of indicators, which is not preregistered, produces an $R^2$ value of .162 for Task 1, .073 in Task 2, and .023 in Task 3. 
+In Tasks 2 and 3, these choices more heavily influence whether the result is statistically significant at the 95% level, with $R^2$ values of .026 in Task 1, .227 in Task 2, and .338 in Task 3. 
+The choice of estimation method drove most of the variation in significance (and was a significant predictor in Tasks 2 and 3), followed by standard error adjustment (which was significant only in Task 3). 
 
 ```{r Estimation Methods}
 anova_r2 = sapply(unique(base$round), \(x) {
@@ -3299,7 +3314,8 @@ table_14 |>
 ```
 
 Showing the impact of these choices on estimated effects is difficult for any one variable because any specific alternative to the most common option has too few people using it to make a reasonable comparison. 
-The two comparisons for which an alternative was common enough to compare are for the YRSUSA inclusion and the use of "\< 2007" vs. "\<= 2007" for year of migration, shown in \ref{tab-task1effectsample}. These choices are not associated with large differences in estimated effects. 
+The two comparisons for which an alternative was common enough to compare are for the YRSUSA inclusion and the use of "\< 2007" vs. "\<= 2007" for year of migration, shown in \ref{tab-task1effectsample}. 
+These choices are not associated with large differences in estimated effects. 
 Effect differences are larger in Task 2. 
 However, in Task 1, even though estimated effects are similar, sample sizes are considerably larger for the less-restrictive option, and so reported standard errors would be lower, and statistical significance more likely.
 For other comparisons, there are large differences in estimated effects and sample sizes across many of the different sample restriction choices, although in most cases these comparisons are based on very small samples (See Appendix Tables \ref{tab-task1effectsample-full} for Task 1 and Table \ref{tab-task2effectsample-full} for Task 2). 
